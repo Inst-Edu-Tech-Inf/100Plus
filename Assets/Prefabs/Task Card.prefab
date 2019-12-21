@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6781993391098200407}
   - component: {fileID: 836219126259026920}
   m_Layer: 5
-  m_Name: Card Color Text
+  m_Name: Color Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: 7181706508711986399}
   - component: {fileID: 3949332475615421940}
   - component: {fileID: 8705966390600956788}
+  - component: {fileID: 2012345930214438997}
   m_Layer: 5
   m_Name: Task Card
   m_TagString: Untagged
@@ -386,6 +387,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2012345930214438997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3306539167993578427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64fbbb72945df244daedbbf670e956c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5968668340099921956
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +411,7 @@ GameObject:
   - component: {fileID: 2287999933922609045}
   - component: {fileID: 7329970392891308614}
   m_Layer: 5
-  m_Name: Max Victory Points Text
+  m_Name: Victory Points Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
