@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
 {
-
-
     void OnGUI()
     {
         Scene scene;
@@ -43,12 +41,7 @@ public class MenuButtons : MonoBehaviour
             {
                 Application.Quit();
             }
-
-
         }
-
-
-
     }
 
 }

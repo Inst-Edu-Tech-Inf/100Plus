@@ -4,9 +4,9 @@ using UnityEngine.EventSystems;
 
 public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    int addition;
-
     GameObject hands;
+
+    Vector3 originalPosition;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
-
+        originalPosition = transform.position; 
     }
 
     public void OnEndDrag(PointerEventData pointerEventData)
@@ -35,7 +35,14 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
         else
         {
-            gameObject.transform.SetParent(hands.transform);
+            if (gameObject.transform.parent.name != "Hands")
+            {
+                gameObject.transform.SetParent(hands.transform);
+            }
+            else
+            {
+                transform.position = originalPosition;
+            }
         }
     }
 }
