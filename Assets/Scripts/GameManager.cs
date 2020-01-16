@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {   
@@ -8,13 +9,29 @@ public class GameManager : MonoBehaviour
     public GameObject hands;
     public GameObject playerCardPrefab;
     public GameObject taskCardPrefab;
+    public TextMeshProUGUI timerText;
+
+    List<GameObject> playerCards = new List<GameObject>();
+    List<GameObject> taskCards = new List<GameObject>();
 
     [Header("Game Settings"), SerializeField]
+    int maxPlayerCards;
+    [SerializeField]
+    int maxTaskCards;
+    [SerializeField]
     int playerCardsOnStart;
     [SerializeField]
     int taskCardsOnStart;
+    [SerializeField]
+    int playerCardsToDraw;
+    [SerializeField]
+    int taskCardsToDraw;
+    [SerializeField]
+    float maxGameTimeInMinutes;
 
     GameObject activeCard;
+
+    float remainingGameTime;
 
     public void SetActiveCard(GameObject card)
     {
@@ -38,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        remainingGameTime = maxGameTimeInMinutes;
+
         for (int i = 0; i < playerCardsOnStart; i++)
         {
             DrawPlayerCard();
@@ -49,15 +68,46 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        //if (remainingGameTime > 0)
+        //{
+        //    remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
+        //    timerText.text = remainingGameTime.ToString();
+        //}
+    }
+
     void DrawPlayerCard()
     {
+        if (playerCards.Count >= maxPlayerCards) return;
         GameObject card = Instantiate(playerCardPrefab);
-        card.transform.SetParent(hands.transform);
+        playerCards.Add(card);
+        card.transform.SetParent(hands.transform, false);
     }
 
     void DrawTaskCard()
     {
+        if (taskCards.Count >= maxTaskCards) return;
         GameObject card = Instantiate(taskCardPrefab);
-        card.transform.SetParent(tasks.transform);
+        taskCards.Add(card);
+        card.transform.SetParent(tasks.transform, false);
+    }
+   
+    void DiscardTaskCard(GameObject card)
+    {
+        if (card.transform.GetComponent<TaskCard>() != null)
+        {
+            Destroy(card);
+            taskCards.Remove(card);
+        }
+    }
+
+    public void EndTurn()
+    {
+       for (int i = 0; i < playerCardsToDraw; i++)
+            DrawPlayerCard();
+
+       for (int i = 0; i < taskCardsToDraw; i++)
+            DrawTaskCard();
     }
 }

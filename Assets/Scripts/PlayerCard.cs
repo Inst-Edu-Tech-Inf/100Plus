@@ -2,11 +2,13 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     GameObject hands;
 
     Vector3 originalPosition;
+    Vector2 normalScale = new Vector2(1.9f, 1.9f); 
+    Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
 
     void Start()
     {
@@ -21,7 +23,9 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
-        originalPosition = transform.position; 
+        originalPosition = transform.position;
+        if (gameObject.transform.parent.name == "Hands")
+        gameObject.transform.localScale = normalScale;
     }
 
     public void OnEndDrag(PointerEventData pointerEventData)
@@ -43,6 +47,22 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             {
                 transform.position = originalPosition;
             }
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData pointerEventData)
+    {
+        if (gameObject.transform.parent.name == "Hands")
+        {
+            gameObject.transform.localScale = biggerScale;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData pointerEventData)
+    {
+        if (gameObject.transform.parent.name == "Hands")
+        {
+            gameObject.transform.localScale = normalScale;
         }
     }
 }
