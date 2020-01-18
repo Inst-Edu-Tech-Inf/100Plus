@@ -32,7 +32,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         gameObject.layer = 0;
 
-        if (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null)
+        if (pointerEventData.pointerCurrentRaycast.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null)
         {
             Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
             gameObject.transform.SetParent(dropPanel);
