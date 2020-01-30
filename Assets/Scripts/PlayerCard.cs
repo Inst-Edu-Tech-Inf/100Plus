@@ -7,7 +7,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     GameObject hands;
 
     Vector3 originalPosition;
-    Vector2 normalScale = new Vector2(1.9f, 1.9f); 
+    Vector2 normalScale = new Vector2(1.8f, 1.8f); 
     Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
 
     void Start()
