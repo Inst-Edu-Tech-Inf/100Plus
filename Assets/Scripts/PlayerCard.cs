@@ -8,7 +8,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     Vector3 originalPosition;
     Vector2 normalScale = new Vector2(1.8f, 1.8f); 
-    Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
+    Vector2 biggerScale = new Vector2(2.2f, 2.2f);
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
         originalPosition = transform.position;
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         gameObject.transform.localScale = normalScale;
     }
 
@@ -32,14 +32,24 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         gameObject.layer = 0;
 
-        if (pointerEventData.pointerCurrentRaycast.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null)
+        GameObject hitObject = pointerEventData.pointerCurrentRaycast.gameObject;
+
+        print(hitObject.name);
+
+        if (hitObject != null && hitObject.tag == "Player Card Drop")
         {
-            Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
-            gameObject.transform.SetParent(dropPanel);
+            if (hitObject.transform.GetComponent<TaskCard>() != null)
+            {
+                gameObject.transform.SetParent(hitObject.transform.Find("Dropped Cards Area"));
+            }
+            else
+            {
+                gameObject.transform.SetParent(hitObject.transform.parent.Find("Dropped Cards Area"));
+            }
         }
         else
         {
-            if (gameObject.transform.parent.name != "Hands")
+            if (gameObject.transform.parent != hands.transform)
             {
                 gameObject.transform.SetParent(hands.transform);
             }
@@ -52,7 +62,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         {
             gameObject.transform.localScale = biggerScale;
         }
@@ -60,7 +70,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         {
             gameObject.transform.localScale = normalScale;
         }

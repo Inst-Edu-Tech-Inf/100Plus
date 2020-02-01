@@ -41,14 +41,14 @@ public class GameManager : MonoBehaviour
             activeCard = card;
             activeCardSpace.SetActive(true);
             activeCard.transform.SetParent(activeCardSpace.transform);
-            card.transform.Find("Drop Panel").gameObject.SetActive(true);
+            card.transform.Find("Dropped Cards Area").gameObject.SetActive(true);
         }
         else
         {
             tasks.SetActive(true);
             activeCardSpace.SetActive(false);
             activeCard.transform.SetParent(tasks.transform);
-            card.transform.Find("Drop Panel").gameObject.SetActive(false);
+            card.transform.Find("Dropped Cards Area").gameObject.SetActive(false);
             activeCard = null;
         }
     }
