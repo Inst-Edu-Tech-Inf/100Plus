@@ -470,6 +470,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fbbb72945df244daedbbf670e956c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droppedCardsArea: {fileID: 2972021292180865042}
+  gm: {fileID: 0}
+  valueText: {fileID: 0}
+  victoryPointsText: {fileID: 0}
+  colorText: {fileID: 0}
 --- !u!114 &5373780083390372544
 MonoBehaviour:
   m_ObjectHideFlags: 0

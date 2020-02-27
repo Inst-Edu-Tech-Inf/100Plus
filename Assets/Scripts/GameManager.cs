@@ -3,13 +3,26 @@ using UnityEngine;
 using TMPro;
 
 public class GameManager : MonoBehaviour
-{   
-    public GameObject activeCardSpace;
-    public GameObject tasks;
+{
+    public static GameManager Instance;
+
     public GameObject hands;
-    public GameObject playerCardPrefab;
-    public GameObject taskCardPrefab;
-    public TextMeshProUGUI timerText;
+    
+    [SerializeField]
+    int victoryPoints = 0;
+
+    [SerializeField]
+    GameObject activeCardSpace;
+    [SerializeField]
+    GameObject tasks;
+    [SerializeField]
+    GameObject playerCardPrefab;
+    [SerializeField]
+    GameObject taskCardPrefab;
+    [SerializeField] 
+    TextMeshProUGUI timerText;
+    [SerializeField]
+    TextMeshProUGUI victoryPointsText;
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
@@ -32,6 +45,11 @@ public class GameManager : MonoBehaviour
     GameObject activeCard;
 
     float remainingGameTime;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void SetActiveCard(GameObject card)
     {
@@ -109,5 +127,47 @@ public class GameManager : MonoBehaviour
 
        for (int i = 0; i < taskCardsToDraw; i++)
             DrawTaskCard();
+
+        CalculateVictoryPoints();
+    }
+
+    void AddVictoryPoints(int value)
+    {
+        victoryPoints = victoryPoints + value;
+        victoryPointsText.text = "VP: " + victoryPoints.ToString();
+    }
+
+    public void CalculateVictoryPoints()
+    {
+        int playerCardsValue = 0;
+        Transform taskCardsContainer;
+
+        if (activeCardSpace.gameObject.activeSelf)
+            taskCardsContainer = activeCardSpace.transform;
+        else
+            taskCardsContainer = tasks.transform;
+
+        foreach (Transform taskCardTransform in taskCardsContainer)
+        {
+            TaskCard taskCard = taskCardTransform.GetComponent<TaskCard>();
+            PlayerCard playerCard;
+            List<Transform> cardsToRemove = new List<Transform>();
+
+            foreach (Transform playerCardTransform in taskCard.droppedCardsArea.transform)
+            {
+                playerCard = playerCardTransform.GetComponent<PlayerCard>();
+                playerCardsValue += playerCard.addition;
+                cardsToRemove.Add(playerCardTransform);
+            }
+            
+            if (playerCardsValue >= taskCard.value)
+            {
+                AddVictoryPoints(taskCard.victoryPoints);
+                foreach (Transform card in cardsToRemove)
+                {
+                    Destroy(card.gameObject);
+                }
+            }
+        }
     }
 }

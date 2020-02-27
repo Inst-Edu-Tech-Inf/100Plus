@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     GameObject hands;
 
+    public TextMeshProUGUI additionText;
+
     Vector3 originalPosition;
     Vector2 normalScale = new Vector2(1.8f, 1.8f); 
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
 
+    public int addition;
+
     void Start()
     {
-        hands = GameObject.Find("Hands");
+        hands = GameManager.Instance.hands;
+        Randomize();
     }
 
     public void OnDrag(PointerEventData pointerEventData)
@@ -33,8 +38,6 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         gameObject.layer = 0;
 
         GameObject hitObject = pointerEventData.pointerCurrentRaycast.gameObject;
-
-        print(hitObject.name);
 
         if (hitObject != null && hitObject.tag == "Player Card Drop")
         {
@@ -74,5 +77,11 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             gameObject.transform.localScale = normalScale;
         }
+    }
+
+    void Randomize()
+    {
+        addition = Random.Range(5, 101);
+        additionText.text = "+ " + addition.ToString();
     }
 }
