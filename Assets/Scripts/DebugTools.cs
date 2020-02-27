@@ -3,12 +3,9 @@ using TMPro;
 
 public class DebugTools : MonoBehaviour
 {
-    [SerializeField]
-    GameObject debugPanel;
-    [SerializeField]
-    TextMeshProUGUI mainText;
-    [SerializeField]
-    TextMeshProUGUI fpsText;
+    public GameObject debugPanel;
+    public TextMeshProUGUI mainText;
+    public TextMeshProUGUI fpsText;
 
     private void Awake()
     {

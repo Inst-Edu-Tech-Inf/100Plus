@@ -8,39 +8,26 @@ public class GameManager : MonoBehaviour
 
     public GameObject hands;
     
-    [SerializeField]
-    int victoryPoints = 0;
+    public int victoryPoints = 0;
 
-    [SerializeField]
-    GameObject activeCardSpace;
-    [SerializeField]
-    GameObject tasks;
-    [SerializeField]
-    GameObject playerCardPrefab;
-    [SerializeField]
-    GameObject taskCardPrefab;
-    [SerializeField] 
-    TextMeshProUGUI timerText;
-    [SerializeField]
-    TextMeshProUGUI victoryPointsText;
+    public GameObject activeCardSpace;
+    public GameObject tasks;
+    public GameObject playerCardPrefab;
+    public GameObject taskCardPrefab;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI victoryPointsText;
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
 
-    [Header("Game Settings"), SerializeField]
-    int maxPlayerCards;
-    [SerializeField]
-    int maxTaskCards;
-    [SerializeField]
-    int playerCardsOnStart;
-    [SerializeField]
-    int taskCardsOnStart;
-    [SerializeField]
-    int playerCardsToDraw;
-    [SerializeField]
-    int taskCardsToDraw;
-    [SerializeField]
-    float maxGameTimeInMinutes;
+    [Header("Game Settings")]
+    public int maxPlayerCards;
+    public int maxTaskCards;
+    public int playerCardsOnStart;
+    public int taskCardsOnStart;
+    public int playerCardsToDraw;
+    public int taskCardsToDraw;
+    public float maxGameTimeInMinutes;
 
     GameObject activeCard;
 
