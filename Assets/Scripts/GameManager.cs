@@ -150,10 +150,9 @@ public class GameManager : MonoBehaviour
             if (playerCardsValue >= taskCard.value)
             {
                 AddVictoryPoints(taskCard.victoryPoints);
-                foreach (Transform card in cardsToRemove)
-                {
-                    Destroy(card.gameObject);
-                }
+                Destroy(taskCardTransform.gameObject);
+                activeCardSpace.SetActive(false);
+                tasks.SetActive(true);
             }
         }
     }
