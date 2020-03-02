@@ -4,35 +4,39 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public string GREEN_TEXT = "Green";
+    public static GameManager Instance;
+
+    public GameObject hands;
+    
+    public int victoryPoints = 0;
+
     public GameObject activeCardSpace;
     public GameObject tasks;
-    public GameObject hands;
     public GameObject playerCardPrefab;
     public GameObject taskCardPrefab;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI victoryPointsText;
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
 
-    [Header("Game Settings"), SerializeField]
-    int maxPlayerCards;
-    [SerializeField]
-    int maxTaskCards;
-    [SerializeField]
-    int playerCardsOnStart;
-    [SerializeField]
-    int taskCardsOnStart;
-    [SerializeField]
-    int playerCardsToDraw;
-    [SerializeField]
-    int taskCardsToDraw;
-    [SerializeField]
-    float maxGameTimeInMinutes;
+    [Header("Game Settings")]
+    public int maxPlayerCards;
+    public int maxTaskCards;
+    public int playerCardsOnStart;
+    public int taskCardsOnStart;
+    public int playerCardsToDraw;
+    public int taskCardsToDraw;
+    public float maxGameTimeInMinutes;
 
-    public GameObject activeCard;
+    GameObject activeCard;
 
-    float remainingGameTime = 300;
+    float remainingGameTime;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void SetActiveCard(GameObject card)
     {
@@ -42,15 +46,14 @@ public class GameManager : MonoBehaviour
             activeCard = card;
             activeCardSpace.SetActive(true);
             activeCard.transform.SetParent(activeCardSpace.transform);
-           // activeCard.transform.position = new Vector3(0, activeCard.transform.position.y, activeCard.transform.position.z);
-            card.transform.Find("Drop Panel").gameObject.SetActive(true);
+            card.transform.Find("Dropped Cards Area").gameObject.SetActive(true);
         }
         else
         {
             tasks.SetActive(true);
             activeCardSpace.SetActive(false);
             activeCard.transform.SetParent(tasks.transform);
-            card.transform.Find("Drop Panel").gameObject.SetActive(false);
+            card.transform.Find("Dropped Cards Area").gameObject.SetActive(false);
             activeCard = null;
         }
     }
@@ -72,11 +75,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-      /*  if (remainingGameTime > 0)
-        {
-           remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
-            timerText.text = remainingGameTime.ToString();
-        }*/
+        //if (remainingGameTime > 0)
+        //{
+        //    remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
+        //    timerText.text = remainingGameTime.ToString();
+        //}
     }
 
     void DrawPlayerCard()
@@ -111,5 +114,46 @@ public class GameManager : MonoBehaviour
 
        for (int i = 0; i < taskCardsToDraw; i++)
             DrawTaskCard();
+
+        CalculateVictoryPoints();
+    }
+
+    void AddVictoryPoints(int value)
+    {
+        victoryPoints = victoryPoints + value;
+        victoryPointsText.text = "VP: " + victoryPoints.ToString();
+    }
+
+    public void CalculateVictoryPoints()
+    {
+        int playerCardsValue = 0;
+        Transform taskCardsContainer;
+
+        if (activeCardSpace.gameObject.activeSelf)
+            taskCardsContainer = activeCardSpace.transform;
+        else
+            taskCardsContainer = tasks.transform;
+
+        foreach (Transform taskCardTransform in taskCardsContainer)
+        {
+            TaskCard taskCard = taskCardTransform.GetComponent<TaskCard>();
+            PlayerCard playerCard;
+            List<Transform> cardsToRemove = new List<Transform>();
+
+            foreach (Transform playerCardTransform in taskCard.droppedCardsArea.transform)
+            {
+                playerCard = playerCardTransform.GetComponent<PlayerCard>();
+                playerCardsValue += playerCard.addition;
+                cardsToRemove.Add(playerCardTransform);
+            }
+            
+            if (playerCardsValue >= taskCard.value)
+            {
+                AddVictoryPoints(taskCard.victoryPoints);
+                Destroy(taskCardTransform.gameObject);
+                activeCardSpace.SetActive(false);
+                tasks.SetActive(true);
+            }
+        }
     }
 }

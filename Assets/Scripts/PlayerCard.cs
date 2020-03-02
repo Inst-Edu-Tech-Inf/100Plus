@@ -1,48 +1,23 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
 public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     GameObject hands;
-    GameManager gm;
-    GameObject ActualParent = null;
-    Image image;
-    Vector3 originalPosition;
-    Vector2 normalScale = new Vector2(1.9f, 1.9f); 
-    Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
 
-    TextMeshProUGUI additionText;
-        
-        
+    public TextMeshProUGUI additionText;
+
+    Vector3 originalPosition;
+    Vector2 normalScale = new Vector2(1.8f, 1.8f); 
+    Vector2 biggerScale = new Vector2(2.2f, 2.2f);
+
+    public int addition;
 
     void Start()
     {
-        hands = GameObject.Find("Hands");
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-        image = GetComponent<Image>();
-        float rand = Random.Range(1, 4);//to number of colors
-        additionText.text = Random.Range(1, 30).ToString();
-        if (rand <= 1)
-        {
-            additionText.color = new Color32(255, 0, 0, 255);
-            gameObject.GetComponent<Image>().sprite = Resources.Load("Red", typeof(Sprite)) as Sprite;
-        }
-        else
-        {
-            if (rand <= 2)
-            {
-                additionText.color = new Color32(0, 255, 0, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load(gm.GREEN_TEXT, typeof(Sprite)) as Sprite;
-            }
-            else
-            {
-                additionText.color = new Color32(0, 0, 255, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load("Blue", typeof(Sprite)) as Sprite;
-            }
-        }
+        hands = GameManager.Instance.hands;
+        Randomize();
     }
 
     public void OnDrag(PointerEventData pointerEventData)
@@ -54,7 +29,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
         originalPosition = transform.position;
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         gameObject.transform.localScale = normalScale;
     }
 
@@ -62,15 +37,22 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         gameObject.layer = 0;
 
-        if (pointerEventData.pointerCurrentRaycast.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null)
+        GameObject hitObject = pointerEventData.pointerCurrentRaycast.gameObject;
+
+        if (hitObject != null && hitObject.tag == "Player Card Drop")
         {
-            Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
-            gameObject.transform.SetParent(dropPanel);
-            ActualParent = gm.activeCard;
+            if (hitObject.transform.GetComponent<TaskCard>() != null)
+            {
+                gameObject.transform.SetParent(hitObject.transform.Find("Dropped Cards Area"));
+            }
+            else
+            {
+                gameObject.transform.SetParent(hitObject.transform.parent.Find("Dropped Cards Area"));
+            }
         }
         else
         {
-            if (gameObject.transform.parent.name != "Hands")
+            if (gameObject.transform.parent != hands.transform)
             {
                 gameObject.transform.SetParent(hands.transform);
             }
@@ -83,7 +65,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         {
             gameObject.transform.localScale = biggerScale;
         }
@@ -91,9 +73,15 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        if (gameObject.transform.parent.name == "Hands")
+        if (gameObject.transform.parent == hands.transform)
         {
             gameObject.transform.localScale = normalScale;
         }
+    }
+
+    void Randomize()
+    {
+        addition = Random.Range(5, 101);
+        additionText.text = "+ " + addition.ToString();
     }
 }
