@@ -3,7 +3,8 @@ using UnityEngine;
 using TMPro;
 
 public class GameManager : MonoBehaviour
-{   
+{
+    public string GREEN_TEXT = "Green";
     public GameObject activeCardSpace;
     public GameObject tasks;
     public GameObject hands;
@@ -29,9 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float maxGameTimeInMinutes;
 
-    GameObject activeCard;
+    public GameObject activeCard;
 
-    float remainingGameTime;
+    float remainingGameTime = 300;
 
     public void SetActiveCard(GameObject card)
     {
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
             activeCard = card;
             activeCardSpace.SetActive(true);
             activeCard.transform.SetParent(activeCardSpace.transform);
+           // activeCard.transform.position = new Vector3(0, activeCard.transform.position.y, activeCard.transform.position.z);
             card.transform.Find("Drop Panel").gameObject.SetActive(true);
         }
         else
@@ -70,11 +72,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //if (remainingGameTime > 0)
-        //{
-        //    remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
-        //    timerText.text = remainingGameTime.ToString();
-        //}
+      /*  if (remainingGameTime > 0)
+        {
+           remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
+            timerText.text = remainingGameTime.ToString();
+        }*/
     }
 
     void DrawPlayerCard()
