@@ -44,6 +44,24 @@ public class GameManager : MonoBehaviour
     int powerUpCardsToDraw;
     [SerializeField]
     float maxGameTimeInMinutes;
+    [SerializeField]
+    public int earlyGamePoint;
+    [SerializeField]
+    public int middleGamePoint;
+    [SerializeField]
+    public int lateGamePoint;
+    [SerializeField]
+    public int earlyGamePlayerCardMax;
+    [SerializeField]
+    public int middleGamePlayerCardMax;
+    [SerializeField]
+    public int lateGamePlayerCardMax;
+    [SerializeField]
+    public int earlyGameTaskCardMax;
+    [SerializeField]
+    public int middleGameTaskCardMax;
+    [SerializeField]
+    public int lateGameTaskCardMax;
 
     public GameObject activeCard;
 
@@ -243,8 +261,10 @@ public class GameManager : MonoBehaviour
        for (int i = 0; i < taskCardsToDraw; i++)
            DrawTaskCard();
 
-       for (int i = 0; i < powerUpCardsToDraw; i++)
-           DrawPowerUpCard();
+
+       if (float.Parse(victoryPoints.text) >= earlyGamePoint)
+           for (int i = 0; i < powerUpCardsToDraw; i++)
+               DrawPowerUpCard();
 
        CheckCardNumbers(true);
     }

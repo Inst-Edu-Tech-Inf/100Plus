@@ -25,14 +25,36 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     // Start is called before the first frame update
     void Start()
     {
+        int rand;
+
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         powerUp = GameObject.Find("PowerUp");
         redText = transform.Find("Red Text").GetComponent<TextMeshProUGUI>();
         greenText = transform.Find("Green Text").GetComponent<TextMeshProUGUI>();
         blueText = transform.Find("Blue Text").GetComponent<TextMeshProUGUI>();
-        redText.text = Random.Range(1, 4).ToString();
-        greenText.text = Random.Range(1, 4).ToString();
-        blueText.text = Random.Range(1, 4).ToString();
+       // redText.text = Random.Range(1, 4).ToString();
+        //greenText.text = Random.Range(1, 4).ToString();
+        //blueText.text = Random.Range(1, 4).ToString();
+        if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
+        {
+            
+        }
+        else
+        {
+            if (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
+            {
+                rand = Random.Range(2, 4);
+                redText.text = rand.ToString();
+                greenText.text = rand.ToString();
+                blueText.text = rand.ToString();
+            }
+            else //lateGamePoint
+            {
+                redText.text = Random.Range(1, 5).ToString();
+                greenText.text = Random.Range(1, 5).ToString();
+                blueText.text = Random.Range(1, 5).ToString();
+            }
+        }
     }
 
     // Update is called once per frame

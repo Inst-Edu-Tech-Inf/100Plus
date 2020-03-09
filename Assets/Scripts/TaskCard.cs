@@ -58,7 +58,23 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Randomize()
     {
         float rand = Random.Range(1, 4);//to number of colors
-        valueText.text = Random.Range(11, 100).ToString();
+      //  valueText.text = Random.Range(11, 100).ToString();
+        if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
+        {
+            valueText.text = Random.Range(10, gm.earlyGameTaskCardMax).ToString();
+        }
+        else
+        {
+            if (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
+            {
+                valueText.text = Random.Range(gm.earlyGameTaskCardMax, gm.middleGameTaskCardMax).ToString();
+            }
+            else //lateGamePoint
+            {
+                valueText.text = Random.Range(gm.middleGameTaskCardMax, gm.lateGameTaskCardMax).ToString();
+            }
+        }
+        
         if (rand <= 1)
         {
             valueText.color = new Color32(255, 0, 0, 255);

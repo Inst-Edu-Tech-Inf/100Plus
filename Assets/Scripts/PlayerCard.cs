@@ -25,7 +25,22 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
         //image = GetComponent<Image>();
         float rand = Random.Range(1, 4);//to number of colors
-        additionText.text = Random.Range(1, 30).ToString();
+        //additionText.text = Random.Range(1, 30).ToString();
+        if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
+        {
+            additionText.text = Random.Range(1, gm.earlyGamePlayerCardMax).ToString();
+        }
+        else 
+        {
+            if  (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
+            {
+                additionText.text = Random.Range(1, gm.middleGamePlayerCardMax).ToString();
+            }
+            else //lateGamePoint
+            {
+                additionText.text = Random.Range(1, gm.lateGamePlayerCardMax).ToString();
+            }
+        }
         if (rand <= 1)
         {
             additionText.color = new Color32(255, 0, 0, 255);

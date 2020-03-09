@@ -719,11 +719,20 @@ MonoBehaviour:
   maxPowerUpCards: 6
   playerCardsOnStart: 3
   taskCardsOnStart: 1
-  powerUpCardsOnStart: 1
+  powerUpCardsOnStart: 0
   playerCardsToDraw: 2
   taskCardsToDraw: 1
   powerUpCardsToDraw: 1
   maxGameTimeInMinutes: 900
+  earlyGamePoint: 10
+  middleGamePoint: 20
+  lateGamePoint: 30
+  earlyGamePlayerCardMax: 10
+  middleGamePlayerCardMax: 15
+  lateGamePlayerCardMax: 30
+  earlyGameTaskCardMax: 20
+  middleGameTaskCardMax: 50
+  lateGameTaskCardMax: 100
   activeCard: {fileID: 0}
 --- !u!1 &1347773206
 GameObject:
