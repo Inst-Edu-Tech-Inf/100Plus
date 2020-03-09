@@ -5,24 +5,23 @@ using TMPro;
 
 public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public Transform droppedCardsArea;
-
-    public int value;
-    public int victoryPoints;
-
-    [HideInInspector]
-    public TextMeshProUGUI valueText;
-    [HideInInspector]
-    public TextMeshProUGUI victoryPointsText;
-    [HideInInspector]
-    public TextMeshProUGUI colorText;
-
+    TextMeshProUGUI valueText;
+    TextMeshProUGUI victoryPointsText;
+    TextMeshProUGUI colorText;
+    GameManager gm;
+    Image image;
+    Vector3 originalPosition;
 
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
         valueText = transform.Find("Value Text").GetComponent<TextMeshProUGUI>();
         victoryPointsText = transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>();
+        victoryPointsText.color = new Color32(255, 255, 0, 255);
         colorText = transform.Find("Color Text").GetComponent<TextMeshProUGUI>();
+
+        image = GetComponent<Image>();
 
         Randomize();
     }
@@ -45,15 +44,43 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        GameManager.Instance.SetActiveCard(gameObject);
+        if (gm.trashArea.active)
+        {
+            gm.DiscardTaskCard(this.gameObject);
+            gm.CheckCardNumbers(true);
+        }
+        else
+        {
+            gm.SetActiveCard(gameObject, false);
+        }
     }
 
     void Randomize()
     {
-        value = Random.Range(1, 101);
-        valueText.text = value.ToString();
-        victoryPoints = Random.Range(1, 10);
-        victoryPointsText.text = victoryPoints.ToString();
+        float rand = Random.Range(1, 4);//to number of colors
+        valueText.text = Random.Range(11, 100).ToString();
+        if (rand <= 1)
+        {
+            valueText.color = new Color32(255, 0, 0, 255);
+            gameObject.GetComponent<Image>().sprite = Resources.Load("Red", typeof(Sprite)) as Sprite;
+            colorText.text = "Red";
+        }
+        else
+        {
+            if (rand <= 2)
+            {
+                valueText.color = new Color32(0, 255, 0, 255);        
+                gameObject.GetComponent<Image>().sprite = Resources.Load(gm.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                colorText.text = "Green";
+            }
+            else 
+            {
+                valueText.color = new Color32(0, 0, 255, 255);
+                gameObject.GetComponent<Image>().sprite = Resources.Load("Blue", typeof(Sprite)) as Sprite;
+                colorText.text = "Blue";
+            }
+        }
+        victoryPointsText.text = (int.Parse(valueText.text)/10).ToString();
     }
 
 }
