@@ -9,7 +9,7 @@ public class MenuButtons : MonoBehaviour
 {
     void OnGUI()
     {
-        const int ILE_ELEMENTOW_MENU = 5;
+        const int ILE_ELEMENTOW_MENU = 6;
         const int SZEROKOSC_POLA = 250;
         const int OFFSET = 20;
         int szerokoscPrzycisku = 100;
@@ -42,12 +42,17 @@ public class MenuButtons : MonoBehaviour
                 //GUI.Slider()
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 3 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Testy", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 3 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Skins", style))
             {
-                
+
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Testy", style))
+            {
+
+            }
+
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 5 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
             {
                 Application.Quit();
             }
