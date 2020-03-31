@@ -49,7 +49,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (gm.trashArea.active)
+        if (gm.trashArea.activeSelf)
         {
             gm.DiscardTaskCard(this.gameObject);
             gm.CheckCardNumbers(true);

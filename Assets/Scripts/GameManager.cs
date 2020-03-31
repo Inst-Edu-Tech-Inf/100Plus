@@ -29,50 +29,31 @@ public class GameManager : MonoBehaviour
     List<GameObject> taskCards = new List<GameObject>();
     List<GameObject> powerUpCards = new List<GameObject>();
 
-    [Header("Game Settings"), SerializeField]
-    int maxPlayerCards;
-    [SerializeField]
-    int maxTaskCards;
-    [SerializeField]
-    int maxPowerUpCards;
-    [SerializeField]
-    int playerCardsOnStart;
-    [SerializeField]
-    int taskCardsOnStart;
-    [SerializeField]
-    int powerUpCardsOnStart;
-    [SerializeField]
-    int playerCardsToDraw;
-    [SerializeField]
-    int taskCardsToDraw;
-    [SerializeField]
-    int powerUpCardsToDraw;
-    [SerializeField]
-    float maxGameTimeInMinutes;
-    [SerializeField]
+    [Header("Game Settings")]
+    public int maxPlayerCards;
+    public int maxTaskCards;
+    public int maxPowerUpCards;
+    public int playerCardsOnStart;
+    public int taskCardsOnStart;
+    public int powerUpCardsOnStart;
+    public int playerCardsToDraw;
+    public int taskCardsToDraw;
+    public int powerUpCardsToDraw;
+    public float maxGameTimeInSeconds;
     public int earlyGamePoint;
-    [SerializeField]
     public int middleGamePoint;
-    [SerializeField]
     public int lateGamePoint;
-    [SerializeField]
     public int earlyGamePlayerCardMax;
-    [SerializeField]
     public int middleGamePlayerCardMax;
-    [SerializeField]
     public int lateGamePlayerCardMax;
-    [SerializeField]
     public int earlyGameTaskCardMax;
-    [SerializeField]
     public int middleGameTaskCardMax;
-    [SerializeField]
     public int lateGameTaskCardMax;
 
     public GameObject activeCard;
 
     float remainingGameTime = 3000;
 
-  
     public void SetActiveCard(GameObject card, bool isBack)
     {
         TextMeshProUGUI valueText;
@@ -134,7 +115,7 @@ public class GameManager : MonoBehaviour
         GameObject card = Instantiate(playerCardPrefab);
         GameObject cardPowerUp = Instantiate(powerUpCardPrefab);
        
-        remainingGameTime = maxGameTimeInMinutes;
+        remainingGameTime = maxGameTimeInSeconds;
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
         {
@@ -156,7 +137,7 @@ public class GameManager : MonoBehaviour
     {
         if (remainingGameTime > 0)
         {
-           remainingGameTime = Mathf.FloorToInt((maxGameTimeInMinutes) -= Time.deltaTime);
+           remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);
            timerText.text = remainingGameTime.ToString();
         }
     }
@@ -177,7 +158,6 @@ public class GameManager : MonoBehaviour
         taskCards.Add(card);
         card.transform.SetParent(tasks.transform, false);
         card.name = "TaskCard"+ taskCards.Count.ToString();
-        
     }
 
     void DrawPowerUpCard()
@@ -187,7 +167,6 @@ public class GameManager : MonoBehaviour
         powerUpCards.Add(card);
         card.transform.SetParent(powerUps.transform, false);
         card.name = "PowerUpCard" + powerUpCards.Count.ToString();
-
     }
 
     public void DiscardTaskCard(GameObject card)
@@ -247,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (trashArea.active)
+            if (trashArea.activeSelf)
                 endTurnBtn.SetActive(true);
             trashArea.SetActive(false);
             hands.SetActive(true);

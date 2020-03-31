@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DebugTools : MonoBehaviour
 {
     public GameObject debugPanel;
     public TextMeshProUGUI mainText;
-    public TextMeshProUGUI fpsText;
 
     private void Awake()
     {
-        mainText.text = Application.productName + " v" + Application.version + "\n" + SystemInfo.operatingSystem + "\n" + SystemInfo.graphicsDeviceName;
+        mainText.text = Application.productName + " v" + Application.version + "\n";
     }
 
     void Update()
     {
-        fpsText.text = (Mathf.Floor(1f / Time.deltaTime)).ToString() + " FPS";
-
         if (Input.GetKeyDown(KeyCode.F1))
         {
             if (debugPanel.activeSelf != true)
@@ -27,5 +25,10 @@ public class DebugTools : MonoBehaviour
                 debugPanel.SetActive(false);
             }
         }
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("Game");
     }
 }
