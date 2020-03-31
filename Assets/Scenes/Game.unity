@@ -227,7 +227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -324.65, y: 111.1499}
+  m_AnchoredPosition: {x: -324.64, y: 213.65}
   m_SizeDelta: {x: 1166.7, y: 102.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &257900709
@@ -251,9 +251,9 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 200}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 25, y: 25}
   m_Constraint: 2
-  m_ConstraintCount: 1
+  m_ConstraintCount: 2
 --- !u!1 &366346487
 GameObject:
   m_ObjectHideFlags: 0
