@@ -1,0 +1,6 @@
+https://answers.unity.com/questions/1041383/set-one-color-transparent-in-texture-shader.html
+https://answers.unity.com/questions/1287966/unity2d-remove-shader-colour.html
+https://forum.unity.com/threads/resolved-how-to-load-new-custom-shaders.589855/
+https://forum.unity.com/threads/runtime-shader-compilation.87085/
+https://forum.unity.com/threads/using-a-rendertexture-to-apply-a-shader-to-a-texture.437213/
+https://answers.unity.com/questions/12301/how-can-i-get-a-parent-gameobject-of-gameobject-us.html

@@ -11,7 +11,7 @@ public class MenuButtons : MonoBehaviour
     {
         const int ILE_ELEMENTOW_MENU = 6;
         const int SZEROKOSC_POLA = 250;
-        const int OFFSET = 20;
+        int offset = 20;
         int szerokoscPrzycisku = 100;
         Scene scene;
         scene = SceneManager.GetActiveScene();
@@ -23,7 +23,7 @@ public class MenuButtons : MonoBehaviour
             GUIStyle style = new GUIStyle(GUI.skin.GetStyle("button"));
             style.fontSize = 50;
             szerokoscPrzycisku = Screen.height / (ILE_ELEMENTOW_MENU + 1);
-
+            offset = szerokoscPrzycisku / ILE_ELEMENTOW_MENU;
 
             //wyswietlnie samych guzikow 
 
@@ -32,27 +32,27 @@ public class MenuButtons : MonoBehaviour
                 SceneManager.LoadScene("Game");
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, szerokoscPrzycisku + OFFSET, SZEROKOSC_POLA, szerokoscPrzycisku), "Multiplayer", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, szerokoscPrzycisku + offset, SZEROKOSC_POLA, szerokoscPrzycisku), "Multiplayer", style))
             {
 
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 2 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Options", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 2 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Options", style))
             {
                 //GUI.Slider()
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 3 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Skins", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 3 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Skins", style))
+            {
+                SceneManager.LoadScene("Skins");
+            }
+
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Testy", style))
             {
 
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Testy", style))
-            {
-
-            }
-
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 5 * (szerokoscPrzycisku + OFFSET), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 5 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
             {
                 Application.Quit();
             }

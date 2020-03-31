@@ -78,6 +78,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         TextMeshProUGUI parentNameText;
         gameObject.layer = 0;
+        Transform dropPanel;
+        bool czyRawImageHit = false;
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "Trash")
         {
@@ -85,9 +87,24 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             gm.CheckCardNumbers(true);
         }
 
-        if (pointerEventData.pointerCurrentRaycast.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null)
+
+        if (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<RawImage>() != null)
         {
-            Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
+            dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+            if (gameObject.transform.parent.name != "Drop Panel")
+                czyRawImageHit = true;
+
+        }
+        else
+        {
+            dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
+        }
+
+        if (pointerEventData.pointerCurrentRaycast.gameObject != null && (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null || czyRawImageHit))
+        {
+            Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.name);
+            Debug.Log(gameObject.transform.parent);       
+            //Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
             gameObject.transform.SetParent(dropPanel);
             ActualParent = gm.activeCard;
             parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();

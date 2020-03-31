@@ -4,7 +4,12 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public string GREEN_TEXT = "Green";
+    public  string RED_TEXT = "Red";
+    public  string GREEN_TEXT = "Green";
+    public  string BLUE_TEXT = "Blue";
+    public  int COLOR_NUMBER = 3;
+    public string[] COLORS_ARRAY = new string[] { "Red", "Green", "Blue" };
+    //string[] names = { "Matt", "Joanne", "Robert" };
     public GameObject activeCardSpace;
     public GameObject collectPointsBtn;
     public GameObject trashArea;

@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 8343554814786168062}
   - component: {fileID: 356319151671387383}
   m_Layer: 5
-  m_Name: Red Text (1)
+  m_Name: X Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
