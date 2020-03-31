@@ -51,8 +51,9 @@ public class Skins : MonoBehaviour
         //Debug.Log(skorki[ActiveSkin].Name);
         if (skorki[ActiveSkin].Type == KARTA_DYNAMICZNA)
         {
-            imageA.SetActive(false);
             rawImageA.SetActive(true);
+            imageA.SetActive(false);
+            
             ActiveTexture = new RenderTexture(300, 600, 16);
                 rawImageA.GetComponent<RawImage>().texture = ActiveTexture;
                 rawImageA.GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
@@ -62,11 +63,12 @@ public class Skins : MonoBehaviour
                 rawImageA.GetComponent<VideoPlayer>().frame = pm;
                 rawImageA.GetComponent<VideoPlayer>().Play();
         }
-
+        else
         if (skorki[ActiveSkin].Type == KARTA_STATYCZNA)
         {
-            rawImageA.SetActive(false);
             imageA.SetActive(true);
+            rawImageA.SetActive(false);
+            
             imageA.GetComponent<Image>().sprite = Resources.Load(skorki[ActiveSkin].Name + Kolor, typeof(Sprite)) as Sprite;
             if (gameObject.GetComponent<RawImage>() != null)
             {

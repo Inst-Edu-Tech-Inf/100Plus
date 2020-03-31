@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI victoryPoints;
     public GameObject card;
     public GameObject cardPowerUp;
+    public Slider slider;
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
@@ -31,8 +33,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public int maxPlayerCards;
+    public int maxPlayerCardsAddMidle;
+    public int maxPlayerCardsAddLate;
     public int maxTaskCards;
+    public int maxTaskCardsAddMiddle;
+    public int maxTaskCardsAddLate;  
     public int maxPowerUpCards;
+    public int maxPowerUpCardsAddLate;
     public int playerCardsOnStart;
     public int taskCardsOnStart;
     public int powerUpCardsOnStart;
@@ -49,6 +56,9 @@ public class GameManager : MonoBehaviour
     public int earlyGameTaskCardMax;
     public int middleGameTaskCardMax;
     public int lateGameTaskCardMax;
+    public int earlyChanceOnMiddle;//%
+    public int earlyChanceOnLate;//%
+    public int middleChanceOnLate;//%
 
     public GameObject activeCard;
 
@@ -130,7 +140,13 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < taskCardsOnStart; i++)
         {
             DrawTaskCard();
-        }    
+        }
+
+        slider.maxValue = earlyGamePoint;
+        slider.minValue = 0;
+        slider.value = 0;
+        Color color = new Color(255f / 255f, 255f / 255f, 0f / 255f);
+        slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color; 
     }
 
     private void Update()
@@ -357,7 +373,7 @@ public class GameManager : MonoBehaviour
                 Victory = Mathf.Pow(0.5f, ((float)Pom));
                 Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * 0.75f;
                 Pom = Pom * Victory;
-                Debug.Log(Pom.ToString());
+                //Debug.Log(Pom.ToString());
                 Pom += double.Parse(victoryPoints.text);
                 Pom *= 100;
                 Pom = Mathf.Round((float)Pom);
@@ -403,5 +419,29 @@ public class GameManager : MonoBehaviour
 
         }
 
+    //set Slidebar
+         if (float.Parse(victoryPoints.text) < earlyGamePoint)
+        {
+            
+        }
+        else
+        {
+            if (float.Parse(victoryPoints.text) < middleGamePoint)
+            {
+                slider.minValue = earlyGamePoint;
+                slider.maxValue = middleGamePoint;
+                maxPlayerCards = maxPlayerCardsAddMidle;
+                maxTaskCards = maxTaskCardsAddMiddle;
+            }
+            else//lateGame
+            {
+                slider.minValue = middleGamePoint;
+                slider.maxValue = lateGamePoint;
+                maxPlayerCards = maxPlayerCardsAddLate;
+                maxPowerUpCards = maxPowerUpCardsAddLate;
+                maxTaskCards = maxTaskCardsAddLate;
+            }
+        }
+        slider.value = float.Parse(victoryPoints.text);
     }
 }

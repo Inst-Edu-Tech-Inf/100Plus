@@ -34,11 +34,33 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             if  (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
             {
-                additionText.text = Random.Range(1, gm.middleGamePlayerCardMax).ToString();
+                if (Random.Range(1, 100) <= gm.earlyChanceOnMiddle)
+                {
+                    additionText.text = Random.Range(1, gm.earlyGamePlayerCardMax).ToString();
+                }
+                else{
+                    additionText.text = Random.Range(gm.earlyGamePlayerCardMax, gm.middleGamePlayerCardMax).ToString();
+                }             
             }
             else //lateGamePoint
             {
-                additionText.text = Random.Range(1, gm.lateGamePlayerCardMax).ToString();
+
+                if (Random.Range(1, 100) <= gm.earlyChanceOnLate)
+                {
+                    additionText.text = Random.Range(1, gm.earlyGamePlayerCardMax).ToString();
+                }
+                else
+                {
+                    if (Random.Range(1, 100) <= gm.middleChanceOnLate)
+                    {
+                        additionText.text = Random.Range(gm.earlyGamePlayerCardMax, gm.middleGamePlayerCardMax).ToString();
+                    }
+                    else
+                    {
+                        additionText.text = Random.Range(gm.middleGamePlayerCardMax, gm.lateGamePlayerCardMax).ToString();
+                    }
+                }
+                
             }
         }
         if (rand <= 1)
@@ -102,8 +124,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         if (pointerEventData.pointerCurrentRaycast.gameObject != null && (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null || czyRawImageHit))
         {
-            Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.name);
-            Debug.Log(gameObject.transform.parent);       
+            //Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.name);
+            //Debug.Log(gameObject.transform.parent);       
             //Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
             gameObject.transform.SetParent(dropPanel);
             ActualParent = gm.activeCard;

@@ -73,8 +73,8 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData pointerEventData)
     {
         TextMeshProUGUI parentNameText;
-        TextMeshProUGUI playerParentNameText;
-        bool czyUstawic = false;
+        //TextMeshProUGUI playerParentNameText;
+        //bool czyUstawic = false;
         gameObject.layer = 0;
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "Trash")
