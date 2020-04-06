@@ -729,10 +729,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 18d0dcda-59e0-4135-bd2e-4881e241106d
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: SummOn
+  organizationId: marcinkolacz
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

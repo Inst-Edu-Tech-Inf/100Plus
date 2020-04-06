@@ -2,15 +2,33 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+//using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public  string RED_TEXT = "Red";
-    public  string GREEN_TEXT = "Green";
-    public  string BLUE_TEXT = "Blue";
-    public  int COLOR_NUMBER = 3;
-    public string[] COLORS_ARRAY = new string[] { "Red", "Green", "Blue" };
-    //string[] names = { "Matt", "Joanne", "Robert" };
+
+/*#if UNITY_EDITOR
+         string adUnitId = "unused";
+#elif UNITY_ANDROID
+         string adUnitId = "ca-app-pub-6616097464062************";
+#elif UNITY_IPHONE
+             string adUnitId = "INSERT_IOS_INTERSTITIAL_AD_UNIT_ID_HERE";
+#else
+    string adUnitId = "unexpected_platform";
+#endif*/
+
+    public const int KARTA_STATYCZNA = 1;
+    public const int KARTA_DYNAMICZNA = 2;
+    public const int KARTA_RAMKA = 3;
+    public const int BACKGROUND_STATIC = 4;
+    public const int BACKGROUND_DYNAMIC = 5;
+    public const int SOUND_BACKGROUND = 6;
+    public const int SFX = 7;
+    public const string RED_TEXT = "Red";
+    public const string GREEN_TEXT = "Green";
+    public const string BLUE_TEXT = "Blue";
+    public const int COLOR_NUMBER = 3;
+    public string[] COLORS_ARRAY = new string[] { RED_TEXT , GREEN_TEXT, BLUE_TEXT };
     public GameObject activeCardSpace;
     public GameObject collectPointsBtn;
     public GameObject trashArea;
@@ -61,8 +79,12 @@ public class GameManager : MonoBehaviour
     public int middleChanceOnLate;//%
 
     public GameObject activeCard;
+    //public int ActiveSkin = 0;
+    //public SkinManager skinManager;
 
     float remainingGameTime = 3000;
+    
+
 
     public void SetActiveCard(GameObject card, bool isBack)
     {
@@ -122,6 +144,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
         GameObject card = Instantiate(playerCardPrefab);
         GameObject cardPowerUp = Instantiate(powerUpCardPrefab);
        
@@ -146,7 +169,8 @@ public class GameManager : MonoBehaviour
         slider.minValue = 0;
         slider.value = 0;
         Color color = new Color(255f / 255f, 255f / 255f, 0f / 255f);
-        slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color; 
+        slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+
     }
 
     private void Update()
@@ -229,6 +253,12 @@ public class GameManager : MonoBehaviour
                     tasks.SetActive(true);
                     hands.SetActive(false);
                     powerUps.SetActive(false);
+
+                    for (int i = 0; i < taskCards.Count; ++i)
+                    {
+                        card = taskCards[i];
+                        card.transform.Find("Kosz").gameObject.SetActive(true);                 
+                    }
                 }
                 else
                 {
@@ -248,13 +278,22 @@ public class GameManager : MonoBehaviour
             hands.SetActive(true);
             powerUps.SetActive(true);
             if (taskEnable)
+            {
                 tasks.SetActive(true);
+                for (int i = 0; i < taskCards.Count; ++i)
+                {
+                    card = taskCards[i];
+                    card.transform.Find("Kosz").gameObject.SetActive(false);
+                }
+            }
             
         }
     }
 
     public void EndTurn()
     {
+        Debug.Log("ActiveSkin is " + SkinManager.instance.ActiveSkin);
+
        for (int i = 0; i < playerCardsToDraw; i++)
             DrawPlayerCard();
 

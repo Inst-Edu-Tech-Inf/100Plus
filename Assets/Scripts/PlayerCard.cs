@@ -19,13 +19,12 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     void Start()
     {
+        string SubStr;
         hands = GameObject.Find("Hands");
         hasMultiply = false;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-        //image = GetComponent<Image>();
-        float rand = Random.Range(1, 4);//to number of colors
-        //additionText.text = Random.Range(1, 30).ToString();
+        float rand = Random.Range(1, GameManager.COLOR_NUMBER+1 );//to number of colors
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             additionText.text = Random.Range(1, gm.earlyGamePlayerCardMax).ToString();
@@ -66,19 +65,59 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if (rand <= 1)
         {
             additionText.color = new Color32(255, 0, 0, 255);
-            gameObject.GetComponent<Image>().sprite = Resources.Load("Red", typeof(Sprite)) as Sprite;
+            gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+
+            if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+            {
+                SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                Debug.Log(SubStr);
+                gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+            }
+            else
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+                }
         }
         else
         {
             if (rand <= 2)
             {
                 additionText.color = new Color32(0, 255, 0, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load(gm.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                    Debug.Log(SubStr);
+                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                    }
             }
             else
             {
                 additionText.color = new Color32(0, 0, 255, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load("Blue", typeof(Sprite)) as Sprite;
+                gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                    Debug.Log(SubStr);
+                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
+                    }
             }
         }
     }
@@ -124,9 +163,6 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         if (pointerEventData.pointerCurrentRaycast.gameObject != null && (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null || czyRawImageHit))
         {
-            //Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.name);
-            //Debug.Log(gameObject.transform.parent);       
-            //Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
             gameObject.transform.SetParent(dropPanel);
             ActualParent = gm.activeCard;
             parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
