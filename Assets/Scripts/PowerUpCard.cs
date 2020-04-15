@@ -8,13 +8,15 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     GameObject powerUp;
     GameManager gm;
     public GameObject ActualParent = null;
+    public AudioSource cardMissSFX;
+    public AudioSource cardCorrectSFX;
     Image image;
     Vector3 originalPosition;
     Vector2 normalScale = new Vector2(1.9f, 1.9f);
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
-    TextMeshProUGUI redText;
-    TextMeshProUGUI greenText;
-    TextMeshProUGUI blueText;
+    public TextMeshProUGUI redText;
+    public TextMeshProUGUI greenText;
+    public TextMeshProUGUI blueText;
 
     // Start is called before the first frame update
     void Start()
@@ -23,12 +25,6 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         powerUp = GameObject.Find("PowerUp");
-        redText = transform.Find("Red Text").GetComponent<TextMeshProUGUI>();
-        greenText = transform.Find("Green Text").GetComponent<TextMeshProUGUI>();
-        blueText = transform.Find("Blue Text").GetComponent<TextMeshProUGUI>();
-       // redText.text = Random.Range(1, 4).ToString();
-        //greenText.text = Random.Range(1, 4).ToString();
-        //blueText.text = Random.Range(1, 4).ToString();
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             
@@ -49,6 +45,8 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
                 blueText.text = Random.Range(1, 5).ToString();
             }
         }
+        cardMissSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        cardCorrectSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
     }
 
     // Update is called once per frame
@@ -73,8 +71,6 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData pointerEventData)
     {
         TextMeshProUGUI parentNameText;
-        //TextMeshProUGUI playerParentNameText;
-        //bool czyUstawic = false;
         gameObject.layer = 0;
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "Trash")
@@ -86,6 +82,7 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             && !pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>().hasMultiply
             && pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text != "")
         {
+            cardCorrectSFX.Play();
             Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Player Drop Panel");
             gameObject.transform.SetParent(dropPanel);
             parentNameText = gameObject.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>();
@@ -94,8 +91,9 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>().hasMultiply = true;
         }
         else
-        
-           if (gameObject.transform.parent.name != "PowerUp")//
+        {
+            cardMissSFX.Play();
+            if (gameObject.transform.parent.name != "PowerUp")//
             {
                 ActualParent.GetComponent<PlayerCard>().hasMultiply = false;
                 ActualParent = null;
@@ -110,11 +108,13 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
                 parentNameText = gameObject.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>();
                 parentNameText.text = "";
             }
+        }
         
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
+        gm.userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (gameObject.transform.parent.name == "PowerUp")
         {
             gameObject.transform.localScale = biggerScale;

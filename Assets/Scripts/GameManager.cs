@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿//#define HTML5
+
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -6,6 +8,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+/*UNITY_IOS	
+UNITY_ANDROID
+UNITY_STANDALONE_WIN
+<Project Path>/Assets/mcs.rsp*/
 
 /*#if UNITY_EDITOR
          string adUnitId = "unused";
@@ -27,8 +33,11 @@ public class GameManager : MonoBehaviour
     public const string RED_TEXT = "Red";
     public const string GREEN_TEXT = "Green";
     public const string BLUE_TEXT = "Blue";
+    public const string VICTORY = "VICTORY";
+    public const string DEFEAT = "DEFEAT";
     public const int COLOR_NUMBER = 3;
     public string[] COLORS_ARRAY = new string[] { RED_TEXT , GREEN_TEXT, BLUE_TEXT };
+    
     public GameObject activeCardSpace;
     public GameObject collectPointsBtn;
     public GameObject trashArea;
@@ -44,6 +53,28 @@ public class GameManager : MonoBehaviour
     public GameObject card;
     public GameObject cardPowerUp;
     public Slider slider;
+    public Image backgroundImage;
+    public AudioSource soundBackground;
+    public AudioSource endTurnSFX;
+    public AudioSource exitSFX;
+    public AudioSource coinSingleSFX;
+    public AudioSource coinFewSFX;
+    public AudioSource coinMoreSFX;
+    public AudioSource coinManySFX;
+    public AudioSource coinMissSFX;
+    public AudioSource trashSFX;
+    public AudioSource taskResignSFX;
+    public AudioSource victorySFX;
+    public Text victoryText;
+    public Text victoryScoreText;
+    public Text victoryConditionsText;
+    public GameObject victoryPanel;
+    public TextMeshProUGUI ActualVictoryPointsText;
+    public Image helpTask;
+    public Image helpTurn;
+    public Image helpCard;
+    public Image helpEndTask;
+
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
@@ -77,14 +108,27 @@ public class GameManager : MonoBehaviour
     public int earlyChanceOnMiddle;//%
     public int earlyChanceOnLate;//%
     public int middleChanceOnLate;//%
-
     public GameObject activeCard;
-    //public int ActiveSkin = 0;
-    //public SkinManager skinManager;
+    public float userActivityTime = 0.0f;
 
-    float remainingGameTime = 3000;
+    bool isVictoryPointFirst = false;
+    bool isVictoryTimePass = true;
+    bool isVictory = false;
+    bool isVictorySound = true;
+    int VictoryPointFirstValue = 20;
+    float remainingGameTime = 300;
+    float victoryPanelScale = 0.5f;  
     
+    void changeSound()
+    {
+        soundBackground.clip = (AudioClip)Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name); ;
+        soundBackground.Play();
+    }
 
+    void changeBackground()
+    {
+        backgroundImage.sprite = Resources.Load<Sprite>("Background/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);//.Name
+    }
 
     public void SetActiveCard(GameObject card, bool isBack)
     {
@@ -115,6 +159,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            taskResignSFX.Play();
             tasks.SetActive(true);
             activeCardSpace.SetActive(false);
             activeCard.transform.SetParent(tasks.transform);
@@ -138,17 +183,19 @@ public class GameManager : MonoBehaviour
             collectPointsBtn.SetActive(false);
             endTurnBtn.SetActive(true);
             CheckCardNumbers(true);
-
         }
     }
 
     private void Start()
     {
-        
+        victoryPanel.SetActive(false);
+        victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+        isVictory = false;
+        isVictorySound = true;
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
+
         GameObject card = Instantiate(playerCardPrefab);
         GameObject cardPowerUp = Instantiate(powerUpCardPrefab);
-       
-        remainingGameTime = maxGameTimeInSeconds;
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
         {
@@ -170,18 +217,108 @@ public class GameManager : MonoBehaviour
         slider.value = 0;
         Color color = new Color(255f / 255f, 255f / 255f, 0f / 255f);
         slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
-
+        soundBackground.volume = SkinManager.instance.ActiveSoundValue / 100;
+        endTurnSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        exitSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        coinSingleSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        coinFewSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        coinMoreSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        coinManySFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        coinMissSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        trashSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        taskResignSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        victorySFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        isVictoryPointFirst = SkinManager.instance.isVictoryPointFirst;
+        isVictoryTimePass = SkinManager.instance.isVictoryTimePass;
+        VictoryPointFirstValue = SkinManager.instance.VictoryPointFirstValue;
+        maxGameTimeInSeconds = SkinManager.instance.VictoryTimePassValue;
+        remainingGameTime = maxGameTimeInSeconds;
+        changeBackground();
+        changeSound();
     }
 
     private void Update()
     {
+        if (userActivityTime > 0)
+        {
+            userActivityTime -= Time.deltaTime;
+            helpTask.gameObject.SetActive(false);
+            helpTurn.gameObject.SetActive(false);
+            helpCard.gameObject.SetActive(false);
+            helpEndTask.gameObject.SetActive(false);
+        }//= SkinManager.MAX_USER_DISACTIVITY;
+        else
+        {
+            if (tasks.activeSelf)
+            {
+                helpTask.gameObject.SetActive(true);
+                helpTurn.gameObject.SetActive(true);
+            }
+            else
+            {
+                helpCard.gameObject.SetActive(true);
+                helpEndTask.gameObject.SetActive(true);
+            }
+        }
         if (remainingGameTime > 0)
         {
-           remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);
-           timerText.text = remainingGameTime.ToString();
+            remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);
+            timerText.text = remainingGameTime.ToString();
+        }
+        else
+        {
+            if ((isVictoryTimePass)||(isVictory))
+            {
+                //Debug.Log("Victory Time Pass");
+                if (isVictorySound)
+                {
+                    victorySFX.Play();
+                    isVictorySound = false;
+                }
+                victoryPanel.SetActive(true);
+                if (victoryPanelScale < 1.0)
+                {
+                    victoryPanelScale += 0.01f;
+                }
+                victoryText.text = VICTORY;
+                victoryScoreText.text = ActualVictoryPointsText.text;
+                if (SkinManager.instance.ActiveVictoryConditions == 0)
+                {
+                    victoryConditionsText.text = "5 min";
+                }
+                else
+                {
+                    if (SkinManager.instance.ActiveVictoryConditions == 1)
+                    {
+                        victoryConditionsText.text = "15 min";
+                    }
+                    else
+                    {
+                        if (SkinManager.instance.ActiveVictoryConditions == 2)
+                        {
+                            victoryConditionsText.text = "30 min";
+                        }
+                        else
+                        {
+                            if (SkinManager.instance.ActiveVictoryConditions == 3)
+                            {
+                                victoryConditionsText.text = "20 points";
+                            }
+                            else
+                                if (SkinManager.instance.ActiveVictoryConditions == 4)
+                                {
+                                    victoryConditionsText.text = "100 points";
+                                }
+                        }
+                    }
+                }
+                //Victory Panel
+                victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+            }
         }
     }
 
+    
     void DrawPlayerCard()
     {
         if (playerCards.Count >= maxPlayerCards + playerCardsToDraw) return;
@@ -213,6 +350,7 @@ public class GameManager : MonoBehaviour
     {
         if (card.transform.GetComponent<TaskCard>() != null)
         {
+            trashSFX.Play();
             Destroy(card);
             taskCards.Remove(card);
         }
@@ -222,6 +360,7 @@ public class GameManager : MonoBehaviour
     {
         if (card.transform.GetComponent<PlayerCard>() != null)
         {
+            trashSFX.Play();
             Destroy(card);
             playerCards.Remove(card);
         }
@@ -231,6 +370,7 @@ public class GameManager : MonoBehaviour
     {
         if (card.transform.GetComponent<PowerUpCard>() != null)
         {
+            trashSFX.Play();
             Destroy(card);
             powerUpCards.Remove(card);
         }
@@ -292,14 +432,12 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        Debug.Log("ActiveSkin is " + SkinManager.instance.ActiveSkin);
-
+        endTurnSFX.Play();
        for (int i = 0; i < playerCardsToDraw; i++)
             DrawPlayerCard();
 
        for (int i = 0; i < taskCardsToDraw; i++)
            DrawTaskCard();
-
 
        if (float.Parse(victoryPoints.text) >= earlyGamePoint)
            for (int i = 0; i < powerUpCardsToDraw; i++)
@@ -317,6 +455,7 @@ public class GameManager : MonoBehaviour
         float Suma = 0;
         double Pom = 1.0;
         int Razy = 1;
+        bool isScored = false;
 
         for (int i = 0; i < playerCards.Count; ++i)
         {
@@ -365,8 +504,32 @@ public class GameManager : MonoBehaviour
         Victory = float.Parse(activeCard.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text);
         if (Victory == Suma)
         {
+            isScored = true;
+            Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
             Victory = (float.Parse(victoryPoints.text) + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text));
             victoryPoints.text = Victory.ToString();
+            if (Pom <= 1.0)
+            {
+                coinSingleSFX.Play();
+            }
+            else
+            {
+                if (Pom <= 3.0)
+                {
+                    coinFewSFX.Play();
+                }
+                else
+                {
+                    if (Pom <= 6.0)
+                    {
+                        coinMoreSFX.Play();
+                    }
+                    else
+                    {
+                        coinManySFX.Play();
+                    }
+                }
+            }
             //discard cards -> do osobnej funkcji        
             for (int i = 0; i < playerCards.Count; ++i)
             {
@@ -408,11 +571,33 @@ public class GameManager : MonoBehaviour
         {
             if (Suma > Victory) 
             {
+                isScored = true;
                 Pom = (Suma - Victory) / (Victory);
                 Victory = Mathf.Pow(0.5f, ((float)Pom));
                 Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * 0.75f;
                 Pom = Pom * Victory;
-                //Debug.Log(Pom.ToString());
+                if (Pom <= 1.0)
+                {
+                    coinSingleSFX.Play();
+                }
+                else
+                {
+                    if (Pom <= 3.0)
+                    {
+                        coinFewSFX.Play();
+                    }
+                    else
+                    {
+                        if (Pom <= 6.0)
+                        {
+                            coinMoreSFX.Play();
+                        }
+                        else
+                        {
+                            coinManySFX.Play();
+                        }
+                    }
+                }
                 Pom += double.Parse(victoryPoints.text);
                 Pom *= 100;
                 Pom = Mathf.Round((float)Pom);
@@ -482,5 +667,21 @@ public class GameManager : MonoBehaviour
             }
         }
         slider.value = float.Parse(victoryPoints.text);
+        //miss Sound
+        if (!isScored)
+        {
+            coinMissSFX.Play();
+        }
+        //endGame
+        if (isVictoryPointFirst)
+        {
+            //Debug.Log("Victory Point");
+            if (float.Parse(victoryPoints.text) >= VictoryPointFirstValue)
+            {
+                victorySFX.Play();
+                isVictory = true;
+            }
+        }
     }
+   
 }

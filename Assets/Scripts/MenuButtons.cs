@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define HTML5
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,15 +33,16 @@ public class MenuButtons : MonoBehaviour
             {
                 SceneManager.LoadScene("Game");
             }
-
+#if !HTML5 
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, szerokoscPrzycisku + offset, SZEROKOSC_POLA, szerokoscPrzycisku), "Multiplayer", style))
             {
-
+                SceneManager.LoadScene("Multiplayer");
             }
 
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 2 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Options", style))
             {
                 //GUI.Slider()
+                SceneManager.LoadScene("GameSetting");
             }
 
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 3 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Skins", style))
@@ -47,11 +50,11 @@ public class MenuButtons : MonoBehaviour
                 SceneManager.LoadScene("Skins");
             }
 
-            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Testy", style))
+            if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 4 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "About", style))
             {
-
+                SceneManager.LoadScene("About");
             }
-
+#endif
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 5 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
             {
                 Application.Quit();

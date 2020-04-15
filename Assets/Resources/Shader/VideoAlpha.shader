@@ -10,7 +10,7 @@
 // Color property for material inspector, default to white
         _Color ("Main Color", Color) = (1,1,1,1)
          _TransparentColor ("Transparent Color", Color) = (0,0,0,1)
-	_Threshold ("Threshhold", Float) = 0.01
+	_Threshold ("Threshhold", Float) = 0.5
 	[NoScaleOffset] _SecondaryTex("OverlayTextureRGBA",2D)="white"{}
     }
     SubShader
@@ -72,7 +72,7 @@
 	//video transparency here
 	half3 transparent_diff = finalColor.xyz - _TransparentColor.xyz;
 	half transparent_diff_squared = dot(transparent_diff,transparent_diff);
-	  if(transparent_diff_squared < _Threshold)
+	  if(transparent_diff_squared < 0.025)//_Threshold
                    discard;
 
 	return finalColor;

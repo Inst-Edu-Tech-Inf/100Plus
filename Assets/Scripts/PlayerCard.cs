@@ -8,7 +8,9 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     GameObject hands;
     GameManager gm;
     public GameObject ActualParent = null;
-    Image image;
+    public Image image;
+    public AudioSource cardMissSFX;
+    public AudioSource cardCorrectSFX;
     Vector3 originalPosition;
     Vector2 normalScale = new Vector2(1.9f, 1.9f); 
     Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
@@ -23,6 +25,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         hands = GameObject.Find("Hands");
         hasMultiply = false;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        image = GameObject.Find("PlayerCardImage").GetComponent<Image>();
         additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
         float rand = Random.Range(1, GameManager.COLOR_NUMBER+1 );//to number of colors
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
@@ -62,16 +65,15 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 
             }
         }
+        image.material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>("Ramki/" + SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
         if (rand <= 1)
         {
             additionText.color = new Color32(255, 0, 0, 255);
-            gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
 
             if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
             {
                 SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                 SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                Debug.Log(SubStr);
                 gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
             }
             else
@@ -86,12 +88,10 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             if (rand <= 2)
             {
                 additionText.color = new Color32(0, 255, 0, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                    Debug.Log(SubStr);
                     gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
                 }
                 else
@@ -104,12 +104,10 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             else
             {
                 additionText.color = new Color32(0, 0, 255, 255);
-                gameObject.GetComponent<Image>().sprite = Resources.Load(GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                    Debug.Log(SubStr);
                     gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
                 }
                 else
@@ -120,6 +118,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     }
             }
         }
+        cardMissSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        cardCorrectSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
     }
 
     public void OnDrag(PointerEventData pointerEventData)
@@ -163,6 +163,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         if (pointerEventData.pointerCurrentRaycast.gameObject != null && (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null || czyRawImageHit))
         {
+            cardCorrectSFX.Play();
             gameObject.transform.SetParent(dropPanel);
             ActualParent = gm.activeCard;
             parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
@@ -170,6 +171,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
         else
         {
+            cardMissSFX.Play();
             if (gameObject.transform.parent.name != "Hands")
             {
                 gameObject.transform.SetParent(hands.transform);
@@ -189,6 +191,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
+        gm.userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (gameObject.transform.parent.name == "Hands")
         {
             gameObject.transform.localScale = biggerScale;

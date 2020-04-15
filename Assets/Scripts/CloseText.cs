@@ -8,6 +8,7 @@ public class CloseText : MonoBehaviour, IPointerClickHandler
        
     public void OnPointerClick(PointerEventData eventData)
     {
+
         SceneManager.LoadScene("Menu");
         //Application.Quit();
     }

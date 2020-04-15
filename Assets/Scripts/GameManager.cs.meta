@@ -3,7 +3,37 @@ guid: 0cdf98d7c4efbcf4098fcfca606169eb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - activeCardSpace: {instanceID: 0}
+  - collectPointsBtn: {instanceID: 0}
+  - trashArea: {instanceID: 0}
+  - endTurnBtn: {instanceID: 0}
+  - tasks: {instanceID: 0}
+  - hands: {instanceID: 0}
+  - powerUps: {instanceID: 0}
+  - playerCardPrefab: {fileID: 3306539167993578427, guid: e66243419b06e3e48ae6ca3df414ea83,
+      type: 3}
+  - taskCardPrefab: {fileID: 3306539167993578427, guid: 330d54217675d4f4e9b81d1be3821aa5,
+      type: 3}
+  - powerUpCardPrefab: {fileID: 3306539167993578427, guid: b05d41bb0e56e074ea0b5277cb79291d,
+      type: 3}
+  - timerText: {instanceID: 0}
+  - victoryPoints: {instanceID: 0}
+  - card: {instanceID: 0}
+  - cardPowerUp: {instanceID: 0}
+  - slider: {instanceID: 0}
+  - backgroundImage: {instanceID: 0}
+  - soundBackground: {instanceID: 0}
+  - endTurnSFX: {instanceID: 0}
+  - exitSFX: {instanceID: 0}
+  - coinSingleSFX: {instanceID: 0}
+  - coinFewSFX: {instanceID: 0}
+  - coinMoreSFX: {instanceID: 0}
+  - coinManySFX: {instanceID: 0}
+  - coinMissSFX: {instanceID: 0}
+  - trashSFX: {instanceID: 0}
+  - taskResignSFX: {instanceID: 0}
+  - activeCard: {instanceID: 0}
   executionOrder: 100
   icon: {instanceID: 0}
   userData: 

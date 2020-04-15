@@ -9,9 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: a71d0742f2687cb46beeb680164e5f64
   - enabled: 1
+    path: Assets/Scenes/Skins.unity
+    guid: f50ac92ae65df6f468f4e4c40586803c
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 4991b6f8e717c084c9207868b6396ea6
   - enabled: 1
-    path: Assets/Scenes/Skins.unity
-    guid: f50ac92ae65df6f468f4e4c40586803c
+    path: Assets/Scenes/GameSetting.unity
+    guid: 38c77e54ee658894d9e068a8cf9612eb
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer.unity
+    guid: 8d9468400a25fc849bcf40224cf463c2
+  - enabled: 1
+    path: Assets/Scenes/About.unity
+    guid: 2292ca36f42554e47a31ca1ebef293b1
   m_configObjects: {}

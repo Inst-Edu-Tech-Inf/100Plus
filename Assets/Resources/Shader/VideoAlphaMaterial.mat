@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondaryTex:
-        m_Texture: {fileID: 2800000, guid: 0f7b283fde12f6c4f8b04a802fd43b3c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 30cf04e900ac94e4aad47ba9afdabce5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainHolesTexture:
