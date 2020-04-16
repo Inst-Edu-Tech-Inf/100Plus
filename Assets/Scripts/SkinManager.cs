@@ -78,6 +78,8 @@ public class SkinManager : MonoBehaviour
     public int VictoryPointFirstValue = 50;
     public int VictoryTimePassValue = 300; //sec 300==5min
     public int ActiveVictoryConditions = 0;
+    public int ActivePlayerTurnConditions = 0;
+    public int ActivePlayerEndTime = 0;//sec
     public int CurrentCash = 0;
 
     public static SkinManager instance;
@@ -157,7 +159,10 @@ public class SkinManager : MonoBehaviour
         VictoryPointFirstValue = PlayerPrefs.GetInt("VictoryPointFirst");
         VictoryTimePassValue = PlayerPrefs.GetInt("VictoryTimePass");
         ActiveVictoryConditions = PlayerPrefs.GetInt("ActiveVictoryConditions");
+        ActivePlayerTurnConditions = PlayerPrefs.GetInt("ActivePlayerTurnConditions");
+        ActivePlayerEndTime = PlayerPrefs.GetInt("ActivePlayerEndTime");
         CurrentCash = PlayerPrefs.GetInt("CurrentCash");
+
     }
 
     public void SetActiveSkin(int Value)
@@ -214,6 +219,17 @@ public class SkinManager : MonoBehaviour
     {
         ActiveVictoryConditions = Value;
     }
+
+    public void SetActivePlayerTurnConditions(int Value)
+    {
+        ActivePlayerTurnConditions = Value;
+    }
+
+    public void SetActivePlayerEndTime(int Value)
+    {
+        ActivePlayerEndTime = Value;
+    }
+
 
     public void SetCurrentCash(int Value)
     {

@@ -10,12 +10,14 @@ public class GameSetting : MonoBehaviour
     public Slider sliderSound;
     public Slider sliderSFX;
     public Dropdown victoryList;
+    public Dropdown playerTurnList;
     // Start is called before the first frame update
     void Start()
     {
         sliderSFX.value = SkinManager.instance.ActiveSFXValue;
         sliderSound.value = SkinManager.instance.ActiveSoundValue;
         victoryList.value = SkinManager.instance.ActiveVictoryConditions;
+        playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
     }
 
     // Update is called once per frame
@@ -111,5 +113,47 @@ public class GameSetting : MonoBehaviour
             }
         }//victoryList.value==0
 
+    }
+
+    public void PlayerTurnConditionsChange()
+    {
+        SkinManager.instance.SetActivePlayerTurnConditions(playerTurnList.value);
+
+        PlayerPrefs.SetInt("ActivePlayerTurnConditions", playerTurnList.value);
+        if (playerTurnList.value == 0)
+        {
+            SkinManager.instance.SetActivePlayerEndTime(0);
+            PlayerPrefs.SetInt("ActivePlayerEndTime", 0);
+        }
+        else
+        {
+            if (playerTurnList.value == 1)
+            {
+                SkinManager.instance.SetActivePlayerEndTime(30);
+                PlayerPrefs.SetInt("ActivePlayerEndTime", 30);
+            }
+            else
+            {
+                if (playerTurnList.value == 2)
+                {
+                    SkinManager.instance.SetActivePlayerEndTime(45);
+                    PlayerPrefs.SetInt("ActivePlayerEndTime", 45);
+                }
+                else
+                {
+                    if (playerTurnList.value == 3)//points
+                    {
+                        SkinManager.instance.SetActivePlayerEndTime(60);
+                        PlayerPrefs.SetInt("ActivePlayerEndTime", 60);
+                    }
+                    else
+                    {
+                        SkinManager.instance.SetActivePlayerEndTime(120);
+                        PlayerPrefs.SetInt("ActivePlayerEndTime", 120);
+                    }
+                }
+            }
+        }//playerTurnList.value==0
+        
     }
 }
