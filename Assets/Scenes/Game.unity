@@ -265,7 +265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 71a88823d74611043ac83a4797bcb849, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e495283fee666f24fa665cb765cb15ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 71a88823d74611043ac83a4797bcb849, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e495283fee666f24fa665cb765cb15ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2672,9 +2672,6 @@ MonoBehaviour:
   ramka: RamkaGold
   tlo: NGC_5477_Hubble
   muzyka: Crazy Puzzle Electronic
-  ramki: []
-  tla: []
-  muzyki: []
   ActiveSkin: 0
   ActiveFrame: 0
   ActiveBackground: 0
@@ -2686,6 +2683,8 @@ MonoBehaviour:
   VictoryPointFirstValue: 50
   VictoryTimePassValue: 300
   ActiveVictoryConditions: 0
+  ActivePlayerTurnConditions: 0
+  ActivePlayerEndTime: 0
   CurrentCash: 0
   CurrentScore: 0
 --- !u!1 &1347773206
@@ -2801,7 +2800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e32a6038bd411f545baa9710fc58b695, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b23021c37a3f7d846a64ae3fe7e1752c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3339,7 +3338,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70cf05282e517a7498b0f7629b33dfe5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8d7373091dc820c4c8c6d88bbd827aff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3471,7 +3470,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5a9831e850132384994b07d18360f1c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 169c74fa477ee644daa0a30c9e67b2e0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4325,7 +4324,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 36e739fa7e578904383d985ac9073741, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ff12923ca182084997f7d82422fe64c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5037,7 +5036,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 71a88823d74611043ac83a4797bcb849, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e495283fee666f24fa665cb765cb15ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
