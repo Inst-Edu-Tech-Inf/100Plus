@@ -5,11 +5,92 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+
 
 
 public class MenuButtons : MonoBehaviour
 {
-    void OnGUI()
+    [Header("Background"), SerializeField]
+    public Image backgroundImage;
+
+    void changeBackground()
+    {
+        /*string pom = "SplashScreen.jpg";
+        pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
+        byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
+
+        //Creates texture and loads byte array data to create image
+        Texture2D tex = new Texture2D(2, 2);
+        tex.LoadImage(pngBytes);
+
+        //Creates a new Sprite based on the Texture2D
+        Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+        //Assigns the UI sprite
+
+        //backgroundImage.sprite = fromTex;
+        GameObject.Find("Image").GetComponent<Image>().sprite = fromTex;*/
+        //GameObject.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name); 
+    }
+
+    IEnumerator Foo(string text, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // code here
+        changeBackground();
+
+    }
+
+    void Start()
+    {
+         // StartCoroutine(Foo("Text", 10)); 
+        changeBackground();
+            
+    }
+
+    void Awake()
+    {
+        
+    }
+
+    public void exitButton()
+    {
+        Application.Quit();
+    }
+
+    public void aboutButton()
+    {
+        SceneManager.LoadScene("About");
+    }
+
+    public void multiplayerButton()
+    {
+        SceneManager.LoadScene("Multiplayer");
+    }
+
+    public void skinButton()
+    {
+        SceneManager.LoadScene("Skins");
+    }
+
+    public void optionButton()
+    {
+        SceneManager.LoadScene("GameSetting");
+    }
+
+    public void playButton()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void achievementButton()
+    {
+        SceneManager.LoadScene("Achievement");
+    }
+
+  /*  void OnGUI()
     {
         const int ILE_ELEMENTOW_MENU = 6;
         const int SZEROKOSC_POLA = 250;
@@ -22,12 +103,18 @@ public class MenuButtons : MonoBehaviour
 
         if (scene == SceneManager.GetSceneByName("Menu"))
         {
+            
             GUIStyle style = new GUIStyle(GUI.skin.GetStyle("button"));
             style.fontSize = 50;
             szerokoscPrzycisku = Screen.height / (ILE_ELEMENTOW_MENU + 1);
             offset = szerokoscPrzycisku / ILE_ELEMENTOW_MENU;
 
             //wyswietlnie samych guzikow 
+            if (GUI.Button(new Rect(0, 0, SZEROKOSC_POLA, szerokoscPrzycisku), "TEST", style))
+            {
+                SceneManager.LoadScene("Test");
+            }
+
 
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 0, SZEROKOSC_POLA, szerokoscPrzycisku), "Start", style))
             {
@@ -57,9 +144,9 @@ public class MenuButtons : MonoBehaviour
 #endif
             if (GUI.Button(new Rect(Screen.width - SZEROKOSC_POLA, 5 * (szerokoscPrzycisku + offset), SZEROKOSC_POLA, szerokoscPrzycisku), "Quit", style))
             {
-                Application.Quit();
+                w
             }
         }
     }
-
+*/
 }

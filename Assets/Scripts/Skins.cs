@@ -6,9 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using UnityEngine.Networking;
+using CompleteProject;
+using UnityEngine.EventSystems;
 
-
-public class Skins : MonoBehaviour
+namespace CompleteProject
+{
+    public class Skins : MonoBehaviour, IPointerEnterHandler
 {
     
     int ActiveColor = 1; 
@@ -19,6 +23,8 @@ public class Skins : MonoBehaviour
 
     [Header("Obrazki"), SerializeField]
     public GameObject rawImageA;
+    public Image helpNext;
+    public Image helpPrev;
 
     RenderTexture ActiveTexture;
     RawImage tex;
@@ -41,14 +47,58 @@ public class Skins : MonoBehaviour
     bool isSounds = false;
     Vector2 normalSize;
     Vector2 biggerSize;
+    float userActivityTime = 0.0f;
 //    public Image[] images;
+
+
+    IEnumerator GetWWWTexture(string pathWithPrefix)
+    {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
+            Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+            backgroundImage.sprite = fromTex;
+        }
+    }
+
 
 
     void changeSkin(string Kolor)
     {
         int pm;
         //rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>("Ramki/" + SkinManager.instance.ramki[SkinManager.instance.ActiveFrame]));//
-        rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>("Ramki/" + SkinManager.instance.ramki[LocalActiveFrame].Name));//
+       // activeVideoPlayer.clip = Resources.Load(System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4")) as VideoClip;
+          
+        rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(SkinManager.instance.ramki[LocalActiveFrame].Name));//
+      //  rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,
+      //      "Ramki/" + SkinManager.instance.ramki[LocalActiveFrame].Name)));//
+
+
+     /*   string pom2 = SkinManager.instance.ramki[LocalActiveFrame].Name + ".png";
+        pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, pom2);// SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//"/Background/"
+        
+        //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
+
+        byte[] pngBytes2 = System.IO.File.ReadAllBytes(pom2);
+
+        //Creates texture and loads byte array data to create image
+        Texture2D tex2 = new Texture2D(2, 2);
+        tex2.LoadImage(pngBytes2);
+
+        //Creates a new Sprite based on the Texture2D
+        //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+        //Assigns the UI sprite
+        rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", tex2);*/
+        
        // if (isSkins)
         {
             if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
@@ -63,6 +113,10 @@ public class Skins : MonoBehaviour
                 //#endif
 #endif
                 rawImageA.GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
+                //rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4");
+  //              rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".mp4");
+
+                //rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor)) as VideoClip;
                 rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor) as VideoClip;
 
                 pm = (int)Mathf.Round(Random.Range(0.0f, (float)rawImageA.GetComponent<VideoPlayer>().length));
@@ -73,7 +127,24 @@ public class Skins : MonoBehaviour
                 if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                 {
                     rawImageA.GetComponent<VideoPlayer>().targetTexture = null;
+                    //rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor));
                     rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor);
+                   /* string pom = SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".png";
+                    pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
+                    //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
+
+                    byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
+
+                    //Creates texture and loads byte array data to create image
+                    Texture2D tex = new Texture2D(2, 2);
+                    tex.LoadImage(pngBytes);
+
+                    //Creates a new Sprite based on the Texture2D
+                    //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+                    //Assigns the UI sprite
+
+                    rawImageA.GetComponent<RawImage>().texture = tex;*/
                 }
         }
         //else
@@ -87,15 +158,109 @@ public class Skins : MonoBehaviour
 
     void changeBackground()
     {
-        backgroundImage.sprite = Resources.Load<Sprite>("Background/" + SkinManager.instance.tla[LocalActiveBackground].Name);//.Name
+        
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            //string pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg");
+            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";
+            //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[LocalActiveBackground].Name);
+            //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");
+            StartCoroutine(GetWWWTexture(pom2));
+            //Debug.Log(pom2);
+        }
+        /*iOS uses Application.dataPath + "/Raw",
+Android uses files inside a compressed APK
+/JAR file, "jar:file://" + Application.dataPath + "!/assets".*/
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            //string pom = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
+            string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
+            StartCoroutine(GetWWWTexture(pom));
+        }
+        //////
+        
+
+//#if UNITY_ANDROID
+
+//#endif
+
+//#if UNITY_EDITOR
+
+//#endif
+
     }
+
+ /*   IEnumerator changeAsyncSound()
+    {
+        string pom = Application.streamingAssetsPath + "/Audio/" + SkinManager.instance.muzyki[LocalActiveSound].Name + ".ogg";
+        UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(pom, AudioType.OGGVORBIS);
+
+        soundBackground.clip = (AudioClip)Resources.Load("Audio/" + SkinManager.instance.muzyki[LocalActiveSound].Name); 
+        soundBackground.Play();
+
+        yield return request.SendWebRequest();
+
+        if (request.isNetworkError)
+        {
+            Debug.LogWarning(request.error + "\n" + pom);
+        }
+        else
+        {
+
+        }
+        
+    }*/
 
     void changeSound()
-    {
-
+    {       
         soundBackground.clip = (AudioClip)Resources.Load("Audio/" + SkinManager.instance.muzyki[LocalActiveSound].Name); ;
         soundBackground.Play();
+        //Debug.Log(request);
     }
+
+
+ /*   IEnumerator GetUwrTexture(string pathWithPrefix)
+    {
+        Texture tex = null;
+        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(pathWithPrefix))
+        {
+            yield return uwr.SendWebRequest();
+            if (string.IsNullOrEmpty(uwr.error))
+            {
+                // Get downloaded asset bundle
+                tex = DownloadHandlerTexture.GetContent(uwr);
+                //Texture mainTexture = renderer.material.mainTexture;
+                Texture2D texture2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
+                Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+                backgroundImage.sprite = fromTex;
+                
+            }
+            else
+            {
+                Debug.Log(uwr.error);
+            }
+
+        }
+    }
+
+
+    IEnumerator GetUwrBytes(string pathWithPrefix)
+    {
+        Texture2D tex = new Texture2D(2, 2);
+        using (UnityWebRequest uwr = UnityWebRequest.Get(pathWithPrefix))
+        {
+            yield return uwr.SendWebRequest();
+            if (string.IsNullOrEmpty(uwr.error))
+            {
+                tex.LoadImage(uwr.downloadHandler.data);
+            }
+            else
+            {
+                Debug.Log(uwr.error);
+            }
+        }
+    }*/
 
     // Start is called before the first frame update
     void Start()
@@ -109,6 +274,8 @@ public class Skins : MonoBehaviour
             img.enabled = true;
             image = img;
         }*/
+        //CompleteProject.Purchaser.Start();
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         purchasePanel.gameObject.SetActive(false);
         cash.color = new Color32(255, 255, 0, 255);
         price.color = new Color32(0, 255, 0, 255);
@@ -128,6 +295,7 @@ public class Skins : MonoBehaviour
         changeBackground();
         LocalActiveSound = SkinManager.instance.ActiveSound;
         changeSound();
+        //changeAsyncSound();
         skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
         cash.text = SkinManager.instance.CurrentCash.ToString();
     }
@@ -152,50 +320,83 @@ public class Skins : MonoBehaviour
             }
             changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
         }
+
+        if (userActivityTime > 0)
+        {
+            userActivityTime -= Time.deltaTime;
+            helpNext.gameObject.SetActive(false);
+            helpPrev.gameObject.SetActive(false);
+        }
+        else
+        {
+            helpNext.gameObject.SetActive(true);
+            helpPrev.gameObject.SetActive(true);
+        }
+       /* string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//"/Background/"
+        pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
+        skinName.text = pom;*/
+        
+    }
+
+    public void OnPointerEnter(PointerEventData pointerEventData)
+    {
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
     }
 
     public void Buy20Coins()
     {
-        int newCash;
-        cashBuyDone.Play();
+        /*int newCash;
+        
         newCash = SkinManager.instance.CurrentCash + 20;
         SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);
+        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
+        BackPurchase();
       //  purchasePanel.gameObject.SetActive(false);//throw runtime error!
     }
 
     public void Buy100Coins()
     {
-        int newCash;
-        cashBuyDone.Play();
+       /* int newCash;
+        
         newCash = SkinManager.instance.CurrentCash + 100;
         SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);
+        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
+        BackPurchase();
         // purchasePanel.gameObject.SetActive(false);//throw runtime error!
     }
 
     public void Buy350Coins()
     {
-        int newCash;
-        cashBuyDone.Play();
+       /* int newCash;
+        
         newCash = SkinManager.instance.CurrentCash + 350;
         SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);
+        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
+        BackPurchase();
         //  purchasePanel.gameObject.SetActive(false);//throw runtime error!
     }
 
     public void BuyFailed()
     {
         // purchasePanel.gameObject.SetActive(false); ////throw runtime error!
-        skinName.text = "Purchase FAILED";
+        //skinName.text = "Purchase FAILED";
+        cash.text = SkinManager.instance.CurrentCash.ToString();
+        purchasePanel.gameObject.SetActive(false);
+        //BackPurchase();
     }
 
     public void BuySucced()
     {
         //nothing yet
+        cash.text = SkinManager.instance.CurrentCash.ToString();
+        purchasePanel.gameObject.SetActive(false);
+        //BackPurchase();
     }
 
     public void Back()
@@ -205,7 +406,14 @@ public class Skins : MonoBehaviour
 
     public void BackPurchase()
     {
+        cash.text = SkinManager.instance.CurrentCash.ToString();
         purchasePanel.gameObject.SetActive(false);
+        checkPriceColor();
+    }
+
+    public void EnablePurchase()
+    {
+        purchasePanel.gameObject.SetActive(true);
     }
 
     public void CheckSkinsPossible(SkinManager.SkinsInfo skin)
@@ -240,9 +448,22 @@ public class Skins : MonoBehaviour
      
     }
 
+
+    public void checkPriceColor()
+    {
+        if (int.Parse(cash.text) < int.Parse(price.text))
+        {
+            price.color = new Color32(255, 0, 0, 255);
+        }
+        else
+        {
+            price.color = new Color32(0, 255, 0, 255);
+        }
+    }
+
     public void Next()
     {
-        
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (isSkins)
         {
             if (LocalActiveSkin < SkinManager.instance.skorki.Count - 1)
@@ -323,6 +544,7 @@ public class Skins : MonoBehaviour
                             CheckSkinsPossible(SkinManager.instance.muzyki[LocalActiveSound]);
                             skinName.text = SkinManager.instance.muzyki[LocalActiveSound].Title;
                             changeSound();
+                            //changeAsyncSound();
                         }
                         
                     }
@@ -330,18 +552,20 @@ public class Skins : MonoBehaviour
             }
         }
 
-        if (int.Parse(cash.text) < int.Parse(price.text))
+       /* if (int.Parse(cash.text) < int.Parse(price.text))
         {
             price.color = new Color32(255, 0, 0, 255);
         }
         else
         {
             price.color = new Color32(0, 255, 0, 255);
-        }
+        }*/
+        checkPriceColor();
     }
 
     public void Prev()
     {
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (isSkins)
         {
             if (LocalActiveSkin > 0)
@@ -420,20 +644,22 @@ public class Skins : MonoBehaviour
                             CheckSkinsPossible(SkinManager.instance.muzyki[LocalActiveSound]);
                             skinName.text = SkinManager.instance.muzyki[LocalActiveSound].Title;
                             changeSound();
+                            //changeAsyncSound();
                         }
                     }
                 }
             }
         }
 
-        if (int.Parse(cash.text) < int.Parse(price.text))
+       /* if (int.Parse(cash.text) < int.Parse(price.text))
         {
             price.color = new Color32(255, 0, 0, 255);
         }
         else
         {
             price.color = new Color32(0, 255, 0, 255);
-        }
+        }*/
+        checkPriceColor();
     }
 
     public void SwitchSkin()
@@ -455,6 +681,7 @@ public class Skins : MonoBehaviour
         if (LocalActiveSound != SkinManager.instance.ActiveSound)
         {
             LocalActiveSound = SkinManager.instance.ActiveSound;
+            //changeAsyncSound();
             changeSound();
         }
         changeBackground();
@@ -462,6 +689,7 @@ public class Skins : MonoBehaviour
         cash.color = new Color32(255, 255, 0, 255);
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
+        userActivityTime = 0;
     }
 
     public void SwitchFrame()
@@ -483,6 +711,7 @@ public class Skins : MonoBehaviour
         if (LocalActiveSound != SkinManager.instance.ActiveSound)
         {
             LocalActiveSound = SkinManager.instance.ActiveSound;
+            //changeAsyncSound();
             changeSound();
         }
         changeBackground();
@@ -490,6 +719,7 @@ public class Skins : MonoBehaviour
         cash.color = new Color32(255, 255, 0, 255);
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
+        userActivityTime = 0;
     }
 
     public void SwitchBackground()
@@ -510,12 +740,14 @@ public class Skins : MonoBehaviour
         if (LocalActiveSound != SkinManager.instance.ActiveSound)
         {
             LocalActiveSound = SkinManager.instance.ActiveSound;
+            //changeAsyncSound();
             changeSound();
         }
         changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
         cash.color = new Color32(255, 255, 0, 255);
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
+        userActivityTime = 0;
     }
 
     public void SwitchSound()
@@ -539,6 +771,7 @@ public class Skins : MonoBehaviour
         cash.color = new Color32(255, 255, 0, 255);
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
+        userActivityTime = 0;
     }
 
     public bool CheckPaymentPossible(SkinManager.SkinsInfo skin)
@@ -568,6 +801,7 @@ public class Skins : MonoBehaviour
 
     public void Choose()
     {
+        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (isSkins)
         {   
             //check available cash and buy
@@ -621,4 +855,5 @@ public class Skins : MonoBehaviour
     {
         //
     }
+}
 }

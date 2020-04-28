@@ -30,7 +30,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -185,7 +185,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983440874482551590}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
   m_Name: 
@@ -413,7 +413,48 @@ MonoBehaviour:
   ActivePlayerTurnConditions: 0
   ActivePlayerEndTime: 0
   CurrentCash: 0
+  BestResult: 0
+  ActivePlayerMode: 0
+  PureSolo: 0
+  NotPureSolo: 0
+  PureSI: 0
+  NotPureSI: 0
+  PurePVP: 0
+  NotPurePVP: 0
+  isPureSolo1: 0
+  isNotPureSolo1: 0
+  isPureSI1: 0
+  isNotPureSI1: 0
+  isPurePVP1: 0
+  isNotPurePVP1: 0
+  isPureSolo2: 0
+  isNotPureSolo2: 0
+  isPureSI2: 0
+  isNotPureSI2: 0
+  isPurePVP2: 0
+  isNotPurePVP2: 0
+  isPureSolo3: 0
+  isNotPureSolo3: 0
+  isPureSI3: 0
+  isNotPureSI3: 0
+  isPurePVP3: 0
+  isNotPurePVP3: 0
+  AllSkins: 0
+  MiddlePass: 0
+  LatePass: 0
+  FasterThanLightMiddle: 0
+  FasterThanLightLate: 0
+  MultiplyTwice: 0
+  MultiplyThree: 0
+  MultiplyFour: 0
+  WinSolo: 0
+  WinSI: 0
+  WinPVP: 0
+  UnlockAllSkins: 0
+  PureGame: 0
+  Lucky: 0
   CurrentScore: 0
+  DebugToShow: 
 --- !u!1 &2247542265849979563
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,7 +485,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -522,7 +563,6 @@ RectTransform:
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children:
   - {fileID: 2972021292180865042}
-  - {fileID: 750710053414691593}
   - {fileID: 5100549698036117177}
   - {fileID: 8624720085149867634}
   - {fileID: 794165247347662590}
@@ -564,7 +604,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7075377f6503f834a92a8d865f8a5702, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -589,6 +629,7 @@ MonoBehaviour:
   activeImage: {fileID: 8705966390600956788}
   activeRawImage: {fileID: 4714251981563450177}
   activeVideoPlayer: {fileID: 1605144632426418030}
+  frameImage: {fileID: 0}
 --- !u!114 &5373780083390372544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +684,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3306539167993578427}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
   m_Name: 
@@ -669,7 +710,48 @@ MonoBehaviour:
   ActivePlayerTurnConditions: 0
   ActivePlayerEndTime: 0
   CurrentCash: 0
+  BestResult: 0
+  ActivePlayerMode: 0
+  PureSolo: 0
+  NotPureSolo: 0
+  PureSI: 0
+  NotPureSI: 0
+  PurePVP: 0
+  NotPurePVP: 0
+  isPureSolo1: 0
+  isNotPureSolo1: 0
+  isPureSI1: 0
+  isNotPureSI1: 0
+  isPurePVP1: 0
+  isNotPurePVP1: 0
+  isPureSolo2: 0
+  isNotPureSolo2: 0
+  isPureSI2: 0
+  isNotPureSI2: 0
+  isPurePVP2: 0
+  isNotPurePVP2: 0
+  isPureSolo3: 0
+  isNotPureSolo3: 0
+  isPureSI3: 0
+  isNotPureSI3: 0
+  isPurePVP3: 0
+  isNotPurePVP3: 0
+  AllSkins: 0
+  MiddlePass: 0
+  LatePass: 0
+  FasterThanLightMiddle: 0
+  FasterThanLightLate: 0
+  MultiplyTwice: 0
+  MultiplyThree: 0
+  MultiplyFour: 0
+  WinSolo: 0
+  WinSI: 0
+  WinPVP: 0
+  UnlockAllSkins: 0
+  PureGame: 0
+  Lucky: 0
   CurrentScore: 0
+  DebugToShow: 
 --- !u!82 &5511920090507809760
 AudioSource:
   m_ObjectHideFlags: 0
@@ -780,6 +862,7 @@ GameObject:
   - component: {fileID: 3298268115063412545}
   - component: {fileID: 2651806759989384514}
   - component: {fileID: 1005578119492372828}
+  - component: {fileID: 8179580404919229282}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -799,7 +882,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -813,7 +896,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4161791781123368632}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &4714251981563450177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,7 +967,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4161791781123368632}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
   m_Name: 
@@ -910,80 +993,80 @@ MonoBehaviour:
   ActivePlayerTurnConditions: 0
   ActivePlayerEndTime: 0
   CurrentCash: 0
+  BestResult: 0
+  ActivePlayerMode: 0
+  PureSolo: 0
+  NotPureSolo: 0
+  PureSI: 0
+  NotPureSI: 0
+  PurePVP: 0
+  NotPurePVP: 0
+  isPureSolo1: 0
+  isNotPureSolo1: 0
+  isPureSI1: 0
+  isNotPureSI1: 0
+  isPurePVP1: 0
+  isNotPurePVP1: 0
+  isPureSolo2: 0
+  isNotPureSolo2: 0
+  isPureSI2: 0
+  isNotPureSI2: 0
+  isPurePVP2: 0
+  isNotPurePVP2: 0
+  isPureSolo3: 0
+  isNotPureSolo3: 0
+  isPureSI3: 0
+  isNotPureSI3: 0
+  isPurePVP3: 0
+  isNotPurePVP3: 0
+  AllSkins: 0
+  MiddlePass: 0
+  LatePass: 0
+  FasterThanLightMiddle: 0
+  FasterThanLightLate: 0
+  MultiplyTwice: 0
+  MultiplyThree: 0
+  MultiplyFour: 0
+  WinSolo: 0
+  WinSI: 0
+  WinPVP: 0
+  UnlockAllSkins: 0
+  PureGame: 0
+  Lucky: 0
   CurrentScore: 0
---- !u!1 &4264718704788362860
-GameObject:
+  DebugToShow: 
+--- !u!328 &8179580404919229282
+VideoPlayer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 750710053414691593}
-  - component: {fileID: 3345772242976197943}
-  - component: {fileID: 845204860282503042}
-  m_Layer: 5
-  m_Name: StaticImage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &750710053414691593
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4264718704788362860}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3345772242976197943
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4264718704788362860}
-  m_CullTransparentMesh: 0
---- !u!114 &845204860282503042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4264718704788362860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: ee51c6949831eba49bf16e130c29b5ba, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_GameObject: {fileID: 4161791781123368632}
+  m_Enabled: 0
+  m_VideoClip: {fileID: 32900000, guid: fe22c7e8e1a44af479052307d67bfc92, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 11cd19d94d3356e499415c5fcf987d4c, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: _MainTex
+  m_RenderMode: 2
+  m_AspectRatio: 4
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
 --- !u!1 &4862671539601994107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1097,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1087,7 +1170,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1242,7 +1325,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

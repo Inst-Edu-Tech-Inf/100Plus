@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     GameObject powerUp;
     GameManager gm;
@@ -78,21 +78,23 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             gm.DiscardPowerUpCard(this.gameObject);
             gm.CheckCardNumbers(true);
         }
-        if (pointerEventData.pointerCurrentRaycast.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>() != null
-            && !pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>().hasMultiply
-            && pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text != "")
+        Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject);
+        if (pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.GetComponent<PlayerCard>() != null
+            && !pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.GetComponent<PlayerCard>().hasMultiply
+            && pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text != "")
         {
             cardCorrectSFX.Play();
-            Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Player Drop Panel");
+            Transform dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.transform.Find("Player Drop Panel");
             gameObject.transform.SetParent(dropPanel);
             parentNameText = gameObject.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>();
-            parentNameText.text = pointerEventData.pointerCurrentRaycast.gameObject.name.ToString();
-            ActualParent = pointerEventData.pointerCurrentRaycast.gameObject;
-            pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>().hasMultiply = true;
+            parentNameText.text = pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.name.ToString();
+            ActualParent = pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject;
+            pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.GetComponent<PlayerCard>().hasMultiply = true;
         }
         else
         {
-            cardMissSFX.Play();
+            if (!gm.trashArea.activeSelf)
+                cardMissSFX.Play();
             if (gameObject.transform.parent.name != "PowerUp")//
             {
                 ActualParent.GetComponent<PlayerCard>().hasMultiply = false;
@@ -103,6 +105,8 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             }
             else
             {
+                if (ActualParent != null)
+                    ActualParent.GetComponent<PlayerCard>().hasMultiply = false;
                 ActualParent = null;
                 transform.position = originalPosition;
                 parentNameText = gameObject.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>();
@@ -127,5 +131,10 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         {
             gameObject.transform.localScale = normalScale;
         }
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        // Debug.Log("powerupCardClick");
     }
 }
