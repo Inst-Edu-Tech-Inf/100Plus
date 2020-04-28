@@ -4777,7 +4777,7 @@ MonoBehaviour:
   maxPowerUpCardsAddLate: 5
   playerCardsOnStart: 3
   taskCardsOnStart: 1
-  powerUpCardsOnStart: 3
+  powerUpCardsOnStart: 0
   playerCardsToDraw: 2
   taskCardsToDraw: 1
   powerUpCardsToDraw: 1
