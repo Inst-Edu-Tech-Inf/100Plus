@@ -5,18 +5,21 @@ using TMPro;
 
 public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    GameObject hands;
+    public GameObject hands;
     GameManager gm;
     public GameObject ActualParent = null;
-    public Image image;
+    public Image activeImage;
+    public Sprite imageSprite;
     public Image frameImage;
     public AudioSource cardMissSFX;
     public AudioSource cardCorrectSFX;
     Vector3 originalPosition;
-    Vector2 normalScale = new Vector2(1.9f, 1.9f); 
+    public Vector2 normalScale = new Vector2(1.9f, 1.9f); 
     Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
-    TextMeshProUGUI additionText;
-    public bool hasMultiply;               
+    public TextMeshProUGUI additionText;
+    public TextMeshProUGUI parentNameText;
+    public bool hasMultiply;
+    public bool hideByColor = false;        
 
     void Start()
     {
@@ -24,7 +27,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         hands = GameObject.Find("Hands");
         hasMultiply = false;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        image = GameObject.Find("PlayerCardImage").GetComponent<Image>();
+        //activeImage = GameObject.Find("PlayerCardImage").GetComponent<Image>();
+        //activeImage = GameObject.Find("PlayerCardImage").GetComponent<Image>();
         additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
         float rand = Random.Range(1, GameManager.COLOR_NUMBER+1 );//to number of colors
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
@@ -89,7 +93,10 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             {
                 SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                 SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+                //gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+
+ //               gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+                activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
                /* //gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
                 //Substr = Application.streamingAssetsPath + "/"  + GameManager.RED_TEX;
                 string pom = SubStr + GameManager.RED_TEXT + ".png";
@@ -113,7 +120,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
+                    activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
                     /*string pom = SubStr + GameManager.RED_TEXT + ".png";
                     pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
                     //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
@@ -141,7 +148,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+//                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                    activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
                    /* string pom =  SubStr + GameManager.GREEN_TEXT + ".png";
                     pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
                     //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
@@ -163,7 +171,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                        gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
                        /* string pom =  SubStr + GameManager.GREEN_TEXT + ".png";
                         pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
                         //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
@@ -189,7 +197,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
-                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
+                    activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
                   /*  string pom = SubStr + GameManager.BLUE_TEXT + ".png";
                     pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
                     //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
@@ -211,7 +219,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                        gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
+                        activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
                        /* string pom =  SubStr + GameManager.BLUE_TEXT + ".png";
                         pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
                         //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
@@ -237,7 +245,43 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
+        TextMeshProUGUI parentNameText;
+        gameObject.layer = 0;
+        Transform dropPanel;
+        
        // Debug.Log("playerCardClick");
+        if (!gm.trashArea.activeSelf)
+        {
+            dropPanel = gm.activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+
+            /* if (gameObject.transform.parent.name != "Drop Panel")
+                 czyRawImageHit = true;*/
+            //Debug.Log(gameObject.transform.parent.name);
+            if (gameObject.transform.parent.name != "Drop Panel")
+            {
+                if ((gameObject.GetComponent<PlayerCard>() != null)// || czyRawImageHit)
+                    && (!gm.trashArea.activeSelf))
+                {
+                    //Debug.Log(this.gameObject.GetComponent<PlayerCard>());
+                    //Debug.Log("Inside");
+                    gameObject.transform.localScale = normalScale;
+                    cardCorrectSFX.Play();
+                    gameObject.transform.SetParent(dropPanel);
+                    ActualParent = gm.activeCard;
+                    parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
+                    parentNameText.text = ActualParent.name.ToString();
+
+                }
+            }
+        }
+
+        /*if (gameObject.transform.parent.name != "Hands")
+            {
+                gameObject.transform.SetParent(hands.transform);
+                ActualParent = null;
+                parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
+                parentNameText.text = "";
+            }*/
     }
 
     public void OnDrag(PointerEventData pointerEventData)
@@ -258,6 +302,17 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         TextMeshProUGUI parentNameText;
         gameObject.layer = 0;
         Transform dropPanel;
+        Transform gmDropPanel;
+        gameObject.transform.localScale = normalScale;
+        if (!gm.trashArea.activeSelf)
+        {
+            gmDropPanel = gm.activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+        }
+        else
+        {
+            gmDropPanel = null;
+        }
+        RawImage tmpRawImage = pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<RawImage>();
         bool czyRawImageHit = false;
 
         //Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.name);
@@ -270,9 +325,9 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
 
 
-        if ((pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<RawImage>() != null))//||
+        if ((tmpRawImage != null))//||
         {
-            dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+            dropPanel = tmpRawImage.transform.parent.gameObject.transform.Find("Drop Panel");
             if (gameObject.transform.parent.name != "Drop Panel")
                 czyRawImageHit = true;
         }
@@ -280,12 +335,18 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
              if ((pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<Image>() != null))//||
                  {
-                    
-                     if (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<Image>().transform.parent.gameObject.transform.parent.gameObject.name == "Drop Panel")
+                     if (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<Image>().transform.parent.gameObject.transform.parent != null)
                      {
-                          dropPanel = gm.activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
-                          if (gameObject.transform.parent.name != "Drop Panel")
-                              czyRawImageHit = true;
+                         if (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<Image>().transform.parent.gameObject.transform.parent.gameObject.name == "Drop Panel")
+                         {
+                             dropPanel = gmDropPanel;
+                             if (gameObject.transform.parent.name != "Drop Panel")
+                                 czyRawImageHit = true;
+                         }
+                         else
+                         {
+                             dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
+                         }
                      }
                      else
                      {
@@ -300,14 +361,16 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "TaskArea")
         {
-            dropPanel = gm.activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+            dropPanel = gmDropPanel;
+                //gm.activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
             if (gameObject.transform.parent.name != "Drop Panel")
                 czyRawImageHit = true;
            // Debug.Log();
         }
 
         if (pointerEventData.pointerCurrentRaycast.gameObject != null && 
-            (pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<TaskCard>() != null || czyRawImageHit)
+            //(pointerEventData.pointerCurrentRaycast.gameObject.GetComponent<PlayerCard>() != null || 
+            (czyRawImageHit)
             && (!gm.trashArea.activeSelf))
         {
             cardCorrectSFX.Play();
@@ -333,12 +396,25 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     }
                 }
             }
-            if (gameObject.transform.parent.name != "Hands")
+            //zmiana +else
+            if (gameObject.transform.parent != null)
             {
-                gameObject.transform.SetParent(hands.transform);
-                ActualParent = null;
-                parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
-                parentNameText.text = "";
+                if (gameObject.transform.parent.name != "Hands")
+                {
+                    gameObject.transform.SetParent(hands.transform);
+                    ActualParent = null;
+                    parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
+                    parentNameText.text = "";
+                    this.GetComponent<PlayerCard>().hasMultiply = false;
+                }
+                else
+                {
+                    transform.position = originalPosition;
+                    ActualParent = null;
+                    parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
+                    parentNameText.text = "";
+                    this.GetComponent<PlayerCard>().hasMultiply = false;
+                }
             }
             else
             {
@@ -346,6 +422,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 ActualParent = null;
                 parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
                 parentNameText.text = "";
+                this.GetComponent<PlayerCard>().hasMultiply = false;
             }
         }
     }

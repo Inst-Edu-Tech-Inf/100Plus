@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -288,6 +290,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -361,6 +364,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -516,6 +520,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -601,10 +606,11 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: ee51c6949831eba49bf16e130c29b5ba, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 46a18448a3adc454ab51428d20e90d43, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -626,12 +632,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f89ff2c6ce0bd14598a0a741dd4cc13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hands: {fileID: 0}
   ActualParent: {fileID: 0}
-  image: {fileID: 4045873050127929638}
+  activeImage: {fileID: 8705966390600956788}
+  imageSprite: {fileID: 0}
   frameImage: {fileID: 6599947015967713726}
   cardMissSFX: {fileID: 5558943149053993807}
   cardCorrectSFX: {fileID: 1119395133391193618}
+  normalScale: {x: 1.9, y: 1.9}
+  additionText: {fileID: 5677621088220879166}
+  parentNameText: {fileID: 2774807765885043491}
   hasMultiply: 0
+  hideByColor: 0
 --- !u!223 &3156621684543310398
 Canvas:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -39,7 +40,7 @@ UNITY_STANDALONE_WIN
     public const string DEFEAT = "DEFEAT";
     public const int COLOR_NUMBER = 3;
     public const float COINS_SPEED = 250.0f;
-    public const float COINS_RANGE_SQUARED = 5.0f * 5.0f;
+    public const float COINS_RANGE_SQUARED = 35.0f * 35.0f;
     public string[] COLORS_ARRAY = new string[] { RED_TEXT , GREEN_TEXT, BLUE_TEXT };
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
     
@@ -49,6 +50,7 @@ UNITY_STANDALONE_WIN
     public GameObject endTurnBtn;
     public GameObject tasks;
     public GameObject hands;
+    public GameObject handsSorted;
     public GameObject powerUps;
     public GameObject playerCardPrefab;
     public GameObject taskCardPrefab;
@@ -132,6 +134,21 @@ UNITY_STANDALONE_WIN
     public int middleChanceOnLate;//%
     public GameObject activeCard;
     public float userActivityTime = 0.0f;
+
+    public Texture2D wybranaRamka;
+    public Sprite wybranyBlack;
+    public Sprite wybranyRed;
+    public Sprite wybranyGreen;
+    public Sprite wybranyBlue;
+    public Sprite wybranyRedStatic;
+    public Sprite wybranyGreenStatic;
+    public Sprite wybranyBlueStatic;
+    public VideoClip wybranyClipRed;
+    public VideoClip wybranyClipGreen;
+    public VideoClip wybranyClipBlue;
+    public GameObject coinGlobal;
+
+//then (int)ptr displays the memory address and *ptr displays the value at that memory address
     
 
     bool isVictoryPointFirst = false;
@@ -144,6 +161,13 @@ UNITY_STANDALONE_WIN
     float achievementPanelScale = ACHIEVEMENT_PANEL_SMALL_SCALE;
     float timeFromStart = 0.0f;
     bool isPureGame = true;
+    int maxActualTaskCards;
+    //int maxActualPlayerCards;
+    //int maxActualPowerUpCards;
+    int actualTaskCardsCount = 0;
+    //int actualPlayerCardsCount = 0;
+    //int actualPowerUpCardsCount = 0;
+    
 
     public void Back()
     {
@@ -230,19 +254,27 @@ Android uses files inside a compressed APK
             taskColor = activeCard.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color;
             for (int i = 0; i < playerCards.Count; ++i)
             {
-                card = playerCards[i];
-                valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-                card.transform.Find("Player Drop Panel").gameObject.SetActive(true);
-                //card.gameObject.enabled = false;
-             /*   var colliders = this.GetComponentsInChildren<Collider>();
-                foreach (var col in colliders)
-                    //if (col.gameObject.name != _except) // for this to work, names should be unique. I just used the name as an example, use whatever unique identifier you want...
-                        col.enabled = false;*/
-                if (valueText.color != taskColor)
+                if (playerCards[i].gameObject.activeSelf)
                 {
+                    card = playerCards[i];
+                    valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                    card.transform.Find("Player Drop Panel").gameObject.SetActive(true);
+                    //card.gameObject.enabled = false;
+                    /*   var colliders = this.GetComponentsInChildren<Collider>();
+                       foreach (var col in colliders)
+                           //if (col.gameObject.name != _except) // for this to work, names should be unique. I just used the name as an example, use whatever unique identifier you want...
+                               col.enabled = false;*/
+                    if (valueText.color != taskColor)
+                    {
                         card.SetActive(false);
-                }       
+                        //card.GetComponent<PlayerCard>().hideByColor = true;
+                       // card.transform.SetParent(handsSorted.transform, false);
+                    }
+                }
             }
+            //hands.SetActive(false);
+            //handsSorted.SetActive(true);
+
             collectPointsBtn.SetActive(true);
             endTurnBtn.SetActive(false);
             CheckCardNumbers(false);
@@ -268,13 +300,21 @@ Android uses files inside a compressed APK
             }
             for (int i = 0; i < playerCards.Count; ++i)
             {
-                card = playerCards[i];
-                card.SetActive(true);
-               card.GetComponent<PlayerCard>().hasMultiply = false;
-                card.transform.Find("Player Drop Panel").gameObject.SetActive(false);
-                card.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text = "";
-                card.transform.SetParent(hands.transform);
+               // if (playerCards[i].gameObject.activeSelf)
+                {
+                    card = playerCards[i];
+                    card.SetActive(true);
+                    //card.GetComponent<PlayerCard>().hideByColor = true;
+                    card.GetComponent<PlayerCard>().hasMultiply = false;
+                    card.transform.Find("Player Drop Panel").gameObject.SetActive(false);
+                    card.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text = "";
+                    card.transform.SetParent(hands.transform);
+                    card.transform.localScale = card.GetComponent<PlayerCard>().normalScale;
+                }
             }
+
+            hands.SetActive(true);
+           // handsSorted.SetActive(false);
             collectPointsBtn.SetActive(false);
             endTurnBtn.SetActive(true);
             CheckCardNumbers(true);
@@ -294,11 +334,14 @@ Android uses files inside a compressed APK
         achievementPanel.SetActive(true);
     }
 
-    public void RerollClick()
+    public void RerollClick() //actualTaskCardsCount > maxTaskCards
     {
-        GameObject cardTask = Instantiate(taskCardPrefab);
+        GameObject cardTask;// = Instantiate(taskCardPrefab);
         int newCard = 0;
         float pom;
+        int howManyCards = actualTaskCardsCount;
+        //if (actualTaskCardsCount <= maxTaskCards)
+        //    howManyCards--;
 
         if (!SkinManager.instance.Lucky)
         {
@@ -307,18 +350,22 @@ Android uses files inside a compressed APK
                 AddCash(SkinManager.instance.osiagniecia[SkinManager.LUCKY].Reward);
                 ShowAchievementPanel(SkinManager.LUCKY);
         }
-        
-        newCard = taskCards.Count;
-        for (int i = newCard - 1; i >= 0; --i)
+
+        //Debug.Log("actualTaskCardsCount BEFORE discard:" + actualTaskCardsCount);
+        newCard = actualTaskCardsCount;// actualTaskCardsCount;// taskCards.Count;//maxActualTaskCards
+        for (int i = newCard -1 ; i >= 0; --i)//newCard - 1
         {
            // Debug.Log(i);
             cardTask = taskCards[i];
+            //if (card.gameObject.activeSelf)
             DiscardTaskCard(cardTask);
         }
-        for (int i = 0; i < newCard; ++i)
+        //Debug.Log("actualTaskCardsCount BEFORE draw:" + actualTaskCardsCount);
+        for (int i = 0; i < howManyCards; ++i) //newCard
         {
             DrawTaskCard();
         }
+        //Debug.Log("actualTaskCardsCount AFTER draw:" + actualTaskCardsCount);
         pom = float.Parse(victoryPoints.text);
         if (pom < earlyGamePoint)
             {               
@@ -337,6 +384,11 @@ Android uses files inside a compressed APK
             }
         victoryPoints.text = pom.ToString("F2");
         rerollPanel.SetActive(false);
+        //CheckCardNumbers(false);
+        //Debug.Log("actualTaskCardsCount END:" + actualTaskCardsCount);
+        //Debug.Log("maxTaskCards END:" + maxTaskCards);
+       // if (actualTaskCardsCount <= maxTaskCards)
+       //     actualTaskCardsCount--;
     }
 
     public void RerollTaskCardCheck()
@@ -348,34 +400,37 @@ Android uses files inside a compressed APK
         int oneCount=0;
         int twoCount=0;
         int threeCount=0;
-        GameObject cardTask = Instantiate(taskCardPrefab);
+        GameObject cardTask;// = Instantiate(taskCardPrefab);
         //float percent = 0.0f;
 
-        for (int i = 0; i < taskCards.Count; ++i)
+        for (int i = 0; i < maxActualTaskCards; ++i)//taskCards.Count; ++i)
         {
             cardTask = taskCards[i];
-            valueText = cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>();//color text
-          /*  if (i==0){
-                colorOne = valueText.color;
-                oneCount++;
-            }
-            else*/
+            if (cardTask.gameObject.activeSelf)
             {
-                if (valueText.color == colorOne)
+                valueText = cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>();//color text
+                /*  if (i==0){
+                      colorOne = valueText.color;
+                      oneCount++;
+                  }
+                  else*/
                 {
-                    oneCount++;
-                }
-                else
-                {                    
-                    if (valueText.color == colorTwo)
+                    if (valueText.color == colorOne)
                     {
-                        twoCount++;
+                        oneCount++;
                     }
                     else
                     {
-                        if (valueText.color == colorThree)
+                        if (valueText.color == colorTwo)
                         {
-                            threeCount++;
+                            twoCount++;
+                        }
+                        else
+                        {
+                            if (valueText.color == colorThree)
+                            {
+                                threeCount++;
+                            }
                         }
                     }
                 }
@@ -416,6 +471,25 @@ Android uses files inside a compressed APK
 
     private void Start()
     {
+        string SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+        SubStr = SubStr.Substring(0, SubStr.Length - 1);
+
+        wybranaRamka = Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+        wybranyBlack = Resources.Load<Sprite>("Black");
+        wybranyRed = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT);
+        wybranyGreen = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT);
+        wybranyBlue = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT);
+        wybranyRedStatic = Resources.Load<Sprite>(SubStr + RED_TEXT);
+        wybranyGreenStatic = Resources.Load<Sprite>(SubStr + GREEN_TEXT);
+        wybranyBlueStatic = Resources.Load<Sprite>(SubStr + BLUE_TEXT);
+        wybranyClipRed = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT) as VideoClip;
+        wybranyClipGreen = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT) as VideoClip;
+        wybranyClipBlue = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT) as VideoClip;
+        
+
+        maxActualTaskCards = maxTaskCardsAddLate + taskCardsToDraw;
+        //maxActualPlayerCards = maxPlayerCardsAddLate + playerCardsToDraw;
+       // maxActualPowerUpCards = maxPowerUpCardsAddLate + powerUpCardsToDraw;
         victoryPanel.SetActive(false);
         achievementPanel.SetActive(false);
         transparentPlayerCardPanel.SetActive(true);
@@ -434,34 +508,21 @@ Android uses files inside a compressed APK
         }
         //rerollPanel.SetActive(false);
         victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
-        achievementPanel.gameObject.transform.localScale = new Vector3(achievementPanelScale, achievementPanelScale, achievementPanelScale);      
+        achievementPanel.gameObject.transform.localScale = new Vector3(achievementPanelScale, achievementPanelScale, achievementPanelScale);
         isVictory = false;
         isVictorySound = true;
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
-       /* var fill = slider.GetComponentsInChildren<UnityEngine.UI.Image>().FirstOrDefault(t => t.name == "Fill");
-        if (fill != null)
-        {
-            fill.color = Color.green;// Color.Lerp(Color.red, Color.green, 0.5f);
-        }*/
+        /* var fill = slider.GetComponentsInChildren<UnityEngine.UI.Image>().FirstOrDefault(t => t.name == "Fill");
+         if (fill != null)
+         {
+             fill.color = Color.green;// Color.Lerp(Color.red, Color.green, 0.5f);
+         }*/
 
         GameObject card = Instantiate(playerCardPrefab);
         GameObject cardPowerUp = Instantiate(powerUpCardPrefab);
-        GameObject coin = Instantiate(coinsPrefab);
+        coinGlobal = Instantiate(coinsPrefab);
 
-        for (int i = 0; i < powerUpCardsOnStart; i++)
-        {
-            DrawPowerUpCard();
-        }
 
-        for (int i = 0; i < playerCardsOnStart; i++)
-        {
-            DrawPlayerCard();
-        }
-
-        for (int i = 0; i < taskCardsOnStart; i++)
-        {
-            DrawTaskCard();
-        }
 
         slider.maxValue = earlyGamePoint;
         slider.minValue = 0;
@@ -486,6 +547,24 @@ Android uses files inside a compressed APK
         remainingGameTime = maxGameTimeInSeconds;
         changeBackground();
         changeSound();
+
+        CreateTaskCards();
+        //CreatePlayerCards();
+
+        for (int i = 0; i < powerUpCardsOnStart; i++)
+        {
+            DrawPowerUpCard();
+        }
+
+        for (int i = 0; i < playerCardsOnStart; i++)
+        {
+            DrawPlayerCard();
+        }
+
+        for (int i = 0; i < taskCardsOnStart; i++)
+        {
+            DrawTaskCard();
+        }
     }
 
     public void AchievementPanelHide()
@@ -542,7 +621,8 @@ Android uses files inside a compressed APK
             {
                 if (tasks.activeSelf)
                 {
-                    helpTask.gameObject.SetActive(true);
+                    if (taskCards.Count > 0)
+                        helpTask.gameObject.SetActive(true);
                     helpTurn.gameObject.SetActive(true);
                     helpCard.gameObject.SetActive(false);
                     helpEndTask.gameObject.SetActive(false);
@@ -673,11 +753,12 @@ Android uses files inside a compressed APK
 
     void DrawCoin()
     {        
-       /* GameObject coin = Instantiate(coinsPrefab);
-        coins.Add(coin);
-        coin.transform.SetParent(backgroundImage.transform, false);
+       // GameObject coin = Instantiate(coinsPrefab);
+       // coins.Add(coin);
+        coinGlobal.gameObject.SetActive(true);
+        coinGlobal.transform.SetParent(backgroundImage.transform, false);
         //Debug.Log(activeCard.transform.position);
-        coin.transform.position = activeCard.transform.position;//new Vector3(0,10,0);// activeCard.transform.position;//.SetParent(hands.transform, false);
+        coinGlobal.transform.position = activeCard.transform.position;//new Vector3(0,10,0);// activeCard.transform.position;//.SetParent(hands.transform, false);
         //Debug.Log("DRAWCOIN");*/
     }
     
@@ -690,13 +771,316 @@ Android uses files inside a compressed APK
         card.name = "PlayerCard" + playerCards.Count.ToString();
     }
 
-    void DrawTaskCard()
+   /* void DrawPlayerCardNew()
+    {
+        if (actualPlayerCardsCount >= maxPlayerCards + playerCardsToDraw) return;
+        for (int i = 0; i < maxActualPlayerCards; ++i)
+        {
+            card = playerCards[i];
+            if (!card.gameObject.activeSelf)
+            {
+                card.transform.SetParent(hands.transform, false);
+                card.transform.localScale = card.GetComponent<PlayerCard>().normalScale;
+                card.name = "PlayerCard" + playerCards.Count.ToString();
+                card.GetComponent<PlayerCard>().hideByColor = false;
+                card.GetComponent<PlayerCard>().hasMultiply = false;
+                card.gameObject.SetActive(true);
+                RandomizePlayerCard(card);
+                actualPlayerCardsCount++;
+                break;
+            }
+        }
+    }*/
+
+    /*void CreatePlayerCards()
+    {
+        for (int i = 0; i < maxActualPlayerCards; ++i)
+        {
+            GameObject card = Instantiate(playerCardPrefab);
+            playerCards.Add(card);
+            card.transform.SetParent(hands.transform, false);
+            card.transform.localScale = card.GetComponent<PlayerCard>().normalScale;
+            card.name = "PlayerCard" + playerCards.Count.ToString();
+            card.gameObject.SetActive(false);
+        }
+    }*/
+
+    void CreateTaskCards()
+    {
+        for (int i = 0; i < maxActualTaskCards; ++i)
+        {
+            GameObject card = Instantiate(taskCardPrefab);
+            taskCards.Add(card);
+            card.transform.SetParent(tasks.transform, false);
+            card.name = "TaskCard" + taskCards.Count.ToString();
+            card.gameObject.SetActive(false);
+        }
+        
+    }
+
+    void DrawTaskCardOld()
     {
         if (taskCards.Count >= maxTaskCards + taskCardsToDraw) return;
         GameObject card = Instantiate(taskCardPrefab);
         taskCards.Add(card);
         card.transform.SetParent(tasks.transform, false);
         card.name = "TaskCard"+ taskCards.Count.ToString();
+    }
+    void DrawTaskCard()
+    {
+        //actualTaskCardsCount
+        if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
+       // GameObject card = Instantiate(taskCardPrefab);
+       // taskCards.Add(card);
+        for (int i = 0; i < maxActualTaskCards; ++i)
+        {
+            card = taskCards[i];
+            if (!card.gameObject.activeSelf)
+            {
+                card.transform.SetParent(tasks.transform, false);
+ //               card.name = "TaskCard" + taskCards.Count.ToString();
+                //RandomizeTaskCard(card);
+                
+                card.gameObject.SetActive(true);
+                //card.GetComponent<TaskCard>().Randomize();
+                RandomizeTaskCard(card);
+                actualTaskCardsCount++;
+                break;
+            }
+        }
+    }
+
+    void RandomizeTaskCard(GameObject card)
+    {
+        float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
+        TaskCard localCard = card.GetComponent<TaskCard>();
+        /* if (isPreset)
+             rand = presetColor;*/
+        localCard.activeVideoPlayer.GetComponent<VideoPlayer>().targetTexture = localCard.ActiveTexture;
+
+    /*    Transform[] children;
+         children = card.GetComponentsInChildren<Transform>();
+         for (int i = 0; i < children.Length; ++i)
+         {
+             GameObject child = card.transform.GetChild(i).gameObject;
+
+             Debug.Log(child);
+             //Debug.Log(card.GetComponentInChildren<RawImage>());//OK!
+         }*/
+        //cardPowerUp.transform.Find("Red Text").GetComponent<TextMeshProUGUI>().color
+        localCard.tex = localCard.activeRawImage.GetComponent<RawImage>();//transform.Find("RawImage").GetComponent<RawImage>();
+        localCard.tex.texture = localCard.ActiveTexture;
+
+
+        if (float.Parse(victoryPoints.text) < earlyGamePoint)
+        {
+            localCard.valueText.text = Random.Range(10, earlyGameTaskCardMax).ToString();
+            /* if (isPreset)
+                 valueText.text = presetTask.ToString();*/
+        }
+        else
+        {
+            if (float.Parse(victoryPoints.text) < middleGamePoint)
+            {
+                localCard.valueText.text = Random.Range(earlyGameTaskCardMax, middleGameTaskCardMax).ToString();
+                /*if (isPreset)
+                    valueText.text = presetTask.ToString();*/
+            }
+            else //lateGamePoint
+            {
+                localCard.valueText.text = Random.Range(middleGameTaskCardMax, lateGameTaskCardMax).ToString();
+                /* if (isPreset)
+                     valueText.text = presetTask.ToString();*/
+            }
+        }
+
+        if (rand <= 1)
+        {
+            localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+           // applySkin(GameManager.RED_TEXT, false);
+            applyTaskCardSkin(localCard, RED_TEXT);
+            localCard.colorText.text = GameManager.RED_TEXT;
+        }
+        else
+        {
+            if (rand <= 2)
+            {
+                localCard.valueText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                localCard.colorText.text = GameManager.GREEN_TEXT;
+               // applySkin(GameManager.GREEN_TEXT, false);
+                applyTaskCardSkin(localCard, GREEN_TEXT);
+            }
+            else
+            {
+                localCard.valueText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                localCard.colorText.text = GameManager.BLUE_TEXT;
+                //applySkin(GameManager.BLUE_TEXT, false);
+                applyTaskCardSkin(localCard,BLUE_TEXT);
+            }
+        }
+        localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
+    }
+
+    void RandomizePlayerCard(GameObject card)
+    {
+        PlayerCard localCard = card.GetComponent<PlayerCard>();
+        string SubStr;
+        localCard.hasMultiply = false;
+        float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
+        if (float.Parse(victoryPoints.text) < earlyGamePoint)
+        {
+            localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+        }
+        else
+        {
+            if (float.Parse(victoryPoints.text) < middleGamePoint)
+            {
+                if (Random.Range(1, 100) <= earlyChanceOnMiddle)
+                {
+                    localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+                }
+                else
+                {
+                    localCard.additionText.text = Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
+                }
+            }
+            else //lateGamePoint
+            {
+
+                if (Random.Range(1, 100) <= earlyChanceOnLate)
+                {
+                    localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+                }
+                else
+                {
+                    if (Random.Range(1, 100) <= middleChanceOnLate)
+                    {
+                        localCard.additionText.text = Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
+                    }
+                    else
+                    {
+                        localCard.additionText.text = Random.Range(middleGamePlayerCardMax, lateGamePlayerCardMax).ToString();
+                    }
+                }
+
+            }
+        }
+
+        localCard.frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+
+        if (rand <= 1)
+        {
+            localCard.additionText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+
+            if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+            {
+                SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+            }
+            else
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                }
+        }
+        else
+        {
+            if (rand <= 2)
+            {
+                localCard.additionText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                    }
+            }
+            else
+            {
+                localCard.additionText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                    }
+            }
+        }
+    }
+
+    void applyTaskCardSkin(TaskCard taskCard, string Kolor )
+    {
+        int pm;
+
+        taskCard.activeRawImage.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
+        taskCard.activeImage.GetComponent<Image>().material.SetTexture("_SecondaryTex", wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
+
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+        {
+            taskCard.activeRawImage.GetComponent<RawImage>().gameObject.SetActive(true);
+            taskCard.activeImage.GetComponent<Image>().gameObject.GetComponent<Image>().sprite = wybranyBlack;// Resources.Load<Sprite>("Black");
+            taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().gameObject.SetActive(true);
+#if HTML5
+//#if UNITY_WEBGL 
+            taskCard.activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
+//#endif
+#endif
+            //taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor) as VideoClip;
+            if (Kolor == RED_TEXT)
+            {
+                taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipRed;
+            }
+            else
+                if (Kolor == GREEN_TEXT)
+                {
+                    taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipGreen;
+                }
+                else
+                {
+                    taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipBlue;
+                }
+
+            pm = (int)Mathf.Round(Random.Range(0.0f, (float)taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().length));
+            taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().frame = pm;
+            taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().Play();
+        }
+
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+        {
+            taskCard.activeRawImage.GetComponent<RawImage>().gameObject.SetActive(false);
+            taskCard.activeImage.GetComponent<Image>().gameObject.SetActive(true);
+            //taskCard.activeImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor);
+            if (Kolor == RED_TEXT)
+            {
+                taskCard.activeImage.GetComponent<Image>().sprite = wybranyRed;
+            }
+            else
+                if (Kolor == GREEN_TEXT)
+                {
+                    taskCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;
+                }
+                else
+                {
+                    taskCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;
+                }
+            //Debug.Log(taskCard.activeImage.GetComponent<Image>().sprite);
+            //gameObject.GetComponent<Image>()
+        }
     }
 
     /*void DrawTaskCardPreset()
@@ -728,7 +1112,7 @@ Android uses files inside a compressed APK
         }
     }
 
-    public void DiscardTaskCard(GameObject card)
+    public void DiscardTaskCardOLD(GameObject card)
     {
         if (card.transform.GetComponent<TaskCard>() != null)
         {
@@ -736,6 +1120,23 @@ Android uses files inside a compressed APK
             
             taskCards.Remove(card);
             Destroy(card);
+        }
+    }
+
+    public void DiscardTaskCard(GameObject cardToRemove)
+    {
+        trashSFX.Play();
+        for (int i = 0; i < maxActualTaskCards; ++i)
+        {
+            card = taskCards[i];
+            if (card == cardToRemove)
+            {
+                card.GetComponent<TaskCard>().activeVideoPlayer.GetComponent<VideoPlayer>().Stop();
+                //card.transform.SetParent(null, false);
+                card.gameObject.SetActive(false);
+                actualTaskCardsCount--;
+                break;
+            }
         }
     }
 
@@ -750,6 +1151,22 @@ Android uses files inside a compressed APK
         }
     }
 
+/*    public void DiscardPlayerCardNew(GameObject cardToRemove)
+    {
+        trashSFX.Play();
+        for (int i = 0; i < maxActualPlayerCards; ++i)
+        {
+            card = playerCards[i];
+            if (card == cardToRemove)
+            {
+                card.transform.SetParent(null, false);
+                card.gameObject.SetActive(false);
+                actualPlayerCardsCount--;
+                break;
+            }
+        }
+    }*/
+
     public void DiscardPowerUpCard(GameObject card)
     {
         if (card.transform.GetComponent<PowerUpCard>() != null)
@@ -763,11 +1180,14 @@ Android uses files inside a compressed APK
 
     public void CheckCardNumbers(bool taskEnable)
     {
-        if (playerCards.Count > maxPlayerCards || taskCards.Count > maxTaskCards || powerUpCards.Count > maxPowerUpCards)
+        
+        //Debug.Log(actualTaskCardsCount + ">" + maxTaskCards);
+        //if (playerCards.Count > maxPlayerCards || taskCards.Count > maxTaskCards || powerUpCards.Count > maxPowerUpCards)
+        if (playerCards.Count > maxPlayerCards || actualTaskCardsCount > maxTaskCards || powerUpCards.Count > maxPowerUpCards)            
         {
-            if (playerCards.Count > maxPlayerCards )
+            if (playerCards.Count > maxPlayerCards)
             {
-                hands.SetActive(true);
+                hands.SetActive(true);//tutaj
                 //tasks.SetActive(false);
                 tasks.SetActive(true);
                 //powerUps.SetActive(false);
@@ -796,7 +1216,7 @@ Android uses files inside a compressed APK
                     transparentPowerUpCardPanel.SetActive(true);
                     transparentButton.gameObject.SetActive(false);
 
-                    for (int i = 0; i < taskCards.Count; ++i)
+                    for (int i = 0; i < maxActualTaskCards; ++i)//taskCards.Count; ++i)
                     {
                         card = taskCards[i];
                         card.transform.Find("Kosz").gameObject.SetActive(true);
@@ -814,12 +1234,15 @@ Android uses files inside a compressed APK
             //transparentPlayerCardPanel.SetActive(true);
             //transparentPowerUpCardPanel.SetActive(true);
             transparentButton.gameObject.SetActive(true);
-            hands.SetActive(true);
+            if (!hands.activeSelf)
+            {
+                hands.SetActive(true);
+            }
             powerUps.SetActive(true);
             if (taskEnable)
             {
                 tasks.SetActive(true);
-                for (int i = 0; i < taskCards.Count; ++i)
+                for (int i = 0; i < maxActualTaskCards;++i)//taskCards.Count; ++i)
                 {
                     card = taskCards[i];
                     card.transform.Find("Kosz").gameObject.SetActive(false);

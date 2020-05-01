@@ -72,13 +72,14 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     {
         TextMeshProUGUI parentNameText;
         gameObject.layer = 0;
+        gameObject.transform.localScale = normalScale;
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "Trash")
         {
             gm.DiscardPowerUpCard(this.gameObject);
             gm.CheckCardNumbers(true);
         }
-        Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject);
+        //Debug.Log(pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject);
         if (pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject != null && pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.GetComponent<PlayerCard>() != null
             && !pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.GetComponent<PlayerCard>().hasMultiply
             && pointerEventData.pointerCurrentRaycast.gameObject.transform.parent.gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text != "")

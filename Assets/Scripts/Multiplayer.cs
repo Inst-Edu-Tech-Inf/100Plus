@@ -16,7 +16,7 @@ public class Multiplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        changeBackground();
+        //changeBackground();
     }
 
     // Update is called once per frame

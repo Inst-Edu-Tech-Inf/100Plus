@@ -277,7 +277,7 @@ public class SkinManager : MonoBehaviour
         
 
         osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 0, "Hard begining","The first summing pass"));//ID, type, progress, reward, descripton 
-        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 0, "More multiply", "The first mixed multiply available"));
+        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 0, "Cards changed", "The first mixed multiply available"));
         osiagniecia.Add(new AchievementInfo("FasterThanLightMiddle", NORMAL_ACHIEVEMENT, 0, 5, "Fast", "Faster than bolt"));
         osiagniecia.Add(new AchievementInfo("FasterThanLightLate", NORMAL_ACHIEVEMENT, 0, 15, "Faster", "Faster than light"));
         osiagniecia.Add(new AchievementInfo("MultiplyTwice", NORMAL_ACHIEVEMENT, 0, 5, "Twice", "Multiply twice"));

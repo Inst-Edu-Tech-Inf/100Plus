@@ -48,10 +48,13 @@ public class Coins : MonoBehaviour
        // Debug.Log("Alpha:" + (( heading.magnitude / droga)));
         tempColor.a = ( heading.magnitude / droga);
         obraz.color = tempColor;
+        //Debug.Log("<25:" + heading.sqrMagnitude);
         if (heading.sqrMagnitude < GameManager.COINS_RANGE_SQUARED)
         {
             // Target is within range.
-            gm.DiscardCoin(this.gameObject);
+            //gm.DiscardCoin(this.gameObject);
+            gm.coinGlobal.gameObject.SetActive(false);
+            //Debug.Log("Coin deactivated");
         }
     }
 }

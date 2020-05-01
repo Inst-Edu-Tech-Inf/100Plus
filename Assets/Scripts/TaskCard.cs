@@ -7,30 +7,20 @@ using UnityEngine.Video;
 
 public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    TextMeshProUGUI valueText;
-    TextMeshProUGUI victoryPointsText;
-    TextMeshProUGUI colorText;
+    public TextMeshProUGUI valueText;
+    public TextMeshProUGUI victoryPointsText;
+    public TextMeshProUGUI colorText;
     GameManager gm;
     public Image activeImage;
     Vector3 originalPosition;
-    RenderTexture ActiveTexture;
-    //RenderTexture miniActiveTexture;
-    RawImage tex;
-   // RawImage miniTex;
+    public RenderTexture ActiveTexture;
+    public RawImage tex;
     public RawImage activeRawImage;
-   // public RawImage miniRawImage;
     public VideoPlayer activeVideoPlayer;
-    //public VideoPlayer miniVideoPlayer;
-    //public Image frameImage;
-    int activeSkin;
-    int activeRamka;
     Vector2 normalScale = new Vector2(1.9f, 1.9f);
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
-    bool isPreset = false;
-    int presetColor = 0;
-    int presetTask = 0;
 
-    public TaskCard(string kolor, int zadanie)
+   /* public TaskCard(string kolor, int zadanie)
     {
         isPreset = true;
         if (kolor == GameManager.RED_TEXT)
@@ -52,95 +42,72 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TaskCard()
     {
         isPreset = false;
-    }
+    }*/
 
-    void applySkin(string Kolor, bool isAwake)
+     void applySkin(string Kolor, bool isAwake)
     {     
         int pm;
        
-        activeRawImage.material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
-        activeImage.material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
-        //frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
-       /* string pom2 = SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name + ".png";
-        pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, pom2);
-        
-        byte[] pngBytes2 = System.IO.File.ReadAllBytes(pom2);
-        //Creates texture and loads byte array data to create image
-        Texture2D tex2 = new Texture2D(2, 2);
-        tex2.LoadImage(pngBytes2);
-
-        //Creates a new Sprite based on the Texture2D
-        //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-        //Assigns the UI sprite
-        activeRawImage.material.SetTexture("_SecondaryTex", tex2);*/
-       
-        if (SkinManager.instance.skorki[activeSkin].Type == GameManager.KARTA_DYNAMICZNA)
+        activeRawImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
+        activeImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
         {
             activeRawImage.gameObject.SetActive(true);
-           // gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("przezroczysty");
-            activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Black");
-            //activeImage.gameObject.SetActive(false);
+            activeImage.gameObject.GetComponent<Image>().sprite = gm.wybranyBlack;// Resources.Load<Sprite>("Black");
             activeVideoPlayer.gameObject.SetActive(true);
-            //miniVideoPlayer.gameObject.SetActive(true);
 #if HTML5
 //#if UNITY_WEBGL 
             activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
 //#endif
 #endif
-            //miniVideoPlayer.clip = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor) as VideoClip;
-            activeVideoPlayer.clip = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor) as VideoClip;
-            //activeVideoPlayer.clip = Resources.Load(System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4")) as VideoClip;
-            //Debug.Log(System.IO.Path.Combine(Application.streamingAssetsPath));//, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4"));
-            //activeVideoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4");
+            if (Kolor == GameManager.RED_TEXT)
+            {
+                activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipRed;
+            }
+            else
+                if (Kolor == GameManager.GREEN_TEXT)
+                {
+                    activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipGreen;
+                }
+                else
+                {
+                    activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipBlue;
+                }
 
             pm = (int)Mathf.Round(Random.Range(0.0f, (float)activeVideoPlayer.length));
             activeVideoPlayer.frame = pm; 
             activeVideoPlayer.Play();
-            //miniVideoPlayer.frame = pm;
-            //miniVideoPlayer.Play();
         }  
        // else
-            if (SkinManager.instance.skorki[activeSkin].Type == GameManager.KARTA_STATYCZNA)
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
             {
                 activeRawImage.gameObject.SetActive(false);
                 activeImage.gameObject.SetActive(true);
-                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor);
-               /* string pom = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".png";
-                pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                //Creates texture and loads byte array data to create image
-                Texture2D tex = new Texture2D(2, 2);
-                tex.LoadImage(pngBytes);
-
-                //Creates a new Sprite based on the Texture2D
-                Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                //Assigns the UI sprite
-
-                gameObject.GetComponent<Image>().sprite = fromTex;*/
+                if (Kolor == GameManager.RED_TEXT)
+                {
+                    activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
+                }
+                else
+                    if (Kolor == GameManager.GREEN_TEXT)
+                    {
+                        activeImage.GetComponent<Image>().sprite = gm.wybranyGreen;
+                    }
+                    else
+                    {
+                        activeImage.GetComponent<Image>().sprite = gm.wybranyBlue;
+                    }
             }
     }
 
     void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        activeRawImage = GameObject.Find("RawImage").GetComponent<RawImage>();
         activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Przezroczysty");//.gameObject.SetActive(false);
-        //Instantiate 
-        activeSkin = SkinManager.instance.ActiveSkin;
-        activeRamka = SkinManager.instance.ActiveFrame;
         ActiveTexture = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);//OnDestroy free??
-        //miniActiveTexture = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);//OnDestroy free??
-        
         valueText = transform.Find("Value Text").GetComponent<TextMeshProUGUI>();
         victoryPointsText = transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>();
         victoryPointsText.color = new Color32(255, 255, 0, 255);
         colorText = transform.Find("Color Text").GetComponent<TextMeshProUGUI>();
-
         Randomize();
     }
 
@@ -188,37 +155,50 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void Randomize()
+     void Randomize()
     {
         float rand = Random.Range(1, GameManager.COLOR_NUMBER + 1);//to number of colors
-        if (isPreset)
-            rand = presetColor;
-            gameObject.GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
+       /* if (isPreset)
+            rand = presetColor;*/
+//            gameObject.GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
+
+           // gameObject.GetComponent<RawImage>().GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
+        activeVideoPlayer.targetTexture = ActiveTexture;
+           /* Transform[] children;
+            children = transform.Find("RawImage").GetComponent<RawImage>().GetComponentsInChildren<Transform>();
+            for (int i = 0; i < children.Length; ++i)
+            {
+                GameObject child = gameObject.GetComponent<RawImage>().transform.GetChild(i).gameObject;
+
+                Debug.Log(child);
+                //Debug.Log(card.GetComponentInChildren<RawImage>());//OK!
+            }*/
             //miniRawImage.GetComponent<VideoPlayer>().targetTexture = miniActiveTexture;
             tex = transform.Find("RawImage").GetComponent<RawImage>();
             tex.texture = ActiveTexture;
+            //Debug.Log(tex.transform.GetChild(0).gameObject);
            // miniTex = transform.Find("RawImage").GetComponent<RawImage>();
            // miniTex.texture = miniActiveTexture;
 
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             valueText.text = Random.Range(10, gm.earlyGameTaskCardMax).ToString();
-            if (isPreset)
-                valueText.text = presetTask.ToString();
+           /* if (isPreset)
+                valueText.text = presetTask.ToString();*/
         }
         else
         {
             if (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
             {
                 valueText.text = Random.Range(gm.earlyGameTaskCardMax, gm.middleGameTaskCardMax).ToString();
-                if (isPreset)
-                    valueText.text = presetTask.ToString();
+                /*if (isPreset)
+                    valueText.text = presetTask.ToString();*/
             }
             else //lateGamePoint
             {
                 valueText.text = Random.Range(gm.middleGameTaskCardMax, gm.lateGameTaskCardMax).ToString();
-                if (isPreset)
-                    valueText.text = presetTask.ToString();
+               /* if (isPreset)
+                    valueText.text = presetTask.ToString();*/
             }
         }
        

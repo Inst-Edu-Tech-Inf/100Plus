@@ -30,7 +30,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7181706508711986399}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -321,7 +323,6 @@ GameObject:
   - component: {fileID: 2972021292180865042}
   - component: {fileID: 8828400294666819002}
   - component: {fileID: 4683421799873011656}
-  - component: {fileID: 6862564875916149740}
   m_Layer: 5
   m_Name: Drop Panel
   m_TagString: Untagged
@@ -380,81 +381,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983440874482551590}
   m_CullTransparentMesh: 0
---- !u!114 &6862564875916149740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983440874482551590}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  COLORS_ARRAY:
-  - Red
-  - Green
-  - Blue
-  ramka: RamkaGold
-  tlo: NGC_5477_Hubble
-  muzyka: Island Puzzle Acoustic
-  ActiveSkin: 0
-  ActiveFrame: 0
-  ActiveBackground: 0
-  ActiveSound: 0
-  ActiveSoundValue: 100
-  ActiveSFXValue: 100
-  isVictoryPointFirst: 0
-  isVictoryTimePass: 1
-  VictoryPointFirstValue: 50
-  VictoryTimePassValue: 300
-  ActiveVictoryConditions: 0
-  ActivePlayerTurnConditions: 0
-  ActivePlayerEndTime: 0
-  CurrentCash: 0
-  BestResult: 0
-  ActivePlayerMode: 0
-  PureSolo: 0
-  NotPureSolo: 0
-  PureSI: 0
-  NotPureSI: 0
-  PurePVP: 0
-  NotPurePVP: 0
-  isPureSolo1: 0
-  isNotPureSolo1: 0
-  isPureSI1: 0
-  isNotPureSI1: 0
-  isPurePVP1: 0
-  isNotPurePVP1: 0
-  isPureSolo2: 0
-  isNotPureSolo2: 0
-  isPureSI2: 0
-  isNotPureSI2: 0
-  isPurePVP2: 0
-  isNotPurePVP2: 0
-  isPureSolo3: 0
-  isNotPureSolo3: 0
-  isPureSI3: 0
-  isNotPureSI3: 0
-  isPurePVP3: 0
-  isNotPurePVP3: 0
-  AllSkins: 0
-  MiddlePass: 0
-  LatePass: 0
-  FasterThanLightMiddle: 0
-  FasterThanLightLate: 0
-  MultiplyTwice: 0
-  MultiplyThree: 0
-  MultiplyFour: 0
-  WinSolo: 0
-  WinSI: 0
-  WinPVP: 0
-  UnlockAllSkins: 0
-  PureGame: 0
-  Lucky: 0
-  CurrentScore: 0
-  DebugToShow: 
 --- !u!1 &2247542265849979563
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +441,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -528,6 +455,76 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2960714597126767675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3528752202508159705}
+  - component: {fileID: 574953056193894362}
+  m_Layer: 5
+  m_Name: Video Player Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3528752202508159705
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2960714597126767675}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7181706508711986399}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!328 &574953056193894362
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2960714597126767675}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: _MainTex
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
 --- !u!1 &3306539167993578427
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,8 +538,6 @@ GameObject:
   - component: {fileID: 8705966390600956788}
   - component: {fileID: 2012345930214438997}
   - component: {fileID: 5373780083390372544}
-  - component: {fileID: 1605144632426418030}
-  - component: {fileID: 5596902786852611982}
   - component: {fileID: 5511920090507809760}
   m_Layer: 5
   m_Name: Task Card
@@ -569,6 +564,7 @@ RectTransform:
   - {fileID: 6423870179966954005}
   - {fileID: 7278045181605085575}
   - {fileID: 5664405834728252318}
+  - {fileID: 3528752202508159705}
   - {fileID: 7911950475198192252}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -601,6 +597,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: ee51c6949831eba49bf16e130c29b5ba, type: 2}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -626,10 +623,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fbbb72945df244daedbbf670e956c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  valueText: {fileID: 3522926268311376356}
+  victoryPointsText: {fileID: 7329970392891308614}
+  colorText: {fileID: 836219126259026920}
   activeImage: {fileID: 8705966390600956788}
+  ActiveTexture: {fileID: 0}
+  tex: {fileID: 0}
   activeRawImage: {fileID: 4714251981563450177}
-  activeVideoPlayer: {fileID: 1605144632426418030}
-  frameImage: {fileID: 0}
+  activeVideoPlayer: {fileID: 574953056193894362}
 --- !u!114 &5373780083390372544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,113 +646,6 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: 0}
   m_EffectDistance: {x: 3, y: 3}
   m_UseGraphicAlpha: 1
---- !u!328 &1605144632426418030
-VideoPlayer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3306539167993578427}
-  m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a134cc600250cb94da382f65809f8d6e, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 0}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: _MainTex
-  m_RenderMode: 2
-  m_AspectRatio: 4
-  m_DataSource: 0
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
-  m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
-  m_PlayOnAwake: 1
-  m_SkipOnDrop: 0
-  m_Looping: 1
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
---- !u!114 &5596902786852611982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3306539167993578427}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  COLORS_ARRAY:
-  - Red
-  - Green
-  - Blue
-  ramka: RamkaGold
-  tlo: NGC_5477_Hubble
-  muzyka: Island Puzzle Acoustic
-  ActiveSkin: 0
-  ActiveFrame: 0
-  ActiveBackground: 0
-  ActiveSound: 0
-  ActiveSoundValue: 100
-  ActiveSFXValue: 100
-  isVictoryPointFirst: 0
-  isVictoryTimePass: 1
-  VictoryPointFirstValue: 50
-  VictoryTimePassValue: 300
-  ActiveVictoryConditions: 0
-  ActivePlayerTurnConditions: 0
-  ActivePlayerEndTime: 0
-  CurrentCash: 0
-  BestResult: 0
-  ActivePlayerMode: 0
-  PureSolo: 0
-  NotPureSolo: 0
-  PureSI: 0
-  NotPureSI: 0
-  PurePVP: 0
-  NotPurePVP: 0
-  isPureSolo1: 0
-  isNotPureSolo1: 0
-  isPureSI1: 0
-  isNotPureSI1: 0
-  isPurePVP1: 0
-  isNotPurePVP1: 0
-  isPureSolo2: 0
-  isNotPureSolo2: 0
-  isPureSI2: 0
-  isNotPureSI2: 0
-  isPurePVP2: 0
-  isNotPurePVP2: 0
-  isPureSolo3: 0
-  isNotPureSolo3: 0
-  isPureSI3: 0
-  isNotPureSI3: 0
-  isPurePVP3: 0
-  isNotPurePVP3: 0
-  AllSkins: 0
-  MiddlePass: 0
-  LatePass: 0
-  FasterThanLightMiddle: 0
-  FasterThanLightLate: 0
-  MultiplyTwice: 0
-  MultiplyThree: 0
-  MultiplyFour: 0
-  WinSolo: 0
-  WinSI: 0
-  WinPVP: 0
-  UnlockAllSkins: 0
-  PureGame: 0
-  Lucky: 0
-  CurrentScore: 0
-  DebugToShow: 
 --- !u!82 &5511920090507809760
 AudioSource:
   m_ObjectHideFlags: 0
@@ -861,8 +755,6 @@ GameObject:
   - component: {fileID: 4714251981563450177}
   - component: {fileID: 3298268115063412545}
   - component: {fileID: 2651806759989384514}
-  - component: {fileID: 1005578119492372828}
-  - component: {fileID: 8179580404919229282}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -912,6 +804,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 44bd27b291cd2b5449313f227949d9fe, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -960,113 +853,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1005578119492372828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4161791781123368632}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba416843e3a0274290d436729ef97bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  COLORS_ARRAY:
-  - Red
-  - Green
-  - Blue
-  ramka: RamkaGold
-  tlo: NGC_5477_Hubble
-  muzyka: Island Puzzle Acoustic
-  ActiveSkin: 0
-  ActiveFrame: 0
-  ActiveBackground: 0
-  ActiveSound: 0
-  ActiveSoundValue: 100
-  ActiveSFXValue: 100
-  isVictoryPointFirst: 0
-  isVictoryTimePass: 1
-  VictoryPointFirstValue: 50
-  VictoryTimePassValue: 300
-  ActiveVictoryConditions: 0
-  ActivePlayerTurnConditions: 0
-  ActivePlayerEndTime: 0
-  CurrentCash: 0
-  BestResult: 0
-  ActivePlayerMode: 0
-  PureSolo: 0
-  NotPureSolo: 0
-  PureSI: 0
-  NotPureSI: 0
-  PurePVP: 0
-  NotPurePVP: 0
-  isPureSolo1: 0
-  isNotPureSolo1: 0
-  isPureSI1: 0
-  isNotPureSI1: 0
-  isPurePVP1: 0
-  isNotPurePVP1: 0
-  isPureSolo2: 0
-  isNotPureSolo2: 0
-  isPureSI2: 0
-  isNotPureSI2: 0
-  isPurePVP2: 0
-  isNotPurePVP2: 0
-  isPureSolo3: 0
-  isNotPureSolo3: 0
-  isPureSI3: 0
-  isNotPureSI3: 0
-  isPurePVP3: 0
-  isNotPurePVP3: 0
-  AllSkins: 0
-  MiddlePass: 0
-  LatePass: 0
-  FasterThanLightMiddle: 0
-  FasterThanLightLate: 0
-  MultiplyTwice: 0
-  MultiplyThree: 0
-  MultiplyFour: 0
-  WinSolo: 0
-  WinSI: 0
-  WinPVP: 0
-  UnlockAllSkins: 0
-  PureGame: 0
-  Lucky: 0
-  CurrentScore: 0
-  DebugToShow: 
---- !u!328 &8179580404919229282
-VideoPlayer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4161791781123368632}
-  m_Enabled: 0
-  m_VideoClip: {fileID: 32900000, guid: fe22c7e8e1a44af479052307d67bfc92, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 11cd19d94d3356e499415c5fcf987d4c, type: 2}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: _MainTex
-  m_RenderMode: 2
-  m_AspectRatio: 4
-  m_DataSource: 0
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
-  m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
-  m_PlayOnAwake: 1
-  m_SkipOnDrop: 1
-  m_Looping: 1
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
 --- !u!1 &4862671539601994107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,6 +913,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1200,6 +987,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1355,6 +1143,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
