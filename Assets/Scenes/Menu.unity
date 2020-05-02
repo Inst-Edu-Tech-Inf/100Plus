@@ -873,7 +873,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1233925671}
   m_OnClick:
     m_PersistentCalls:
@@ -1488,6 +1488,7 @@ MonoBehaviour:
   UnlockAllSkins: 0
   PureGame: 0
   Lucky: 0
+  LongWay: 0
   CurrentScore: 0
   DebugToShow: 
 --- !u!1 &1595627087
