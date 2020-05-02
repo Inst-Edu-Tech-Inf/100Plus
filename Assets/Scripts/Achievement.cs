@@ -45,6 +45,7 @@ public class Achievement : MonoBehaviour
     public Image pure4KPVP;
     public Image notPure10KPVP;
     public Image fillSlider;
+    public Image longWay;
     public Text bestResult;
     Color colorGray = new Color(50f / 255f, 50f / 255f, 50f / 255f);
     Color colorWhite = new Color(255f / 255f, 255f / 255f, 255f / 255f);
@@ -234,6 +235,15 @@ public class Achievement : MonoBehaviour
         {
             lucky.GetComponent<Image>().color = colorGray;
         }
+
+        if (SkinManager.instance.LongWay)
+        {
+            longWay.GetComponent<Image>().color = colorWhite;
+        }
+        else
+        {
+            longWay.GetComponent<Image>().color = colorGray;
+        }
         
         //solo game
         if (SkinManager.instance.isPureSolo1)//2,3
@@ -388,6 +398,13 @@ public class Achievement : MonoBehaviour
             notPure10KPVP.GetComponent<Image>().color = colorGray;
         }
         
+    }
+
+    public void LongWayClick()
+    {
+        description.text = SkinManager.instance.osiagniecia[SkinManager.LONGWAY].Description;
+        reward.text = "+" + SkinManager.instance.osiagniecia[SkinManager.LONGWAY].Reward.ToString();
+        progres.value = 0;
     }
 
     public void LuckyClick()

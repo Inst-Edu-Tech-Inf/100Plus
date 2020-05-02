@@ -14,8 +14,9 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public AudioSource cardMissSFX;
     public AudioSource cardCorrectSFX;
     Vector3 originalPosition;
-    public Vector2 normalScale = new Vector2(1.9f, 1.9f); 
-    Vector2 biggerScale = new Vector2(2.2f, 2.2f); 
+    public Vector2 normalScale = new Vector2(1.9f, 1.9f);
+    Vector2 biggerScale = new Vector2(2.2f, 2.2f);
+    Vector2 oneScale = new Vector2(1.0f, 1.0f); 
     public TextMeshProUGUI additionText;
     public TextMeshProUGUI parentNameText;
     public bool hasMultiply;
@@ -357,6 +358,8 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             {
                 dropPanel = pointerEventData.pointerCurrentRaycast.gameObject.transform.Find("Drop Panel");
             }
+
+            // gameObject.transform.localScale = normalScale;
         }
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "TaskArea")
@@ -406,6 +409,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
                     parentNameText.text = "";
                     this.GetComponent<PlayerCard>().hasMultiply = false;
+                    gameObject.transform.localScale = normalScale;
                 }
                 else
                 {
@@ -414,6 +418,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
                     parentNameText.text = "";
                     this.GetComponent<PlayerCard>().hasMultiply = false;
+                    gameObject.transform.localScale = normalScale;
                 }
             }
             else
@@ -423,8 +428,10 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 parentNameText = gameObject.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>();
                 parentNameText.text = "";
                 this.GetComponent<PlayerCard>().hasMultiply = false;
+                gameObject.transform.localScale = normalScale;
             }
         }
+        
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData)

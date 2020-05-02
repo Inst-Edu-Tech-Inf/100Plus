@@ -277,7 +277,12 @@ Android uses files inside a compressed APK
 
             collectPointsBtn.SetActive(true);
             endTurnBtn.SetActive(false);
+            transparentPlayerCardPanel.SetActive(false);
+            transparentPowerUpCardPanel.SetActive(false);
+            transparentButton.gameObject.SetActive(false);
+            //Debug.Log("BEF"+transparentPlayerCardPanel.activeSelf);
             CheckCardNumbers(false);
+            //Debug.Log("AFT"+transparentPlayerCardPanel.activeSelf);
         }
         else
         {
@@ -352,7 +357,7 @@ Android uses files inside a compressed APK
         }
 
         //Debug.Log("actualTaskCardsCount BEFORE discard:" + actualTaskCardsCount);
-        newCard = actualTaskCardsCount;// actualTaskCardsCount;// taskCards.Count;//maxActualTaskCards
+        newCard = maxActualTaskCards;// actualTaskCardsCount;// taskCards.Count;//maxActualTaskCards
         for (int i = newCard -1 ; i >= 0; --i)//newCard - 1
         {
            // Debug.Log(i);
@@ -360,6 +365,7 @@ Android uses files inside a compressed APK
             //if (card.gameObject.activeSelf)
             DiscardTaskCard(cardTask);
         }
+        actualTaskCardsCount = 0;
         //Debug.Log("actualTaskCardsCount BEFORE draw:" + actualTaskCardsCount);
         for (int i = 0; i < howManyCards; ++i) //newCard
         {
@@ -621,7 +627,7 @@ Android uses files inside a compressed APK
             {
                 if (tasks.activeSelf)
                 {
-                    if (taskCards.Count > 0)
+                    if (actualTaskCardsCount > 0)//taskCards.Count
                         helpTask.gameObject.SetActive(true);
                     helpTurn.gameObject.SetActive(true);
                     helpCard.gameObject.SetActive(false);
@@ -1231,9 +1237,18 @@ Android uses files inside a compressed APK
             if (trashArea.activeSelf)
                 endTurnBtn.SetActive(true);
             trashArea.SetActive(false);
-            //transparentPlayerCardPanel.SetActive(true);
-            //transparentPowerUpCardPanel.SetActive(true);
-            transparentButton.gameObject.SetActive(true);
+            if (!collectPointsBtn.gameObject.activeSelf)
+            {
+                transparentPlayerCardPanel.SetActive(true);
+                transparentPowerUpCardPanel.SetActive(true);
+                transparentButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                transparentPlayerCardPanel.SetActive(false);
+                transparentPowerUpCardPanel.SetActive(false);
+                transparentButton.gameObject.SetActive(true);
+            }
             if (!hands.activeSelf)
             {
                 hands.SetActive(true);
@@ -1558,6 +1573,7 @@ Android uses files inside a compressed APK
         int Razy = 1;
         bool isScored = false;
         int multiplyCount = 0;
+        int sumCardCount = 0;
 
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         //multiplyCount = 0;
@@ -1570,6 +1586,7 @@ Android uses files inside a compressed APK
             {
                 if (valueText.text == activeCard.name)
                 {
+                    sumCardCount++;
                     valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
                     for (int j = 0; j < powerUpCards.Count; ++j)  
                     {
@@ -1714,7 +1731,14 @@ Android uses files inside a compressed APK
             }
             //DrawPlayerCard();
             CheckCardNumbers(true);
-            
+            //achievement LongWay
+            if (!SkinManager.instance.LongWay)
+            {
+                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].ID, true ? 1 : 0);
+                SkinManager.instance.SetLongWay(true);
+                AddCash(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].Reward);
+                ShowAchievementPanel(SkinManager.LONGWAY);
+            }
         }
         else
         {
@@ -1797,7 +1821,7 @@ Android uses files inside a compressed APK
                 SetActiveCard(activeCard, true);
                 DiscardTaskCard(cardToDiscard);
                 //bonuscard
-                if (float.Parse(victoryPoints.text) < middleGamePoint)
+                if (float.Parse(victoryPoints.text) < earlyGamePoint)
                 {
                     DrawPlayerCard();
                 }

@@ -25,8 +25,9 @@ namespace CompleteProject
     public GameObject rawImageA;
     public Image helpNext;
     public Image helpPrev;
+    public Text numberText;
 
-    RenderTexture ActiveTexture;
+    RenderTexture ActiveTexture;// = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
     RawImage tex;
     public Image backgroundImage;
     public Button chooseButton;
@@ -219,49 +220,6 @@ Android uses files inside a compressed APK
         //Debug.Log(request);
     }
 
-
- /*   IEnumerator GetUwrTexture(string pathWithPrefix)
-    {
-        Texture tex = null;
-        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(pathWithPrefix))
-        {
-            yield return uwr.SendWebRequest();
-            if (string.IsNullOrEmpty(uwr.error))
-            {
-                // Get downloaded asset bundle
-                tex = DownloadHandlerTexture.GetContent(uwr);
-                //Texture mainTexture = renderer.material.mainTexture;
-                Texture2D texture2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
-                Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
-                backgroundImage.sprite = fromTex;
-                
-            }
-            else
-            {
-                Debug.Log(uwr.error);
-            }
-
-        }
-    }
-
-
-    IEnumerator GetUwrBytes(string pathWithPrefix)
-    {
-        Texture2D tex = new Texture2D(2, 2);
-        using (UnityWebRequest uwr = UnityWebRequest.Get(pathWithPrefix))
-        {
-            yield return uwr.SendWebRequest();
-            if (string.IsNullOrEmpty(uwr.error))
-            {
-                tex.LoadImage(uwr.downloadHandler.data);
-            }
-            else
-            {
-                Debug.Log(uwr.error);
-            }
-        }
-    }*/
-
     // Start is called before the first frame update
     void Start()
     {
@@ -298,6 +256,8 @@ Android uses files inside a compressed APK
         //changeAsyncSound();
         skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
         cash.text = SkinManager.instance.CurrentCash.ToString();
+        isSkins = true;
+        numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
     }
 
     // Update is called once per frame
@@ -466,9 +426,16 @@ Android uses files inside a compressed APK
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (isSkins)
         {
+            
             if (LocalActiveSkin < SkinManager.instance.skorki.Count - 1)
             {
                 LocalActiveSkin++;
+            }
+            else
+            {
+                LocalActiveSkin = 0;
+            }
+            {
                 chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                 if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
                 {
@@ -484,14 +451,22 @@ Android uses files inside a compressed APK
                 skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                 changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
             }
+            numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
         }
         else
         {
             if (isFrames)
             {
+                
                 if (LocalActiveFrame < SkinManager.instance.ramki.Count - 1)
                 {
                     LocalActiveFrame++;
+                }
+                else
+                {
+                    LocalActiveFrame = 0;
+                }
+                {
                     if (SkinManager.instance.ActiveFrame != LocalActiveFrame)
                     {
                         chooseButton.interactable = true;
@@ -504,14 +479,22 @@ Android uses files inside a compressed APK
                     skinName.text = SkinManager.instance.ramki[LocalActiveFrame].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
                 }
+                numberText.text = (LocalActiveFrame + 1).ToString() + " / " + SkinManager.instance.ramki.Count.ToString();
             }
             else
             {
                 if (isBackgrounds)
                 {
+                    
                     if (LocalActiveBackground < SkinManager.instance.tla.Count - 1)
                     {
                         LocalActiveBackground++;
+                    }
+                    else
+                    {
+                        LocalActiveBackground = 0;
+                    }
+                    {
                         if (SkinManager.instance.ActiveBackground != LocalActiveBackground)
                         {
                             chooseButton.interactable = true;
@@ -524,15 +507,22 @@ Android uses files inside a compressed APK
                         skinName.text = SkinManager.instance.tla[LocalActiveBackground].Title;
                         changeBackground();
                     }
-                    
+                    numberText.text = (LocalActiveBackground + 1).ToString() + " / " + SkinManager.instance.tla.Count.ToString();
                 }
                 else
                 {
                     if (isSounds)
                     {
+                        
                         if (LocalActiveSound < SkinManager.instance.muzyki.Count - 1)
                         {
                             LocalActiveSound++;
+                        }
+                        else
+                        {
+                            LocalActiveSound = 0;
+                        }
+                        {
                             if (SkinManager.instance.ActiveSound != LocalActiveSound)
                             {
                                 chooseButton.interactable = true;
@@ -546,7 +536,7 @@ Android uses files inside a compressed APK
                             changeSound();
                             //changeAsyncSound();
                         }
-                        
+                        numberText.text = (LocalActiveSound + 1).ToString() + " / " + SkinManager.instance.muzyki.Count.ToString();
                     }
                 }
             }
@@ -568,9 +558,17 @@ Android uses files inside a compressed APK
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         if (isSkins)
         {
+            
             if (LocalActiveSkin > 0)
             {
                 LocalActiveSkin--;
+            }
+            else
+            {
+                LocalActiveSkin = SkinManager.instance.skorki.Count-1;
+            }
+
+            {
                 if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
                 {
                     chooseButton.interactable = true;
@@ -584,14 +582,23 @@ Android uses files inside a compressed APK
                 skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                 changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
             }
+            numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
         }
         else
         {
             if (isFrames)
             {
+                
                 if (LocalActiveFrame > 0)
                 {
                     LocalActiveFrame--;
+                }
+                else
+                {
+                    LocalActiveFrame = SkinManager.instance.ramki.Count - 1;
+                }
+
+                {
                     if (SkinManager.instance.ActiveFrame != LocalActiveFrame)
                     {
                         chooseButton.interactable = true;
@@ -604,14 +611,23 @@ Android uses files inside a compressed APK
                     skinName.text = SkinManager.instance.ramki[LocalActiveFrame].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
                 }
+                numberText.text = (LocalActiveFrame + 1).ToString() + " / " + SkinManager.instance.ramki.Count.ToString();
             }
             else
             {
                 if (isBackgrounds)
                 {
+                    
                     if (LocalActiveBackground > 0)
                     {
                         LocalActiveBackground--;
+                    }
+                    else
+                    {
+                        LocalActiveBackground = SkinManager.instance.tla.Count - 1;
+                    }
+
+                    {
                         if (SkinManager.instance.ActiveBackground != LocalActiveBackground)
                         {
                             chooseButton.interactable = true;
@@ -624,15 +640,23 @@ Android uses files inside a compressed APK
                         skinName.text = SkinManager.instance.tla[LocalActiveBackground].Title;
                         changeBackground();
                     }
-                    
+                    numberText.text = (LocalActiveBackground + 1).ToString() + " / " + SkinManager.instance.tla.Count.ToString();
                 }
                 else
                 {
                     if (isSounds)
                     {
+                        
                         if (LocalActiveSound > 0)
                         {
                             LocalActiveSound--;
+                        }
+                        else
+                        {
+                            LocalActiveSound = SkinManager.instance.muzyki.Count - 1;
+                        }
+
+                        {
                             if (SkinManager.instance.ActiveSound != LocalActiveSound)
                             {
                                 chooseButton.interactable = true;
@@ -646,6 +670,7 @@ Android uses files inside a compressed APK
                             changeSound();
                             //changeAsyncSound();
                         }
+                        numberText.text = (LocalActiveSound + 1).ToString() + " / " + SkinManager.instance.muzyki.Count.ToString();
                     }
                 }
             }
@@ -690,6 +715,7 @@ Android uses files inside a compressed APK
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
         userActivityTime = 0;
+        numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
     }
 
     public void SwitchFrame()
@@ -720,6 +746,7 @@ Android uses files inside a compressed APK
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
         userActivityTime = 0;
+        numberText.text = (LocalActiveFrame + 1).ToString() + " / " + SkinManager.instance.ramki.Count.ToString();
     }
 
     public void SwitchBackground()
@@ -748,6 +775,7 @@ Android uses files inside a compressed APK
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
         userActivityTime = 0;
+        numberText.text = (LocalActiveBackground + 1).ToString() + " / " + SkinManager.instance.tla.Count.ToString();
     }
 
     public void SwitchSound()
@@ -772,6 +800,7 @@ Android uses files inside a compressed APK
         price.color = new Color32(0, 255, 0, 255);
         price.text = "0";
         userActivityTime = 0;
+        numberText.text = (LocalActiveSound + 1).ToString() + " / " + SkinManager.instance.muzyki.Count.ToString();
     }
 
     public bool CheckPaymentPossible(SkinManager.SkinsInfo skin)

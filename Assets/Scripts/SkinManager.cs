@@ -45,7 +45,7 @@ public class SkinManager : MonoBehaviour
     public const int NORMAL_ACHIEVEMENT = 0;
     public const int HIDDEN_ACHIEVEMENT = 2;
     public const int FASTER_THAN_LIGHT_MIDDLE = 150;
-    public const int FASTER_THAN_LIGHT_LATE = 500;
+    public const int FASTER_THAN_LIGHT_LATE = 600;
     public const int ACHIEVEMENT_PURE_1ST = 1000;
     public const int ACHIEVEMENT_PURE_2ND = 2000;
     public const int ACHIEVEMENT_PURE_3RD = 4000;
@@ -83,6 +83,7 @@ public class SkinManager : MonoBehaviour
     public const int UNLOCKALLSKINS = 28;
     public const int PUREGAME = 29;
     public const int LUCKY = 30;
+    public const int LONGWAY = 31;
 
     public struct SkinsInfo
     {
@@ -196,6 +197,7 @@ public class SkinManager : MonoBehaviour
     public bool UnlockAllSkins = false;
     public bool PureGame = false;
     public bool Lucky = false;
+    public bool LongWay = false;
 
     public static SkinManager instance;
     public int CurrentScore;
@@ -221,7 +223,9 @@ public class SkinManager : MonoBehaviour
         skorki.Add(new SkinsInfo("Troll", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "Aaaaaaa! A troll!"));
         skorki.Add(new SkinsInfo("Unicorn", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "The unicorn"));
         skorki.Add(new SkinsInfo("Ball", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "Lets play"));
-       // skorki.Add(new SkinsInfo("Tests", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, "Test transparent"));
+        skorki.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "All together"));
+        //skorki.Add(new SkinsInfo("gifDoGry", GameManager.KARTA_DYNAMICZNA, "Zuza"));
+        //skorki.Add(new SkinsInfo("summOnDots", GameManager.KARTA_DYNAMICZNA, "Wiktor"));
         //
         ramki.Add(new SkinsInfo("RamkaGold", GameManager.KARTA_RAMKA, "The golden rectangle"));
         ramki.Add(new SkinsInfo("CatFrame", GameManager.KARTA_RAMKA, FRAME_PRICE, "The white kitty"));
@@ -311,6 +315,7 @@ public class SkinManager : MonoBehaviour
         osiagniecia.Add(new AchievementInfo("UnlockAllSkins", HIDDEN_ACHIEVEMENT, 0, 0, "Richness", "I'm rich..."));
         osiagniecia.Add(new AchievementInfo("PureGame", NORMAL_ACHIEVEMENT, 0, 30, "Excelent", "Just excelent game"));
         osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 0, "Lucky", "The risk is sometimes better"));
+        osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, "Long way", "Use 5 card at row to collect pure result"));
        // ResetAllAchievements();
         LoadUserData();
     }
@@ -380,6 +385,7 @@ public class SkinManager : MonoBehaviour
 
     void LoadUserData()
     {
+        bool isUnlockAllSkins = true;
         AchievementInfo tmpAchievement;
         ActiveSkin = PlayerPrefs.GetInt("ActiveSkin");
         ActiveFrame = PlayerPrefs.GetInt("ActiveFrame");
@@ -426,6 +432,7 @@ public class SkinManager : MonoBehaviour
         WinSI = (PlayerPrefs.GetInt("WinSI") != 0);
         WinPVP = (PlayerPrefs.GetInt("WinPVP") != 0);
         Lucky = (PlayerPrefs.GetInt("Lucky") != 0);
+        LongWay = (PlayerPrefs.GetInt("LongWay") != 0);
         //TODO progres
        // Debug.Log(osiagniecia.Count);
        // Debug.Log(PURE1KSOLO);
@@ -525,6 +532,41 @@ public class SkinManager : MonoBehaviour
 
         PureGame = (PlayerPrefs.GetInt(SkinManager.instance.osiagniecia[SkinManager.PUREGAME].ID) != 0);
 
+        //achievement
+        for (int i = 1; i < SkinManager.instance.skorki.Count; ++i)
+        {
+            isUnlockAllSkins = ((isUnlockAllSkins) && (PlayerPrefs.GetInt(SkinManager.instance.skorki[i].Name) != 0));
+        }
+        for (int i = 1; i < SkinManager.instance.ramki.Count; ++i)
+        {
+            isUnlockAllSkins = isUnlockAllSkins && (PlayerPrefs.GetInt(SkinManager.instance.ramki[i].Name) != 0);
+        }
+        for (int i = 1; i < SkinManager.instance.tla.Count; ++i)
+        {
+            isUnlockAllSkins = isUnlockAllSkins && (PlayerPrefs.GetInt(SkinManager.instance.tla[i].Name) != 0);
+        }
+        for (int i = 1; i < SkinManager.instance.muzyki.Count; ++i)
+        {
+            isUnlockAllSkins = isUnlockAllSkins && (PlayerPrefs.GetInt(SkinManager.instance.muzyki[i].Name) != 0);
+        }
+
+        if (isUnlockAllSkins)
+        {
+            if (!SkinManager.instance.UnlockAllSkins)
+            {
+                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.UNLOCKALLSKINS].ID, true ? 1 : 0);
+                SkinManager.instance.SetUnlockAllSkins(true);
+                //AddCash(SkinManager.instance.osiagniecia[SkinManager.UNLOCKALLSKINS].Reward);
+                //ShowAchievementPanel(SkinManager.LONGWAY);
+            }
+        }
+
+
+    }
+
+    public void SetLongWay(bool Value)
+    {
+        LongWay = Value;
     }
 
     public void SetLucky(bool Value)

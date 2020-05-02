@@ -46,7 +46,7 @@ public class MenuButtons : MonoBehaviour
     void Start()
     {
          // StartCoroutine(Foo("Text", 10)); 
-        changeBackground();
+        //changeBackground();
             
     }
 

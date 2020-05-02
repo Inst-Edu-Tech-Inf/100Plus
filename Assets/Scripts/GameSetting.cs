@@ -35,7 +35,10 @@ public class GameSetting : MonoBehaviour
 
     void Start()
     {
-        changeBackground();
+        Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
+        sliderSFX.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        sliderSound.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        //changeBackground();
         sliderSFX.value = SkinManager.instance.ActiveSFXValue;
         sliderSound.value = SkinManager.instance.ActiveSoundValue;
         victoryList.value = SkinManager.instance.ActiveVictoryConditions;
