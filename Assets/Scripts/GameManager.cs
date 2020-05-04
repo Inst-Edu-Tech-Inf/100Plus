@@ -8,8 +8,11 @@ using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using Mirror;
+using UnityEngine.PlayerLoop;
+using Mirror.Websocket;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
 /*UNITY_IOS	
 UNITY_ANDROID
@@ -98,7 +101,6 @@ UNITY_STANDALONE_WIN
     public GameObject closeConfirmationPanel;
     public Button transparentButton;
 
-
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
     public List<GameObject> powerUpCards = new List<GameObject>();
@@ -147,9 +149,9 @@ UNITY_STANDALONE_WIN
     public VideoClip wybranyClipGreen;
     public VideoClip wybranyClipBlue;
     public GameObject coinGlobal;
+    public int playerID = 1;
 
 //then (int)ptr displays the memory address and *ptr displays the value at that memory address
-    
 
     bool isVictoryPointFirst = false;
     bool isVictoryTimePass = true;
@@ -167,7 +169,38 @@ UNITY_STANDALONE_WIN
     int actualTaskCardsCount = 0;
     //int actualPlayerCardsCount = 0;
     //int actualPowerUpCardsCount = 0;
-    
+
+    public int victoryPointsNumber
+    {
+        get
+        {
+            if (playerID == 1)
+                return _victoryPointsNumberP1;
+            else
+                return _victoryPointsNumberP2;
+        }
+        set
+        {
+            if (playerID == 1)
+            {
+                _victoryPointsNumberP1 = value;
+            }
+            else
+            {
+                _victoryPointsNumberP2 = value;
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        
+    }
+
+    [SyncVar]
+    int _victoryPointsNumberP1;
+    [SyncVar]
+    int _victoryPointsNumberP2;
 
     public void Back()
     {
@@ -593,6 +626,9 @@ Android uses files inside a compressed APK
 
     private void Update()
     {
+        print(playerID);
+        print("P1: " + _victoryPointsNumberP1);
+        print("P2: " + _victoryPointsNumberP2);
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
