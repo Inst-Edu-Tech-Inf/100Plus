@@ -1488,6 +1488,7 @@ MonoBehaviour:
   UnlockAllSkins: 0
   PureGame: 0
   Lucky: 0
+  LongWay: 0
   CurrentScore: 0
   DebugToShow: 
 --- !u!1 &1595627087

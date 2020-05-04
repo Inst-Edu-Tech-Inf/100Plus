@@ -57,7 +57,8 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             activeVideoPlayer.gameObject.SetActive(true);
 #if HTML5
 //#if UNITY_WEBGL 
-            activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
+            //activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
+            activeVideoPlayer.url = "http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + Kolor + ".mp4";
 //#endif
 #endif
             if (Kolor == GameManager.RED_TEXT)

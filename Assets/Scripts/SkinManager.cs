@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿//#define HTML5
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Security.Cryptography;
 
 public class SkinManager : MonoBehaviour
 {
@@ -202,6 +205,7 @@ public class SkinManager : MonoBehaviour
     public static SkinManager instance;
     public int CurrentScore;
     public string DebugToShow;
+    public string UserID;
 
     // Start is called before the first frame update
     void Start()
@@ -212,6 +216,7 @@ public class SkinManager : MonoBehaviour
         tla.Clear();
         muzyki.Clear();
         osiagniecia.Clear();
+        SetUserID();
 
         skorki.Add(new SkinsInfo("Explodes", GameManager.KARTA_DYNAMICZNA, "I see fire"));
         skorki.Add(new SkinsInfo("Rings",GameManager.KARTA_DYNAMICZNA,ANIMATED_CARD_PRICE, "Lord of the Rings"));
@@ -326,6 +331,43 @@ public class SkinManager : MonoBehaviour
         
     }
 
+    public static string Md5Sum(string strToEncrypt)
+    {
+        System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
+        byte[] bytes = ue.GetBytes(strToEncrypt);
+        // encrypt bytes
+        System.Security.Cryptography.SHA1CryptoServiceProvider md5 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+        byte[] hashBytes = md5.ComputeHash(bytes);
+        // Convert the encrypted bytes back to a string (base 16)
+        string hashString = "";
+        for (int i = 0; i < hashBytes.Length; i++)
+        {
+            hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+        }
+        return hashString.PadLeft(32, '0');
+    }
+
+    public void SetUserID()
+    {
+        string pom = PlayerPrefs.GetString("UserID");
+        
+        //Debug.Log(pom.Length);
+        if (pom.Length <= 0)
+        {
+            pom = System.DateTime.Now.ToString() + Random.Range(0.0f, 1000.0f);
+            //Debug.Log(pom);
+            pom = Md5Sum(pom);
+            //Debug.Log("Po:" + pom);
+            PlayerPrefs.SetString("UserID", pom); 
+            SkinManager.instance.UserID = pom;
+        }
+        else
+        {
+            //Debug.Log("ID existed:"+pom);
+            SkinManager.instance.UserID = pom;
+        }
+    }
+
     void ResetBestResult()
     {
         PlayerPrefs.SetInt("BestResult", 0);
@@ -387,7 +429,12 @@ public class SkinManager : MonoBehaviour
     {
         bool isUnlockAllSkins = true;
         AchievementInfo tmpAchievement;
+        
+#if HTML5
+        ActiveSkin = 3;
+#else
         ActiveSkin = PlayerPrefs.GetInt("ActiveSkin");
+#endif
         ActiveFrame = PlayerPrefs.GetInt("ActiveFrame");
         ActiveBackground = PlayerPrefs.GetInt("ActiveBackground");
         ActiveSound = PlayerPrefs.GetInt("ActiveSound");

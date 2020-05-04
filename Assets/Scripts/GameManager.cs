@@ -491,6 +491,11 @@ Android uses files inside a compressed APK
         wybranyClipRed = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT) as VideoClip;
         wybranyClipGreen = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT) as VideoClip;
         wybranyClipBlue = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT) as VideoClip;
+#if HTML5
+        wybranyClipRed = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + RED_TEXT + ".mp4") as VideoClip;
+        wybranyClipGreen = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" +  GREEN_TEXT + ".mp4") as VideoClip;
+        wybranyClipBlue = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + BLUE_TEXT + ".mp4") as VideoClip;
+#endif
         
 
         maxActualTaskCards = maxTaskCardsAddLate + taskCardsToDraw;
@@ -1044,6 +1049,7 @@ Android uses files inside a compressed APK
 #if HTML5
 //#if UNITY_WEBGL 
             taskCard.activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
+            taskCard.activeVideoPlayer.url = "http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + Kolor + ".mp4";
 //#endif
 #endif
             //taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor) as VideoClip;
@@ -1732,13 +1738,14 @@ Android uses files inside a compressed APK
             //DrawPlayerCard();
             CheckCardNumbers(true);
             //achievement LongWay
-            if (!SkinManager.instance.LongWay)
-            {
-                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].ID, true ? 1 : 0);
-                SkinManager.instance.SetLongWay(true);
-                AddCash(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].Reward);
-                ShowAchievementPanel(SkinManager.LONGWAY);
-            }
+            if (sumCardCount >= 5)
+                if (!SkinManager.instance.LongWay)
+                {
+                    PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].ID, true ? 1 : 0);
+                    SkinManager.instance.SetLongWay(true);
+                    AddCash(SkinManager.instance.osiagniecia[SkinManager.LONGWAY].Reward);
+                    ShowAchievementPanel(SkinManager.LONGWAY);
+                }
         }
         else
         {
