@@ -1491,6 +1491,7 @@ MonoBehaviour:
   LongWay: 0
   CurrentScore: 0
   DebugToShow: 
+  UserID: 
 --- !u!1 &1595627087
 GameObject:
   m_ObjectHideFlags: 0
