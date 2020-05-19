@@ -229,6 +229,7 @@ public class SkinManager : MonoBehaviour
         skorki.Add(new SkinsInfo("Unicorn", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "The unicorn"));
         skorki.Add(new SkinsInfo("Ball", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "Lets play"));
         skorki.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "All together"));
+        skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "The kingfisher"));
         //skorki.Add(new SkinsInfo("gifDoGry", GameManager.KARTA_DYNAMICZNA, "Zuza"));
         //skorki.Add(new SkinsInfo("summOnDots", GameManager.KARTA_DYNAMICZNA, "Wiktor"));
         //
