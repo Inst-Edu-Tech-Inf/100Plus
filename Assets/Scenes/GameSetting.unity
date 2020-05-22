@@ -1802,7 +1802,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2194,6 +2194,7 @@ MonoBehaviour:
   LongWay: 0
   CurrentScore: 0
   DebugToShow: 
+  UserID: 
 --- !u!114 &1050027111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4227,7 +4228,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 2076361081}
   m_Template: {fileID: 1900563055}
   m_CaptionText: {fileID: 1692287083}
@@ -4275,7 +4276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4562267, b: 0, a: 1}
+  m_Color: {r: 0.10566056, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

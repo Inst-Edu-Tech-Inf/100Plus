@@ -60,6 +60,7 @@ UNITY_STANDALONE_WIN
     public GameObject powerUpCardPrefab;
     public GameObject coinsPrefab;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI timerPlayerTurnText;
     public TextMeshProUGUI victoryPoints;
     public GameObject card;
     public GameObject cardPowerUp;
@@ -95,6 +96,7 @@ UNITY_STANDALONE_WIN
     //public TextMeshProUGUI closeText;
     public Button closeText;
     public Image timerImage;
+    public Image timerPlayerTurnImage;
     public Image scoreImage;
     public GameObject transparentPlayerCardPanel;
     public GameObject transparentPowerUpCardPanel;
@@ -122,6 +124,7 @@ UNITY_STANDALONE_WIN
     public int taskCardsToDraw;
     public int powerUpCardsToDraw;
     public float maxGameTimeInSeconds;
+    public float maxPlayerTurnInSeconds;
     public int earlyGamePoint;
     public int middleGamePoint;
     public int lateGamePoint;
@@ -159,6 +162,7 @@ UNITY_STANDALONE_WIN
     bool isVictorySound = true;
     int VictoryPointFirstValue = 20;
     float remainingGameTime = 300;
+    float playerTurnTime = 0;
     float victoryPanelScale = 0.5f;
     float achievementPanelScale = ACHIEVEMENT_PANEL_SMALL_SCALE;
     float timeFromStart = 0.0f;
@@ -550,6 +554,18 @@ Android uses files inside a compressed APK
             timerImage.gameObject.SetActive(false);
             scoreImage.gameObject.SetActive(true);
         }
+
+        if (SkinManager.instance.ActivePlayerTurnConditions != 0)
+        {
+            timerPlayerTurnImage.gameObject.SetActive(true);
+            timerPlayerTurnText.gameObject.SetActive(true);
+        }
+        else
+        {
+            timerPlayerTurnImage.gameObject.SetActive(false);
+            timerPlayerTurnText.gameObject.SetActive(false);
+        }
+        
         //rerollPanel.SetActive(false);
         victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
         achievementPanel.gameObject.transform.localScale = new Vector3(achievementPanelScale, achievementPanelScale, achievementPanelScale);
@@ -588,7 +604,9 @@ Android uses files inside a compressed APK
         isVictoryTimePass = SkinManager.instance.isVictoryTimePass;
         VictoryPointFirstValue = SkinManager.instance.VictoryPointFirstValue;
         maxGameTimeInSeconds = SkinManager.instance.VictoryTimePassValue;
+        maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
         remainingGameTime = maxGameTimeInSeconds;
+        playerTurnTime = maxPlayerTurnInSeconds;
         changeBackground();
         changeSound();
 
@@ -685,6 +703,53 @@ Android uses files inside a compressed APK
                 }
             }
         }
+
+        //tura gracza
+        if (SkinManager.instance.ActivePlayerTurnConditions != 0)//jest ograniczenie tury gracza
+        {
+            if (playerTurnTime > 0)
+            {
+                playerTurnTime = Mathf.FloorToInt((maxPlayerTurnInSeconds) -= Time.deltaTime);
+                timerPlayerTurnText.text = playerTurnTime.ToString();
+            }
+            else
+            {
+                //simply check cards
+                for (int i = 0; i < playerCardsToDraw; i++)
+                {
+                    if (playerCards.Count > maxPlayerCards)
+                    {
+                        DiscardPlayerCard(playerCards[0]);
+                    }
+                }
+
+                for (int i = 0; i < taskCardsToDraw; i++)
+                {
+                    if (actualTaskCardsCount > maxTaskCards)
+                    {
+                        DiscardTaskCard(taskCards[0]);
+                    }
+                }
+
+                for (int i = 0; i < playerCardsToDraw; i++)
+                {
+                    if (powerUpCards.Count > maxPowerUpCards)
+                    {
+                        DiscardPowerUpCard(powerUpCards[0]);
+                    }
+                }
+
+                if (activeCard != null)
+                {
+                    SetActiveCard(activeCard, false);
+                }
+                EndTurn();
+                //tutaj czekanie na drugiego gracza
+                maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
+                playerTurnTime = maxPlayerTurnInSeconds;
+            }
+        }
+        //koniec tury gracza
         if (remainingGameTime > 0)
         {
             remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);

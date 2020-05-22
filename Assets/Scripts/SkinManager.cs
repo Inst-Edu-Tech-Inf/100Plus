@@ -34,6 +34,7 @@ public class SkinManager : MonoBehaviour
     public const int BLUE_COLOR = 255;
     public const int COLOR_NUMBER = 3;
     public string[] COLORS_ARRAY = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
+    public static readonly int[] PLAYER_TURN = new int[] { 0, 30, 45, 60, 120 };
     public const float MAX_USER_DISACTIVITY = 10.0f; //sec
     public const float REROLL_COLOR_RULE = 0.625f;
     public const int REROLL_COST_EARLY = 1;

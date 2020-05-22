@@ -191,7 +191,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -12.2, y: 68}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 38, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5658940896977423288
 CanvasRenderer:
@@ -755,8 +755,10 @@ MonoBehaviour:
   UnlockAllSkins: 0
   PureGame: 0
   Lucky: 0
+  LongWay: 0
   CurrentScore: 0
   DebugToShow: 
+  UserID: 
 --- !u!1 &4327217408428291917
 GameObject:
   m_ObjectHideFlags: 0

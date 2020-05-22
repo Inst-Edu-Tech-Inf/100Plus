@@ -165,7 +165,12 @@ Android uses files inside a compressed APK
         SkinManager.instance.SetActivePlayerTurnConditions(playerTurnList.value);
 
         PlayerPrefs.SetInt("ActivePlayerTurnConditions", playerTurnList.value);
-        if (playerTurnList.value == 0)
+
+        SkinManager.instance.SetActivePlayerEndTime(SkinManager.PLAYER_TURN[playerTurnList.value]);
+        PlayerPrefs.SetInt("ActivePlayerEndTime", SkinManager.PLAYER_TURN[playerTurnList.value]);
+
+       
+       /* if (playerTurnList.value == 0)
         {
             SkinManager.instance.SetActivePlayerEndTime(0);
             PlayerPrefs.SetInt("ActivePlayerEndTime", 0);
@@ -198,7 +203,7 @@ Android uses files inside a compressed APK
                     }
                 }
             }
-        }//playerTurnList.value==0
+        }//playerTurnList.value==0*/
         
     }
 }
