@@ -627,6 +627,8 @@ Android uses files inside a compressed APK
         {
             DrawTaskCard();
         }
+        //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
+        //helpTask.transform.SetParent(tasks.transform);
     }
 
     public void AchievementPanelHide()
