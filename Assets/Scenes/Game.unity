@@ -2552,7 +2552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &589480005
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2569,7 +2569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -749, y: -209.09961}
+  m_AnchoredPosition: {x: -771.4, y: -207.30002}
   m_SizeDelta: {x: 288, y: 109.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &589480006
@@ -2600,8 +2600,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255615
-  m_fontColor: {r: 1, g: 1, b: 0, a: 1}
+    rgba: 4278196223
+  m_fontColor: {r: 1, g: 0.08880368, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5097,6 +5097,7 @@ MonoBehaviour:
   timerText: {fileID: 628680703}
   timerPlayerTurnText: {fileID: 1280631655}
   victoryPoints: {fileID: 1376921235}
+  victoryPointsP2: {fileID: 589480006}
   card: {fileID: 0}
   cardPowerUp: {fileID: 0}
   coin: {fileID: 0}

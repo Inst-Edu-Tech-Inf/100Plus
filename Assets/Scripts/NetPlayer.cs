@@ -16,11 +16,11 @@ public class NetPlayer : NetworkBehaviour
         print(isServer);
         if (isServer)
         {
-            gm.playerID = 1;
+            gm.isHost = true;
         }
         else
         {
-            gm.playerID = 2;
+            gm.isHost = false;
         }
     }
 }
