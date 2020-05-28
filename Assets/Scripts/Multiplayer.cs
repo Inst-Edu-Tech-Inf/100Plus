@@ -17,6 +17,7 @@ public class Multiplayer : MonoBehaviour
     void Start()
     {
         //changeBackground();
+        gameConditionsList.value = SkinManager.instance.ActivePlayerMode;
     }
 
     // Update is called once per frame

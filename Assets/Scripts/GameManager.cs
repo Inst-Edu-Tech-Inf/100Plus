@@ -620,6 +620,14 @@ Android uses files inside a compressed APK
         maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
         remainingGameTime = maxGameTimeInSeconds;
         playerTurnTime = maxPlayerTurnInSeconds;
+        if (SkinManager.instance.ActivePlayerMode != 0)//not single player mode
+        {
+            victoryPointsP2.gameObject.SetActive(true);
+        }
+        else
+        {
+            victoryPointsP2.gameObject.SetActive(false);
+        }
         changeBackground();
         changeSound();
 
@@ -659,7 +667,7 @@ Android uses files inside a compressed APK
 
     private void Update()
     {
-        print(victoryPointsNumber);
+        //print(victoryPointsNumber);
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
