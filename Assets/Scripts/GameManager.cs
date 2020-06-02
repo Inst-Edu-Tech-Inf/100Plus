@@ -439,6 +439,7 @@ Android uses files inside a compressed APK
                 }
             }
         victoryPointsNumber = (float)pom;
+        victoryPoints.text = victoryPointsNumber.ToString("F2");
         rerollPanel.SetActive(false);
         //CheckCardNumbers(false);
         //Debug.Log("actualTaskCardsCount END:" + actualTaskCardsCount);
@@ -632,6 +633,8 @@ Android uses files inside a compressed APK
         changeSound();
 
         CreateTaskCards();
+        //SetVictoryPoints(2);
+        victoryPoints.text = victoryPointsNumber.ToString("F2");
         //CreatePlayerCards();
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
@@ -1959,6 +1962,8 @@ Android uses files inside a compressed APK
 
         }
 
+        //show points
+        victoryPoints.text = victoryPointsNumber.ToString("F2");
     //set Slidebar
          if (victoryPointsNumber < earlyGamePoint)
         {
