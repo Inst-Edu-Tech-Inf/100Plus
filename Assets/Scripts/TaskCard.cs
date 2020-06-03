@@ -224,7 +224,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 applySkin(GameManager.BLUE_TEXT, false);
             }
         }
-        gm.victoryPointsNumber = int.Parse(valueText.text)/10;
+        gm.SetVictoryPoints(int.Parse(valueText.text)/10);
     }
 
 }

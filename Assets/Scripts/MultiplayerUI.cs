@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Mirror;
+using Mirror.Discovery;
 
 public class MultiplayerUI : MonoBehaviour
 {
@@ -12,15 +13,17 @@ public class MultiplayerUI : MonoBehaviour
 			roomManager = value;
 		}
 	}
+	public NetworkDiscovery discovery;
 
 	public void CreateGame()
 	{
-		roomManager.StartHost();
+		//roomManager.StartHost();
+		discovery.AdvertiseServer();
 	}
 
 	public void JoinGame()
 	{
-		roomManager.StartClient();
+		discovery.StartDiscovery();
 	}
 
 	public void Ready()

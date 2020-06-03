@@ -2071,7 +2071,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425529510}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5cffc82130c7a8a4e90816a6a241fc5e, type: 3}
@@ -2569,8 +2569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -771.4, y: -207.30002}
-  m_SizeDelta: {x: 288, y: 109.6}
+  m_AnchoredPosition: {x: -731.7, y: -205.80002}
+  m_SizeDelta: {x: 352.5999, y: 109.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &589480006
 MonoBehaviour:
@@ -5039,6 +5039,7 @@ GameObject:
   - component: {fileID: 1314397364}
   - component: {fileID: 1314397365}
   - component: {fileID: 1314397366}
+  - component: {fileID: 1314397367}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Game Manager
@@ -5180,7 +5181,7 @@ MonoBehaviour:
   wybranyClipGreen: {fileID: 0}
   wybranyClipBlue: {fileID: 0}
   coinGlobal: {fileID: 0}
-  playerID: 1
+  isHost: 1
 --- !u!114 &1314397365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5195,6 +5196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugPanel: {fileID: 1243819743}
   mainText: {fileID: 403588089}
+  gm: {fileID: 1314397364}
 --- !u!114 &1314397366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5272,6 +5274,22 @@ MonoBehaviour:
   CurrentScore: 0
   DebugToShow: 
   UserID: 
+--- !u!114 &1314397367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314397362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1152497572
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &1334731943
 GameObject:
   m_ObjectHideFlags: 0

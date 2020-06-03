@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using Mirror;
+using TMPro;
+using System;
 
 public class NetPlayer : NetworkBehaviour
 {
     GameManager gm;
 
-    private void Awake()
-    {
-        gm = GameObject.FindGameObjectsWithTag("Game Manager")[0].GetComponent<GameManager>();
-    }
-
     public override void OnStartLocalPlayer()
     {
-        base.OnStartLocalPlayer();
-        print(isServer);
+        gm = GameObject.FindGameObjectsWithTag("Game Manager")[0].GetComponent<GameManager>();
+
         if (isServer)
         {
             gm.isHost = true;
@@ -21,6 +18,13 @@ public class NetPlayer : NetworkBehaviour
         else
         {
             gm.isHost = false;
+            CmdGrantAuthority(gm.gameObject);
         }
+    }
+
+    [Command]
+    void CmdGrantAuthority(GameObject target)
+    {
+        target.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
     }
 }

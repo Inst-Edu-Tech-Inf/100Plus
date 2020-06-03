@@ -6,6 +6,7 @@ public class DebugTools : MonoBehaviour
 {
     public GameObject debugPanel;
     public TextMeshProUGUI mainText;
+    public GameManager gm;
 
     private void Awake()
     {
@@ -25,6 +26,12 @@ public class DebugTools : MonoBehaviour
                 debugPanel.SetActive(false);
             }
         }
+    }
+
+    public void AddVP()
+    {
+        gm.SetVictoryPoints(gm.GetVictoryPoints() + 1);
+        print("Debug Tools: AddVP() isHost = " + gm.isHost);
     }
 
     public void ReloadScene()
