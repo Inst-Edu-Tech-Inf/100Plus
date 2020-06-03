@@ -3,5 +3,5 @@ using Mirror;
 
 public class NetRoom : NetworkRoomManager
 {
-
+    
 }

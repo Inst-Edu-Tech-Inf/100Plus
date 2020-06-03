@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using Mirror;
-using TMPro;
-using System;
 
 public class NetPlayer : NetworkBehaviour
 {

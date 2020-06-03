@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Room Manager
   - Main Canvas
+  - Game Manager
+  - Single Net Manager
   layers:
   - Default
   - TransparentFX

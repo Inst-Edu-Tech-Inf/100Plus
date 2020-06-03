@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 
-
-
 public class MenuButtons : MonoBehaviour
 {
 	[Header("Background"), SerializeField]

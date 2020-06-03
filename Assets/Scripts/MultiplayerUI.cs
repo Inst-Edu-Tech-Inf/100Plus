@@ -15,9 +15,14 @@ public class MultiplayerUI : MonoBehaviour
 	}
 	public NetworkDiscovery discovery;
 
-	public void CreateGame()
+    private void Start()
+    {
+		discovery = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkDiscovery>();
+    }
+
+    public void CreateGame()
 	{
-		//roomManager.StartHost();
+		roomManager.StartHost();
 		discovery.AdvertiseServer();
 	}
 
