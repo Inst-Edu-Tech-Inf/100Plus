@@ -155,7 +155,7 @@ UNITY_STANDALONE_WIN
     public GameObject coinGlobal;
     public bool isHost = true;
 
-//then (int)ptr displays the memory address and *ptr displays the value at that memory address
+    //then (int)ptr displays the memory address and *ptr displays the value at that memory address
 
     bool isVictoryPointFirst = false;
     bool isVictoryTimePass = true;
@@ -175,48 +175,60 @@ UNITY_STANDALONE_WIN
     //int actualPlayerCardsCount = 0;
     //int actualPowerUpCardsCount = 0;
 
-    [SyncVar(hook = nameof(setVictoryPoinsTextP1))]
-    float _victoryPointsNumberP1;
-    [SyncVar(hook = nameof(setVictoryPointsTextP2))]
-    float _victoryPointsNumberP2;
+    [SyncVar(hook = nameof(_SetVictoryPointsP1))]
+    float victoryPointsNumberP1;
+    [SyncVar(hook = nameof(_SetVictoryPointsP2))]
+    float victoryPointsNumberP2;
 
-    public float victoryPointsNumber
+    public float GetVictoryPoints()
     {
-        get
-        {
-            if (isHost)
-                return _victoryPointsNumberP1;
-            else
-                return _victoryPointsNumberP2;
-        }
-        set
-        {
-            SetVictoryPoints(value);
-        }
+        print("Get");
+
+        if (isHost)
+            return victoryPointsNumberP1;
+        else
+            return victoryPointsNumberP2;
     }
 
-    void SetVictoryPoints(float value)
+    void _SetVictoryPointsP1(float oldValue, float newValue)
+    {
+        SetVictoryPointsTextP1(newValue);
+    }
+
+    void _SetVictoryPointsP2(float oldValue, float newValue)
+    {
+        SetVictoryPointsTextP2(newValue);
+    }
+
+    public void SetVictoryPoints(float value)
     {
         if (isHost)
         {
-            _victoryPointsNumberP1 = value;
+            victoryPointsNumberP1 = value;
         }
         else
         {
-            _victoryPointsNumberP2 = value;
+            victoryPointsNumberP2 = value;
+            SetVictoryPointsTextP2(value);
+            CmdSetVictoryPoints(value);
         }
     }
 
-    public void setVictoryPoinsTextP1(float oldValue, float newValue)
+    [Command]
+    void CmdSetVictoryPoints(float value)
     {
-        print("change p1" + newValue);
-        victoryPoints.text = newValue.ToString("F2");
+        victoryPointsNumberP2 = value;
+        print("CmdSet");
     }
 
-    public void setVictoryPointsTextP2(float oldValue, float newValue)
+    void SetVictoryPointsTextP1(float value)
     {
-        print("change p2 " + newValue);
-        victoryPointsP2.text = newValue.ToString("F2");
+        victoryPoints.text = value.ToString();
+    }
+
+    void SetVictoryPointsTextP2(float value)
+    {
+        victoryPointsP2.text = value.ToString();
     }
 
     public void Back()
@@ -422,7 +434,7 @@ Android uses files inside a compressed APK
             DrawTaskCard();
         }
         //Debug.Log("actualTaskCardsCount AFTER draw:" + actualTaskCardsCount);
-        pom = victoryPointsNumber;
+        pom = GetVictoryPoints();
         if (pom < earlyGamePoint)
             {               
                 pom -= SkinManager.REROLL_COST_EARLY;
@@ -438,8 +450,7 @@ Android uses files inside a compressed APK
                     pom -= SkinManager.REROLL_COST_LATE;
                 }
             }
-        victoryPointsNumber = (float)pom;
-        victoryPoints.text = victoryPointsNumber.ToString("F2");
+        SetVictoryPoints((float)pom);
         rerollPanel.SetActive(false);
         //CheckCardNumbers(false);
         //Debug.Log("actualTaskCardsCount END:" + actualTaskCardsCount);
@@ -502,13 +513,13 @@ Android uses files inside a compressed APK
             ((float)twoCount / (float)maxTaskCards >= SkinManager.REROLL_COLOR_RULE) ||
             ((float)threeCount / (float)maxTaskCards >= SkinManager.REROLL_COLOR_RULE))
         {
-            if (victoryPointsNumber < earlyGamePoint)
+            if (GetVictoryPoints() < earlyGamePoint)
             {
                 rerollCostText.text = "-" + SkinManager.REROLL_COST_EARLY.ToString() + " pkt";
             }
             else
             {
-                if (victoryPointsNumber < middleGamePoint)
+                if (GetVictoryPoints() < middleGamePoint)
                 {
                     rerollCostText.text = "-" + SkinManager.REROLL_COST_MIDDLE.ToString() + " pkt";
                 }
@@ -627,14 +638,12 @@ Android uses files inside a compressed APK
         }
         else
         {
-            victoryPointsP2.gameObject.SetActive(false);
+            //victoryPointsP2.gameObject.SetActive(false); nie pokazuje w multiplayer?
         }
         changeBackground();
         changeSound();
 
         CreateTaskCards();
-        //SetVictoryPoints(2);
-        victoryPoints.text = victoryPointsNumber.ToString("F2");
         //CreatePlayerCards();
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
@@ -670,7 +679,9 @@ Android uses files inside a compressed APK
 
     private void Update()
     {
-        //print(victoryPointsNumber);
+        print("VP1: " + victoryPointsNumberP1);
+        print("VP2: " + victoryPointsNumberP2);
+
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
@@ -1008,7 +1019,7 @@ Android uses files inside a compressed APK
         localCard.tex.texture = localCard.ActiveTexture;
 
 
-        if (victoryPointsNumber < earlyGamePoint)
+        if (GetVictoryPoints() < earlyGamePoint)
         {
             localCard.valueText.text = Random.Range(10, earlyGameTaskCardMax).ToString();
             /* if (isPreset)
@@ -1016,7 +1027,7 @@ Android uses files inside a compressed APK
         }
         else
         {
-            if (victoryPointsNumber < middleGamePoint)
+            if (GetVictoryPoints() < middleGamePoint)
             {
                 localCard.valueText.text = Random.Range(earlyGameTaskCardMax, middleGameTaskCardMax).ToString();
                 /*if (isPreset)
@@ -1063,13 +1074,13 @@ Android uses files inside a compressed APK
         string SubStr;
         localCard.hasMultiply = false;
         float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
-        if (victoryPointsNumber < earlyGamePoint)
+        if (GetVictoryPoints() < earlyGamePoint)
         {
             localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
         }
         else
         {
-            if (victoryPointsNumber < middleGamePoint)
+            if (GetVictoryPoints() < middleGamePoint)
             {
                 if (Random.Range(1, 100) <= earlyChanceOnMiddle)
                 {
@@ -1408,7 +1419,7 @@ Android uses files inside a compressed APK
        for (int i = 0; i < taskCardsToDraw; i++)
            DrawTaskCard();
 
-       if (victoryPointsNumber >= earlyGamePoint)
+       if (GetVictoryPoints() >= earlyGamePoint)
            for (int i = 0; i < powerUpCardsToDraw; i++)
                DrawPowerUpCard();
 
@@ -1791,8 +1802,8 @@ Android uses files inside a compressed APK
             isScored = true;
             Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
             AddAchievementPurePoint((float)Pom);
-            Victory = victoryPointsNumber + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
-            victoryPointsNumber = (float)Victory;
+            Victory = GetVictoryPoints() + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
+            SetVictoryPoints((float)Victory);
             DrawCoin();
             if (Pom <= 1.0)
             {
@@ -1856,7 +1867,7 @@ Android uses files inside a compressed APK
             SetActiveCard(activeCard, true);
             DiscardTaskCard(cardToDiscard);
             //bonus card
-            if (victoryPointsNumber < middleGamePoint)
+            if (GetVictoryPoints() < middleGamePoint)
             {
                 DrawPlayerCard();
             }
@@ -1912,11 +1923,11 @@ Android uses files inside a compressed APK
                         }
                     }
                 }
-                Pom += victoryPointsNumber;
+                Pom += GetVictoryPoints();
                 Pom *= 100;
                 Pom = Mathf.Round((float)Pom);
                 Pom /= 100;
-                victoryPointsNumber = (float)Pom;
+                SetVictoryPoints((float)Pom);
                // Discard cards -> do osobnej funkcji
                 
                 for (int i = 0; i < playerCards.Count; ++i)
@@ -1953,7 +1964,7 @@ Android uses files inside a compressed APK
                 SetActiveCard(activeCard, true);
                 DiscardTaskCard(cardToDiscard);
                 //bonuscard
-                if (victoryPointsNumber < earlyGamePoint)
+                if (GetVictoryPoints() < earlyGamePoint)
                 {
                     DrawPlayerCard();
                 }
@@ -1962,16 +1973,14 @@ Android uses files inside a compressed APK
 
         }
 
-        //show points
-        victoryPoints.text = victoryPointsNumber.ToString("F2");
     //set Slidebar
-         if (victoryPointsNumber < earlyGamePoint)
+         if (GetVictoryPoints() < earlyGamePoint)
         {
             
         }
         else
         {
-            if (victoryPointsNumber < middleGamePoint)
+            if (GetVictoryPoints() < middleGamePoint)
             {
                 //achievement
                 if (!SkinManager.instance.MiddlePass)
@@ -2022,7 +2031,7 @@ Android uses files inside a compressed APK
                 maxTaskCards = maxTaskCardsAddLate;
             }
         }
-        slider.value = victoryPointsNumber;
+        slider.value = GetVictoryPoints();
         //miss Sound
         if (!isScored)
         {
@@ -2032,7 +2041,7 @@ Android uses files inside a compressed APK
         if (isVictoryPointFirst)
         {
             //Debug.Log("Victory Point");
-            if (victoryPointsNumber >= VictoryPointFirstValue)
+            if (GetVictoryPoints() >= VictoryPointFirstValue)
             {
                 victorySFX.Play();
                 isVictory = true;
