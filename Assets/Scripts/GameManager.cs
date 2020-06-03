@@ -243,7 +243,20 @@ UNITY_STANDALONE_WIN
 
     public void BackYes()
     {
-        closeConfirmationPanel.gameObject.SetActive(false); 
+        closeConfirmationPanel.gameObject.SetActive(false);
+        if (GameObject.FindGameObjectWithTag("Room Manager") != null)
+        {
+            NetworkRoomManager netRoomManager = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+
+            if (isHost)
+                netRoomManager.StopHost();
+            else
+                netRoomManager.StopClient();
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>().StopHost();
+        }
         SceneManager.LoadScene("Menu");
         //Debug.Log("YES");
     }
