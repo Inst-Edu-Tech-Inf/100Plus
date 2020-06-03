@@ -176,7 +176,7 @@ UNITY_STANDALONE_WIN
     //int actualPowerUpCardsCount = 0;
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
-    float victoryPointsNumberP1;
+    float victoryPointsNumberP1=0;
     [SyncVar(hook = nameof(_SetVictoryPointsP2))]
     float victoryPointsNumberP2;
 
@@ -651,7 +651,7 @@ Android uses files inside a compressed APK
         }
         else
         {
-            //victoryPointsP2.gameObject.SetActive(false); nie pokazuje w multiplayer?
+            victoryPointsP2.gameObject.SetActive(false); //nie pokazuje w multiplayer?
         }
         changeBackground();
         changeSound();
@@ -675,6 +675,7 @@ Android uses files inside a compressed APK
         }
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
         //helpTask.transform.SetParent(tasks.transform);
+        SetVictoryPoints(0.0f);
     }
 
     public void AchievementPanelHide()
@@ -692,6 +693,7 @@ Android uses files inside a compressed APK
 
     private void Update()
     {
+        
         print("VP1: " + victoryPointsNumberP1);
         print("VP2: " + victoryPointsNumberP2);
 
