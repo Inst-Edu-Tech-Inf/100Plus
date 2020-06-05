@@ -29,6 +29,9 @@ UNITY_STANDALONE_WIN
     string adUnitId = "unexpected_platform";
 #endif*/
 
+    public const int GAME_CONDITION_SOLO = 0;
+    public const int GAME_CONDITION_SI = 1;
+    public const int GAME_CONDITION_PVP = 2;
     public const int KARTA_STATYCZNA = 1;
     public const int KARTA_DYNAMICZNA = 2;
     public const int KARTA_RAMKA = 3;
@@ -179,6 +182,89 @@ UNITY_STANDALONE_WIN
     float victoryPointsNumberP1=0;
     [SyncVar(hook = nameof(_SetVictoryPointsP2))]
     float victoryPointsNumberP2;
+
+    void SetMultiplayerGameModeClient()
+    {
+        //VictoryConditionsChange//synchronize
+       /* SkinManager.instance.SetActiveVictoryConditions(victoryList.value);
+
+        PlayerPrefs.SetInt("ActiveVictoryConditions", victoryList.value);
+        if (victoryList.value == 0)
+        {
+            SkinManager.instance.SetIsVictoryTimePass(true);
+            SkinManager.instance.SetIsVictoryPointFirst(false);
+            SkinManager.instance.SetVictoryTimePassValue(5 * 60);
+            SkinManager.instance.SetVictoryPointFirstValue(0);
+            PlayerPrefs.SetInt("IsVictoryTimePass", true ? 1 : 0);
+            PlayerPrefs.SetInt("IsVictoryPointFirst", false ? 1 : 0);
+            PlayerPrefs.SetInt("VictoryTimePass", 5 * 60);
+            PlayerPrefs.SetInt("VictoryPointFirst", 0);
+        }
+        else
+        {
+            if (victoryList.value == 1)
+            {
+                SkinManager.instance.SetIsVictoryTimePass(true);
+                SkinManager.instance.SetIsVictoryPointFirst(false);
+                SkinManager.instance.SetVictoryTimePassValue(15 * 60);
+                SkinManager.instance.SetVictoryPointFirstValue(0);
+                PlayerPrefs.SetInt("IsVictoryTimePass", true ? 1 : 0);
+                PlayerPrefs.SetInt("IsVictoryPointFirst", false ? 1 : 0);
+                PlayerPrefs.SetInt("VictoryTimePass", 15 * 60);
+                PlayerPrefs.SetInt("VictoryPointFirst", 0);
+            }
+            else
+            {
+                if (victoryList.value == 2)
+                {
+                    SkinManager.instance.SetIsVictoryTimePass(true);
+                    SkinManager.instance.SetIsVictoryPointFirst(false);
+                    SkinManager.instance.SetVictoryTimePassValue(30 * 60);
+                    SkinManager.instance.SetVictoryPointFirstValue(0);
+                    PlayerPrefs.SetInt("IsVictoryTimePass", true ? 1 : 0);
+                    PlayerPrefs.SetInt("IsVictoryPointFirst", false ? 1 : 0);
+                    PlayerPrefs.SetInt("VictoryTimePass", 30 * 60);
+                    PlayerPrefs.SetInt("VictoryPointFirst", 0);
+                }
+                else
+                {
+                    if (victoryList.value == 3)//points
+                    {
+                        SkinManager.instance.SetIsVictoryTimePass(false);
+                        SkinManager.instance.SetIsVictoryPointFirst(true);
+                        SkinManager.instance.SetVictoryTimePassValue(0);
+                        SkinManager.instance.SetVictoryPointFirstValue(20);
+                        PlayerPrefs.SetInt("IsVictoryTimePass", false ? 1 : 0);
+                        PlayerPrefs.SetInt("IsVictoryPointFirst", true ? 1 : 0);
+                        PlayerPrefs.SetInt("VictoryTimePass", 0);
+                        PlayerPrefs.SetInt("VictoryPointFirst", 20);
+                    }
+                    else
+                    {
+                        SkinManager.instance.SetIsVictoryTimePass(false);
+                        SkinManager.instance.SetIsVictoryPointFirst(true);
+                        SkinManager.instance.SetVictoryTimePassValue(0);
+                        SkinManager.instance.SetVictoryPointFirstValue(100);
+                        PlayerPrefs.SetInt("IsVictoryTimePass", false ? 1 : 0);
+                        PlayerPrefs.SetInt("IsVictoryPointFirst", true ? 1 : 0);
+                        PlayerPrefs.SetInt("VictoryTimePass", 0);
+                        PlayerPrefs.SetInt("VictoryPointFirst", 100);
+                    }
+                }
+            }
+        }//victoryList.value==0
+        */
+        //PlayerTurnConditionsChange//synchronize
+        /*
+        SkinManager.instance.SetActivePlayerTurnConditions(playerTurnList.value);
+        PlayerPrefs.SetInt("ActivePlayerTurnConditions", playerTurnList.value);
+        SkinManager.instance.SetActivePlayerEndTime(SkinManager.PLAYER_TURN[playerTurnList.value]);
+        PlayerPrefs.SetInt("ActivePlayerEndTime", SkinManager.PLAYER_TURN[playerTurnList.value]);
+         */
+       // PlayerModeChange()
+        SkinManager.instance.SetActivePlayerMode(GAME_CONDITION_PVP);
+        PlayerPrefs.SetInt("ActivePlayerMode", GAME_CONDITION_PVP);
+    }
 
     public float GetVictoryPoints()
     {
@@ -661,17 +747,20 @@ Android uses files inside a compressed APK
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
         {
-            DrawPowerUpCard();
+            DrawPowerUpCard();//player1
+            //DrawPowerUpCard(1,2,3);//for player2(Client) to set it when need to show
         }
 
         for (int i = 0; i < playerCardsOnStart; i++)
         {
-            DrawPlayerCard();
+            DrawPlayerCard();//player1
+            //DrawPlayerCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
 
         for (int i = 0; i < taskCardsOnStart; i++)
         {
-            DrawTaskCard();
+            DrawTaskCard();//player1
+            //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
         //helpTask.transform.SetParent(tasks.transform);
@@ -694,8 +783,8 @@ Android uses files inside a compressed APK
     private void Update()
     {
         
-        print("VP1: " + victoryPointsNumberP1);
-        print("VP2: " + victoryPointsNumberP2);
+        //print("VP1: " + victoryPointsNumberP1);
+        //print("VP2: " + victoryPointsNumberP2);
 
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
@@ -931,6 +1020,19 @@ Android uses files inside a compressed APK
         playerCards.Add(card);
         card.transform.SetParent(hands.transform, false);
         card.name = "PlayerCard" + playerCards.Count.ToString();
+        RandomizePlayerCard(card);
+//        RandomizePlayerCard2(card, RED_TEXT, 10);
+    }
+
+    void DrawPlayerCard(string kolor, int colorValue)
+    {
+        if (playerCards.Count >= maxPlayerCards + playerCardsToDraw) return;
+        GameObject card = Instantiate(playerCardPrefab);
+        playerCards.Add(card);
+        card.transform.SetParent(hands.transform, false);
+        card.name = "PlayerCard" + playerCards.Count.ToString();
+        RandomizePlayerCard(card, kolor, colorValue);
+        //        RandomizePlayerCard2(card, RED_TEXT, 10);
     }
 
    /* void DrawPlayerCardNew()
@@ -988,6 +1090,32 @@ Android uses files inside a compressed APK
         card.transform.SetParent(tasks.transform, false);
         card.name = "TaskCard"+ taskCards.Count.ToString();
     }
+
+    void DrawTaskCard(string color, int colorValue) //, GameObject whichTasks)
+    {
+        //actualTaskCardsCount
+        if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
+        // GameObject card = Instantiate(taskCardPrefab);
+        // taskCards.Add(card);
+        for (int i = 0; i < maxActualTaskCards; ++i)
+        {
+            card = taskCards[i];
+            if (!card.gameObject.activeSelf)
+            {
+                card.transform.SetParent(tasks.transform, false);
+                //               card.name = "TaskCard" + taskCards.Count.ToString();
+                //RandomizeTaskCard(card);
+
+                card.gameObject.SetActive(true);
+                //card.GetComponent<TaskCard>().Randomize();
+                SetValueTaskCard(card, color, colorValue);
+                actualTaskCardsCount++;
+                break;
+            }
+        }
+        Debug.Log("Zmieniona TaskCard");
+    }
+
     void DrawTaskCard()
     {
         //actualTaskCardsCount
@@ -1010,6 +1138,41 @@ Android uses files inside a compressed APK
                 break;
             }
         }
+    }
+
+    void SetValueTaskCard(GameObject card, string color, int colorValue)
+    {
+        //float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
+        TaskCard localCard = card.GetComponent<TaskCard>();
+        localCard.activeVideoPlayer.GetComponent<VideoPlayer>().targetTexture = localCard.ActiveTexture;
+        localCard.tex = localCard.activeRawImage.GetComponent<RawImage>();
+        localCard.tex.texture = localCard.ActiveTexture;
+
+        localCard.valueText.text = colorValue.ToString();
+
+        Debug.Log("kolor:" + color + "," + RED_TEXT);
+        if (color == RED_TEXT)
+        {
+            localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+            applyTaskCardSkin(localCard, RED_TEXT);
+            localCard.colorText.text = GameManager.RED_TEXT;
+        }
+        else
+        {
+            if (color == GREEN_TEXT)
+            {
+                localCard.valueText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                localCard.colorText.text = GameManager.GREEN_TEXT;
+                applyTaskCardSkin(localCard, GREEN_TEXT);
+            }
+            else
+            {
+                localCard.valueText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                localCard.colorText.text = GameManager.BLUE_TEXT;
+                applyTaskCardSkin(localCard, BLUE_TEXT);
+            }
+        }
+        localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
     }
 
     void RandomizeTaskCard(GameObject card)
@@ -1056,6 +1219,7 @@ Android uses files inside a compressed APK
             }
         }
 
+
         if (rand <= 1)
         {
             localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
@@ -1081,6 +1245,76 @@ Android uses files inside a compressed APK
             }
         }
         localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
+    }
+
+    void RandomizePlayerCard(GameObject card, string kolor, int colorValue)
+    {
+        PlayerCard localCard = card.GetComponent<PlayerCard>();
+        string SubStr;
+        localCard.hasMultiply = false;
+        //float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
+        localCard.additionText.text = colorValue.ToString();
+        
+        localCard.frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+        if (kolor == RED_TEXT)
+        {
+            localCard.additionText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+
+            if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+            {
+                SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+            }
+            else
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                    
+                }
+        }
+        else
+        {
+            if (kolor == GREEN_TEXT)
+            {
+                localCard.additionText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        //Debug.Log(SubStr);
+                    }
+            }
+            else
+            {
+                localCard.additionText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    SubStr = SubStr.Substring(0, SubStr.Length - 1);
+
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                }
+                else
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                       // Debug.Log(SubStr);
+                    }
+                
+            }
+            
+        }
+        
     }
 
     void RandomizePlayerCard(GameObject card)
@@ -1139,12 +1373,14 @@ Android uses files inside a compressed APK
                 SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                 SubStr = SubStr.Substring(0, SubStr.Length - 1);
                 localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                Debug.Log(SubStr);
             }
             else
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRed;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                    Debug.Log(SubStr);
                 }
         }
         else
@@ -1157,12 +1393,14 @@ Android uses files inside a compressed APK
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                    Debug.Log(SubStr);
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        Debug.Log(SubStr);
                     }
             }
             else
@@ -1174,12 +1412,14 @@ Android uses files inside a compressed APK
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
 
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                    Debug.Log(SubStr);
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                        Debug.Log(SubStr);
                     }
             }
         }
@@ -1262,6 +1502,45 @@ Android uses files inside a compressed APK
         powerUpCards.Add(card);
         card.transform.SetParent(powerUps.transform, false);
         card.name = "PowerUpCard" + powerUpCards.Count.ToString();
+        RandomizePowerUpCard(card);
+    }
+
+    void DrawPowerUpCard(int redValue, int greenValue, int blueValue)
+    {
+        if (powerUpCards.Count >= maxPowerUpCards + powerUpCardsToDraw) return;
+        GameObject card = Instantiate(powerUpCardPrefab);
+        powerUpCards.Add(card);
+        card.transform.SetParent(powerUps.transform, false);
+        card.name = "PowerUpCard" + powerUpCards.Count.ToString();
+        RandomizePowerUpCard(card, redValue, greenValue, blueValue);
+    }
+
+    void RandomizePowerUpCard(GameObject card)
+    {
+        int rand;
+        PowerUpCard localCard = card.GetComponent<PowerUpCard>();
+        if (float.Parse(victoryPoints.text) < middleGamePoint)
+        {
+            rand = Random.Range(2, 4);
+            localCard.redText.text = rand.ToString();
+            localCard.greenText.text = rand.ToString();
+            localCard.blueText.text = rand.ToString();
+        }
+        else //lateGamePoint
+        {
+            localCard.redText.text = Random.Range(1, 6).ToString();
+            localCard.greenText.text = Random.Range(1, 6).ToString();
+            localCard.blueText.text = Random.Range(1, 6).ToString();
+        }
+    }
+   
+
+    void RandomizePowerUpCard(GameObject card, int redValue, int greenValue, int blueValue)
+    {
+        PowerUpCard localCard = card.GetComponent<PowerUpCard>();
+        localCard.redText.text = redValue.ToString();
+        localCard.greenText.text = greenValue.ToString();
+        localCard.blueText.text = blueValue.ToString();
     }
 
     public void DiscardCoin(GameObject coin)
@@ -1428,15 +1707,24 @@ Android uses files inside a compressed APK
     {
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         endTurnSFX.Play();
-       for (int i = 0; i < playerCardsToDraw; i++)
-            DrawPlayerCard();
+        for (int i = 0; i < playerCardsToDraw; i++)
+        {
+            DrawPlayerCard();//player1
+            //DrawPlayerCard(RED_TEXT, 21);//for player2(Client) to set it 
+        }
 
-       for (int i = 0; i < taskCardsToDraw; i++)
-           DrawTaskCard();
+        for (int i = 0; i < taskCardsToDraw; i++)
+        {
+            DrawTaskCard();//player1
+            //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it 
+        }
 
        if (GetVictoryPoints() >= earlyGamePoint)
            for (int i = 0; i < powerUpCardsToDraw; i++)
-               DrawPowerUpCard();
+           {
+               DrawPowerUpCard();//player1
+               //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
+           }
 
        RerollTaskCardCheck();
        CheckCardNumbers(true);

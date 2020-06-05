@@ -32,7 +32,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         //activeImage = GameObject.Find("PlayerCardImage").GetComponent<Image>();
         additionText = transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
         float rand = Random.Range(1, GameManager.COLOR_NUMBER+1 );//to number of colors
-        if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
+   /*     if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             additionText.text = Random.Range(1, gm.earlyGamePlayerCardMax).ToString();
         }
@@ -68,7 +68,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 }
                 
             }
-        }
+        }*/
 
         //image.material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name)); //to shader
         frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
@@ -86,7 +86,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         //Assigns the UI sprite
         image.material.SetTexture("_SecondaryTex", tex2);*/
-        if (rand <= 1)
+        /*if (rand <= 1)
         {
             additionText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
 
@@ -98,46 +98,14 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
  //               gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
                 activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
-               /* //gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
-                //Substr = Application.streamingAssetsPath + "/"  + GameManager.RED_TEX;
-                string pom = SubStr + GameManager.RED_TEXT + ".png";
-                pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                //Creates texture and loads byte array data to create image
-                Texture2D tex = new Texture2D(2, 2);
-                tex.LoadImage(pngBytes);
-
-                //Creates a new Sprite based on the Texture2D
-                Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                //Assigns the UI sprite
-
-                gameObject.GetComponent<Image>().sprite = fromTex;*/
+               
             }
             else
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.RED_TEXT, typeof(Sprite)) as Sprite;
-                    /*string pom = SubStr + GameManager.RED_TEXT + ".png";
-                    pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                    //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                    byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                    //Creates texture and loads byte array data to create image
-                    Texture2D tex = new Texture2D(2, 2);
-                    tex.LoadImage(pngBytes);
-
-                    //Creates a new Sprite based on the Texture2D
-                    Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                    //Assigns the UI sprite
-
-                    gameObject.GetComponent<Image>().sprite = fromTex;*/
+                    
                 }
         }
         else
@@ -151,44 +119,14 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
 //                    gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
                     activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
-                   /* string pom =  SubStr + GameManager.GREEN_TEXT + ".png";
-                    pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                    //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                    byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                    //Creates texture and loads byte array data to create image
-                    Texture2D tex = new Texture2D(2, 2);
-                    tex.LoadImage(pngBytes);
-
-                    //Creates a new Sprite based on the Texture2D
-                    Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                    //Assigns the UI sprite
-
-                    gameObject.GetComponent<Image>().sprite = fromTex;*/
+                   
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                         activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.GREEN_TEXT, typeof(Sprite)) as Sprite;
-                       /* string pom =  SubStr + GameManager.GREEN_TEXT + ".png";
-                        pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                        //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                        byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                        //Creates texture and loads byte array data to create image
-                        Texture2D tex = new Texture2D(2, 2);
-                        tex.LoadImage(pngBytes);
-
-                        //Creates a new Sprite based on the Texture2D
-                        Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                        //Assigns the UI sprite
-
-                        gameObject.GetComponent<Image>().sprite = fromTex;*/
+                      
                     }
             }
             else
@@ -199,47 +137,18 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
                     activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
-                  /*  string pom = SubStr + GameManager.BLUE_TEXT + ".png";
-                    pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                    //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                    byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                    //Creates texture and loads byte array data to create image
-                    Texture2D tex = new Texture2D(2, 2);
-                    tex.LoadImage(pngBytes);
-
-                    //Creates a new Sprite based on the Texture2D
-                    Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                    //Assigns the UI sprite
-
-                    gameObject.GetComponent<Image>().sprite = fromTex;*/
+                 
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                         activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load(SubStr + GameManager.BLUE_TEXT, typeof(Sprite)) as Sprite;
-                       /* string pom =  SubStr + GameManager.BLUE_TEXT + ".png";
-                        pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                        //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                        byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                        //Creates texture and loads byte array data to create image
-                        Texture2D tex = new Texture2D(2, 2);
-                        tex.LoadImage(pngBytes);
-
-                        //Creates a new Sprite based on the Texture2D
-                        Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                        //Assigns the UI sprite
-
-                        gameObject.GetComponent<Image>().sprite = fromTex;*/
+                    
                     }
             }
-        }
+        }*/
+        //activeImage.gameObject.GetComponent<Image>().sprite = gm.wybranyRed;
         cardMissSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
         cardCorrectSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
     }

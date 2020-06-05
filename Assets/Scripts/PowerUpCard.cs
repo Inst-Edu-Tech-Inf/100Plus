@@ -25,7 +25,7 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         powerUp = GameObject.Find("PowerUp");
-        if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
+       /* if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             
         }
@@ -40,11 +40,11 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             }
             else //lateGamePoint
             {
-                redText.text = Random.Range(1, 5).ToString();
-                greenText.text = Random.Range(1, 5).ToString();
-                blueText.text = Random.Range(1, 5).ToString();
+                redText.text = Random.Range(1, 6).ToString();
+                greenText.text = Random.Range(1, 6).ToString();
+                blueText.text = Random.Range(1, 6).ToString();
             }
-        }
+        }*/
         cardMissSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
         cardCorrectSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
     }

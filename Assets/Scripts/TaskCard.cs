@@ -44,6 +44,63 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isPreset = false;
     }*/
 
+    void applySkin()
+    {
+        int pm;
+
+        activeRawImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
+        activeImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+        {
+            activeRawImage.gameObject.SetActive(true);
+            activeImage.gameObject.GetComponent<Image>().sprite = gm.wybranyBlack;// Resources.Load<Sprite>("Black");
+            activeVideoPlayer.gameObject.SetActive(true);
+#if HTML5
+//#if UNITY_WEBGL 
+            //activeVideoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[0].Name + Kolor + ".mp4");
+            activeVideoPlayer.url = "http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + Kolor + ".mp4";
+//#endif
+#endif
+         /*   if (Kolor == GameManager.RED_TEXT)
+            {
+                activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipRed;
+            }
+            else
+                if (Kolor == GameManager.GREEN_TEXT)
+                {
+                    activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipGreen;
+                }
+                else
+                {
+                    activeVideoPlayer.GetComponent<VideoPlayer>().clip = gm.wybranyClipBlue;
+                }
+
+            pm = (int)Mathf.Round(Random.Range(0.0f, (float)activeVideoPlayer.length));
+            activeVideoPlayer.frame = pm;
+            activeVideoPlayer.Play();*/
+        }
+        // else
+        if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+        {
+            activeRawImage.gameObject.SetActive(false);
+            activeImage.gameObject.SetActive(true);
+          /*  if (Kolor == GameManager.RED_TEXT)
+            {
+                activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
+            }
+            else
+                if (Kolor == GameManager.GREEN_TEXT)
+                {
+                    activeImage.GetComponent<Image>().sprite = gm.wybranyGreen;
+                }
+                else
+                {
+                    activeImage.GetComponent<Image>().sprite = gm.wybranyBlue;
+                }*/
+            activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
+        }
+    }
+
      void applySkin(string Kolor, bool isAwake)
     {     
         int pm;
@@ -180,30 +237,27 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             //Debug.Log(tex.transform.GetChild(0).gameObject);
            // miniTex = transform.Find("RawImage").GetComponent<RawImage>();
            // miniTex.texture = miniActiveTexture;
-
+/*
         if (float.Parse(gm.victoryPoints.text) < gm.earlyGamePoint)
         {
             valueText.text = Random.Range(10, gm.earlyGameTaskCardMax).ToString();
-           /* if (isPreset)
-                valueText.text = presetTask.ToString();*/
+           
         }
         else
         {
             if (float.Parse(gm.victoryPoints.text) < gm.middleGamePoint)
             {
                 valueText.text = Random.Range(gm.earlyGameTaskCardMax, gm.middleGameTaskCardMax).ToString();
-                /*if (isPreset)
-                    valueText.text = presetTask.ToString();*/
+                
             }
             else //lateGamePoint
             {
                 valueText.text = Random.Range(gm.middleGameTaskCardMax, gm.lateGameTaskCardMax).ToString();
-               /* if (isPreset)
-                    valueText.text = presetTask.ToString();*/
+               
             }
         }
-       
-        if (rand <= 1)
+       */
+        /*if (rand <= 1)
         {
             valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
             applySkin(GameManager.RED_TEXT, false);
@@ -223,7 +277,8 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 colorText.text = GameManager.BLUE_TEXT;
                 applySkin(GameManager.BLUE_TEXT, false);
             }
-        }
+        }*/
+            applySkin();
         //gm.SetVictoryPoints(int.Parse(valueText.text)/10);
     }
 
