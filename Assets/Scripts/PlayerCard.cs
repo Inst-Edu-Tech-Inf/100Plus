@@ -24,7 +24,7 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     void Start()
     {
-        string SubStr;
+        //string SubStr;
         hands = GameObject.Find("Hands");
         hasMultiply = false;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();

@@ -80,7 +80,32 @@ public class MenuButtons : MonoBehaviour
 
 	public void playButton()
 	{
-		SceneManager.LoadScene("Game");
+        if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SOLO)
+        {
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SI)
+            {
+                SceneManager.LoadScene("Game");//like solo game
+            }
+            else
+            {
+                if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_PVP)
+                {
+                    //2 player needed
+                    SceneManager.LoadScene("Multiplayer");
+                }
+                else
+                {
+                    if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_LEAGUE)
+                    {
+                        //2 player and 1 supervisor needed
+                    }
+                }
+            }
+        }
 	}
 
 	public void achievementButton()

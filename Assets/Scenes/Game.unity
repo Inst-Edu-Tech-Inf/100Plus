@@ -5247,7 +5247,7 @@ MonoBehaviour:
   endTurnBtn: {fileID: 1527768906}
   tasks: {fileID: 1427990676}
   hands: {fileID: 257900707}
-  handsSorted: {fileID: 1600552333}
+  handsP2: {fileID: 1600552333}
   powerUps: {fileID: 1614493855}
   playerCardPrefab: {fileID: 3306539167993578427, guid: e66243419b06e3e48ae6ca3df414ea83,
     type: 3}
@@ -5344,6 +5344,7 @@ MonoBehaviour:
   wybranyClipBlue: {fileID: 0}
   coinGlobal: {fileID: 0}
   isHost: 1
+  isHostTurn: 1
 --- !u!114 &1314397365
 MonoBehaviour:
   m_ObjectHideFlags: 0

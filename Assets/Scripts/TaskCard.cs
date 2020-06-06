@@ -46,7 +46,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void applySkin()
     {
-        int pm;
+        //int pm;
 
         activeRawImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
         activeImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));

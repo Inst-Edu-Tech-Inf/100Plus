@@ -32,6 +32,7 @@ UNITY_STANDALONE_WIN
     public const int GAME_CONDITION_SOLO = 0;
     public const int GAME_CONDITION_SI = 1;
     public const int GAME_CONDITION_PVP = 2;
+    public const int GAME_CONDITION_LEAGUE = 3;
     public const int KARTA_STATYCZNA = 1;
     public const int KARTA_DYNAMICZNA = 2;
     public const int KARTA_RAMKA = 3;
@@ -56,7 +57,7 @@ UNITY_STANDALONE_WIN
     public GameObject endTurnBtn;
     public GameObject tasks;
     public GameObject hands;
-    public GameObject handsSorted;
+    public GameObject handsP2;
     public GameObject powerUps;
     public GameObject playerCardPrefab;
     public GameObject taskCardPrefab;
@@ -108,6 +109,7 @@ UNITY_STANDALONE_WIN
     public Button transparentButton;
 
     List<GameObject> playerCards = new List<GameObject>();
+    List<GameObject> playerAICards = new List<GameObject>();
     List<GameObject> taskCards = new List<GameObject>();
     public List<GameObject> powerUpCards = new List<GameObject>();
     List<GameObject> coins = new List<GameObject>();
@@ -143,6 +145,7 @@ UNITY_STANDALONE_WIN
     public int middleChanceOnLate;//%
     public GameObject activeCard;
     public float userActivityTime = 0.0f;
+    
 
     public Texture2D wybranaRamka;
     public Sprite wybranyBlack;
@@ -157,6 +160,7 @@ UNITY_STANDALONE_WIN
     public VideoClip wybranyClipBlue;
     public GameObject coinGlobal;
     public bool isHost = true;
+    public bool isHostTurn = true;
 
     //then (int)ptr displays the memory address and *ptr displays the value at that memory address
 
@@ -935,7 +939,7 @@ Android uses files inside a compressed APK
                 //victory achievement
                 if (!SkinManager.instance.WinSolo)
                 {
-                    if (SkinManager.instance.ActivePlayerMode == 0)
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
                     {
                         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.WINSOLO].ID, true ? 1 : 0); 
                         SkinManager.instance.SetWinSolo(true);
@@ -945,7 +949,7 @@ Android uses files inside a compressed APK
                 }
                 if (!SkinManager.instance.WinSI)
                 {
-                    if (SkinManager.instance.ActivePlayerMode == 1)
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
                     {
                         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.WINSI].ID, true ? 1 : 0);
                         SkinManager.instance.SetWinSI(true);
@@ -955,7 +959,7 @@ Android uses files inside a compressed APK
                 }
                 if (!SkinManager.instance.WinPVP)
                 {
-                    if (SkinManager.instance.ActivePlayerMode == 2)
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                     {
                         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.WINPVP].ID, true ? 1 : 0);
                         SkinManager.instance.SetWinPVP(true);
@@ -1022,6 +1026,22 @@ Android uses files inside a compressed APK
         card.name = "PlayerCard" + playerCards.Count.ToString();
         RandomizePlayerCard(card);
 //        RandomizePlayerCard2(card, RED_TEXT, 10);
+    }
+
+    void DrawPlayerCard(GameObject playerCardList, GameObject gridLayoutGroup)
+    {
+
+    }
+
+    void DrawPlayerAICard()
+    {
+        if (playerAICards.Count >= maxPlayerCards + playerCardsToDraw) return;
+        GameObject card = Instantiate(playerCardPrefab);
+        playerAICards.Add(card);
+        card.transform.SetParent(handsP2.transform, false);
+        card.name = "PlayerCard" + playerAICards.Count.ToString();
+        RandomizePlayerCard(card);
+        //        RandomizePlayerCard2(card, RED_TEXT, 10);
     }
 
     void DrawPlayerCard(string kolor, int colorValue)
@@ -1705,30 +1725,41 @@ Android uses files inside a compressed APK
 
     public void EndTurn()
     {
-        userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
-        endTurnSFX.Play();
-        for (int i = 0; i < playerCardsToDraw; i++)
+        if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
         {
-            DrawPlayerCard();//player1
-            //DrawPlayerCard(RED_TEXT, 21);//for player2(Client) to set it 
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+            {
+                isHostTurn = true;
+            }
+            else
+            {
+                isHostTurn = !isHostTurn;
+            }
+
+            userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
+            endTurnSFX.Play();
+            for (int i = 0; i < playerCardsToDraw; i++)
+            {
+                DrawPlayerCard();//player1
+                //DrawPlayerCard(RED_TEXT, 21);//for player2(Client) to set it 
+            }
+
+            for (int i = 0; i < taskCardsToDraw; i++)
+            {
+                DrawTaskCard();//player1
+                //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it 
+            }
+
+            if (GetVictoryPoints() >= earlyGamePoint)
+                for (int i = 0; i < powerUpCardsToDraw; i++)
+                {
+                    DrawPowerUpCard();//player1
+                    //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
+                }
+
+            RerollTaskCardCheck();
+            CheckCardNumbers(true);
         }
-
-        for (int i = 0; i < taskCardsToDraw; i++)
-        {
-            DrawTaskCard();//player1
-            //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it 
-        }
-
-       if (GetVictoryPoints() >= earlyGamePoint)
-           for (int i = 0; i < powerUpCardsToDraw; i++)
-           {
-               DrawPowerUpCard();//player1
-               //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
-           }
-
-       RerollTaskCardCheck();
-       CheckCardNumbers(true);
-       
     }
 
     void AddAchievementPurePoint(float Value)

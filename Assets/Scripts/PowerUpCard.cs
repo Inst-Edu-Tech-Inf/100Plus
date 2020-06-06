@@ -21,7 +21,7 @@ public class PowerUpCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     // Start is called before the first frame update
     void Start()
     {
-        int rand;
+        //int rand;
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         powerUp = GameObject.Find("PowerUp");

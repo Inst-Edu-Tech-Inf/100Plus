@@ -24,11 +24,15 @@ public class MultiplayerUI : MonoBehaviour
 	{
 		roomManager.StartHost();
 		discovery.AdvertiseServer();
+        //gm.isHostTurn = true;
+        //I'm Host
 	}
 
 	public void JoinGame()
 	{
 		discovery.StartDiscovery();
+        //gm.isHostTurn = from synchronize
+        //I'm not Host
 	}
 
 	public void Ready()

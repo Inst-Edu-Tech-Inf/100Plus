@@ -11,6 +11,9 @@ public class Multiplayer : MonoBehaviour
     public Image backgroundImage;
     public InputField input;
     public Dropdown gameConditionsList;
+    public GameObject pvpPanel;
+    public GameObject aiDifficultyPanel;
+    public Button readyButton;
 
 
     // Start is called before the first frame update
@@ -18,6 +21,37 @@ public class Multiplayer : MonoBehaviour
     {
         //changeBackground();
         gameConditionsList.value = SkinManager.instance.ActivePlayerMode;
+        //readyButton.interactable = false;
+        readyButton.gameObject.SetActive(false);
+        if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SOLO)
+        {
+            pvpPanel.SetActive(false);
+            aiDifficultyPanel.SetActive(false);
+        }
+        else
+        {
+            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SI)
+            {
+                pvpPanel.SetActive(false);
+                aiDifficultyPanel.SetActive(true);
+            }
+            else
+            {
+                if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_PVP)
+                {
+                    pvpPanel.SetActive(true);
+                    aiDifficultyPanel.SetActive(false);
+                }
+                else
+                {
+                    if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_LEAGUE)
+                    {
+                        pvpPanel.SetActive(true);
+                        aiDifficultyPanel.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -105,6 +139,13 @@ Android uses files inside a compressed APK
     {
         SkinManager.instance.SetActivePlayerMode(gameConditionsList.value);
         PlayerPrefs.SetInt("ActivePlayerMode", gameConditionsList.value);
+        Start();
+    }
+
+    public void ReadyButtonAvailable()
+    {
+        //readyButton.interactable = false;//true after connection of 2nd player
+        readyButton.gameObject.SetActive(true);
     }
     /*iOS uses Application.dataPath + "/Raw",
 Android uses files inside a compressed APK
