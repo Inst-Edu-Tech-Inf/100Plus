@@ -107,6 +107,10 @@ UNITY_STANDALONE_WIN
     public GameObject transparentPowerUpCardPanel;
     public GameObject closeConfirmationPanel;
     public Button transparentButton;
+    public Image iaTurnImage;
+    public Image p2TurnImage;
+    public GameObject transparentAllPanel;
+    public Text infoText;
 
     List<GameObject> playerCards = new List<GameObject>();
     List<GameObject> playerAICards = new List<GameObject>();
@@ -160,7 +164,7 @@ UNITY_STANDALONE_WIN
     public VideoClip wybranyClipBlue;
     public GameObject coinGlobal;
     public bool isHost = true;
-    public bool isHostTurn = true;
+    //public bool isHostTurn = true;
 
     //then (int)ptr displays the memory address and *ptr displays the value at that memory address
 
@@ -186,6 +190,8 @@ UNITY_STANDALONE_WIN
     float victoryPointsNumberP1=0;
     [SyncVar(hook = nameof(_SetVictoryPointsP2))]
     float victoryPointsNumberP2;
+    [SyncVar(hook = nameof(_SetIsHostTurn))]
+    bool isHostTurn = true;
 
     void SetMultiplayerGameModeClient()
     {
@@ -270,9 +276,49 @@ UNITY_STANDALONE_WIN
         PlayerPrefs.SetInt("ActivePlayerMode", GAME_CONDITION_PVP);
     }
 
+    public bool GetIsHostTurn()
+    {
+        return isHostTurn;
+    }
+
+    void _SetIsHostTurn(bool oldValue, bool newValue)
+    {
+        if (((isHost) && (newValue)) || ((!isHost) && (!newValue)))
+        {
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+            {
+
+            }
+            else
+            {
+                endTurnBtn.gameObject.SetActive(true);
+                iaTurnImage.gameObject.SetActive(false);
+                p2TurnImage.gameObject.SetActive(false);
+                transparentAllPanel.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            transparentAllPanel.gameObject.SetActive(true);
+        }
+    }
+
+    public void SetIsHostTurn(bool value)
+    {
+        isHostTurn = value;
+        CmdSetIsHostTurn(value);
+        //print("HostTurn:" + value);
+    }
+
+    [Command]
+    void CmdSetIsHostTurn(bool value)
+    {
+        isHostTurn = value;
+    }
+
     public float GetVictoryPoints()
     {
-        print("Get");
+        //print("Get");
 
         if (isHost)
             return victoryPointsNumberP1;
@@ -672,6 +718,15 @@ Android uses files inside a compressed APK
         transparentPowerUpCardPanel.SetActive(true);
         transparentButton.gameObject.SetActive(false);
         closeConfirmationPanel.gameObject.SetActive(false);
+        transparentAllPanel.gameObject.SetActive(false);
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            infoText.gameObject.SetActive(true);
+        }
+        else
+        {
+            infoText.gameObject.SetActive(false);
+        }
         if (SkinManager.instance.ActiveVictoryConditions < 3)
         {
             timerImage.gameObject.SetActive(true);
@@ -735,6 +790,8 @@ Android uses files inside a compressed APK
         maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
         remainingGameTime = maxGameTimeInSeconds;
         playerTurnTime = maxPlayerTurnInSeconds;
+        iaTurnImage.gameObject.SetActive(false);
+        p2TurnImage.gameObject.SetActive(false);
         if (SkinManager.instance.ActivePlayerMode != 0)//not single player mode
         {
             victoryPointsP2.gameObject.SetActive(true);
@@ -789,7 +846,18 @@ Android uses files inside a compressed APK
         
         //print("VP1: " + victoryPointsNumberP1);
         //print("VP2: " + victoryPointsNumberP2);
-
+       /* if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            infoText.text = "";
+            if (isHost)
+                infoText.text = infoText.text + "isHost: True; ";
+            else
+                infoText.text = infoText.text + "isHost: False; ";
+            if (isHostTurn)
+                infoText.text = infoText.text + "isHostTurn: True;";
+            else
+                infoText.text = infoText.text + "isHostTurn: False;";
+        }*/
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
@@ -1393,14 +1461,14 @@ Android uses files inside a compressed APK
                 SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                 SubStr = SubStr.Substring(0, SubStr.Length - 1);
                 localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
-                Debug.Log(SubStr);
+                //Debug.Log(SubStr);
             }
             else
                 if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                 {
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyRed;// Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
-                    Debug.Log(SubStr);
+                    //Debug.Log(SubStr);
                 }
         }
         else
@@ -1413,14 +1481,14 @@ Android uses files inside a compressed APK
                     SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
-                    Debug.Log(SubStr);
+                    //Debug.Log(SubStr);
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                         localCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;// Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
-                        Debug.Log(SubStr);
+                        //Debug.Log(SubStr);
                     }
             }
             else
@@ -1432,14 +1500,14 @@ Android uses files inside a compressed APK
                     SubStr = SubStr.Substring(0, SubStr.Length - 1);
 
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
-                    Debug.Log(SubStr);
+                    //Debug.Log(SubStr);
                 }
                 else
                     if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
                     {
                         SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
                         localCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;// Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
-                        Debug.Log(SubStr);
+                        //Debug.Log(SubStr);
                     }
             }
         }
@@ -1725,15 +1793,30 @@ Android uses files inside a compressed APK
 
     public void EndTurn()
     {
-        if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
+        // if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
+        if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
             if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
             {
-                isHostTurn = true;
+                SetIsHostTurn(true);
+                endTurnBtn.gameObject.SetActive(true);
+                //isHostTurn = true;
             }
             else
             {
-                isHostTurn = !isHostTurn;
+                SetIsHostTurn(!GetIsHostTurn());
+                endTurnBtn.gameObject.SetActive(false);
+                //isHostTurn = !isHostTurn;
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                {
+                    iaTurnImage.gameObject.SetActive(true);
+                    p2TurnImage.gameObject.SetActive(false);
+                }
+                else //different PVP modes
+                {
+                    iaTurnImage.gameObject.SetActive(false);
+                    p2TurnImage.gameObject.SetActive(true);
+                }
             }
 
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
