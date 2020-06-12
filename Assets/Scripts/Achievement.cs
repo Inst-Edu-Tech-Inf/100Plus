@@ -744,5 +744,12 @@ Android uses files inside a compressed APK
             pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
             StartCoroutine(GetWWWTexture(pom));
         }
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            string pom3 = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
+            //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            StartCoroutine(GetWWWTexture(pom3));
+        }
     }
 }

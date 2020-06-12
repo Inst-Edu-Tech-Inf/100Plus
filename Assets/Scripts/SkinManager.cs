@@ -36,6 +36,7 @@ public class SkinManager : MonoBehaviour
     public string[] COLORS_ARRAY = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
     public static readonly int[] PLAYER_TURN = new int[] { 0, 30, 45, 60, 120 };
     public const float MAX_USER_DISACTIVITY = 10.0f; //sec
+    public const float AI_ACTIVITY_TIME = 1.5f;//sec
     public const float REROLL_COLOR_RULE = 0.625f;
     public const int REROLL_COST_EARLY = 1;
     public const int REROLL_COST_MIDDLE = 2;
@@ -88,6 +89,8 @@ public class SkinManager : MonoBehaviour
     public const int PUREGAME = 29;
     public const int LUCKY = 30;
     public const int LONGWAY = 31;
+    public const int AI_EASY = 0;
+    public const int AI_IMPOSSIBLE = 1;
 
     public struct SkinsInfo
     {
@@ -160,6 +163,7 @@ public class SkinManager : MonoBehaviour
     public int ActivePlayerEndTime = 0;//sec
     public int CurrentCash = 0;
     public float BestResult = 0.0f;
+    public int AIDifficulty = AI_EASY;
 
     public int ActivePlayerMode = 0;//solo, SI, PVP
     public float PureSolo = 0;
@@ -482,6 +486,7 @@ public class SkinManager : MonoBehaviour
         WinPVP = (PlayerPrefs.GetInt("WinPVP") != 0);
         Lucky = (PlayerPrefs.GetInt("Lucky") != 0);
         LongWay = (PlayerPrefs.GetInt("LongWay") != 0);
+        AIDifficulty = PlayerPrefs.GetInt("AIDifficulty");
         //TODO progres
        // Debug.Log(osiagniecia.Count);
        // Debug.Log(PURE1KSOLO);
@@ -790,6 +795,11 @@ public class SkinManager : MonoBehaviour
     {
         BestResult = Value;
     }*/
+
+    public void SetAIDifficulty(int Value)
+    {
+        AIDifficulty = Value;
+    }
 
     public void SetActivePlayerMode(int Value)
     {

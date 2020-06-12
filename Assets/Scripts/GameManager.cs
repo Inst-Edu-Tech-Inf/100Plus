@@ -49,7 +49,22 @@ UNITY_STANDALONE_WIN
     public const float COINS_SPEED = 250.0f;
     public const float COINS_RANGE_SQUARED = 35.0f * 35.0f;
     public string[] COLORS_ARRAY = new string[] { RED_TEXT , GREEN_TEXT, BLUE_TEXT };
+    public const int AI_IDLE = 0;
+    public const int AI_END_TURN = 1;
+    public const int AI_SET_ACTIVE_CARD = 2;
+    public const int AI_SHOW_POINTS_RED = 3;
+    public const int AI_DISCARD_TASK = 4;
+    public const int AI_DISCARD_AI_PLAYER_CARD_RED = 5;
+    public const int AI_DISCARD_AI_POWERUP_CARD = 6;
+    public const int AI_PLAY_AI_PLAYER_CARD = 7;
+    public const int AI_PLAY_AI_POWERUP_CARD = 8;
+    public const int AI_SHOW_POINTS_GREEN = 9;
+    public const int AI_SHOW_POINTS_BLUE = 10;
+    public const int AI_DISCARD_AI_PLAYER_CARD_GREEN = 11;
+    public const int AI_DISCARD_AI_PLAYER_CARD_BLUE = 12;
+    public const int AI_COLLECT_POINTS = 13;
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
+
     
     public GameObject activeCardSpace;
     public GameObject collectPointsBtn;
@@ -113,10 +128,18 @@ UNITY_STANDALONE_WIN
     public Text infoText;
 
     List<GameObject> playerCards = new List<GameObject>();
-    List<GameObject> playerAICards = new List<GameObject>();
+    List<GameObject> playerAICardsToRemove = new List<GameObject>();
+    List<GameObject> playerAICardsRed = new List<GameObject>();
+    List<GameObject> playerAICardsGreen = new List<GameObject>();
+    List<GameObject> playerAICardsBlue = new List<GameObject>();
+    List<int> playerAICardsRedToRemove = new List<int>();
+    List<int> playerAICardsGreenToRemove = new List<int>();
+    List<int> playerAICardsBlueToRemove = new List<int>();
     List<GameObject> taskCards = new List<GameObject>();
     public List<GameObject> powerUpCards = new List<GameObject>();
+    public List<GameObject> powerUpAICards = new List<GameObject>();
     List<GameObject> coins = new List<GameObject>();
+    List<int> aiCommands = new List<int>();
 
     [Header("Game Settings")]
     public int maxPlayerCards;
@@ -149,6 +172,7 @@ UNITY_STANDALONE_WIN
     public int middleChanceOnLate;//%
     public GameObject activeCard;
     public float userActivityTime = 0.0f;
+    public float AIActivityTime = 0.0f;
     
 
     public Texture2D wybranaRamka;
@@ -185,6 +209,9 @@ UNITY_STANDALONE_WIN
     int actualTaskCardsCount = 0;
     //int actualPlayerCardsCount = 0;
     //int actualPowerUpCardsCount = 0;
+    Color redColor = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+    Color greenColor = new Color32( 0, SkinManager.GREEN_COLOR, 0, 255);
+    Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1=0;
@@ -305,8 +332,14 @@ UNITY_STANDALONE_WIN
 
     public void SetIsHostTurn(bool value)
     {
-        isHostTurn = value;
-        CmdSetIsHostTurn(value);
+        if (isHost)
+        {
+            isHostTurn = value;
+        }
+        else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            CmdSetIsHostTurn(value);
+        }
         //print("HostTurn:" + value);
     }
 
@@ -422,16 +455,379 @@ UNITY_STANDALONE_WIN
         }
     }
 
+    void AIEasyPlay()
+    {
+        GameObject cardTask;
+        TextMeshProUGUI valueText;
+        int taskValue = 0;
+        int suma = 0;
+        bool isSuccess = false;
+        //collect first founded and nothing more, without multiply
+         CheckAICards();
+
+        for (int i = 0; i < taskCards.Count; ++i)
+        {
+            cardTask = taskCards[i];
+            if (cardTask.gameObject.activeSelf)
+            {
+               taskValue =  int.Parse(cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text);
+               if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
+               {
+                    for (int j = 0; j < playerAICardsRed.Count; ++j)
+                    {
+                        card = playerAICardsRed[j];
+                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                        suma += int.Parse(valueText.text);
+                        if (suma >= taskValue)
+                        {
+                            isSuccess = true;
+                            playerAICardsToRemove.Clear();
+                            aiCommands.Add(AI_SET_ACTIVE_CARD);
+                            aiCommands.Add(i);
+                            for (int ii = 0; ii <= j; ++ii)
+                            {
+                                aiCommands.Add(AI_SHOW_POINTS_RED);
+                                aiCommands.Add(ii);//add cards indexes
+                                playerAICardsToRemove.Add(playerAICardsRed[ii]);
+                            }
+                            aiCommands.Add(AI_COLLECT_POINTS);
+                            break;
+                        }
+                    }//cards loop
+                    if (isSuccess)
+                    {
+                        //aiCommands.Add(AI_DISCARD_TASK);
+                        //aiCommands.Add(i);
+                        break;
+                    }
+               }//redColor
+                //now green
+               if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
+               {
+                   for (int j = 0; j < playerAICardsGreen.Count; ++j)
+                   {
+                       card = playerAICardsGreen[j];
+                       valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                       suma += int.Parse(valueText.text);
+                       if (suma >= taskValue)
+                       {
+                           isSuccess = true;
+                           playerAICardsToRemove.Clear(); 
+                           aiCommands.Add(AI_SET_ACTIVE_CARD);
+                           aiCommands.Add(i);
+                           for (int ii = 0; ii <= j; ++ii)
+                           {
+                               aiCommands.Add(AI_SHOW_POINTS_GREEN);
+                               aiCommands.Add(ii);//add cards indexes
+                               playerAICardsToRemove.Add(playerAICardsGreen[ii]);
+                           }
+                           aiCommands.Add(AI_COLLECT_POINTS);
+                           break;
+                       }
+                   }//cards loop
+                   if (isSuccess)
+                   {
+                       //aiCommands.Add(AI_DISCARD_TASK);
+                       //aiCommands.Add(i);
+                       break;
+                   }
+               }//greenColor
+                //now blue
+               if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == blueColor)
+               {
+                   for (int j = 0; j < playerAICardsBlue.Count; ++j)
+                   {
+                       card = playerAICardsBlue[j];
+                       valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                       suma += int.Parse(valueText.text);
+                       if (suma >= taskValue)
+                       {
+                           isSuccess = true;
+                           playerAICardsToRemove.Clear(); 
+                           aiCommands.Add(AI_SET_ACTIVE_CARD);
+                           aiCommands.Add(i);
+                           for (int ii = 0; ii <= j; ++ii)
+                           {
+                               aiCommands.Add(AI_SHOW_POINTS_BLUE);
+                               aiCommands.Add(ii);//add cards indexes
+                               playerAICardsToRemove.Add(playerAICardsBlue[ii]);
+                           }
+                           aiCommands.Add(AI_COLLECT_POINTS);
+                           break;
+                       }
+                   }//cards loop
+                   if (isSuccess)
+                   {
+                       //aiCommands.Add(AI_DISCARD_TASK);
+                       //aiCommands.Add(i);
+                       break;
+                   }
+               }//blueColor
+            }//active Task
+            
+        }
+
+        aiCommands.Add(AI_END_TURN);
+        /*
+        AI_IDLE = 0;
+        public const int AI_END_TURN = 1;
+        public const int AI_SET_ACTIVE_CARD = 2;
+        public const int AI_COLLECT_POINTS = 3;
+        public const int AI_DISCARD_TASK = 4;
+        public const int AI_DISCARD_AI_PLAYER_CARD = 5;
+        public const int AI_DISCARD_AI_POWERUP_CARD = 6;
+        public const int AI_PLAY_AI_PLAYER_CARD = 7;
+        public const int AI_PLAY_AI_POWERUP_CARD = 8;
+         */
+    }
+
+    void RunAICommand(int number)
+    {
+        switch (number)
+        {
+            case AI_END_TURN:
+                aiCommands.RemoveAt(0);
+                EndTurn();
+                CheckCardNumbers(false);
+                break;
+            case AI_COLLECT_POINTS:
+                aiCommands.RemoveAt(0);
+                activeCard = null;
+                //cout << "got Hearts \n";
+                break;
+            case AI_SHOW_POINTS_RED:
+                aiCommands.RemoveAt(0);
+                
+                aiCommands.RemoveAt(0);
+                //cout << "got Hearts \n";
+                break;
+            case AI_SHOW_POINTS_GREEN:
+                aiCommands.RemoveAt(0);
+                
+                aiCommands.RemoveAt(0);
+                //cout << "got Clubs \n";
+                break;
+            case AI_SHOW_POINTS_BLUE:
+                aiCommands.RemoveAt(0);
+
+                aiCommands.RemoveAt(0);
+                //cout << "got Spades \n";
+                break;
+            case AI_SET_ACTIVE_CARD:
+                aiCommands.RemoveAt(0);
+                activeCard = taskCards[aiCommands[0]];
+                SetActiveCard(taskCards[aiCommands[0]],true);
+                aiCommands.RemoveAt(0);
+                //cout << "got Spades \n";
+                break;                
+            case AI_DISCARD_TASK:
+                //cout << "got Spades \n";
+                break;
+            case AI_DISCARD_AI_POWERUP_CARD:
+                //cout << "got Spades \n";
+                break;
+            case AI_DISCARD_AI_PLAYER_CARD_RED:
+                //cout << "got Spades \n";
+                break;
+            case AI_DISCARD_AI_PLAYER_CARD_GREEN:
+                //cout << "got Spades \n";
+                break;
+            case AI_DISCARD_AI_PLAYER_CARD_BLUE:
+                //cout << "got Spades \n";
+                break;
+           
+           // default:
+            //    cout << "didn't get card \n";
+        }
+    }
+
+    void CheckAICards()
+    {
+        int ileRazy = playerAICardsRed.Count + playerAICardsGreen.Count + playerAICardsBlue.Count;
+        if (ileRazy > maxPlayerCards )
+        {
+            for (int i = 0; i < ileRazy - maxPlayerCards; ++i)
+            {
+                AIEasyDiscardAIPlayerCard();
+            }
+        }
+
+        //Debug.Log("actualTaskCardsCount:" + actualTaskCardsCount);
+        //Debug.Log("maxTaskCards:" + maxTaskCards);
+        if (actualTaskCardsCount > maxTaskCards)
+        {
+            //Debug.Log("DiscardIn");
+            AIEasyDiscardTaskCard();
+        }
+
+        if (powerUpAICards.Count > maxPowerUpCards)
+        {
+            AIEasyDiscardAIPowerUpCard();
+        }
+            
+    }
+
+    void AIEasyDiscardTaskCard()
+    {
+        List<int> activeTaskCards = new List<int>();
+        //totally random
+
+        for (int i = 0; i < taskCards.Count; ++i)
+        {
+            if (taskCards[i].gameObject.activeSelf)
+            {
+                activeTaskCards.Add(i);
+            }
+        }
+        GameObject card = taskCards[activeTaskCards[Random.Range(0, activeTaskCards.Count)]];
+        //Debug.Log(maxActualTaskCards);
+        //Debug.Log(card);
+        DiscardTaskCard(card);
+    }
+
+    void AIEasyDiscardAIPlayerCard()
+    {
+        bool isRed = false;
+        bool isGreen = false;
+        bool isBlue = false;
+        int smallestIndex = 0;
+       // int actualCardValue = 0;
+        int minCardValue = 32000;
+        TextMeshProUGUI valueText;
+        GameObject card;
+        //discard lower value
+
+        for (int i = 0; i < playerAICardsRed.Count; ++i)
+        {
+            card = playerAICardsRed[i];
+            //Debug.Log("playerAICardsRed:" + card);
+            valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+            if (int.Parse(valueText.text) < minCardValue)
+            {
+                minCardValue = int.Parse(valueText.text);
+                smallestIndex = i;
+                isRed = true;
+                isGreen = false;
+                isBlue = false;
+            }
+        }
+        for (int i = 0; i < playerAICardsGreen.Count; ++i)
+        {
+            card = playerAICardsGreen[i];
+            valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+            if (int.Parse(valueText.text) < minCardValue)
+            {
+                minCardValue = int.Parse(valueText.text);
+                smallestIndex = i;
+                isRed = false;
+                isGreen = true;
+                isBlue = false;
+            }
+        }
+        for (int i = 0; i < playerAICardsBlue.Count; ++i)
+        {
+            card = playerAICardsBlue[i];
+            valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+            if (int.Parse(valueText.text) < minCardValue)
+            {
+                minCardValue = int.Parse(valueText.text);
+                smallestIndex = i;
+                isRed = false;
+                isGreen = false;
+                isBlue = true;
+            }
+        }
+
+        if (isRed)
+        {
+            card = playerAICardsRed[smallestIndex];
+            playerAICardsRed.Remove(card);
+            Destroy(card);
+        }
+        if (isGreen)
+        {
+            card = playerAICardsGreen[smallestIndex];
+            playerAICardsGreen.Remove(card);
+            Destroy(card);
+        }
+        if (isBlue)
+        {
+            card = playerAICardsBlue[smallestIndex];
+            playerAICardsBlue.Remove(card);
+            Destroy(card);
+        }
+        
+
+    }
+
+    void AIEasyDiscardAIPowerUpCard()
+    {
+        //totally random
+        GameObject card = powerUpAICards[Random.Range(0, powerUpAICards.Count)];
+        powerUpAICards.Remove(card);
+        Destroy(card);
+       /* sumCardCount++;
+                    valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                    for (int j = 0; j < powerUpCards.Count; ++j)  
+                    {
+                        cardPowerUp = powerUpCards[j];
+                        
+                        if (cardPowerUp.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>().text != "")
+                            if (cardPowerUp.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>().text == card.name)
+                            {
+                                multiplyCount++;
+                                if (valueText.color == cardPowerUp.transform.Find("Red Text").GetComponent<TextMeshProUGUI>().color)
+                                {
+                                    kolorText = cardPowerUp.transform.Find("Red Text").GetComponent<TextMeshProUGUI>();
+                                    Razy = int.Parse(kolorText.text);
+                                    break;
+                                }
+                                else
+                                    if (valueText.color == cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>().color)
+                                    {
+                                        kolorText = cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>();
+                                        Razy = int.Parse(kolorText.text);
+                                        break;
+                                    }
+                                    else
+                                        if (valueText.color == cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>().color)
+                                        {
+                                            kolorText = cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>();
+                                            Razy = int.Parse(kolorText.text);
+                                            break;
+                                        }                           
+                            }
+                    }
+                    Suma += int.Parse(valueText.text)*Razy;
+                    Razy = 1;
+        */
+
+    }
+
+    void AIImpossibleDiscardTaskCard()
+    {
+        //change to bigger on color with smallest playerCardsAI value
+        GameObject card = taskCards[Random.Range(0, maxActualTaskCards)];
+        DiscardTaskCard(card);
+
+    }
+
+    void AIImpossibleDiscardAIPlayerCard()
+    {
+        //check all possibilities with powerUps, beginning from higer points and prefer exactly matches
+
+    }
+
+    void AIImpossibleDiscardAIPowerUpCard()
+    {
+        //check all possibilities with powerUps, beginning from higer points and prefer exactly matches
+
+    }
     
 
     void changeBackground()
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);
-            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
-            StartCoroutine(GetWWWTexture(pom2));
-        }
+        
         /*iOS uses Application.dataPath + "/Raw",
 Android uses files inside a compressed APK
 /JAR file, "jar:file://" + Application.dataPath + "!/assets".*/
@@ -441,6 +837,19 @@ Android uses files inside a compressed APK
             //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
             pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
             StartCoroutine(GetWWWTexture(pom));
+        }
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            string pom3 = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
+            //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            StartCoroutine(GetWWWTexture(pom3));
+        }
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);
+            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
+            StartCoroutine(GetWWWTexture(pom2));
         }
         //backgroundImage.sprite = Resources.Load<Sprite>("Background/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);//.Name
         //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);//.Name
@@ -581,6 +990,7 @@ Android uses files inside a compressed APK
         for (int i = 0; i < howManyCards; ++i) //newCard
         {
             DrawTaskCard();
+            //Debug.Log("DrawTask Reroll++");
         }
         //Debug.Log("actualTaskCardsCount AFTER draw:" + actualTaskCardsCount);
         pom = GetVictoryPoints();
@@ -755,6 +1165,7 @@ Android uses files inside a compressed APK
         isVictory = false;
         isVictorySound = true;
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
+        AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
         /* var fill = slider.GetComponentsInChildren<UnityEngine.UI.Image>().FirstOrDefault(t => t.name == "Fill");
          if (fill != null)
          {
@@ -811,11 +1222,25 @@ Android uses files inside a compressed APK
             DrawPowerUpCard();//player1
             //DrawPowerUpCard(1,2,3);//for player2(Client) to set it when need to show
         }
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        {
+            for (int i = 0; i < powerUpCardsOnStart; i++)
+            {
+                DrawPowerUpAICard();//AI
+            }
+        }
 
         for (int i = 0; i < playerCardsOnStart; i++)
         {
             DrawPlayerCard();//player1
             //DrawPlayerCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
+        }
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        {
+            for (int i = 0; i < playerCardsOnStart; i++)
+            {
+                DrawPlayerAICard();//AI
+            }
         }
 
         for (int i = 0; i < taskCardsOnStart; i++)
@@ -872,6 +1297,23 @@ Android uses files inside a compressed APK
             }
             achievementPanel.gameObject.transform.localScale = new Vector3(achievementPanelScale, achievementPanelScale, achievementPanelScale);
            
+        }
+        
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        {
+            if ((isHost) && (!GetIsHostTurn()))
+            {
+                if (AIActivityTime > 0)
+                {
+                    AIActivityTime -= Time.deltaTime;
+                }
+                else
+                {
+                    if (aiCommands.Count > 0)
+                        RunAICommand(aiCommands[0]);
+                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+                }
+            }
         }
 
         if (userActivityTime > 0)
@@ -1103,13 +1545,25 @@ Android uses files inside a compressed APK
 
     void DrawPlayerAICard()
     {
-        if (playerAICards.Count >= maxPlayerCards + playerCardsToDraw) return;
+        Color cardColor;
+        int AICardCount = playerAICardsRed.Count + playerAICardsGreen.Count + playerAICardsBlue.Count;
+        if (AICardCount >= maxPlayerCards + playerCardsToDraw) return;
         GameObject card = Instantiate(playerCardPrefab);
-        playerAICards.Add(card);
+       // playerAICards.Add(card);
+        AICardCount++;
         card.transform.SetParent(handsP2.transform, false);
-        card.name = "PlayerCard" + playerAICards.Count.ToString();
-        RandomizePlayerCard(card);
+        card.name = "PlayerCard" + AICardCount.ToString();
+        cardColor = RandomizePlayerCard(card);
+        if (cardColor == redColor)
+            playerAICardsRed.Add(card);
+        else
+            if (cardColor == greenColor)
+                playerAICardsGreen.Add(card);
+            else
+                if (cardColor == blueColor)
+                    playerAICardsBlue.Add(card);
         //        RandomizePlayerCard2(card, RED_TEXT, 10);
+        card.transform.SetParent(handsP2.transform, false);
     }
 
     void DrawPlayerCard(string kolor, int colorValue)
@@ -1201,7 +1655,7 @@ Android uses files inside a compressed APK
                 break;
             }
         }
-        Debug.Log("Zmieniona TaskCard");
+        //Debug.Log("Zmieniona TaskCard");
     }
 
     void DrawTaskCard()
@@ -1238,7 +1692,7 @@ Android uses files inside a compressed APK
 
         localCard.valueText.text = colorValue.ToString();
 
-        Debug.Log("kolor:" + color + "," + RED_TEXT);
+        //Debug.Log("kolor:" + color + "," + RED_TEXT);
         if (color == RED_TEXT)
         {
             localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
@@ -1335,7 +1789,7 @@ Android uses files inside a compressed APK
         localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
     }
 
-    void RandomizePlayerCard(GameObject card, string kolor, int colorValue)
+    Color RandomizePlayerCard(GameObject card, string kolor, int colorValue)
     {
         PlayerCard localCard = card.GetComponent<PlayerCard>();
         string SubStr;
@@ -1402,10 +1856,10 @@ Android uses files inside a compressed APK
             }
             
         }
-        
+        return localCard.additionText.color;
     }
 
-    void RandomizePlayerCard(GameObject card)
+    Color RandomizePlayerCard(GameObject card)
     {
         PlayerCard localCard = card.GetComponent<PlayerCard>();
         string SubStr;
@@ -1511,6 +1965,7 @@ Android uses files inside a compressed APK
                     }
             }
         }
+        return localCard.additionText.color;
     }
 
     void applyTaskCardSkin(TaskCard taskCard, string Kolor )
@@ -1603,6 +2058,17 @@ Android uses files inside a compressed APK
         RandomizePowerUpCard(card, redValue, greenValue, blueValue);
     }
 
+    void DrawPowerUpAICard()
+    {
+        if (powerUpAICards.Count >= maxPowerUpCards + powerUpCardsToDraw) return;
+        GameObject card = Instantiate(powerUpCardPrefab);
+        powerUpAICards.Add(card);
+        card.transform.SetParent(handsP2.transform, false);
+        //card.transform.SetParent(powerUps.transform, false);
+        card.name = "PowerUpCard" + powerUpCards.Count.ToString();
+        RandomizePowerUpCard(card);
+    }
+
     void RandomizePowerUpCard(GameObject card)
     {
         int rand;
@@ -1656,6 +2122,7 @@ Android uses files inside a compressed APK
     public void DiscardTaskCard(GameObject cardToRemove)
     {
         trashSFX.Play();
+        //Debug.Log("Running DiscardTaskCard");
         for (int i = 0; i < maxActualTaskCards; ++i)
         {
             card = taskCards[i];
@@ -1805,12 +2272,12 @@ Android uses files inside a compressed APK
             else
             {
                 SetIsHostTurn(!GetIsHostTurn());
-                endTurnBtn.gameObject.SetActive(false);
+                endTurnBtn.gameObject.SetActive(GetIsHostTurn());
                 //isHostTurn = !isHostTurn;
                 if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
                 {
                     iaTurnImage.gameObject.SetActive(true);
-                    p2TurnImage.gameObject.SetActive(false);
+                    p2TurnImage.gameObject.SetActive(false);                  
                 }
                 else //different PVP modes
                 {
@@ -1823,13 +2290,23 @@ Android uses files inside a compressed APK
             endTurnSFX.Play();
             for (int i = 0; i < playerCardsToDraw; i++)
             {
-                DrawPlayerCard();//player1
-                //DrawPlayerCard(RED_TEXT, 21);//for player2(Client) to set it 
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                {
+                    DrawPlayerAICard();//player1                    
+                }
+                else
+                {
+                    DrawPlayerCard();//player1
+                }
             }
 
             for (int i = 0; i < taskCardsToDraw; i++)
             {
-                DrawTaskCard();//player1
+                //if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_SI)
+                {
+                    DrawTaskCard();//player1
+                    //Debug.Log("DrawTask IsHost++");
+                }
                 //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it 
             }
 
@@ -1840,8 +2317,59 @@ Android uses files inside a compressed APK
                     //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
                 }
 
+            if (SkinManager.instance.AIDifficulty == SkinManager.AI_EASY)
+            {
+                AIEasyPlay();
+                AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+            }
+            else
+            {
+                if (SkinManager.instance.AIDifficulty == SkinManager.AI_IMPOSSIBLE)
+                {
+                    //
+                }
+            }
+
             RerollTaskCardCheck();
             CheckCardNumbers(true);
+        }
+        else//not my turn, opposite turn
+        {
+            //AI mode
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            {
+                if ((isHost) && (!GetIsHostTurn()))
+                {
+                    SetIsHostTurn(!GetIsHostTurn());
+                    endTurnBtn.gameObject.SetActive(GetIsHostTurn());
+                    iaTurnImage.gameObject.SetActive(false);
+                    p2TurnImage.gameObject.SetActive(false);
+
+                    for (int i = 0; i < playerCardsToDraw; i++)
+                    {
+                        DrawPlayerCard();                       
+                    }
+
+                    for (int i = 0; i < taskCardsToDraw; i++)
+                    {
+                        DrawTaskCard();//player1   
+                        //Debug.Log("DrawTask Isn't HostTurn");
+                    }
+
+                    if (GetVictoryPoints() >= earlyGamePoint)
+                        for (int i = 0; i < powerUpCardsToDraw; i++)
+                        {
+                            DrawPowerUpAICard();                            
+                        }
+                    RerollTaskCardCheck();
+                    CheckCardNumbers(true);
+                }
+            }
+            else//PVP modes
+            {
+
+            }
+            
         }
     }
 

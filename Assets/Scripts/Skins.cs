@@ -160,15 +160,7 @@ namespace CompleteProject
     void changeBackground()
     {
         
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            //string pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg");
-            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";
-            //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[LocalActiveBackground].Name);
-            //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");
-            StartCoroutine(GetWWWTexture(pom2));
-            //Debug.Log(pom2);
-        }
+        
         /*iOS uses Application.dataPath + "/Raw",
 Android uses files inside a compressed APK
 /JAR file, "jar:file://" + Application.dataPath + "!/assets".*/
@@ -180,8 +172,22 @@ Android uses files inside a compressed APK
             StartCoroutine(GetWWWTexture(pom));
         }
         //////
-        
-
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            string pom3 = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            StartCoroutine(GetWWWTexture(pom3));
+        }
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            //string pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg");
+            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";
+            //backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[LocalActiveBackground].Name);
+            //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");
+            StartCoroutine(GetWWWTexture(pom2));
+            //Debug.Log(pom2);
+        }
 //#if UNITY_ANDROID
 
 //#endif

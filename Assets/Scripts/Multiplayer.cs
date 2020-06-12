@@ -68,11 +68,7 @@ public class Multiplayer : MonoBehaviour
     void changeBackground()
     {
 //        backgroundImage.sprite = Resources.Load<Sprite>(SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name);
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
-            StartCoroutine(GetWWWTexture(pom2));
-        }
+        
         /*iOS uses Application.dataPath + "/Raw",
 Android uses files inside a compressed APK
 /JAR file, "jar:file://" + Application.dataPath + "!/assets".*/
@@ -81,6 +77,18 @@ Android uses files inside a compressed APK
             string pom = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
             pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
             StartCoroutine(GetWWWTexture(pom));
+        }
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            string pom3 = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
+            //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+            pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            StartCoroutine(GetWWWTexture(pom3));
+        }
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
+            StartCoroutine(GetWWWTexture(pom2));
         }
     }
 
@@ -133,6 +141,18 @@ Android uses files inside a compressed APK
 
 
 
+    }
+
+    public void AIDifficultyEasy()
+    {
+        SkinManager.instance.SetAIDifficulty(SkinManager.AI_EASY);
+        PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_EASY);
+    }
+
+    public void AIDifficultyHard()
+    {
+        SkinManager.instance.SetAIDifficulty(SkinManager.AI_IMPOSSIBLE);
+        PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_IMPOSSIBLE);
     }
 
     public void PlayerModeChange()
