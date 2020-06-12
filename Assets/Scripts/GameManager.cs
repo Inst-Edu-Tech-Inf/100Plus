@@ -128,13 +128,14 @@ UNITY_STANDALONE_WIN
     public Text infoText;
 
     List<GameObject> playerCards = new List<GameObject>();
-    List<GameObject> playerAICardsToRemove = new List<GameObject>();
+    //List<GameObject> playerAICardsToRemove = new List<GameObject>();
     List<GameObject> playerAICardsRed = new List<GameObject>();
     List<GameObject> playerAICardsGreen = new List<GameObject>();
     List<GameObject> playerAICardsBlue = new List<GameObject>();
     List<int> playerAICardsRedToRemove = new List<int>();
     List<int> playerAICardsGreenToRemove = new List<int>();
     List<int> playerAICardsBlueToRemove = new List<int>();
+    int taskCardAIToRemove = 0;
     List<GameObject> taskCards = new List<GameObject>();
     public List<GameObject> powerUpCards = new List<GameObject>();
     public List<GameObject> powerUpAICards = new List<GameObject>();
@@ -354,7 +355,22 @@ UNITY_STANDALONE_WIN
         //print("Get");
 
         if (isHost)
-            return victoryPointsNumberP1;
+
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            {
+                if (GetIsHostTurn())
+                {
+                    return victoryPointsNumberP1;
+                }
+                else
+                {
+                    return victoryPointsNumberP2;
+                }
+            }
+            else
+            {
+                return victoryPointsNumberP1;
+            }
         else
             return victoryPointsNumberP2;
     }
@@ -373,7 +389,22 @@ UNITY_STANDALONE_WIN
     {
         if (isHost)
         {
-            victoryPointsNumberP1 = value;
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            {
+                if (GetIsHostTurn())
+                {
+                    victoryPointsNumberP1 = value;
+                }
+                else
+                {
+                    victoryPointsNumberP2 = value;
+                    SetVictoryPointsTextP2(value);
+                }
+            }
+            else
+            {
+                victoryPointsNumberP1 = value;
+            }
         }
         else
         {
@@ -462,112 +493,162 @@ UNITY_STANDALONE_WIN
         int taskValue = 0;
         int suma = 0;
         bool isSuccess = false;
+        int successIndex = 0;
         //collect first founded and nothing more, without multiply
+        playerAICardsRedToRemove.Clear();
+        playerAICardsGreenToRemove.Clear();
+        playerAICardsBlueToRemove.Clear();
+        taskCardAIToRemove = 0;
+        isSuccess = false;
+
          CheckAICards();
 
         for (int i = 0; i < taskCards.Count; ++i)
         {
             cardTask = taskCards[i];
-            if (cardTask.gameObject.activeSelf)
+            if ((cardTask.gameObject.activeSelf))//&&(!isSuccess))
             {
+               suma = 0; 
                taskValue =  int.Parse(cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text);
+               Debug.Log("taskValue:" + taskValue);
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
                {
+                   Debug.Log("RED");
                     for (int j = 0; j < playerAICardsRed.Count; ++j)
                     {
                         card = playerAICardsRed[j];
                         valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                        Debug.Log("Card:" + valueText.text);
+                        Debug.Log("SumaBefore:" + suma);
                         suma += int.Parse(valueText.text);
+                        Debug.Log("SumaAfter:" + suma);
                         if (suma >= taskValue)
                         {
                             isSuccess = true;
-                            playerAICardsToRemove.Clear();
+                            //playerAICardsToRemove.Clear();
                             aiCommands.Add(AI_SET_ACTIVE_CARD);
                             aiCommands.Add(i);
-                            for (int ii = 0; ii <= j; ++ii)
-                            {
-                                aiCommands.Add(AI_SHOW_POINTS_RED);
-                                aiCommands.Add(ii);//add cards indexes
-                                playerAICardsToRemove.Add(playerAICardsRed[ii]);
-                            }
-                            aiCommands.Add(AI_COLLECT_POINTS);
+                            successIndex = j;
+                            
                             break;
                         }
+                        if (isSuccess)
+                            break;
                     }//cards loop
                     if (isSuccess)
                     {
                         //aiCommands.Add(AI_DISCARD_TASK);
                         //aiCommands.Add(i);
+                        for (int ii = 0; ii <= successIndex; ++ii)
+                        {
+                            Debug.Log("AddToRemove");
+                            aiCommands.Add(AI_SHOW_POINTS_RED);
+                            aiCommands.Add(ii);//add cards indexes
+                            playerAICardsRedToRemove.Add(ii);
+                        }
+                        aiCommands.Add(AI_COLLECT_POINTS);
+                        aiCommands.Add(suma);
+                        aiCommands.Add(taskValue);
                         break;
                     }
                }//redColor
+               if (isSuccess)
+                   break;
                 //now green
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
                {
+                   Debug.Log("GREEN");
                    for (int j = 0; j < playerAICardsGreen.Count; ++j)
                    {
                        card = playerAICardsGreen[j];
                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                       Debug.Log("Card:" + valueText.text);
+                       Debug.Log("SumaBefore:" + suma);
                        suma += int.Parse(valueText.text);
+                       Debug.Log("SumaAfter:" + suma);
                        if (suma >= taskValue)
                        {
                            isSuccess = true;
-                           playerAICardsToRemove.Clear(); 
+                           //playerAICardsToRemove.Clear(); 
                            aiCommands.Add(AI_SET_ACTIVE_CARD);
                            aiCommands.Add(i);
-                           for (int ii = 0; ii <= j; ++ii)
-                           {
-                               aiCommands.Add(AI_SHOW_POINTS_GREEN);
-                               aiCommands.Add(ii);//add cards indexes
-                               playerAICardsToRemove.Add(playerAICardsGreen[ii]);
-                           }
-                           aiCommands.Add(AI_COLLECT_POINTS);
+                           successIndex = j;
+                           
                            break;
                        }
+                       if (isSuccess)
+                           break;
                    }//cards loop
                    if (isSuccess)
                    {
                        //aiCommands.Add(AI_DISCARD_TASK);
                        //aiCommands.Add(i);
+                       for (int ii = 0; ii <= successIndex; ++ii)
+                       {
+                           Debug.Log("AddToRemove");
+                           aiCommands.Add(AI_SHOW_POINTS_GREEN);
+                           aiCommands.Add(ii);//add cards indexes
+                           playerAICardsGreenToRemove.Add(ii);
+                       }
+                       aiCommands.Add(AI_COLLECT_POINTS);
+                       aiCommands.Add(suma);
+                       aiCommands.Add(taskValue);
                        break;
                    }
                }//greenColor
+               if (isSuccess)
+                   break;
                 //now blue
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == blueColor)
                {
+                   Debug.Log("BLUE");
                    for (int j = 0; j < playerAICardsBlue.Count; ++j)
                    {
                        card = playerAICardsBlue[j];
                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                       Debug.Log("Card:" + valueText.text);
+                       Debug.Log("SumaBefore:" + suma);
                        suma += int.Parse(valueText.text);
+                       Debug.Log("SumaAfter:" + suma);
                        if (suma >= taskValue)
                        {
                            isSuccess = true;
-                           playerAICardsToRemove.Clear(); 
+                           //playerAICardsToRemove.Clear(); 
                            aiCommands.Add(AI_SET_ACTIVE_CARD);
                            aiCommands.Add(i);
-                           for (int ii = 0; ii <= j; ++ii)
-                           {
-                               aiCommands.Add(AI_SHOW_POINTS_BLUE);
-                               aiCommands.Add(ii);//add cards indexes
-                               playerAICardsToRemove.Add(playerAICardsBlue[ii]);
-                           }
-                           aiCommands.Add(AI_COLLECT_POINTS);
+                           successIndex = j;
+                           
                            break;
                        }
+                       if (isSuccess)
+                           break;
                    }//cards loop
                    if (isSuccess)
                    {
                        //aiCommands.Add(AI_DISCARD_TASK);
                        //aiCommands.Add(i);
+                       for (int ii = 0; ii <= successIndex; ++ii)
+                       {
+                           Debug.Log("AddToRemove");
+                           aiCommands.Add(AI_SHOW_POINTS_BLUE);
+                           aiCommands.Add(ii);//add cards indexes
+                           playerAICardsBlueToRemove.Add(ii);
+                       }
+                       aiCommands.Add(AI_COLLECT_POINTS);
+                       aiCommands.Add(suma);
+                       aiCommands.Add(taskValue);
                        break;
                    }
                }//blueColor
+               if (isSuccess)
+                   break;
             }//active Task
-            
+            if (isSuccess)
+                break;
         }
 
         aiCommands.Add(AI_END_TURN);
+        
         /*
         AI_IDLE = 0;
         public const int AI_END_TURN = 1;
@@ -583,6 +664,9 @@ UNITY_STANDALONE_WIN
 
     void RunAICommand(int number)
     {
+        Transform dropPanel;
+        GameObject card;
+
         switch (number)
         {
             case AI_END_TURN:
@@ -592,31 +676,74 @@ UNITY_STANDALONE_WIN
                 break;
             case AI_COLLECT_POINTS:
                 aiCommands.RemoveAt(0);
-                activeCard = null;
+                CollectPoints(aiCommands[0],aiCommands[1]);
+                aiCommands.RemoveAt(0);
+                aiCommands.RemoveAt(0);
+                Debug.Log("playerAICardsRedToRemove:" + playerAICardsRedToRemove.Count);
+                for (int i = playerAICardsRedToRemove.Count - 1; i >= 0 ; --i)
+                {
+                    Debug.Log("RedIn:" + playerAICardsRedToRemove[i]);
+                    card = playerAICardsRed[playerAICardsRedToRemove[i]];
+                    playerAICardsRed.Remove(card);
+                    Destroy(card);
+                    
+                }
+                Debug.Log("playerAICardsGreenToRemove:" + playerAICardsGreenToRemove.Count);
+                for (int i = playerAICardsGreenToRemove.Count -1 ; i >= 0 ; --i)
+                {
+                    Debug.Log("GreenIn:" + playerAICardsGreenToRemove[i]);
+                    card = playerAICardsGreen[playerAICardsGreenToRemove[i]];
+                    playerAICardsGreen.Remove(card);
+                    Destroy(card);
+                    
+                }
+                Debug.Log("playerAICardsBlueToRemove:" + playerAICardsBlueToRemove.Count);
+                for (int i = playerAICardsBlueToRemove.Count - 1; i >= 0 ; --i)
+                {
+                    Debug.Log("BlueIn:" + playerAICardsBlueToRemove[i]);
+                    card = playerAICardsBlue[playerAICardsBlueToRemove[i]];
+                    playerAICardsBlue.Remove(card);
+                    Destroy(card);
+                    
+                }
+                SetActiveCard(taskCards[taskCardAIToRemove], true);
+                DiscardTaskCard(taskCards[taskCardAIToRemove]);
+                playerAICardsRedToRemove.Clear();
+                playerAICardsGreenToRemove.Clear();
+                playerAICardsBlueToRemove.Clear();
+                taskCardAIToRemove = 0;
+                //activeCard = null;
                 //cout << "got Hearts \n";
                 break;
             case AI_SHOW_POINTS_RED:
                 aiCommands.RemoveAt(0);
-                
+                dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+                playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                //playerAICardsRedToRemove.Add(aiCommands[0]);
                 aiCommands.RemoveAt(0);
                 //cout << "got Hearts \n";
                 break;
             case AI_SHOW_POINTS_GREEN:
                 aiCommands.RemoveAt(0);
-                
+                dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+                playerAICardsGreen[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                //playerAICardsGreenToRemove.Add(aiCommands[0]);
                 aiCommands.RemoveAt(0);
                 //cout << "got Clubs \n";
                 break;
             case AI_SHOW_POINTS_BLUE:
                 aiCommands.RemoveAt(0);
-
+                dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
+                playerAICardsBlue[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                //playerAICardsBlueToRemove.Add(aiCommands[0]);
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
                 break;
             case AI_SET_ACTIVE_CARD:
                 aiCommands.RemoveAt(0);
-                activeCard = taskCards[aiCommands[0]];
-                SetActiveCard(taskCards[aiCommands[0]],true);
+                //activeCard = taskCards[aiCommands[0]];
+                SetActiveCard(taskCards[aiCommands[0]],false);
+                taskCardAIToRemove = aiCommands[0];
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
                 break;                
@@ -1246,8 +1373,25 @@ Android uses files inside a compressed APK
         for (int i = 0; i < taskCardsOnStart; i++)
         {
             DrawTaskCard();//player1
+            //if pvp
             //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
+
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            if (isHost)
+            {
+                endTurnBtn.gameObject.SetActive(GetIsHostTurn());
+            }
+            else
+            {
+                endTurnBtn.gameObject.SetActive(!GetIsHostTurn());
+            }
+            iaTurnImage.gameObject.SetActive(true);
+            p2TurnImage.gameObject.SetActive(false);                  
+        }
+               
+
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
         //helpTask.transform.SetParent(tasks.transform);
         SetVictoryPoints(0.0f);
@@ -2645,6 +2789,35 @@ Android uses files inside a compressed APK
                         }
                     }
                 }
+            }
+        }
+    }
+
+    public void CollectPoints(int aiPointsGet, int aiTaskNeed)
+    {
+        float Victory;
+        double Pom;
+
+        if (aiPointsGet > aiTaskNeed)
+        {
+            Pom = (aiPointsGet - aiTaskNeed) / (aiTaskNeed);
+            Victory = Mathf.Pow(0.5f, ((float)Pom));
+            Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * 0.75f;
+            Pom = Pom * Victory;
+
+            Pom += GetVictoryPoints();
+            Pom *= 100;
+            Pom = Mathf.Round((float)Pom);
+            Pom /= 100;
+            SetVictoryPoints((float)Pom);
+        }
+        else
+        {
+            if (aiPointsGet == aiTaskNeed)
+            {
+                Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
+                Victory = GetVictoryPoints() + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
+                SetVictoryPoints((float)Victory);
             }
         }
     }
