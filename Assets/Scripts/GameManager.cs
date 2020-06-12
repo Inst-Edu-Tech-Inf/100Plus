@@ -63,6 +63,7 @@ UNITY_STANDALONE_WIN
     public const int AI_DISCARD_AI_PLAYER_CARD_GREEN = 11;
     public const int AI_DISCARD_AI_PLAYER_CARD_BLUE = 12;
     public const int AI_COLLECT_POINTS = 13;
+    public const int AI_SHOW_POWERUP = 14;
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
 
     
@@ -135,6 +136,7 @@ UNITY_STANDALONE_WIN
     List<int> playerAICardsRedToRemove = new List<int>();
     List<int> playerAICardsGreenToRemove = new List<int>();
     List<int> playerAICardsBlueToRemove = new List<int>();
+    List<int> powerUpAICardsToRemove = new List<int>();
     int taskCardAIToRemove = 0;
     List<GameObject> taskCards = new List<GameObject>();
     public List<GameObject> powerUpCards = new List<GameObject>();
@@ -495,6 +497,7 @@ UNITY_STANDALONE_WIN
         bool isSuccess = false;
         int successIndex = 0;
         //collect first founded and nothing more, without multiply
+        powerUpAICardsToRemove.Clear();
         playerAICardsRedToRemove.Clear();
         playerAICardsGreenToRemove.Clear();
         playerAICardsBlueToRemove.Clear();
@@ -510,18 +513,18 @@ UNITY_STANDALONE_WIN
             {
                suma = 0; 
                taskValue =  int.Parse(cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text);
-               Debug.Log("taskValue:" + taskValue);
+               //Debug.Log("taskValue:" + taskValue);
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
                {
-                   Debug.Log("RED");
+                   //Debug.Log("RED");
                     for (int j = 0; j < playerAICardsRed.Count; ++j)
                     {
                         card = playerAICardsRed[j];
                         valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-                        Debug.Log("Card:" + valueText.text);
-                        Debug.Log("SumaBefore:" + suma);
+                        //Debug.Log("Card:" + valueText.text);
+                        //Debug.Log("SumaBefore:" + suma);
                         suma += int.Parse(valueText.text);
-                        Debug.Log("SumaAfter:" + suma);
+                        //Debug.Log("SumaAfter:" + suma);
                         if (suma >= taskValue)
                         {
                             isSuccess = true;
@@ -541,7 +544,7 @@ UNITY_STANDALONE_WIN
                         //aiCommands.Add(i);
                         for (int ii = 0; ii <= successIndex; ++ii)
                         {
-                            Debug.Log("AddToRemove");
+                            //Debug.Log("AddToRemove");
                             aiCommands.Add(AI_SHOW_POINTS_RED);
                             aiCommands.Add(ii);//add cards indexes
                             playerAICardsRedToRemove.Add(ii);
@@ -557,15 +560,15 @@ UNITY_STANDALONE_WIN
                 //now green
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
                {
-                   Debug.Log("GREEN");
+                   //Debug.Log("GREEN");
                    for (int j = 0; j < playerAICardsGreen.Count; ++j)
                    {
                        card = playerAICardsGreen[j];
                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-                       Debug.Log("Card:" + valueText.text);
-                       Debug.Log("SumaBefore:" + suma);
+                       //Debug.Log("Card:" + valueText.text);
+                       //Debug.Log("SumaBefore:" + suma);
                        suma += int.Parse(valueText.text);
-                       Debug.Log("SumaAfter:" + suma);
+                       //Debug.Log("SumaAfter:" + suma);
                        if (suma >= taskValue)
                        {
                            isSuccess = true;
@@ -585,7 +588,7 @@ UNITY_STANDALONE_WIN
                        //aiCommands.Add(i);
                        for (int ii = 0; ii <= successIndex; ++ii)
                        {
-                           Debug.Log("AddToRemove");
+                           //Debug.Log("AddToRemove");
                            aiCommands.Add(AI_SHOW_POINTS_GREEN);
                            aiCommands.Add(ii);//add cards indexes
                            playerAICardsGreenToRemove.Add(ii);
@@ -601,15 +604,15 @@ UNITY_STANDALONE_WIN
                 //now blue
                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == blueColor)
                {
-                   Debug.Log("BLUE");
+                   //Debug.Log("BLUE");
                    for (int j = 0; j < playerAICardsBlue.Count; ++j)
                    {
                        card = playerAICardsBlue[j];
                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
-                       Debug.Log("Card:" + valueText.text);
-                       Debug.Log("SumaBefore:" + suma);
+                       //Debug.Log("Card:" + valueText.text);
+                       //Debug.Log("SumaBefore:" + suma);
                        suma += int.Parse(valueText.text);
-                       Debug.Log("SumaAfter:" + suma);
+                       //Debug.Log("SumaAfter:" + suma);
                        if (suma >= taskValue)
                        {
                            isSuccess = true;
@@ -629,7 +632,7 @@ UNITY_STANDALONE_WIN
                        //aiCommands.Add(i);
                        for (int ii = 0; ii <= successIndex; ++ii)
                        {
-                           Debug.Log("AddToRemove");
+                           //Debug.Log("AddToRemove");
                            aiCommands.Add(AI_SHOW_POINTS_BLUE);
                            aiCommands.Add(ii);//add cards indexes
                            playerAICardsBlueToRemove.Add(ii);
@@ -679,28 +682,35 @@ UNITY_STANDALONE_WIN
                 CollectPoints(aiCommands[0],aiCommands[1]);
                 aiCommands.RemoveAt(0);
                 aiCommands.RemoveAt(0);
-                Debug.Log("playerAICardsRedToRemove:" + playerAICardsRedToRemove.Count);
+                for (int i = powerUpAICardsToRemove.Count - 1; i >= 0 ; --i)
+                {
+                    card = powerUpAICards[powerUpAICardsToRemove[i]];
+                    powerUpAICards.Remove(card);
+                    Destroy(card);
+                }
+                //powerUpAICardsToRemove[];
+                //Debug.Log("playerAICardsRedToRemove:" + playerAICardsRedToRemove.Count);
                 for (int i = playerAICardsRedToRemove.Count - 1; i >= 0 ; --i)
                 {
-                    Debug.Log("RedIn:" + playerAICardsRedToRemove[i]);
+                    //Debug.Log("RedIn:" + playerAICardsRedToRemove[i]);
                     card = playerAICardsRed[playerAICardsRedToRemove[i]];
                     playerAICardsRed.Remove(card);
                     Destroy(card);
                     
                 }
-                Debug.Log("playerAICardsGreenToRemove:" + playerAICardsGreenToRemove.Count);
+                //Debug.Log("playerAICardsGreenToRemove:" + playerAICardsGreenToRemove.Count);
                 for (int i = playerAICardsGreenToRemove.Count -1 ; i >= 0 ; --i)
                 {
-                    Debug.Log("GreenIn:" + playerAICardsGreenToRemove[i]);
+                    //Debug.Log("GreenIn:" + playerAICardsGreenToRemove[i]);
                     card = playerAICardsGreen[playerAICardsGreenToRemove[i]];
                     playerAICardsGreen.Remove(card);
                     Destroy(card);
                     
                 }
-                Debug.Log("playerAICardsBlueToRemove:" + playerAICardsBlueToRemove.Count);
+                //Debug.Log("playerAICardsBlueToRemove:" + playerAICardsBlueToRemove.Count);
                 for (int i = playerAICardsBlueToRemove.Count - 1; i >= 0 ; --i)
                 {
-                    Debug.Log("BlueIn:" + playerAICardsBlueToRemove[i]);
+                    //Debug.Log("BlueIn:" + playerAICardsBlueToRemove[i]);
                     card = playerAICardsBlue[playerAICardsBlueToRemove[i]];
                     playerAICardsBlue.Remove(card);
                     Destroy(card);
@@ -744,6 +754,13 @@ UNITY_STANDALONE_WIN
                 //activeCard = taskCards[aiCommands[0]];
                 SetActiveCard(taskCards[aiCommands[0]],false);
                 taskCardAIToRemove = aiCommands[0];
+                aiCommands.RemoveAt(0);
+                //cout << "got Spades \n";
+                break;    
+            case AI_SHOW_POWERUP:
+                aiCommands.RemoveAt(0);
+                //dodaj powerup do ostatnio dodanej playerAICard
+                
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
                 break;                
@@ -1068,7 +1085,10 @@ Android uses files inside a compressed APK
             hands.SetActive(true);
            // handsSorted.SetActive(false);
             collectPointsBtn.SetActive(false);
-            endTurnBtn.SetActive(true);
+            if ((SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI) && (GetIsHostTurn()))
+            {
+                endTurnBtn.SetActive(true);
+            }
             CheckCardNumbers(true);
         }
  
@@ -1780,6 +1800,7 @@ Android uses files inside a compressed APK
     void DrawTaskCard(string color, int colorValue) //, GameObject whichTasks)
     {
         //actualTaskCardsCount
+       
         if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
         // GameObject card = Instantiate(taskCardPrefab);
         // taskCards.Add(card);
@@ -1804,6 +1825,9 @@ Android uses files inside a compressed APK
 
     void DrawTaskCard()
     {
+        //Debug.Log("actualTaskCardsCount:" + actualTaskCardsCount);
+        //Debug.Log("maxTaskCards:" + maxTaskCards);
+        //Debug.Log("taskCardsToDraw:" + taskCardsToDraw);
         //actualTaskCardsCount
         if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
        // GameObject card = Instantiate(taskCardPrefab);
@@ -2460,20 +2484,21 @@ Android uses files inside a compressed APK
                     DrawPowerUpCard();//player1
                     //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
                 }
-
-            if (SkinManager.instance.AIDifficulty == SkinManager.AI_EASY)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
             {
-                AIEasyPlay();
-                AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
-            }
-            else
-            {
-                if (SkinManager.instance.AIDifficulty == SkinManager.AI_IMPOSSIBLE)
+                if (SkinManager.instance.AIDifficulty == SkinManager.AI_EASY)
                 {
-                    //
+                    AIEasyPlay();
+                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+                }
+                else
+                {
+                    if (SkinManager.instance.AIDifficulty == SkinManager.AI_IMPOSSIBLE)
+                    {
+                        //
+                    }
                 }
             }
-
             RerollTaskCardCheck();
             CheckCardNumbers(true);
         }
