@@ -1085,10 +1085,25 @@ Android uses files inside a compressed APK
             hands.SetActive(true);
            // handsSorted.SetActive(false);
             collectPointsBtn.SetActive(false);
-            if ((SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI) && (GetIsHostTurn()))
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
             {
                 endTurnBtn.SetActive(true);
             }
+            else
+            {
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                {
+                    if (GetIsHostTurn())
+                    {
+                        endTurnBtn.SetActive(true);
+                    }
+                }
+                else
+                {
+                    endTurnBtn.SetActive(true);
+                }
+            }
+
             CheckCardNumbers(true);
         }
  
@@ -1402,14 +1417,24 @@ Android uses files inside a compressed APK
             if (isHost)
             {
                 endTurnBtn.gameObject.SetActive(GetIsHostTurn());
+                p2TurnImage.gameObject.SetActive(false);
             }
             else
             {
                 endTurnBtn.gameObject.SetActive(!GetIsHostTurn());
+                p2TurnImage.gameObject.SetActive(true);
             }
-            iaTurnImage.gameObject.SetActive(true);
-            p2TurnImage.gameObject.SetActive(false);                  
+            iaTurnImage.gameObject.SetActive(false);
+
         }
+        /*else
+        {
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            {
+
+            }
+        
+        }*/
                
 
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
