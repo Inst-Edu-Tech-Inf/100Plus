@@ -65,6 +65,7 @@ UNITY_STANDALONE_WIN
     public const int AI_COLLECT_POINTS = 13;
     public const int AI_SHOW_POWERUP = 14;
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
+    const float RESULT_PENALTY = 0.51f;
 
     
     public GameObject activeCardSpace;
@@ -102,9 +103,13 @@ UNITY_STANDALONE_WIN
     public AudioSource taskResignSFX;
     public AudioSource victorySFX;
     public Text victoryText;
+    public Text defeatVictoryText;
     public Text victoryScoreText;
+    public Text defeatVictoryScoreText;
     public Text victoryConditionsText;
+    public Text defeatVictoryConditionsText;
     public GameObject victoryPanel;
+    public GameObject defeatVictoryPanel;
     public GameObject achievementPanel;
     public TextMeshProUGUI ActualVictoryPointsText;
     public Text achievementNameText;
@@ -198,6 +203,7 @@ UNITY_STANDALONE_WIN
     bool isVictoryPointFirst = false;
     bool isVictoryTimePass = true;
     bool isVictory = false;
+    bool isVictoryResult = true;
     bool isVictorySound = true;
     int VictoryPointFirstValue = 20;
     float remainingGameTime = 300;
@@ -425,12 +431,12 @@ UNITY_STANDALONE_WIN
 
     void SetVictoryPointsTextP1(float value)
     {
-        victoryPoints.text = value.ToString();
+        victoryPoints.text = value.ToString("F2");
     }
 
     void SetVictoryPointsTextP2(float value)
     {
-        victoryPointsP2.text = value.ToString();
+        victoryPointsP2.text = value.ToString("F2");
     }
 
     public void Back()
@@ -1285,6 +1291,7 @@ Android uses files inside a compressed APK
         //maxActualPlayerCards = maxPlayerCardsAddLate + playerCardsToDraw;
        // maxActualPowerUpCards = maxPowerUpCardsAddLate + powerUpCardsToDraw;
         victoryPanel.SetActive(false);
+        defeatVictoryPanel.SetActive(false);
         achievementPanel.SetActive(false);
         transparentPlayerCardPanel.SetActive(true);
         transparentPowerUpCardPanel.SetActive(true);
@@ -1294,6 +1301,10 @@ Android uses files inside a compressed APK
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
             infoText.gameObject.SetActive(true);
+            if (!isHost)
+            {
+                transparentAllPanel.gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -1323,6 +1334,7 @@ Android uses files inside a compressed APK
         
         //rerollPanel.SetActive(false);
         victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+        defeatVictoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
         achievementPanel.gameObject.transform.localScale = new Vector3(achievementPanelScale, achievementPanelScale, achievementPanelScale);
         isVictory = false;
         isVictorySound = true;
@@ -1609,15 +1621,25 @@ Android uses files inside a compressed APK
                     victorySFX.Play();
                     isVictorySound = false;
                 }
-                victoryPanel.SetActive(true);
+                if (isVictoryResult)
+                {
+                    victoryPanel.SetActive(true);
+                }
+                else
+                {
+                    defeatVictoryPanel.SetActive(true);
+                }
                 if (SkinManager.instance.ActiveVictoryConditions > 2) //must collect 20 or 100 points
                 {
                     if ((!SkinManager.instance.PureGame) && (isPureGame))
                     {
+                        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+                        {
                             PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.PUREGAME].ID, true ? 1 : 0);
                             SkinManager.instance.SetPureGame(true);
                             AddCash(SkinManager.instance.osiagniecia[SkinManager.PUREGAME].Reward);
                             ShowAchievementPanel(SkinManager.PUREGAME);
+                        }
                     }
                 }
                 closeText.gameObject.SetActive(true);
@@ -1625,10 +1647,21 @@ Android uses files inside a compressed APK
                 {
                     victoryPanelScale += 0.01f;
                 }
+
+                if (isVictoryResult)
+                {
+                    victoryText.text = VICTORY;
+                    victoryScoreText.text = ActualVictoryPointsText.text;
+                    //defeatVictoryText.text = VICTORY;
+                }
+                else
+                {
+                    //victoryText.text = DEFEAT;
+                    defeatVictoryText.text = DEFEAT;
+                    defeatVictoryScoreText.text = ActualVictoryPointsText.text;
+                }
                 
-                    
-                victoryText.text = VICTORY;
-                victoryScoreText.text = ActualVictoryPointsText.text;
+                
                 //best result
                 if (SkinManager.instance.BestResult < float.Parse(ActualVictoryPointsText.text))
                 {
@@ -1650,10 +1683,16 @@ Android uses files inside a compressed APK
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
                     {
-                        PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.WINSI].ID, true ? 1 : 0);
-                        SkinManager.instance.SetWinSI(true);
-                        AddCash(SkinManager.instance.osiagniecia[SkinManager.WINSI].Reward);
-                        ShowAchievementPanel(SkinManager.WINSI);
+                        if (SkinManager.instance.AIDifficulty != SkinManager.AI_EASY)
+                        {
+                            if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                            {
+                                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.WINSI].ID, true ? 1 : 0);
+                                SkinManager.instance.SetWinSI(true);
+                                AddCash(SkinManager.instance.osiagniecia[SkinManager.WINSI].Reward);
+                                ShowAchievementPanel(SkinManager.WINSI);
+                            }
+                        }
                     }
                 }
                 if (!SkinManager.instance.WinPVP)
@@ -1670,36 +1709,78 @@ Android uses files inside a compressed APK
 
                 if (SkinManager.instance.ActiveVictoryConditions == 0)
                 {
-                    victoryConditionsText.text = "5 min";
+                    if (isVictoryResult)
+                    {
+                        victoryConditionsText.text = "5 min";
+                    }
+                    else
+                    {
+                        defeatVictoryConditionsText.text = "5 min";
+                    }
                 }
                 else
                 {
                     if (SkinManager.instance.ActiveVictoryConditions == 1)
                     {
-                        victoryConditionsText.text = "15 min";
+                        if (isVictoryResult)
+                        {
+                            victoryConditionsText.text = "15 min";
+                        }
+                        else
+                        {
+                            defeatVictoryConditionsText.text = "15 min";
+                        }
                     }
                     else
                     {
                         if (SkinManager.instance.ActiveVictoryConditions == 2)
                         {
-                            victoryConditionsText.text = "30 min";
+                            if (isVictoryResult)
+                            {
+                                victoryConditionsText.text = "30 min";
+                            }
+                            else
+                            {
+                                defeatVictoryConditionsText.text = "30 min";
+                            }
                         }
                         else
                         {
                             if (SkinManager.instance.ActiveVictoryConditions == 3)
                             {
-                                victoryConditionsText.text = "20 points";
+                                if (isVictoryResult)
+                                {   
+                                    victoryConditionsText.text = "20 points";
+                                }
+                                else
+                                {
+                                    defeatVictoryConditionsText.text = "20 points";
+                                }
                             }
                             else
                                 if (SkinManager.instance.ActiveVictoryConditions == 4)
                                 {
-                                    victoryConditionsText.text = "100 points";
+                                    if (isVictoryResult)
+                                    {
+                                        victoryConditionsText.text = "100 points";
+                                    }
+                                    else
+                                    {
+                                        defeatVictoryConditionsText.text = "100 points";
+                                    }
                                 }
                         }
                     }
                 }
                 //Victory Panel
-                victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+                if (isVictoryResult)
+                {
+                    victoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+                }
+                else
+                {
+                    defeatVictoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+                }
             }
         }
     }
@@ -2506,7 +2587,14 @@ Android uses files inside a compressed APK
             if (GetVictoryPoints() >= earlyGamePoint)
                 for (int i = 0; i < powerUpCardsToDraw; i++)
                 {
-                    DrawPowerUpCard();//player1
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                    {
+                        DrawPowerUpAICard();                  
+                    }
+                    else
+                    {
+                        DrawPowerUpCard();//player1
+                    }
                     //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
                 }
             if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
@@ -2553,7 +2641,7 @@ Android uses files inside a compressed APK
                     if (GetVictoryPoints() >= earlyGamePoint)
                         for (int i = 0; i < powerUpCardsToDraw; i++)
                         {
-                            DrawPowerUpAICard();                            
+                            DrawPowerUpCard();                            
                         }
                     RerollTaskCardCheck();
                     CheckCardNumbers(true);
@@ -2847,12 +2935,18 @@ Android uses files inside a compressed APK
     {
         float Victory;
         double Pom;
+        double aiResult, needed;
 
         if (aiPointsGet > aiTaskNeed)
         {
-            Pom = (aiPointsGet - aiTaskNeed) / (aiTaskNeed);
+            aiResult = aiPointsGet;
+            needed = aiTaskNeed;
+            Pom = (double)((aiResult - needed) / (needed));
+            //Debug.Log("Przekroczenie:aiPointsGet" + aiPointsGet + "," + aiTaskNeed + "=" + Pom);
             Victory = Mathf.Pow(0.5f, ((float)Pom));
-            Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * 0.75f;
+            
+            //Debug.Log("mnoznik:" + Victory);
+            Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * RESULT_PENALTY;
             Pom = Pom * Victory;
 
             Pom += GetVictoryPoints();
@@ -2868,6 +2962,24 @@ Android uses files inside a compressed APK
                 Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
                 Victory = GetVictoryPoints() + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
                 SetVictoryPoints((float)Victory);
+            }
+        }
+        if (isVictoryPointFirst)
+        {
+            //Debug.Log("Victory Point");
+            if (GetVictoryPoints() >= VictoryPointFirstValue)
+            {
+                
+                isVictory = true;
+                if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                {
+                    isVictoryResult = true;
+                    victorySFX.Play();
+                }
+                else
+                {
+                    isVictoryResult = false;
+                }
             }
         }
     }
@@ -3059,7 +3171,7 @@ Android uses files inside a compressed APK
                 isScored = true;
                 Pom = (Suma - Victory) / (Victory);
                 Victory = Mathf.Pow(0.5f, ((float)Pom));
-                Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * 0.75f;
+                Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * RESULT_PENALTY;
                 Pom = Pom * Victory;
                 AddAchievementNotPurePoint((float)Pom);
                 DrawCoin();
@@ -3213,6 +3325,14 @@ Android uses files inside a compressed APK
             {
                 victorySFX.Play();
                 isVictory = true;
+                if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                {
+                    isVictoryResult = true;
+                }
+                else
+                {
+                    isVictoryResult = false;
+                }
             }
         }
     }

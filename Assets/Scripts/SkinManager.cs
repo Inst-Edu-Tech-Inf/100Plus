@@ -299,7 +299,7 @@ public class SkinManager : MonoBehaviour
         osiagniecia.Add(new AchievementInfo("MultiplyThree", NORMAL_ACHIEVEMENT, 0, 5, "Triple", "Multiply triple"));
         osiagniecia.Add(new AchievementInfo("MultiplyFour", NORMAL_ACHIEVEMENT, 0, 5, "Quadruple", "Multiply quad"));
         osiagniecia.Add(new AchievementInfo("WinSolo", NORMAL_ACHIEVEMENT, 0, 5, "Winner", "Win solo game"));
-        osiagniecia.Add(new AchievementInfo("WinSI", NORMAL_ACHIEVEMENT, 0, 10, "Smart", "Win game against computer"));
+        osiagniecia.Add(new AchievementInfo("WinSI", NORMAL_ACHIEVEMENT, 0, 10, "Smart", "Win game against computer (hard level)"));
         osiagniecia.Add(new AchievementInfo("WinPVP", NORMAL_ACHIEVEMENT, 0, 15, "Smarter", "Win game against human"));
 
         osiagniecia.Add(new AchievementInfo("Pure1kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, "Pure Pupil", "Gain solo " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value"));
