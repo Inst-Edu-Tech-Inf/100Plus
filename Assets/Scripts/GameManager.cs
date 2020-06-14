@@ -64,6 +64,16 @@ UNITY_STANDALONE_WIN
     public const int AI_DISCARD_AI_PLAYER_CARD_BLUE = 12;
     public const int AI_COLLECT_POINTS = 13;
     public const int AI_SHOW_POWERUP = 14;
+    public const int PVP_IDLE = 0;
+    public const int PVP_SET_ACTIVE_CARD = 1;
+    public const int PVP_SHOW_PLAYER_CARD = 2;
+    public const int PVP_DRAW_TASK = 3;
+    public const int PVP_DISCARD_TASK = 4;
+    public const int PVP_SHOW_POWERUP_CARD = 5;
+    public const int PVP_COLLECT_POINTS = 6;
+    public const int PVP_RED = 1;
+    public const int PVP_GREEN = 2;
+    public const int PVP_BLUE = 3;
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
     const float RESULT_PENALTY = 0.51f;
 
@@ -228,6 +238,202 @@ UNITY_STANDALONE_WIN
     float victoryPointsNumberP2;
     [SyncVar(hook = nameof(_SetIsHostTurn))]
     bool isHostTurn = true;
+    [SyncVar(hook = nameof(_SetPVPValue1))]
+    int PVPValue1 = 0;
+    [SyncVar(hook = nameof(_SetPVPValue2))]
+    int PVPValue2 = 0;
+    [SyncVar(hook = nameof(_SetPVPValue3))]
+    int PVPValue3 = 0;
+    [SyncVar(hook = nameof(_SetPVPCommand))]
+    int PVPCommand = 0;
+   
+
+    void _SetPVPValue1(int oldValue, int newValue)
+    {
+        SetPVPValue1(newValue);
+    }
+
+    public void SetPVPValue1(int value)
+    {
+        if (isHost)
+        {
+            PVPValue1 = value;
+        }
+        else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            CmdSetPVPValue1(value);
+        }
+    }
+
+    [Command]
+    void CmdSetPVPValue1(int value)
+    {
+        PVPValue1 = value;
+    }
+
+    public int GetPVPValue1()
+    {
+        return PVPValue1;
+    }
+
+    //pvpValue2
+    void _SetPVPValue2(int oldValue, int newValue)
+    {
+        SetPVPValue2(newValue);
+    }
+
+    public void SetPVPValue2(int value)
+    {
+        if (isHost)
+        {
+            PVPValue2 = value;
+        }
+        else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            CmdSetPVPValue2(value);
+        }
+    }
+
+    [Command]
+    void CmdSetPVPValue2(int value)
+    {
+        PVPValue2 = value;
+    }
+
+    public int GetPVPValue2()
+    {
+        return PVPValue2;
+    }
+
+    //pvpValue3
+    void _SetPVPValue3(int oldValue, int newValue)
+    {
+        SetPVPValue3(newValue);
+    }
+
+    public void SetPVPValue3(int value)
+    {
+        if (isHost)
+        {
+            PVPValue3 = value;
+        }
+        else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            CmdSetPVPValue3(value);
+        }
+    }
+
+    [Command]
+    void CmdSetPVPValue3(int value)
+    {
+        PVPValue3 = value;
+    }
+
+    public int GetPVPValue3()
+    {
+        return PVPValue3;
+    }
+
+    //pvpCommand
+    void _SetPVPCommand(int oldValue, int newValue)
+    {
+        SetPVPCommand(newValue);
+    }
+    /*
+   PVP_IDLE = 0;
+   public const int PVP_SET_ACTIVE_CARD = 1;
+   public const int PVP_SHOW_PLAYER_CARD = 2;
+   public const int PVP_DRAW_TASK = 3;
+   public const int PVP_DISCARD_TASK = 4;
+   public const int PVP_SHOW_POWERUP_CARD = 5;
+   public const int PVP_COLLECT_POINTS = 6;
+   */
+    public void SetPVPCommand(int value)
+    {
+        
+            if (isHost)
+            {
+                PVPCommand = value;
+                if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+                {
+                    if (value != PVP_IDLE)
+                    {
+                        RunPVPCommand();
+                    }
+                }
+            }
+            else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+            {
+                CmdSetPVPCommand(value);
+            }
+        
+    }
+
+    [Command]
+    void CmdSetPVPCommand(int value)
+    {
+       // PVPCommand = value;
+        PVPCommand = value;
+        if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+        {
+            if (value != PVP_IDLE)
+            {
+                RunPVPCommand();
+            }
+        }
+    }
+
+    public int GetPVPCommand()
+    {
+        return PVPCommand;
+    }
+
+    public void RunPVPCommand()
+    {
+        string kolor = RED_TEXT;
+        infoText.text = infoText.text + ";C" + GetPVPCommand();
+        switch (GetPVPCommand())
+        {
+            case PVP_DRAW_TASK:
+                if (GetPVPValue1() == PVP_RED)
+                {
+                    kolor = RED_TEXT;
+                }
+                else
+                    if (GetPVPValue1() == PVP_GREEN)
+                    {
+                        kolor = GREEN_TEXT;
+                    }
+                    else
+                        if (GetPVPValue1() == PVP_BLUE)
+                        {
+                            kolor = BLUE_TEXT;
+                        }
+                infoText.text = infoText.text + ";" + kolor;
+                infoText.text = infoText.text + ";V" + GetPVPValue2();
+                DrawTaskCard(kolor, GetPVPValue2());
+                break;
+            case PVP_DISCARD_TASK:
+                infoText.text = infoText.text + ";D" + GetPVPValue1();
+                DiscardTaskCard(taskCards[GetPVPValue1()]);
+                break;
+            case PVP_SET_ACTIVE_CARD:
+
+                break;
+            case PVP_SHOW_PLAYER_CARD:
+
+                break;
+            case PVP_SHOW_POWERUP_CARD:
+
+                break;
+            case PVP_COLLECT_POINTS:
+
+                break;
+            // default:
+            //    cout << "didn't get card \n";
+        }
+        SetPVPCommand(PVP_IDLE);
+    }
 
     void SetMultiplayerGameModeClient()
     {
@@ -1284,7 +1490,17 @@ Android uses files inside a compressed APK
          }
          for (int i = 0; i < taskCardsOnStart; ++i)
          {
-             DrawTaskCard();//player1
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+            {
+                if (isHost)
+                {
+                    DrawTaskCard();
+                }
+            }
+            else
+            {
+                DrawTaskCard();//player1
+            }
              //if pvp
              //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
          }
@@ -2008,6 +2224,32 @@ Android uses files inside a compressed APK
                 //card.GetComponent<TaskCard>().Randomize();
                 RandomizeTaskCard(card);
                 actualTaskCardsCount++;
+                if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
+                {
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+                    {
+                        //sendColor
+                        if (card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
+                        {
+                            SetPVPValue1(PVP_RED);
+                        }
+                        else
+                        {
+                            if (card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
+                            {
+                                SetPVPValue1(PVP_GREEN);
+                            }
+                            else
+                            {
+                                SetPVPValue1(PVP_BLUE);
+                            }
+                        }
+                        //sendValue                        
+                        SetPVPValue2(int.Parse(card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text));
+                        //sendCommand
+                        SetPVPCommand(PVP_DRAW_TASK);
+                    }
+                }
                 break;
             }
         }
@@ -2478,6 +2720,15 @@ Android uses files inside a compressed APK
             card = taskCards[i];
             if (card == cardToRemove)
             {
+                if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
+                {
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+                    {
+                        SetPVPValue1(i);
+                        SetPVPCommand(PVP_DISCARD_TASK);
+                    }
+                }
+
                 card.GetComponent<TaskCard>().activeVideoPlayer.GetComponent<VideoPlayer>().Stop();
                 //card.transform.SetParent(null, false);
                 card.gameObject.SetActive(false);
