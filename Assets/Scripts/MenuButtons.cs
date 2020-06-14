@@ -86,7 +86,7 @@ public class MenuButtons : MonoBehaviour
         }
         else
         {
-            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_AI)
             {
                 SceneManager.LoadScene("Game");//like solo game
             }

@@ -30,7 +30,7 @@ UNITY_STANDALONE_WIN
 #endif*/
 
     public const int GAME_CONDITION_SOLO = 0;
-    public const int GAME_CONDITION_SI = 1;
+    public const int GAME_CONDITION_AI = 1;
     public const int GAME_CONDITION_PVP = 2;
     public const int GAME_CONDITION_LEAGUE = 3;
     public const int KARTA_STATYCZNA = 1;
@@ -570,7 +570,7 @@ UNITY_STANDALONE_WIN
 
         if (isHost)
 
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
                 if (GetIsHostTurn())
                 {
@@ -603,7 +603,7 @@ UNITY_STANDALONE_WIN
     {
         if (isHost)
         {
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
                 if (GetIsHostTurn())
                 {
@@ -1303,7 +1303,7 @@ Android uses files inside a compressed APK
             }
             else
             {
-                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                 {
                     if (GetIsHostTurn())
                     {
@@ -1640,7 +1640,7 @@ Android uses files inside a compressed APK
             DrawPowerUpCard();//player1
             //DrawPowerUpCard(1,2,3);//for player2(Client) to set it when need to show
         }
-        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
         {
             for (int i = 0; i < powerUpCardsOnStart; i++)
             {
@@ -1653,7 +1653,7 @@ Android uses files inside a compressed APK
             DrawPlayerCard();//player1
             //DrawPlayerCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
-        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
         {
             for (int i = 0; i < playerCardsOnStart; ++i)
             {
@@ -1697,7 +1697,7 @@ Android uses files inside a compressed APK
         }
         /*else
         {
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
 
             }
@@ -1757,7 +1757,7 @@ Android uses files inside a compressed APK
            
         }
         
-        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
         {
             if ((isHost) && (!GetIsHostTurn()))
             {
@@ -1818,46 +1818,51 @@ Android uses files inside a compressed APK
         //tura gracza
         if (SkinManager.instance.ActivePlayerTurnConditions != 0)//jest ograniczenie tury gracza
         {
-            if (playerTurnTime > 0)
+            if ((SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP) ||
+                ((SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)&&(isHost)&&(isHostTurn))||
+                ((SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP) && (!isHost) && (!isHostTurn)))
             {
-                playerTurnTime = Mathf.FloorToInt((maxPlayerTurnInSeconds) -= Time.deltaTime);
-                timerPlayerTurnText.text = playerTurnTime.ToString();
-            }
-            else
-            {
-                //simply check cards
-                for (int i = 0; i < playerCardsToDraw; i++)
+                if (playerTurnTime > 0)
                 {
-                    if (playerCards.Count > maxPlayerCards)
+                    playerTurnTime = Mathf.FloorToInt((maxPlayerTurnInSeconds) -= Time.deltaTime);
+                    timerPlayerTurnText.text = playerTurnTime.ToString();
+                }
+                else
+                {
+                    //simply check cards
+                    for (int i = 0; i < playerCardsToDraw; i++)
                     {
-                        DiscardPlayerCard(playerCards[0]);
+                        if (playerCards.Count > maxPlayerCards)
+                        {
+                            DiscardPlayerCard(playerCards[0]);
+                        }
                     }
-                }
 
-                for (int i = 0; i < taskCardsToDraw; i++)
-                {
-                    if (actualTaskCardsCount > maxTaskCards)
+                    for (int i = 0; i < taskCardsToDraw; i++)
                     {
-                        DiscardTaskCard(taskCards[0]);
+                        if (actualTaskCardsCount > maxTaskCards)
+                        {
+                            DiscardTaskCard(taskCards[0]);
+                        }
                     }
-                }
 
-                for (int i = 0; i < playerCardsToDraw; i++)
-                {
-                    if (powerUpCards.Count > maxPowerUpCards)
+                    for (int i = 0; i < playerCardsToDraw; i++)
                     {
-                        DiscardPowerUpCard(powerUpCards[0]);
+                        if (powerUpCards.Count > maxPowerUpCards)
+                        {
+                            DiscardPowerUpCard(powerUpCards[0]);
+                        }
                     }
-                }
 
-                if (activeCard != null)
-                {
-                    SetActiveCard(activeCard, false);
+                    if (activeCard != null)
+                    {
+                        SetActiveCard(activeCard, false);
+                    }
+                    EndTurn();
+                    //tutaj czekanie na drugiego gracza
+                    maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
+                    playerTurnTime = maxPlayerTurnInSeconds;
                 }
-                EndTurn();
-                //tutaj czekanie na drugiego gracza
-                maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
-                playerTurnTime = maxPlayerTurnInSeconds;
             }
         }
         //koniec tury gracza
@@ -1868,7 +1873,21 @@ Android uses files inside a compressed APK
         }
         else
         {
-            timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+            {
+                if (isHost)
+                {
+                    timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+                }
+                else
+                {
+                    timerText.text = (VictoryPointFirstValue - float.Parse(victoryPointsP2.text)).ToString("F2");
+                }
+            }
+            else
+            {
+                timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+            }
             //Victory panel
             if ((isVictoryTimePass)||(isVictory))
             {
@@ -1938,7 +1957,7 @@ Android uses files inside a compressed APK
                 }
                 if (!SkinManager.instance.WinSI)
                 {
-                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                     {
                         if (SkinManager.instance.AIDifficulty != SkinManager.AI_EASY)
                         {
@@ -2875,7 +2894,7 @@ Android uses files inside a compressed APK
                 SetIsHostTurn(!GetIsHostTurn());
                 endTurnBtn.gameObject.SetActive(GetIsHostTurn());
                 //isHostTurn = !isHostTurn;
-                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                 {
                     iaTurnImage.gameObject.SetActive(true);
                     p2TurnImage.gameObject.SetActive(false);                  
@@ -2891,7 +2910,7 @@ Android uses files inside a compressed APK
             endTurnSFX.Play();
             for (int i = 0; i < playerCardsToDraw; i++)
             {
-                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                 {
                     DrawPlayerAICard();//player1                    
                 }
@@ -2903,7 +2922,7 @@ Android uses files inside a compressed APK
 
             for (int i = 0; i < taskCardsToDraw; i++)
             {
-                //if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_SI)
+                //if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_AI)
                 {
                     DrawTaskCard();//player1
                     //Debug.Log("DrawTask IsHost++");
@@ -2914,7 +2933,7 @@ Android uses files inside a compressed APK
             if (GetVictoryPoints() >= earlyGamePoint)
                 for (int i = 0; i < powerUpCardsToDraw; i++)
                 {
-                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+                    if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                     {
                         DrawPowerUpAICard();                  
                     }
@@ -2924,7 +2943,7 @@ Android uses files inside a compressed APK
                     }
                     //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
                 }
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
                 if (SkinManager.instance.AIDifficulty == SkinManager.AI_EASY)
                 {
@@ -2945,7 +2964,7 @@ Android uses files inside a compressed APK
         else//not my turn, opposite turn
         {
             //AI mode
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
                 if ((isHost) && (!GetIsHostTurn()))
                 {
@@ -3294,18 +3313,49 @@ Android uses files inside a compressed APK
         if (isVictoryPointFirst)
         {
             //Debug.Log("Victory Point");
-            if (GetVictoryPoints() >= VictoryPointFirstValue)
+            if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP)
             {
-                
-                isVictory = true;
-                if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                if (GetVictoryPoints() >= VictoryPointFirstValue)
                 {
-                    isVictoryResult = true;
-                    victorySFX.Play();
+
+                    isVictory = true;
+                    if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                    {
+                        isVictoryResult = true;
+                        victorySFX.Play();
+                    }
+                    else
+                    {
+                        isVictoryResult = false;
+                    }
                 }
-                else
+            }
+            
+            {
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                 {
-                    isVictoryResult = false;
+                    if ((float.Parse(victoryPoints.text) >= VictoryPointFirstValue) || (float.Parse(victoryPointsP2.text) >= VictoryPointFirstValue))
+                    {
+                        isVictory = true;
+                        if (float.Parse(victoryPoints.text) == float.Parse(victoryPointsP2.text))
+                        {
+                            isVictoryResult = true;
+                            victorySFX.Play();
+                        }
+                        else
+                        {
+                            if (((float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))&&(isHost))||
+                            ((float.Parse(victoryPoints.text) < float.Parse(victoryPointsP2.text))&&(!isHost)))
+                            {
+                                isVictoryResult = true;
+                                victorySFX.Play();
+                            }
+                            else
+                            {
+                                isVictoryResult = false;
+                            }
+                        }
+                    }
                 }
             }
         }

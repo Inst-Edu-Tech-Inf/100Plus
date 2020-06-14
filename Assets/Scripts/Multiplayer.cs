@@ -14,6 +14,9 @@ public class Multiplayer : MonoBehaviour
     public GameObject pvpPanel;
     public GameObject aiDifficultyPanel;
     public Button readyButton;
+    public Button soloButton;
+    public Button aiButton;
+    public Button pvpButton;
 
 
     // Start is called before the first frame update
@@ -27,13 +30,19 @@ public class Multiplayer : MonoBehaviour
         {
             pvpPanel.SetActive(false);
             aiDifficultyPanel.SetActive(false);
+            soloButton.interactable = false;
+            aiButton.interactable = true;
+            pvpButton.interactable = true;
         }
         else
         {
-            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SI)
+            if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_AI)
             {
                 pvpPanel.SetActive(false);
                 aiDifficultyPanel.SetActive(true);
+                soloButton.interactable = true;
+                aiButton.interactable = false;
+                pvpButton.interactable = true;
             }
             else
             {
@@ -41,6 +50,9 @@ public class Multiplayer : MonoBehaviour
                 {
                     pvpPanel.SetActive(true);
                     aiDifficultyPanel.SetActive(false);
+                    soloButton.interactable = true;
+                    aiButton.interactable = true;
+                    pvpButton.interactable = false;
                 }
                 else
                 {
@@ -48,6 +60,9 @@ public class Multiplayer : MonoBehaviour
                     {
                         pvpPanel.SetActive(true);
                         aiDifficultyPanel.SetActive(false);
+                        soloButton.interactable = true;
+                        aiButton.interactable = true;
+                        pvpButton.interactable = true;
                     }
                 }
             }
@@ -159,6 +174,36 @@ Android uses files inside a compressed APK
     {
         SkinManager.instance.SetActivePlayerMode(gameConditionsList.value);
         PlayerPrefs.SetInt("ActivePlayerMode", gameConditionsList.value);
+        Start();
+    }
+
+    public void SoloGamePressed()
+    {
+        SkinManager.instance.SetActivePlayerMode(GameManager.GAME_CONDITION_SOLO);
+        PlayerPrefs.SetInt("ActivePlayerMode", GameManager.GAME_CONDITION_SOLO);
+        soloButton.interactable = false;
+        aiButton.interactable = true;
+        pvpButton.interactable = true;
+        Start();
+    }
+
+    public void AIGamePressed()
+    {
+        SkinManager.instance.SetActivePlayerMode(GameManager.GAME_CONDITION_AI);
+        PlayerPrefs.SetInt("ActivePlayerMode", GameManager.GAME_CONDITION_AI);
+        soloButton.interactable = true;
+        aiButton.interactable = false;
+        pvpButton.interactable = true;
+        Start();
+    }
+
+    public void PVPGamePressed()
+    {
+        SkinManager.instance.SetActivePlayerMode(GameManager.GAME_CONDITION_PVP);
+        PlayerPrefs.SetInt("ActivePlayerMode", GameManager.GAME_CONDITION_PVP);
+        soloButton.interactable = true;
+        aiButton.interactable = true;
+        pvpButton.interactable = false;
         Start();
     }
 

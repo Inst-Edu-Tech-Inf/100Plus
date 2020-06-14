@@ -39,7 +39,8 @@ public class MultiplayerUI : MonoBehaviour
 	{
 		if (!roomPlayer.readyToBegin)
 		{
-			roomPlayer.readyToBegin = true;
+			//roomPlayer.readyToBegin = true;
+            roomPlayer.readyToBegin = !roomPlayer.readyToBegin;
 			roomManager.CheckReadyToBegin();
 		}
 		else
