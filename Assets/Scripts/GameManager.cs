@@ -1264,6 +1264,34 @@ Android uses files inside a compressed APK
         }
     }
 
+     
+ 
+     IEnumerator LateStart(float waitTime)
+     {
+         
+         yield return new WaitForSeconds(waitTime);
+         //Your Function You Want to Call
+         /*for (int i = 0; i < taskCardsOnStart; ++i)
+         {
+             DrawTaskCard();//player1
+             //if pvp
+             //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
+         }*/
+         for (int i = 0; i < maxTaskCardsAddLate + taskCardsToDraw; ++i)
+         //for (int i = 0; i < maxActualTaskCards; ++i)
+         {
+             DiscardTaskCard(taskCards[i]);
+         }
+         for (int i = 0; i < taskCardsOnStart; ++i)
+         {
+             DrawTaskCard();//player1
+             //if pvp
+             //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
+         }
+         //tasks.SetActive(true);
+         tasks.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+     }
+
     private void Start()
     {
         string SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
@@ -1411,18 +1439,30 @@ Android uses files inside a compressed APK
         }
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SI)
         {
-            for (int i = 0; i < playerCardsOnStart; i++)
+            for (int i = 0; i < playerCardsOnStart; ++i)
             {
                 DrawPlayerAICard();//AI
             }
         }
 
-        for (int i = 0; i < taskCardsOnStart; i++)
+        /*for (int i = 0; i < taskCardsOnStart; ++i)
         {
             DrawTaskCard();//player1
             //if pvp
             //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
+        
+        for (int i = taskCardsOnStart - 1; i >= 0; --i) //maxTaskCardsAddLate
+        {
+            DiscardTaskCard(taskCards[i]);
+        }
+
+        for (int i = 0; i < taskCardsOnStart; ++i)
+        {
+            DrawTaskCard();//player1
+            //if pvp
+            //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
+        }*/
 
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
@@ -1452,6 +1492,7 @@ Android uses files inside a compressed APK
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
         //helpTask.transform.SetParent(tasks.transform);
         SetVictoryPoints(0.0f);
+        StartCoroutine(LateStart(0.5f));
     }
 
     public void AchievementPanelHide()
@@ -1883,13 +1924,28 @@ Android uses files inside a compressed APK
 
     void CreateTaskCards()
     {
-        for (int i = 0; i < maxActualTaskCards; ++i)
+        //Debug.Log("maxTaskCardsAddLate:"+maxTaskCardsAddLate);
+        //tasks.SetActive(false);
+        tasks.gameObject.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        for (int i = 0; i < maxTaskCardsAddLate + taskCardsToDraw; ++i)
+        //for (int i = 0; i < maxActualTaskCards; ++i)
         {
             GameObject card = Instantiate(taskCardPrefab);
+            //card.gameObject.SetActive(true);
             taskCards.Add(card);
             card.transform.SetParent(tasks.transform, false);
             card.name = "TaskCard" + taskCards.Count.ToString();
             card.gameObject.SetActive(false);
+                if (!card.gameObject.activeSelf)//dla wyswietlania STATIC cards
+                {
+                    card.gameObject.SetActive(true);
+                    card.transform.SetParent(tasks.transform, false);
+                    RandomizeTaskCard(card);
+                    actualTaskCardsCount++;
+                }
+            
+            //DrawTaskCard();
+            //DiscardTaskCard(card);
         }
         
     }
@@ -1943,6 +1999,7 @@ Android uses files inside a compressed APK
             card = taskCards[i];
             if (!card.gameObject.activeSelf)
             {
+                card.gameObject.SetActive(true);
                 card.transform.SetParent(tasks.transform, false);
  //               card.name = "TaskCard" + taskCards.Count.ToString();
                 //RandomizeTaskCard(card);
@@ -1954,6 +2011,11 @@ Android uses files inside a compressed APK
                 break;
             }
         }
+    }
+
+    public void DiscardFirst()
+    {
+        DiscardTaskCard(taskCards[0]);
     }
 
     void SetValueTaskCard(GameObject card, string color, int colorValue)
@@ -2051,6 +2113,7 @@ Android uses files inside a compressed APK
                 localCard.colorText.text = GameManager.GREEN_TEXT;
                // applySkin(GameManager.GREEN_TEXT, false);
                 applyTaskCardSkin(localCard, GREEN_TEXT);
+                //localCard.applySkin(GREEN_TEXT, true);
             }
             else
             {
@@ -2058,6 +2121,7 @@ Android uses files inside a compressed APK
                 localCard.colorText.text = GameManager.BLUE_TEXT;
                 //applySkin(GameManager.BLUE_TEXT, false);
                 applyTaskCardSkin(localCard,BLUE_TEXT);
+                //localCard.applySkin(BLUE_TEXT, false);
             }
         }
         localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
@@ -2245,10 +2309,12 @@ Android uses files inside a compressed APK
     void applyTaskCardSkin(TaskCard taskCard, string Kolor )
     {
         int pm;
+        //SpriteRenderer spriteR;
+        //spriteR = taskCard.GetComponent<Image>();
 
         taskCard.activeRawImage.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
         taskCard.activeImage.GetComponent<Image>().material.SetTexture("_SecondaryTex", wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
-
+        //Debug.Log("In");
         if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_DYNAMICZNA)
         {
             taskCard.activeRawImage.GetComponent<RawImage>().gameObject.SetActive(true);
@@ -2282,24 +2348,34 @@ Android uses files inside a compressed APK
 
         if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_STATYCZNA)
         {
+            //taskCard.activeImage.SetAllDirty();
             taskCard.activeRawImage.GetComponent<RawImage>().gameObject.SetActive(false);
             taskCard.activeImage.GetComponent<Image>().gameObject.SetActive(true);
             //taskCard.activeImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor);
+            
             if (Kolor == RED_TEXT)
             {
                 taskCard.activeImage.GetComponent<Image>().sprite = wybranyRed;
+                //Debug.Log("Red");
             }
             else
                 if (Kolor == GREEN_TEXT)
                 {
                     taskCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;
+                    //spriteR.sprite = wybranyGreen;
+                    //Debug.Log("Green");
                 }
                 else
                 {
                     taskCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;
+                    //spriteR.sprite = wybranyBlue;
+                    //Debug.Log("Blue");
                 }
+            //taskCard.activeImage.SetAllDirty();
             //Debug.Log(taskCard.activeImage.GetComponent<Image>().sprite);
             //gameObject.GetComponent<Image>()
+           // taskCard.activeImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor);
+           // Debug.Log(wybranyBlue);
         }
     }
 

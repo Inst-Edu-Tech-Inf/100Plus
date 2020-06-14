@@ -19,22 +19,25 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public VideoPlayer activeVideoPlayer;
     Vector2 normalScale = new Vector2(1.9f, 1.9f);
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
+    bool isPreset;
+    string presetColor = GameManager.RED_TEXT;
+    int presetTask = 0;
 
-   /* public TaskCard(string kolor, int zadanie)
+    public TaskCard(string kolor, int zadanie)
     {
         isPreset = true;
         if (kolor == GameManager.RED_TEXT)
         {
-            presetColor = 1;
+            presetColor = GameManager.RED_TEXT;
         }
         else
         {
             if (kolor == GameManager.GREEN_TEXT)
             {
-                presetColor = 2;
+                presetColor = GameManager.GREEN_TEXT;
             }
             else
-                presetColor = 3;
+                presetColor = GameManager.BLUE_TEXT;
         }
         presetTask = zadanie;
     }
@@ -42,7 +45,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TaskCard()
     {
         isPreset = false;
-    }*/
+    }
 
     void applySkin()
     {
@@ -84,27 +87,31 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             activeRawImage.gameObject.SetActive(false);
             activeImage.gameObject.SetActive(true);
-          /*  if (Kolor == GameManager.RED_TEXT)
+           /* if (isPreset)
             {
-                activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
-            }
-            else
-                if (Kolor == GameManager.GREEN_TEXT)
+                if (presetColor == GameManager.RED_TEXT)
                 {
-                    activeImage.GetComponent<Image>().sprite = gm.wybranyGreen;
+                    activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
                 }
                 else
-                {
-                    activeImage.GetComponent<Image>().sprite = gm.wybranyBlue;
-                }*/
-            activeImage.GetComponent<Image>().sprite = gm.wybranyRed;
+                    if (presetColor == GameManager.GREEN_TEXT)
+                    {
+                        activeImage.GetComponent<Image>().sprite = gm.wybranyGreen;
+                    }
+                    else
+                    {
+                        activeImage.GetComponent<Image>().sprite = gm.wybranyBlue;
+                    }
+            }*/
+            activeImage.GetComponent<Image>().sprite = gm.wybranyBlack;
         }
+        //Debug.Log(activeImage.GetComponent<Image>().sprite);
     }
 
-     void applySkin(string Kolor, bool isAwake)
+    public void applySkin(string Kolor, bool isAwake)
     {     
         int pm;
-       
+        //Debug.Log(gm.wybranaRamka);
         activeRawImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));//do shadera
         activeImage.material.SetTexture("_SecondaryTex", gm.wybranaRamka);//Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name));
         if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
