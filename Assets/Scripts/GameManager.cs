@@ -2880,6 +2880,7 @@ Android uses files inside a compressed APK
 
     public void EndTurn()
     {
+        playerTurnTime = maxPlayerTurnInSeconds;
         // if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
         if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
