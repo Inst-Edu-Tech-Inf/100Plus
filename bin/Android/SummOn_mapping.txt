@@ -1,0 +1,262 @@
+# compiler: R8
+# compiler_version: 1.4.77
+# min_api: 21
+com.google.androidgamesdk.ChoreographerCallback$1 -> com.google.androidgamesdk.a:
+com.google.androidgamesdk.SwappyDisplayManager$1 -> com.google.androidgamesdk.b:
+com.google.androidgamesdk.SwappyDisplayManager$a -> com.google.androidgamesdk.SwappyDisplayManager$a:
+    com.google.androidgamesdk.SwappyDisplayManager b -> d
+    java.util.concurrent.locks.Condition d -> c
+    java.util.concurrent.locks.Lock c -> b
+com.unity.purchasing.common.DelayedHandler -> com.unity.purchasing.common.DelayedHandler:
+    android.os.Handler handler -> a
+com.unity.purchasing.common.InitializationFailureReason -> com.unity.purchasing.common.InitializationFailureReason:
+    com.unity.purchasing.common.InitializationFailureReason[] $VALUES -> a
+com.unity.purchasing.common.ProductType -> com.unity.purchasing.common.ProductType:
+    com.unity.purchasing.common.ProductType[] $VALUES -> a
+com.unity.purchasing.common.PurchaseFailureReason -> com.unity.purchasing.common.PurchaseFailureReason:
+    com.unity.purchasing.common.PurchaseFailureReason[] $VALUES -> a
+com.unity.purchasing.common.StoreDeserializer -> com.unity.purchasing.common.StoreDeserializer:
+    com.unity.purchasing.common.ProductDefinition GetProductDefinition(org.json.JSONObject) -> a
+com.unity.purchasing.common.UnityPurchasing -> com.unity.purchasing.common.UnityPurchasing:
+    com.unity.purchasing.common.IUnityCallback bridge -> a
+    org.json.JSONObject SerialiseMetadata(com.unity.purchasing.common.ProductMetadata) -> a
+    org.json.JSONObject SerialiseProduct(com.unity.purchasing.common.ProductDescription) -> a
+com.unity.purchasing.googleplay.BillingServiceManager -> com.unity.purchasing.googleplay.BillingServiceManager:
+    android.content.Intent googlePlayBillingServiceIntent -> e
+    java.util.concurrent.ConcurrentLinkedQueue callbacks -> f
+    android.content.Context context -> c
+    java.util.concurrent.ExecutorService executor -> d
+    boolean mIsBound -> g
+    android.content.ServiceConnection mServiceConn -> b
+    com.android.vending.billing.IInAppBillingService mService -> a
+    void access$000(com.unity.purchasing.googleplay.BillingServiceManager,java.lang.String) -> a
+    boolean access$100(com.unity.purchasing.googleplay.BillingServiceManager) -> a
+    boolean access$102(com.unity.purchasing.googleplay.BillingServiceManager,boolean) -> a
+    com.android.vending.billing.IInAppBillingService access$302(com.unity.purchasing.googleplay.BillingServiceManager,com.android.vending.billing.IInAppBillingService) -> a
+    void bindToGooglePlayService() -> a
+    void logDebug(java.lang.String) -> a
+    android.content.ServiceConnection access$200(com.unity.purchasing.googleplay.BillingServiceManager) -> b
+    android.content.Intent getGooglePlayServiceIntent() -> b
+    com.android.vending.billing.IInAppBillingService access$300(com.unity.purchasing.googleplay.BillingServiceManager) -> c
+    void tryPumpCallbacks() -> c
+    java.util.concurrent.ConcurrentLinkedQueue access$400(com.unity.purchasing.googleplay.BillingServiceManager) -> d
+    java.util.concurrent.ExecutorService access$500(com.unity.purchasing.googleplay.BillingServiceManager) -> e
+    void access$600(com.unity.purchasing.googleplay.BillingServiceManager) -> f
+com.unity.purchasing.googleplay.BillingServiceManager$1 -> com.unity.purchasing.googleplay.BillingServiceManager$1:
+    android.content.Context val$context -> a
+    com.unity.purchasing.googleplay.BillingServiceManager this$0 -> b
+com.unity.purchasing.googleplay.BillingServiceManager$1$1 -> com.unity.purchasing.googleplay.BillingServiceManager$1$1:
+    com.unity.purchasing.googleplay.BillingServiceManager$1 this$1 -> a
+com.unity.purchasing.googleplay.BillingServiceManager$1$2 -> com.unity.purchasing.googleplay.BillingServiceManager$1$2:
+    android.os.IBinder val$service -> a
+    com.unity.purchasing.googleplay.BillingServiceManager$1 this$1 -> b
+com.unity.purchasing.googleplay.BillingServiceManager$2 -> com.unity.purchasing.googleplay.BillingServiceManager$2:
+    com.unity.purchasing.googleplay.BillingServiceManager this$0 -> a
+com.unity.purchasing.googleplay.Consts$PurchaseState -> com.unity.purchasing.googleplay.Consts$PurchaseState:
+    com.unity.purchasing.googleplay.Consts$PurchaseState[] $VALUES -> a
+com.unity.purchasing.googleplay.Consts$ResponseCode -> com.unity.purchasing.googleplay.Consts$ResponseCode:
+    com.unity.purchasing.googleplay.Consts$ResponseCode[] $VALUES -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing -> com.unity.purchasing.googleplay.GooglePlayPurchasing:
+    android.content.BroadcastReceiver purchasesUpdatedReceiver -> l
+    boolean purchaseInProgress -> n
+    boolean subscriptionUpdateInProgress -> o
+    int offlineBackOffTime -> m
+    com.unity.purchasing.googleplay.GooglePlayPurchasing instance -> b
+    java.util.HashSet suspectFailedConsumableSkus -> e
+    android.content.Context context -> j
+    com.unity.purchasing.googleplay.GooglePlayPurchasing$Features features -> g
+    com.unity.purchasing.common.IStoreCallback unityPurchasing -> h
+    com.unity.purchasing.googleplay.IBillingServiceManager manager -> i
+    com.unity.purchasing.googleplay.IActivityLauncher launcher -> k
+    com.unity.purchasing.googleplay.Inventory inventory -> c
+    boolean isUnityVrEnabled -> f
+    boolean isDaydreamApiAvailable -> a
+    com.unity.purchasing.common.ProductDefinition productUnderPurchase -> d
+    void NotifyUnityOfProducts(com.unity.purchasing.googleplay.Inventory) -> a
+    void NotifyUnityOfPurchase(com.unity.purchasing.googleplay.Purchase) -> a
+    void QueryInventory(java.util.List,long) -> a
+    void access$000(java.lang.String,java.lang.String) -> a
+    void access$100(java.lang.String) -> a
+    void access$1000(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.common.PurchaseFailureDescription) -> a
+    com.unity.purchasing.common.IStoreCallback access$1100(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> a
+    java.lang.String access$1200(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Purchase,com.unity.purchasing.googleplay.SkuDetails) -> a
+    void access$1400(com.unity.purchasing.googleplay.GooglePlayPurchasing,java.util.List,long) -> a
+    int access$202(com.unity.purchasing.googleplay.GooglePlayPurchasing,int) -> a
+    com.unity.purchasing.googleplay.Inventory access$302(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Inventory) -> a
+    boolean access$602(com.unity.purchasing.googleplay.GooglePlayPurchasing,boolean) -> a
+    void access$700(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Purchase) -> a
+    java.lang.String addFreeTrialAndIntroPriceFlagToDeveloperPayload(java.lang.String,java.lang.String,java.lang.String) -> a
+    android.content.Intent createPurchaseIntent(boolean) -> a
+    java.lang.String encodeReceipt(com.unity.purchasing.googleplay.Purchase,com.unity.purchasing.googleplay.SkuDetails) -> a
+    java.lang.String getUpdateMetadata(java.lang.String,com.unity.purchasing.googleplay.SkuDetails) -> a
+    void onActivityResult(int,int,android.content.Intent) -> a
+    void pollForNewPurchases() -> a
+    void reconcileFailedPurchaseWithInventory(com.unity.purchasing.common.PurchaseFailureDescription) -> a
+    void access$1300(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> b
+    void access$400(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Inventory) -> b
+    com.unity.purchasing.googleplay.Purchase findPurchaseByOrderId(java.lang.String) -> b
+    void log(java.lang.String,java.lang.String) -> b
+    void registerPurchasesUpdatedReceiver() -> b
+    int access$200(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> c
+    void log(java.lang.String) -> c
+    com.unity.purchasing.googleplay.Inventory access$300(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> d
+    android.content.Context access$500(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> e
+    boolean access$600(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> f
+    com.unity.purchasing.common.ProductDefinition access$800(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> g
+    java.util.HashSet access$900(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> h
+com.unity.purchasing.googleplay.GooglePlayPurchasing$1 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$1:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+    com.unity.purchasing.googleplay.IGooglePlayStoreCallback val$callback -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$10 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$10:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$11 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$11:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$2 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$2:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+    android.content.Intent val$subscriptionUpdateIntent -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$3 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$3:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$4 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$4:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+    com.unity.purchasing.common.PurchaseFailureDescription val$suspectBadPurchase -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$5 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$5:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$6 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$6:
+    java.util.List val$skus -> a
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+com.unity.purchasing.googleplay.GooglePlayPurchasing$7 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$7:
+    java.util.List val$skus -> a
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+com.unity.purchasing.googleplay.GooglePlayPurchasing$8 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$8:
+    java.lang.String val$sku -> a
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> d
+    java.lang.String val$payload -> c
+    com.unity.purchasing.common.ProductDefinition val$p -> b
+com.unity.purchasing.googleplay.GooglePlayPurchasing$8$1 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$8$1:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing$8 this$1 -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$9 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$9:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
+    android.content.Intent val$purchaseIntent -> a
+com.unity.purchasing.googleplay.GooglePlayPurchasing$Features -> com.unity.purchasing.googleplay.GooglePlayPurchasing$Features:
+    com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> a
+com.unity.purchasing.googleplay.IabException -> com.unity.purchasing.googleplay.IabException:
+    com.unity.purchasing.googleplay.IabResult mResult -> a
+com.unity.purchasing.googleplay.IabHelper -> com.unity.purchasing.googleplay.IabHelper:
+    int mRequestCode -> o
+    com.unity.purchasing.googleplay.IabHelper$OnIabPurchaseFinishedListener mPurchaseListener -> r
+    boolean mUnityVrEnabled -> i
+    java.lang.String mAsyncOperation -> k
+    boolean mDaydreamApiAvailable -> j
+    java.lang.String mPurchasingItemType -> p
+    com.unity.purchasing.googleplay.Inventory inv -> q
+    com.unity.purchasing.googleplay.IActivityLauncher launcher -> n
+    android.content.Context mContext -> l
+    boolean mSubscriptionsSupported -> e
+    boolean mSubscriptionUpgradeDowngradeSupported -> f
+    com.unity.purchasing.googleplay.IBillingServiceManager serviceManager -> m
+    boolean mSubscriptionPurchaseHistorySupported -> g
+    boolean mVrSupported -> h
+    boolean mDebugLog -> a
+    java.lang.String mDebugTag -> b
+    boolean mSetupDone -> c
+    boolean mDisposed -> d
+    void access$000(com.unity.purchasing.googleplay.IabHelper,com.unity.purchasing.googleplay.IabHelper$OnIabSetupFinishedListener,com.android.vending.billing.IInAppBillingService) -> a
+    boolean access$100(com.unity.purchasing.googleplay.IabHelper) -> a
+    void checkSetupDone(java.lang.String) -> a
+    void consume(com.unity.purchasing.googleplay.Purchase,com.android.vending.billing.IInAppBillingService) -> a
+    void consumeAsyncInternal(java.util.List,com.unity.purchasing.googleplay.IabHelper$OnConsumeFinishedListener,com.unity.purchasing.googleplay.IabHelper$OnConsumeMultiFinishedListener,boolean) -> a
+    void finishSetup(com.unity.purchasing.googleplay.IabHelper$OnIabSetupFinishedListener,com.android.vending.billing.IInAppBillingService) -> a
+    int getResponseCodeFromBundle(android.os.Bundle) -> a
+    int getResponseCodeFromIntent(android.content.Intent) -> a
+    int queryPurchases(com.unity.purchasing.googleplay.Inventory,java.lang.String,com.android.vending.billing.IInAppBillingService) -> a
+    int querySkuDetails(java.lang.String,com.unity.purchasing.googleplay.Inventory,java.util.List,com.android.vending.billing.IInAppBillingService) -> a
+    boolean access$200(com.unity.purchasing.googleplay.IabHelper) -> b
+    void consumeSilently(com.unity.purchasing.googleplay.Purchase,com.android.vending.billing.IInAppBillingService) -> b
+    java.lang.String getAccountId(java.lang.String) -> b
+    com.unity.purchasing.googleplay.Inventory access$300(com.unity.purchasing.googleplay.IabHelper) -> c
+    void logDebug(java.lang.String) -> c
+    boolean access$400(com.unity.purchasing.googleplay.IabHelper) -> d
+    void logError(java.lang.String) -> d
+    com.unity.purchasing.googleplay.IActivityLauncher access$500(com.unity.purchasing.googleplay.IabHelper) -> e
+    void logWarn(java.lang.String) -> e
+com.unity.purchasing.googleplay.IabHelper$1 -> com.unity.purchasing.googleplay.IabHelper$1:
+    com.unity.purchasing.googleplay.IabHelper this$0 -> b
+    com.unity.purchasing.googleplay.IabHelper$OnIabSetupFinishedListener val$listener -> a
+com.unity.purchasing.googleplay.IabHelper$2 -> com.unity.purchasing.googleplay.IabHelper$2:
+    android.app.Activity val$act -> d
+    com.unity.purchasing.googleplay.IabHelper$OnIabPurchaseFinishedListener val$listener -> e
+    com.unity.purchasing.googleplay.IabHelper this$0 -> g
+    java.util.List val$oldSkus -> c
+    int val$requestCode -> f
+    java.lang.String val$sku -> a
+    java.lang.String val$extraData -> b
+com.unity.purchasing.googleplay.IabHelper$2$1 -> com.unity.purchasing.googleplay.IabHelper$2$1:
+    android.app.PendingIntent val$pendingIntent -> a
+    com.unity.purchasing.googleplay.IabHelper$2 this$1 -> b
+com.unity.purchasing.googleplay.IabHelper$3 -> com.unity.purchasing.googleplay.IabHelper$3:
+    android.app.Activity val$act -> d
+    com.unity.purchasing.googleplay.IabHelper$OnIabPurchaseFinishedListener val$listener -> e
+    com.unity.purchasing.googleplay.IabHelper this$0 -> g
+    int val$requestCode -> f
+    java.lang.String val$sku -> a
+    java.lang.String val$extraData -> c
+    java.lang.String val$itemType -> b
+com.unity.purchasing.googleplay.IabHelper$3$1 -> com.unity.purchasing.googleplay.IabHelper$3$1:
+    android.app.PendingIntent val$pendingIntent -> a
+    com.unity.purchasing.googleplay.IabHelper$3 this$1 -> b
+com.unity.purchasing.googleplay.IabHelper$4 -> com.unity.purchasing.googleplay.IabHelper$4:
+    com.unity.purchasing.googleplay.IabHelper this$0 -> e
+    java.util.List val$moreSkus -> c
+    long val$delay -> a
+    com.unity.purchasing.googleplay.IabHelper$QueryInventoryFinishedListener val$listener -> d
+    boolean val$querySkuDetails -> b
+com.unity.purchasing.googleplay.IabHelper$5 -> com.unity.purchasing.googleplay.IabHelper$5:
+    java.util.List val$purchases -> a
+    com.unity.purchasing.googleplay.IabHelper$OnConsumeFinishedListener val$singleListener -> c
+    com.unity.purchasing.googleplay.IabHelper this$0 -> e
+    com.unity.purchasing.googleplay.IabHelper$OnConsumeMultiFinishedListener val$multiListener -> d
+    boolean val$isSilent -> b
+com.unity.purchasing.googleplay.IabResult -> com.unity.purchasing.googleplay.IabResult:
+    java.lang.String mMessage -> b
+    int mResponse -> a
+com.unity.purchasing.googleplay.Inventory -> com.unity.purchasing.googleplay.Inventory:
+    java.util.Map mPurchaseMap -> a
+    java.util.Map mConsumablePurchaseHistoryMap -> b
+    java.util.Set mPurchaseHistoryOfSub -> c
+    void addPurchase(com.unity.purchasing.googleplay.Purchase) -> a
+    void addPurchaseToConsumablePurchaseHistory(java.lang.String,com.unity.purchasing.googleplay.Purchase) -> a
+    void addPurchaseToSubscriptionPurchaseHistory(java.lang.String) -> a
+    void addSkuDetails(com.unity.purchasing.googleplay.SkuDetails) -> a
+    java.util.List getAllPurchases() -> a
+    java.util.List getAllOwnedSkus(java.lang.String) -> b
+    java.util.List getAllSkus(java.lang.String) -> c
+com.unity.purchasing.googleplay.Purchase -> com.unity.purchasing.googleplay.Purchase:
+    java.lang.String mDeveloperPayload -> g
+    java.lang.String mOriginalJson -> i
+    java.lang.String mToken -> h
+    long mPurchaseTime -> e
+    java.lang.String mSignature -> j
+    boolean autoRenewing -> k
+    int mPurchaseState -> f
+    java.lang.String mItemType -> a
+    java.lang.String mPackageName -> c
+    java.lang.String mOrderId -> b
+    java.lang.String mSku -> d
+com.unity.purchasing.googleplay.PurchaseActivity -> com.unity.purchasing.googleplay.PurchaseActivity:
+    boolean receivedResult -> a
+com.unity.purchasing.googleplay.SkuDetails -> com.unity.purchasing.googleplay.SkuDetails:
+    java.lang.String mJson -> g
+    int introductoryPriceCycles -> n
+    java.lang.String mDescription -> f
+    java.lang.String isoCurrencyCode -> i
+    java.lang.String freeTrialPeriod -> k
+    java.lang.String subscriptionPeriod -> j
+    long priceInMicros -> h
+    java.lang.String introductoryPricePeriod -> m
+    java.lang.String introductoryPrice -> l
+    java.lang.String mItemType -> a
+    java.lang.String mType -> c
+    java.lang.String mSku -> b
+    java.lang.String mTitle -> e
+    java.lang.String mPrice -> d
+    long introductoryPriceInMicros -> o

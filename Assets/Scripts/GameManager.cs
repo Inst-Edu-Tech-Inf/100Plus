@@ -231,6 +231,7 @@ UNITY_STANDALONE_WIN
     Color redColor = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
     Color greenColor = new Color32( 0, SkinManager.GREEN_COLOR, 0, 255);
     Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+    bool isPVPCommandChange = false;
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1=0;
@@ -350,21 +351,31 @@ UNITY_STANDALONE_WIN
    */
     public void SetPVPCommand(int value)
     {
-        
+        //Debug.Log("RunPVPCommand:"+isHost);
             if (isHost)
             {
                 PVPCommand = value;
+                isPVPCommandChange = true;
                 if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
                 {
                     if (value != PVP_IDLE)
                     {
+                        //Debug.Log("RunPVPCommand:IN");
+                        //Debug.Log("PVPCommand:before:" + GetPVPCommand());
                         RunPVPCommand();
+                        //Debug.Log("PVPCommand:before:" + GetPVPCommand());
+                        //CmdSetPVPCommand(value);
                     }
                 }
             }
             else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
             {
+                //Debug.Log("Run not Host");
+                //Debug.Log("PVPCommand:before:" + GetPVPCommand());
                 CmdSetPVPCommand(value);
+                isPVPCommandChange = true;
+                //Debug.Log("PVPCommand:after:" + GetPVPCommand());
+                //RunPVPCommand();
             }
         
     }
@@ -373,11 +384,13 @@ UNITY_STANDALONE_WIN
     void CmdSetPVPCommand(int value)
     {
        // PVPCommand = value;
+        //Debug.Log("RunPVPCommand:CMD");
         PVPCommand = value;
         if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
         {
             if (value != PVP_IDLE)
             {
+                //Debug.Log("RunPVPCommand:CMD_IN");
                 RunPVPCommand();
             }
         }
@@ -391,7 +404,8 @@ UNITY_STANDALONE_WIN
     public void RunPVPCommand()
     {
         string kolor = RED_TEXT;
-        infoText.text = infoText.text + ";C" + GetPVPCommand();
+       // infoText.text = infoText.text + ";C" + GetPVPCommand();
+        Debug.Log("RunPVPCommand:IN");
         switch (GetPVPCommand())
         {
             case PVP_DRAW_TASK:
@@ -1726,7 +1740,7 @@ Android uses files inside a compressed APK
 
     private void Update()
     {
-        
+        float tmpFloat = 0.0f;
         //print("VP1: " + victoryPointsNumberP1);
         //print("VP2: " + victoryPointsNumberP2);
        /* if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
@@ -1877,16 +1891,19 @@ Android uses files inside a compressed APK
             {
                 if (isHost)
                 {
-                    timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+                    //tmpFloat = VictoryPointFirstValue - float.Parse(victoryPoints.text);
+                    //timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
                 }
                 else
                 {
-                    timerText.text = (VictoryPointFirstValue - float.Parse(victoryPointsP2.text)).ToString("F2");
+                    //tmpFloat = VictoryPointFirstValue - float.Parse(victoryPointsP2.text);
+                    //timerText.text = ((float)VictoryPointFirstValue - float.Parse(victoryPointsP2.text)).ToString("F2");
                 }
+                timerText.text = tmpFloat.ToString("F2");
             }
             else
             {
-                timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+               // timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
             }
             //Victory panel
             if ((isVictoryTimePass)||(isVictory))
@@ -2056,6 +2073,46 @@ Android uses files inside a compressed APK
                 else
                 {
                     defeatVictoryPanel.gameObject.transform.localScale = new Vector3(victoryPanelScale, victoryPanelScale, victoryPanelScale);
+                }
+            }
+        }
+
+        infoText.text = GetPVPCommand().ToString() + ";" + GetPVPValue1().ToString() + ";" + GetPVPValue2().ToString() + ";" + GetPVPValue3().ToString();
+
+        
+        {
+            if ((isHost) && (!GetIsHostTurn()))
+            {
+                if (AIActivityTime > 0)
+                {
+                    AIActivityTime -= Time.deltaTime;
+                }
+                else
+                {
+                    if (aiCommands.Count > 0)
+                        RunAICommand(aiCommands[0]);
+                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+                }
+            }
+        }
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            if ((GetPVPCommand() != PVP_IDLE) &&
+                (((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost))))
+            {
+                //if (isPVPCommandChange)
+                if (AIActivityTime > 0)
+                {
+                    AIActivityTime -= Time.deltaTime;
+                }
+                else
+                
+                {
+                    Debug.Log("RunPVPCommand:UPDATE");
+                    RunPVPCommand();
+                    //isPVPCommandChange = false;
+                    SetPVPCommand(PVP_IDLE);
+                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
                 }
             }
         }
@@ -2243,11 +2300,13 @@ Android uses files inside a compressed APK
                 //card.GetComponent<TaskCard>().Randomize();
                 RandomizeTaskCard(card);
                 actualTaskCardsCount++;
+                Debug.Log("SetPVPCommands, HostTurn:" + GetIsHostTurn());
                 if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                     {
                         //sendColor
+                        
                         if (card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
                         {
                             SetPVPValue1(PVP_RED);
@@ -3000,6 +3059,7 @@ Android uses files inside a compressed APK
             }
             
         }
+        AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
     }
 
     void AddAchievementPurePoint(float Value)

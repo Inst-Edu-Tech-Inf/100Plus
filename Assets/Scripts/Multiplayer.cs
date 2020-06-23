@@ -17,12 +17,16 @@ public class Multiplayer : MonoBehaviour
     public Button soloButton;
     public Button aiButton;
     public Button pvpButton;
+    public Text sciezka;
 
 
     // Start is called before the first frame update
     void Start()
     {
         //changeBackground();
+        //string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
+        //backgroundImage.sprite = Resources.Load<Sprite>(pom2);
+        //StartCoroutine(GetWWWTexture("http://ieti.pl/portal/images/Autumn.jpg"));
         gameConditionsList.value = SkinManager.instance.ActivePlayerMode;
         //readyButton.interactable = false;
         readyButton.gameObject.SetActive(false);
@@ -91,6 +95,7 @@ Android uses files inside a compressed APK
         {
             string pom = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
             pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
+            sciezka.text = pom;
             StartCoroutine(GetWWWTexture(pom));
         }
         if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -98,11 +103,13 @@ Android uses files inside a compressed APK
             string pom3 = SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";//
             //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
             pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            sciezka.text = pom3;
             StartCoroutine(GetWWWTexture(pom3));
         }
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
+            sciezka.text = pom2;
             StartCoroutine(GetWWWTexture(pom2));
         }
     }
@@ -145,13 +152,14 @@ Android uses files inside a compressed APK
         }
         else
         {
-            
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-           // Texture2D texture2D = new Texture2D(myTexture.width, myTexture.height, TextureFormat.RGBA32, false);
-            Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
-            Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
-            backgroundImage.sprite = fromTex;
-            //input.text = myTexture.width.ToString();
+            {
+                Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                // Texture2D texture2D = new Texture2D(myTexture.width, myTexture.height, TextureFormat.RGBA32, false);
+                Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
+                Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+                backgroundImage.sprite = fromTex;
+                //input.text = myTexture.width.ToString();
+            }
         }
 
 

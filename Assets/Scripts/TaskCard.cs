@@ -17,6 +17,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public RawImage tex;
     public RawImage activeRawImage;
     public VideoPlayer activeVideoPlayer;
+    public Image backgroundTest;
     Vector2 normalScale = new Vector2(1.9f, 1.9f);
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
     bool isPreset;
@@ -168,6 +169,8 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         activeImage.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Przezroczysty");//.gameObject.SetActive(false);
+        //backgroundTest.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("TloKarty");
+        backgroundTest.GetComponent<Image>().sprite = gm.wybranyBlack;
         ActiveTexture = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);//OnDestroy free??
         valueText = transform.Find("Value Text").GetComponent<TextMeshProUGUI>();
         victoryPointsText = transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>();
