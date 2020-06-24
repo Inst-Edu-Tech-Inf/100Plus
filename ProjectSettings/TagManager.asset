@@ -8,6 +8,7 @@ TagManager:
   - Main Canvas
   - Game Manager
   - Single Net Manager
+  - Ready Text
   layers:
   - Default
   - TransparentFX
