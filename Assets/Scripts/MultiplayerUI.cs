@@ -41,11 +41,6 @@ public class MultiplayerUI : MonoBehaviour
 		else
         {
 			AppendListButton(info);
-			AppendListButton(info);
-			AppendListButton(info);
-			AppendListButton(info);
-			AppendListButton(info);
-			AppendListButton(info);
 		}
     }
 
