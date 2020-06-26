@@ -232,6 +232,7 @@ UNITY_STANDALONE_WIN
     Color greenColor = new Color32( 0, SkinManager.GREEN_COLOR, 0, 255);
     Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
     bool isPVPCommandChange = false;
+    bool isFirstTurn = false;
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1=0;
@@ -386,11 +387,12 @@ UNITY_STANDALONE_WIN
        // PVPCommand = value;
         //Debug.Log("RunPVPCommand:CMD");
         PVPCommand = value;
-        if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+        //if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+        if  ((!isHost) && (GetIsHostTurn()))
         {
             if (value != PVP_IDLE)
             {
-                //Debug.Log("RunPVPCommand:CMD_IN");
+                Debug.Log("RunPVPCommand:CMD_IN");
                 RunPVPCommand();
             }
         }
@@ -405,7 +407,7 @@ UNITY_STANDALONE_WIN
     {
         string kolor = RED_TEXT;
        // infoText.text = infoText.text + ";C" + GetPVPCommand();
-        Debug.Log("RunPVPCommand:IN");
+       // Debug.Log("RunPVPCommand:IN");
         switch (GetPVPCommand())
         {
             case PVP_DRAW_TASK:
@@ -1510,6 +1512,10 @@ Android uses files inside a compressed APK
                 {
                     DrawTaskCard();
                 }
+                else
+                {
+                    isFirstTurn = true;
+                }
             }
             else
             {
@@ -1598,6 +1604,10 @@ Android uses files inside a compressed APK
         isVictorySound = true;
         userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
         AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            AIActivityTime = SkinManager.PVP_ACTIVITY_TIME;
+        }
         /* var fill = slider.GetComponentsInChildren<UnityEngine.UI.Image>().FirstOrDefault(t => t.name == "Fill");
          if (fill != null)
          {
@@ -2077,9 +2087,9 @@ Android uses files inside a compressed APK
             }
         }
 
-        infoText.text = GetPVPCommand().ToString() + ";" + GetPVPValue1().ToString() + ";" + GetPVPValue2().ToString() + ";" + GetPVPValue3().ToString();
+        //infoText.text = GetPVPCommand().ToString() + ";" + GetPVPValue1().ToString() + ";" + GetPVPValue2().ToString() + ";" + GetPVPValue3().ToString();
 
-        
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
         {
             if ((isHost) && (!GetIsHostTurn()))
             {
@@ -2098,7 +2108,9 @@ Android uses files inside a compressed APK
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
             if ((GetPVPCommand() != PVP_IDLE) &&
-                (((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost))))
+                //(((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost))))
+                (((!isHostTurn) && (!isHost)) || ((isFirstTurn)&&(!isHost))))
+               
             {
                 //if (isPVPCommandChange)
                 if (AIActivityTime > 0)
@@ -2112,7 +2124,7 @@ Android uses files inside a compressed APK
                     RunPVPCommand();
                     //isPVPCommandChange = false;
                     SetPVPCommand(PVP_IDLE);
-                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+                    AIActivityTime = SkinManager.PVP_ACTIVITY_TIME;
                 }
             }
         }
@@ -2943,7 +2955,7 @@ Android uses files inside a compressed APK
         // if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
         if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+            /*if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
             {
                 SetIsHostTurn(true);
                 endTurnBtn.gameObject.SetActive(true);
@@ -2964,7 +2976,7 @@ Android uses files inside a compressed APK
                     iaTurnImage.gameObject.SetActive(false);
                     p2TurnImage.gameObject.SetActive(true);
                 }
-            }
+            }*/
 
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
             endTurnSFX.Play();
@@ -3018,6 +3030,31 @@ Android uses files inside a compressed APK
                     }
                 }
             }
+
+            //zmiana isHostTurn
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+            {
+                SetIsHostTurn(true);
+                endTurnBtn.gameObject.SetActive(true);
+                //isHostTurn = true;
+            }
+            else
+            {
+                SetIsHostTurn(!GetIsHostTurn());
+                endTurnBtn.gameObject.SetActive(GetIsHostTurn());
+                //isHostTurn = !isHostTurn;
+                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
+                {
+                    iaTurnImage.gameObject.SetActive(true);
+                    p2TurnImage.gameObject.SetActive(false);
+                }
+                else //different PVP modes
+                {
+                    iaTurnImage.gameObject.SetActive(false);
+                    p2TurnImage.gameObject.SetActive(true);
+                }
+            }
+            //zmiana isHostTurn
             RerollTaskCardCheck();
             CheckCardNumbers(true);
         }
@@ -3060,6 +3097,13 @@ Android uses files inside a compressed APK
             
         }
         AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+        {
+            AIActivityTime = SkinManager.PVP_ACTIVITY_TIME;
+        }
+
+        isFirstTurn = false;
     }
 
     void AddAchievementPurePoint(float Value)

@@ -1069,7 +1069,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 2413210163424114849, guid: c38634593be0e1f4d8f28ba5d9906af0,
     type: 3}
@@ -2403,6 +2403,7 @@ MonoBehaviour:
   listButton: {fileID: 3568006423363928013, guid: eb0a734a76d7240c2802bbad2444d604,
     type: 3}
   list: {fileID: 1475004885}
+  readyText: {fileID: 0}
 --- !u!1 &1033264166
 GameObject:
   m_ObjectHideFlags: 0
@@ -3455,7 +3456,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514744902}
   m_HandleRect: {fileID: 1514744901}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
