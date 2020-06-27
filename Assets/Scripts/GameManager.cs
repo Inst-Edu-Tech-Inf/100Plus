@@ -2816,6 +2816,7 @@ Android uses files inside a compressed APK
                     {
                         SetPVPValue1(i);
                         SetPVPCommand(PVP_DISCARD_TASK);
+                        Debug.Log("Discard:isHostTurn" + GetIsHostTurn());
                     }
                 }
 
@@ -3055,8 +3056,8 @@ Android uses files inside a compressed APK
                 }
             }
             //zmiana isHostTurn
-            RerollTaskCardCheck();
-            CheckCardNumbers(true);
+            //RerollTaskCardCheck();
+            //CheckCardNumbers(true);
         }
         else//not my turn, opposite turn
         {
