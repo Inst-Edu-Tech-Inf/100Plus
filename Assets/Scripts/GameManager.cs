@@ -1626,6 +1626,7 @@ Android uses files inside a compressed APK
         Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
         slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
         soundBackground.volume = SkinManager.instance.ActiveSoundValue / 100;
+        //soundBackground.volume = 1;
         endTurnSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
         exitSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
         coinSingleSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
@@ -1901,12 +1902,12 @@ Android uses files inside a compressed APK
             {
                 if (isHost)
                 {
-                    //tmpFloat = VictoryPointFirstValue - float.Parse(victoryPoints.text);
+                    tmpFloat = VictoryPointFirstValue - float.Parse(victoryPoints.text);
                     //timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
                 }
                 else
                 {
-                    //tmpFloat = VictoryPointFirstValue - float.Parse(victoryPointsP2.text);
+                    tmpFloat = VictoryPointFirstValue - float.Parse(victoryPointsP2.text);
                     //timerText.text = ((float)VictoryPointFirstValue - float.Parse(victoryPointsP2.text)).ToString("F2");
                 }
                 timerText.text = tmpFloat.ToString("F2");
@@ -1914,6 +1915,9 @@ Android uses files inside a compressed APK
             else
             {
                // timerText.text = (VictoryPointFirstValue - float.Parse(victoryPoints.text)).ToString("F2");
+                // tmpFloat = VictoryPointFirstValue - float.Parse(victoryPoints.text);
+                tmpFloat = VictoryPointFirstValue - float.Parse(victoryPoints.text);
+                timerText.text = tmpFloat.ToString("F2");
             }
             //Victory panel
             if ((isVictoryTimePass)||(isVictory))
@@ -3056,8 +3060,11 @@ Android uses files inside a compressed APK
                 }
             }
             //zmiana isHostTurn
-            //RerollTaskCardCheck();
-            //CheckCardNumbers(true);
+            if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP)
+            {
+                RerollTaskCardCheck();
+                CheckCardNumbers(true);
+            }
         }
         else//not my turn, opposite turn
         {
