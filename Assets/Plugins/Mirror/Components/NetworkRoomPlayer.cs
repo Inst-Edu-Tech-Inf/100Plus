@@ -153,7 +153,10 @@ namespace Mirror
 
         void DrawPlayerReadyState()
         {
-            GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
+            GUIStyle customButton = new GUIStyle("button");
+            customButton.fontSize = 40;
+
+            GUILayout.BeginArea(new Rect(120f + (index * 100), 200f, 90f, 130f));
 
             GUILayout.Label($"Player [{index + 1}]");
 
@@ -162,7 +165,7 @@ namespace Mirror
             else
                 GUILayout.Label("Not Ready");
 
-            if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
+            if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("X", customButton))//"REMOVE"
             {
                 // This button only shows on the Host for all players other than the Host
                 // Host and Players can't remove themselves (stop the client instead)
@@ -175,18 +178,25 @@ namespace Mirror
 
         void DrawPlayerReadyButton()
         {
+            GUIStyle customButton = new GUIStyle("button");
+            customButton.fontSize = 40;
+            customButton.normal.textColor = Color.red;
+ 
+
             if (NetworkClient.active && isLocalPlayer)
             {
-                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
+                GUILayout.BeginArea(new Rect(120f, 300f, 200f, 400f));
 
                 if (readyToBegin)
                 {
-                    if (GUILayout.Button("Cancel"))
+                    if (GUILayout.Button("X",customButton))
                         CmdChangeReadyState(false);
                 }
                 else
                 {
-                    if (GUILayout.Button("Ready"))
+                    Texture tex= Resources.Load<Texture>("ChoiceOKsmall");
+                    if (GUILayout.Button(tex))
+                    //if (GUILayout.Button("Ready",customButton))
                         CmdChangeReadyState(true);
                 }
 

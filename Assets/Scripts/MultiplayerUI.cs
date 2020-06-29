@@ -4,7 +4,7 @@ using Mirror;
 using Mirror.Discovery;
 using TMPro;
 
-public class MultiplayerUI : MonoBehaviour
+public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 {
 	public RoomPlayer roomPlayer;
 	public NetworkRoomManager roomManager
@@ -68,6 +68,7 @@ public class MultiplayerUI : MonoBehaviour
     public void CreateGame()
 	{
 		roomManager.StartHost();
+       // if ( )
 		discovery.AdvertiseServer();
         //gm.isHostTurn = true;
         //I'm Host
@@ -82,7 +83,7 @@ public class MultiplayerUI : MonoBehaviour
 
 	public void Ready()
 	{
-		if (!roomPlayer.readyToBegin)
+		/*if (!roomPlayer.readyToBegin)
 		{
 			//roomPlayer.readyToBegin = true;
             roomPlayer.readyToBegin = !roomPlayer.readyToBegin;
@@ -91,6 +92,15 @@ public class MultiplayerUI : MonoBehaviour
 		else
 		{
 			roomPlayer.readyToBegin = false;
-		}
+		}*/
+        roomPlayer.readyToBegin = true;
+		roomManager.CheckReadyToBegin();
+        //CmdChangeReadyState(true);
 	}
+
+   /* [Command]
+    public void CmdSetReady(bool value)
+    {
+        roomPlayer.readyToBegin = value;
+    }*/
 }

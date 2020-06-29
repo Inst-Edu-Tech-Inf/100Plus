@@ -425,13 +425,17 @@ UNITY_STANDALONE_WIN
                         {
                             kolor = BLUE_TEXT;
                         }
-                infoText.text = infoText.text + ";" + kolor;
-                infoText.text = infoText.text + ";V" + GetPVPValue2();
+                //infoText.text = infoText.text + ";" + kolor;
+                //infoText.text = infoText.text + ";V" + GetPVPValue2();
                 DrawTaskCard(kolor, GetPVPValue2());
+                RerollTaskCardCheck();
+                CheckCardNumbers(true);
                 break;
             case PVP_DISCARD_TASK:
-                infoText.text = infoText.text + ";D" + GetPVPValue1();
+                //infoText.text = infoText.text + ";D" + GetPVPValue1();
                 DiscardTaskCard(taskCards[GetPVPValue1()]);
+                RerollTaskCardCheck();
+                CheckCardNumbers(true);
                 break;
             case PVP_SET_ACTIVE_CARD:
 
@@ -553,6 +557,8 @@ UNITY_STANDALONE_WIN
                 iaTurnImage.gameObject.SetActive(false);
                 p2TurnImage.gameObject.SetActive(false);
                 transparentAllPanel.gameObject.SetActive(false);
+                RerollTaskCardCheck();
+                CheckCardNumbers(true);
             }
         }
         else
@@ -1766,6 +1772,8 @@ Android uses files inside a compressed APK
             else
                 infoText.text = infoText.text + "isHostTurn: False;";
         }*/
+
+        //infoText.text = GetPVPValue1().ToString() + ",Comm:" + GetPVPCommand().ToString();
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
@@ -2113,7 +2121,8 @@ Android uses files inside a compressed APK
         {
             if ((GetPVPCommand() != PVP_IDLE) &&
                 //(((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost))))
-                (((!isHostTurn) && (!isHost)) || ((isFirstTurn)&&(!isHost))))
+                (((!isHostTurn) && (!isHost)) || ((isFirstTurn)&&(!isHost))||(!isHost))
+                )
                
             {
                 //if (isPVPCommandChange)
@@ -2814,13 +2823,15 @@ Android uses files inside a compressed APK
             card = taskCards[i];
             if (card == cardToRemove)
             {
+                Debug.Log("Discard:isHostTurn" + GetIsHostTurn());
+                Debug.Log("Discard:isHost" + isHost);
                 if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                     {
                         SetPVPValue1(i);
                         SetPVPCommand(PVP_DISCARD_TASK);
-                        Debug.Log("Discard:isHostTurn" + GetIsHostTurn());
+                        
                     }
                 }
 
@@ -3060,8 +3071,13 @@ Android uses files inside a compressed APK
                 }
             }
             //zmiana isHostTurn
-            if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP)
+          //  Debug.Log("IsHost:" + isHost);
+           // Debug.Log("IsHostTurn:" + isHostTurn);
+            if ((SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP)  //||
+           // (((isHost)&&(!isHostTurn))||((!isHost)&&(isHostTurn)))
+                )
             {
+              //  Debug.Log("CheckCardNumbers");
                 RerollTaskCardCheck();
                 CheckCardNumbers(true);
             }

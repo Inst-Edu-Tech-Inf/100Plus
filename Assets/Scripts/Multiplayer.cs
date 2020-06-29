@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using Mirror;
+//using Mirror.Discovery;
 
 public class Multiplayer : MonoBehaviour
 {
@@ -17,12 +19,17 @@ public class Multiplayer : MonoBehaviour
     public Button soloButton;
     public Button aiButton;
     public Button pvpButton;
+    public Button startButton;
     public Text sciezka;
+    public NetworkRoomManager roomManagerShowGUI;
+    //public NetworkRoomPlayer roomManagerShowGUI;
+    NetworkRoomPlayer roomPlayerShowGUI;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         //changeBackground();
         //string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
         //backgroundImage.sprite = Resources.Load<Sprite>(pom2);
@@ -37,6 +44,7 @@ public class Multiplayer : MonoBehaviour
             soloButton.interactable = false;
             aiButton.interactable = true;
             pvpButton.interactable = true;
+            //startButton.gameObject.SetActive(true);
         }
         else
         {
@@ -47,6 +55,7 @@ public class Multiplayer : MonoBehaviour
                 soloButton.interactable = true;
                 aiButton.interactable = false;
                 pvpButton.interactable = true;
+                //startButton.gameObject.SetActive(true);
             }
             else
             {
@@ -57,6 +66,7 @@ public class Multiplayer : MonoBehaviour
                     soloButton.interactable = true;
                     aiButton.interactable = true;
                     pvpButton.interactable = false;
+                    //startButton.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -67,6 +77,7 @@ public class Multiplayer : MonoBehaviour
                         soloButton.interactable = true;
                         aiButton.interactable = true;
                         pvpButton.interactable = true;
+                        //startButton.gameObject.SetActive(false);
                     }
                 }
             }
@@ -192,6 +203,7 @@ Android uses files inside a compressed APK
         soloButton.interactable = false;
         aiButton.interactable = true;
         pvpButton.interactable = true;
+        //roomManagerShowGUI.showRoomGUI = false;
         Start();
     }
 
@@ -202,6 +214,7 @@ Android uses files inside a compressed APK
         soloButton.interactable = true;
         aiButton.interactable = false;
         pvpButton.interactable = true;
+        //roomManagerShowGUI.showRoomGUI = false;
         Start();
     }
 
@@ -212,13 +225,20 @@ Android uses files inside a compressed APK
         soloButton.interactable = true;
         aiButton.interactable = true;
         pvpButton.interactable = false;
+        //roomManagerShowGUI.showRoomGUI = true;
         Start();
     }
 
     public void ReadyButtonAvailable()
     {
-        //readyButton.interactable = false;//true after connection of 2nd player
-        readyButton.gameObject.SetActive(true);
+        //readyButton.gameObject.SetActive(true);
+        //roomPlayerShowGUI = roomManagerShowGUI.roomSlots[0]; //
+        //roomPlayerShowGUI.showRoomGUI = true; 
+    }
+
+    public void StartNotPVPGame()
+    {
+        SceneManager.LoadScene("Game");
     }
     /*iOS uses Application.dataPath + "/Raw",
 Android uses files inside a compressed APK
