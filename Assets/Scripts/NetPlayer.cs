@@ -3,7 +3,23 @@ using Mirror;
 
 public class NetPlayer : NetworkBehaviour
 {
-    GameManager gm;
+    [SyncVar(hook = nameof(ChangeVictoryConditions))]
+    int victoryConditions = 0;
+
+    public GameManager gm;
+
+    void ChangeVictoryConditions(int oldValue, int newValue)
+    {
+        PlayerPrefs.SetInt("ActiveVictoryConditions", newValue);
+        GameSetting gs = FindObjectOfType<GameSetting>();
+
+        if (gs == null)
+        {
+            gs = gameObject.AddComponent<GameSetting>();
+        }
+
+        gs.VictoryConditionsChange(newValue);
+    }
 
     public override void OnStartLocalPlayer()
     {
@@ -17,6 +33,11 @@ public class NetPlayer : NetworkBehaviour
         {
             gm.isHost = false;
             CmdGrantAuthority(gm.gameObject);
+        }
+
+        if (isServer)
+        {
+            victoryConditions = PlayerPrefs.GetInt("ActiveVictoryConditions");
         }
     }
 

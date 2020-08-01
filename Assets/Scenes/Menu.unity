@@ -1580,6 +1580,7 @@ MonoBehaviour:
   ActivePlayerEndTime: 0
   CurrentCash: 0
   BestResult: 0
+  AIDifficulty: 0
   ActivePlayerMode: 0
   PureSolo: 0
   NotPureSolo: 0

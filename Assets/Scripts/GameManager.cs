@@ -216,6 +216,7 @@ UNITY_STANDALONE_WIN
     bool isVictoryResult = true;
     bool isVictorySound = true;
     int VictoryPointFirstValue = 20;
+    [SyncVar]
     float remainingGameTime = 300;
     float playerTurnTime = 0;
     float victoryPanelScale = 0.5f;
@@ -650,7 +651,7 @@ UNITY_STANDALONE_WIN
         }
     }
 
-    [Command]
+    [Command(ignoreAuthority = true)]
     void CmdSetVictoryPoints(float value)
     {
         victoryPointsNumberP2 = value;
