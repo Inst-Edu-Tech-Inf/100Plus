@@ -35,14 +35,21 @@ public class GameSetting : MonoBehaviour
 
     void Start()
     {
-        Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
-        sliderSFX.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
-        sliderSound.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
-        //changeBackground();
-        sliderSFX.value = SkinManager.instance.ActiveSFXValue;
-        sliderSound.value = SkinManager.instance.ActiveSoundValue;
-        victoryList.value = SkinManager.instance.ActiveVictoryConditions;
-        playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
+        try
+        {
+            Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
+            sliderSFX.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+            sliderSound.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+            //changeBackground();
+            sliderSFX.value = SkinManager.instance.ActiveSFXValue;
+            sliderSound.value = SkinManager.instance.ActiveSoundValue;
+            victoryList.value = SkinManager.instance.ActiveVictoryConditions;
+            playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
+        }
+        catch (System.Exception exception)
+        {
+            Debug.LogWarning(exception);
+        }
     }
 
     // Update is called once per frame
@@ -95,12 +102,13 @@ Android uses files inside a compressed APK
         PlayerPrefs.SetFloat("ActiveSFXValue", sliderSFX.value);
     }
 
-    public void VictoryConditionsChange()
+    public void VictoryConditionsChange(int conditions)
     {
-        SkinManager.instance.SetActiveVictoryConditions(victoryList.value);
+        print($"VictoryConditionsChange() called (conditions: {conditions}, PlayerPrefs: ({PlayerPrefs.GetInt("ActiveVictoryConditions")})");
+        SkinManager.instance.SetActiveVictoryConditions(conditions);
 
-        PlayerPrefs.SetInt("ActiveVictoryConditions", victoryList.value);  
-        if (victoryList.value == 0)
+        PlayerPrefs.SetInt("ActiveVictoryConditions", conditions);  
+        if (conditions == 0)
         {
             SkinManager.instance.SetIsVictoryTimePass(true);
             SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -113,7 +121,7 @@ Android uses files inside a compressed APK
         }
         else
         {
-            if (victoryList.value == 1)
+            if (conditions == 1)
             {
                 SkinManager.instance.SetIsVictoryTimePass(true);
                 SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -126,7 +134,7 @@ Android uses files inside a compressed APK
             }
             else
             {
-                if (victoryList.value == 2)
+                if (conditions == 2)
                 {
                     SkinManager.instance.SetIsVictoryTimePass(true);
                     SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -139,7 +147,7 @@ Android uses files inside a compressed APK
                 }
                 else
                 {
-                    if (victoryList.value == 3)//points
+                    if (conditions == 3)//points
                     {
                         SkinManager.instance.SetIsVictoryTimePass(false);
                         SkinManager.instance.SetIsVictoryPointFirst(true);
