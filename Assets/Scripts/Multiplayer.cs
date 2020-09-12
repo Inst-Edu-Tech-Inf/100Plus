@@ -44,7 +44,7 @@ public class Multiplayer : MonoBehaviour
             soloButton.interactable = false;
             aiButton.interactable = true;
             pvpButton.interactable = true;
-            //startButton.gameObject.SetActive(true);
+            startButton.gameObject.SetActive(true);
         }
         else
         {
@@ -55,7 +55,7 @@ public class Multiplayer : MonoBehaviour
                 soloButton.interactable = true;
                 aiButton.interactable = false;
                 pvpButton.interactable = true;
-                //startButton.gameObject.SetActive(true);
+                startButton.gameObject.SetActive(true);
             }
             else
             {
@@ -66,7 +66,7 @@ public class Multiplayer : MonoBehaviour
                     soloButton.interactable = true;
                     aiButton.interactable = true;
                     pvpButton.interactable = false;
-                    //startButton.gameObject.SetActive(false);
+                    startButton.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ public class Multiplayer : MonoBehaviour
                         soloButton.interactable = true;
                         aiButton.interactable = true;
                         pvpButton.interactable = true;
-                        //startButton.gameObject.SetActive(false);
+                        startButton.gameObject.SetActive(false);
                     }
                 }
             }
@@ -203,6 +203,7 @@ Android uses files inside a compressed APK
         soloButton.interactable = false;
         aiButton.interactable = true;
         pvpButton.interactable = true;
+        startButton.gameObject.SetActive(true);
         //roomManagerShowGUI.showRoomGUI = false;
         Start();
     }
@@ -214,6 +215,7 @@ Android uses files inside a compressed APK
         soloButton.interactable = true;
         aiButton.interactable = false;
         pvpButton.interactable = true;
+        startButton.gameObject.SetActive(true);
         //roomManagerShowGUI.showRoomGUI = false;
         Start();
     }
@@ -225,6 +227,7 @@ Android uses files inside a compressed APK
         soloButton.interactable = true;
         aiButton.interactable = true;
         pvpButton.interactable = false;
+        startButton.gameObject.SetActive(false);
         //roomManagerShowGUI.showRoomGUI = true;
         Start();
     }

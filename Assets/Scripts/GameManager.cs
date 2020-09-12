@@ -43,6 +43,7 @@ UNITY_STANDALONE_WIN
     public const string RED_TEXT = "Red";
     public const string GREEN_TEXT = "Green";
     public const string BLUE_TEXT = "Blue";
+    public const string NONE_TEXT = "inactive";
     public const string VICTORY = "VICTORY";
     public const string DEFEAT = "DEFEAT";
     public const int COLOR_NUMBER = 3;
@@ -77,6 +78,33 @@ UNITY_STANDALONE_WIN
     const float ACHIEVEMENT_PANEL_SMALL_SCALE = 0.5f;
     const float RESULT_PENALTY = 0.51f;
 
+ /*   public struct TaskCardStruct
+    {
+        public string TaskCardColor;
+        public int TaskCardValue;
+        public bool active;
+    }
+    public struct TaskCardPVPStruct
+    {
+        //Variable declaration
+        //Note: I'm explicitly declaring them as public, but they are public by default. You can use private if you choose.
+        //public TaskCardStruct[] taskArray = new TaskCardStruct[13];
+        public TaskCardStruct val0;
+        public TaskCardStruct val1;
+        public TaskCardStruct val2;
+        public TaskCardStruct val3;
+        public TaskCardStruct val4;
+        public TaskCardStruct val5;
+        public TaskCardStruct val6;
+        public TaskCardStruct val7;
+        public TaskCardStruct val8;
+        public TaskCardStruct val9;
+        public TaskCardStruct val10;
+        public TaskCardStruct val11;
+        public TaskCardStruct val12;
+        public TaskCardStruct val13;
+    }
+*/
     
     public GameObject activeCardSpace;
     public GameObject collectPointsBtn;
@@ -231,8 +259,9 @@ UNITY_STANDALONE_WIN
     Color redColor = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
     Color greenColor = new Color32( 0, SkinManager.GREEN_COLOR, 0, 255);
     Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
-    bool isPVPCommandChange = false;
+    //bool isPVPCommandChange = true;
     bool isFirstTurn = false;
+    int previousPVPCommand = PVP_IDLE;
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1=0;
@@ -248,7 +277,32 @@ UNITY_STANDALONE_WIN
     int PVPValue3 = 0;
     [SyncVar(hook = nameof(_SetPVPCommand))]
     int PVPCommand = 0;
-   
+    [SyncVar(hook = nameof(_SetIsPVPCommandChange))]
+    bool isPVPCommandChange = true;
+  /*  [SyncVar(hook = nameof(_SetTaskCardsPVP))]
+    TaskCardPVPStruct taskCardsPVP;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP1Value))]
+    int taskCardsPVP1Value;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP1Color))]
+    string taskCardsPVP1Color;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP2Value))]
+    int taskCardsPVP2Value;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP2Color))]
+    string taskCardsPVP2Color;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP3Value))]
+    int taskCardsPVP3Value;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP3Color))]
+    string taskCardsPVP3Color;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP4Value))]
+    int taskCardsPVP4Value;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP4Color))]
+    string taskCardsPVP4Color;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP5Value))]
+    int taskCardsPVP5Value;
+    [SyncVar(hook = nameof(_SetTaskCardsPVP5Color))]
+    string taskCardsPVP5Color;
+
+    TaskCardPVPStruct localTaskCardsPVP;*/
 
     void _SetPVPValue1(int oldValue, int newValue)
     {
@@ -336,6 +390,34 @@ UNITY_STANDALONE_WIN
         return PVPValue3;
     }
 
+    void _SetIsPVPCommandChange(bool oldValue, bool newValue)
+    {
+        SetIsPVPCommandChange(newValue);
+    }
+
+    public void SetIsPVPCommandChange(bool value)
+    {
+        if (isHost)
+        {
+            isPVPCommandChange = value;
+        }
+        else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            CmdSetIsPVPCommandChange(value);
+        }
+    }
+
+    [Command]
+    void CmdSetIsPVPCommandChange(bool value)
+    {
+        isPVPCommandChange = value;
+    }
+
+    public bool GetIsPVPCommandChange()
+    {
+        return isPVPCommandChange;
+    }
+
     //pvpCommand
     void _SetPVPCommand(int oldValue, int newValue)
     {
@@ -352,18 +434,24 @@ UNITY_STANDALONE_WIN
    */
     public void SetPVPCommand(int value)
     {
+        //PVPCommand = value;
+        //CmdSetPVPCommand(value);
         //Debug.Log("RunPVPCommand:"+isHost);
+       
             if (isHost)
             {
                 PVPCommand = value;
-                isPVPCommandChange = true;
-                if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+                
+                //if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+                if (!GetIsHostTurn())
                 {
-                    if (value != PVP_IDLE)
+                    
+                    //if (value != PVP_IDLE)
                     {
-                        //Debug.Log("RunPVPCommand:IN");
-                        //Debug.Log("PVPCommand:before:" + GetPVPCommand());
-                        RunPVPCommand();
+                        //SetIsPVPCommandChange(true);
+                        //isPVPCommandChange = true;
+   //                     RunPVPCommand();
+                        //Debug.Log("RunPVPHost");
                         //Debug.Log("PVPCommand:before:" + GetPVPCommand());
                         //CmdSetPVPCommand(value);
                     }
@@ -371,12 +459,15 @@ UNITY_STANDALONE_WIN
             }
             else//assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
             {
-                //Debug.Log("Run not Host");
-                //Debug.Log("PVPCommand:before:" + GetPVPCommand());
-                CmdSetPVPCommand(value);
-                isPVPCommandChange = true;
-                //Debug.Log("PVPCommand:after:" + GetPVPCommand());
-                //RunPVPCommand();
+                //if (!GetIsHostTurn())
+                {
+                    //Debug.Log("Run not Host");
+                    //Debug.Log("PVPCommand:before:" + GetPVPCommand());
+                    CmdSetPVPCommand(value);
+                    //isPVPCommandChange = true;
+                    //Debug.Log("PVPCommand:after:" + GetPVPCommand());
+                    //RunPVPCommand();
+                }
             }
         
     }
@@ -385,17 +476,21 @@ UNITY_STANDALONE_WIN
     void CmdSetPVPCommand(int value)
     {
        // PVPCommand = value;
-        //Debug.Log("RunPVPCommand:CMD");
+      //  Debug.Log("RunPVPCommand:CMD:"+isHost);
         PVPCommand = value;
-        //if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
-        if  ((!isHost) && (GetIsHostTurn()))
+  //      RunPVPCommand();
+        //Debug.Log("RunPVPCmd");
+       /* if (((isHost) && (!GetIsHostTurn())) || ((!isHost) && (GetIsHostTurn())))
+        //if  ((!isHost) && (GetIsHostTurn()))
         {
-            if (value != PVP_IDLE)
+            
+            //if (value != PVP_IDLE)
             {
-                Debug.Log("RunPVPCommand:CMD_IN");
+                SetIsPVPCommandChange(true);
+                //isPVPCommandChange = true;
                 RunPVPCommand();
             }
-        }
+        }*/
     }
 
     public int GetPVPCommand()
@@ -407,54 +502,377 @@ UNITY_STANDALONE_WIN
     {
         string kolor = RED_TEXT;
        // infoText.text = infoText.text + ";C" + GetPVPCommand();
-       // Debug.Log("RunPVPCommand:IN");
-        switch (GetPVPCommand())
+        //Debug.Log("RunPVPCommand:IN");
+       // if (isPVPCommandChange)
         {
-            case PVP_DRAW_TASK:
-                if (GetPVPValue1() == PVP_RED)
-                {
-                    kolor = RED_TEXT;
-                }
-                else
-                    if (GetPVPValue1() == PVP_GREEN)
+            previousPVPCommand = GetPVPCommand();
+            switch (GetPVPCommand())
+            {
+                case PVP_IDLE:
+
+                    break;
+                case PVP_DRAW_TASK:
+                    if (GetPVPValue1() == PVP_RED)
                     {
-                        kolor = GREEN_TEXT;
+                        kolor = RED_TEXT;
                     }
                     else
-                        if (GetPVPValue1() == PVP_BLUE)
+                        if (GetPVPValue1() == PVP_GREEN)
                         {
-                            kolor = BLUE_TEXT;
+                            kolor = GREEN_TEXT;
                         }
-                //infoText.text = infoText.text + ";" + kolor;
-                //infoText.text = infoText.text + ";V" + GetPVPValue2();
-                DrawTaskCard(kolor, GetPVPValue2());
-                RerollTaskCardCheck();
-                CheckCardNumbers(true);
-                break;
-            case PVP_DISCARD_TASK:
-                //infoText.text = infoText.text + ";D" + GetPVPValue1();
-                DiscardTaskCard(taskCards[GetPVPValue1()]);
-                RerollTaskCardCheck();
-                CheckCardNumbers(true);
-                break;
-            case PVP_SET_ACTIVE_CARD:
+                        else
+                            if (GetPVPValue1() == PVP_BLUE)
+                            {
+                                kolor = BLUE_TEXT;
+                            }
+  //                  infoText.text = infoText.text + ";" + kolor;
+  //                  infoText.text = infoText.text + ";V" + GetPVPValue2();
+                   // Debug.Log("DrawTaskCard RunCmd before");
+                    DrawTaskCard(kolor, GetPVPValue2(), GetPVPValue3());
+                   // Debug.Log("DrawTaskCard RunCmd after");
+                    RerollTaskCardCheck();
+                    CheckCardNumbers(true);
+                    break;
+                case PVP_DISCARD_TASK:
+                    //infoText.text = infoText.text + ";D" + GetPVPValue1();
+                    DiscardTaskCard(taskCards[GetPVPValue1()]);
+                    Debug.Log("-RunPVP");
+                    RerollTaskCardCheck();
+                    CheckCardNumbers(true);
+                    break;
+                case PVP_SET_ACTIVE_CARD:
 
-                break;
-            case PVP_SHOW_PLAYER_CARD:
+                    break;
+                case PVP_SHOW_PLAYER_CARD:
 
-                break;
-            case PVP_SHOW_POWERUP_CARD:
+                    break;
+                case PVP_SHOW_POWERUP_CARD:
 
-                break;
-            case PVP_COLLECT_POINTS:
+                    break;
+                case PVP_COLLECT_POINTS:
 
-                break;
-            // default:
-            //    cout << "didn't get card \n";
+                    break;
+                // default:
+                //    cout << "didn't get card \n";
+            }
+            //        SetPVPCommand(PVP_IDLE);
+  //          SetIsPVPCommandChange(false);
+            //isPVPCommandChange = false;
         }
-        SetPVPCommand(PVP_IDLE);
     }
 
+/*    void _SetTaskCardsPVP(TaskCardPVPStruct oldValue, TaskCardPVPStruct newValue)
+    {
+        SetTaskCardsPVP(newValue);
+    }
+
+    public void SetTaskCardsPVP(TaskCardPVPStruct value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP(TaskCardPVPStruct value)
+    {
+        taskCardsPVP = value;
+    }
+
+    public TaskCardPVPStruct GetTaskCardsPVP()
+    {
+        return taskCardsPVP;
+    }
+
+
+    void _SetTaskCardsPVP1Color(string oldValue, string newValue)
+    {
+        SetTaskCardsPVP1Color(newValue);
+    }
+
+    public void SetTaskCardsPVP1Color(string value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP1Color = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP1Color(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP1Color(string value)
+    {
+        taskCardsPVP1Color = value;
+    }
+
+    string GetTaskCardsPVP1Color()
+    {
+        return taskCardsPVP1Color;
+    }
+
+    void _SetTaskCardsPVP1Value(int oldValue, int newValue)
+    {
+        SetTaskCardsPVP1Value(newValue);
+    }
+
+    public void SetTaskCardsPVP1Value(int value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP1Value = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP1Value(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP1Value(int value)
+    {
+        taskCardsPVP1Value = value;
+    }
+
+    int GetTaskCardsPVP1Value()
+    {
+       return taskCardsPVP1Value;
+    }
+
+
+    //2
+    void _SetTaskCardsPVP2Color(string oldValue, string newValue)
+    {
+        SetTaskCardsPVP2Color(newValue);
+    }
+
+    public void SetTaskCardsPVP2Color(string value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP2Color = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP2Color(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP2Color(string value)
+    {
+        taskCardsPVP2Color = value;
+    }
+
+    string GetTaskCardsPVP2Color()
+    {
+        return taskCardsPVP2Color;
+    }
+
+    void _SetTaskCardsPVP2Value(int oldValue, int newValue)
+    {
+        SetTaskCardsPVP2Value(newValue);
+    }
+
+    public void SetTaskCardsPVP2Value(int value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP2Value = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP2Value(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP2Value(int value)
+    {
+        taskCardsPVP2Value = value;
+    }
+
+    int GetTaskCardsPVP2Value()
+    {
+        return taskCardsPVP2Value;
+    }
+
+    void _SetTaskCardsPVP3Color(string oldValue, string newValue)
+    {
+        SetTaskCardsPVP3Color(newValue);
+    }
+
+    public void SetTaskCardsPVP3Color(string value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP3Color = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP3Color(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP3Color(string value)
+    {
+        taskCardsPVP3Color = value;
+    }
+
+    string GetTaskCardsPVP3Color()
+    {
+        return taskCardsPVP3Color;
+    }
+
+    void _SetTaskCardsPVP3Value(int oldValue, int newValue)
+    {
+        SetTaskCardsPVP3Value(newValue);
+    }
+
+    public void SetTaskCardsPVP3Value(int value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP3Value = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP3Value(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP3Value(int value)
+    {
+        taskCardsPVP3Value = value;
+    }
+
+    int GetTaskCardsPVP3Value()
+    {
+        return taskCardsPVP3Value;
+    }
+
+    void _SetTaskCardsPVP4Color(string oldValue, string newValue)
+    {
+        SetTaskCardsPVP4Color(newValue);
+    }
+
+    public void SetTaskCardsPVP4Color(string value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP4Color = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP4Color(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP4Color(string value)
+    {
+        taskCardsPVP4Color = value;
+    }
+
+    string GetTaskCardsPVP4Color()
+    {
+        return taskCardsPVP4Color;
+    }
+
+    void _SetTaskCardsPVP4Value(int oldValue, int newValue)
+    {
+        SetTaskCardsPVP4Value(newValue);
+    }
+
+    public void SetTaskCardsPVP4Value(int value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP4Value = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP4Value(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP4Value(int value)
+    {
+        taskCardsPVP4Value = value;
+    }
+
+    int GetTaskCardsPVP4Value()
+    {
+        return taskCardsPVP4Value;
+    }
+
+    void _SetTaskCardsPVP5Color(string oldValue, string newValue)
+    {
+        SetTaskCardsPVP5Color(newValue);
+    }
+
+    public void SetTaskCardsPVP5Color(string value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP5Color = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP5Color(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP5Color(string value)
+    {
+        taskCardsPVP5Color = value;
+    }
+
+    string GetTaskCardsPVP5Color()
+    {
+        return taskCardsPVP5Color;
+    }
+
+    void _SetTaskCardsPVP5Value(int oldValue, int newValue)
+    {
+        SetTaskCardsPVP5Value(newValue);
+    }
+
+    public void SetTaskCardsPVP5Value(int value)
+    {
+        if (isHost)
+        {
+            taskCardsPVP5Value = value;
+        }
+        else
+        {
+            CmdSetTaskCardsPVP5Value(value);
+        }
+    }
+
+    [Command]
+    void CmdSetTaskCardsPVP5Value(int value)
+    {
+        taskCardsPVP5Value = value;
+    }
+
+    int GetTaskCardsPVP5Value()
+    {
+        return taskCardsPVP5Value;
+    }
+    */
     void SetMultiplayerGameModeClient()
     {
         //VictoryConditionsChange//synchronize
@@ -553,12 +971,162 @@ UNITY_STANDALONE_WIN
             }
             else
             {
+                //localTaskCardsPVP = GetTaskCardsPVP();
                 endTurnBtn.gameObject.SetActive(true);
                 iaTurnImage.gameObject.SetActive(false);
                 p2TurnImage.gameObject.SetActive(false);
                 transparentAllPanel.gameObject.SetActive(false);
                 RerollTaskCardCheck();
                 CheckCardNumbers(true);
+
+                /*if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+                {
+                    //0
+                    GameObject card = taskCards[0];
+                    card.transform.SetParent(tasks.transform, false);
+                    card.gameObject.SetActive(true);
+                    TaskCard localCard = card.GetComponent<TaskCard>();
+
+                    if (GetTaskCardsPVP1Color() == GameManager.RED_TEXT)
+                    {
+                       
+                        SetValueTaskCard(card, GameManager.RED_TEXT, GetTaskCardsPVP1Value());
+                        Debug.Log("red:");
+                    }
+                    else
+                        if (GetTaskCardsPVP1Color() == GameManager.GREEN_TEXT)
+                        {
+                            
+                            SetValueTaskCard(card, GameManager.GREEN_TEXT, GetTaskCardsPVP1Value());
+                            Debug.Log("green:");
+                        }                             
+                        else
+                        {
+                           
+                            SetValueTaskCard(card, GameManager.BLUE_TEXT, GetTaskCardsPVP1Value());
+                            Debug.Log("blue:");
+                        } 
+
+                   
+
+                    Debug.Log("TaskCard_1:" + GetTaskCardsPVP1Value());
+                    //1
+                    card = taskCards[1];
+                    taskCards[1].transform.SetParent(tasks.transform, false);
+                    taskCards[1].gameObject.SetActive(true);
+                    localCard = card.GetComponent<TaskCard>();
+
+                    if (GetTaskCardsPVP2Color() == GameManager.RED_TEXT)
+                    {
+                       
+                        SetValueTaskCard(taskCards[1], GameManager.RED_TEXT, GetTaskCardsPVP2Value());
+                        Debug.Log("red:");
+                    }
+                    else
+                        if (GetTaskCardsPVP2Color() == GameManager.GREEN_TEXT)
+                        {
+                         
+                            SetValueTaskCard(taskCards[1], GameManager.GREEN_TEXT, GetTaskCardsPVP2Value());
+                            Debug.Log("green:");
+                        }
+                        else
+                        {
+                          
+                            SetValueTaskCard(taskCards[1], GameManager.BLUE_TEXT, GetTaskCardsPVP2Value());
+                            Debug.Log("Blue:");
+                        }
+
+                
+
+                    Debug.Log("TaskCard_1:" + GetTaskCardsPVP2Value());
+                    //2
+                    card = taskCards[2];
+                    card.transform.SetParent(tasks.transform, false);
+                    card.gameObject.SetActive(taskCardsPVP.val2.active);
+                    localCard = card.GetComponent<TaskCard>();
+
+                    if (taskCardsPVP.val2.TaskCardColor == GameManager.RED_TEXT)
+                    {
+                        localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+                        applyTaskCardSkin(localCard, RED_TEXT);
+                        localCard.colorText.text = GameManager.RED_TEXT;
+                    }
+                    else
+                        if (taskCardsPVP.val2.TaskCardColor == GameManager.GREEN_TEXT)
+                        {
+                            localCard.valueText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                            applyTaskCardSkin(localCard, GREEN_TEXT);
+                            localCard.colorText.text = GameManager.GREEN_TEXT;
+                        }
+                        else
+                        {
+                            localCard.valueText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                            applyTaskCardSkin(localCard, BLUE_TEXT);
+                            localCard.colorText.text = GameManager.BLUE_TEXT;
+                        }
+
+                    localCard.valueText.text = taskCardsPVP.val2.TaskCardValue.ToString();
+                    localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
+
+                    //3
+                    card = taskCards[3];
+                    card.transform.SetParent(tasks.transform, false);
+                    card.gameObject.SetActive(taskCardsPVP.val3.active);
+                    localCard = card.GetComponent<TaskCard>();
+
+                    if (taskCardsPVP.val3.TaskCardColor == GameManager.RED_TEXT)
+                    {
+                        localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+                        applyTaskCardSkin(localCard, RED_TEXT);
+                        localCard.colorText.text = GameManager.RED_TEXT;
+                    }
+                    else
+                        if (taskCardsPVP.val3.TaskCardColor == GameManager.GREEN_TEXT)
+                        {
+                            localCard.valueText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                            applyTaskCardSkin(localCard, GREEN_TEXT);
+                            localCard.colorText.text = GameManager.GREEN_TEXT;
+                        }
+                        else
+                        {
+                            localCard.valueText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                            applyTaskCardSkin(localCard, BLUE_TEXT);
+                            localCard.colorText.text = GameManager.BLUE_TEXT;
+                        }
+
+                    localCard.valueText.text = taskCardsPVP.val3.TaskCardValue.ToString();
+                    localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
+
+                    //4
+                    card = taskCards[4];
+                    card.transform.SetParent(tasks.transform, false);
+                    card.gameObject.SetActive(taskCardsPVP.val4.active);
+                    localCard = card.GetComponent<TaskCard>();
+
+                    if (taskCardsPVP.val4.TaskCardColor == GameManager.RED_TEXT)
+                    {
+                        localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+                        applyTaskCardSkin(localCard, RED_TEXT);
+                        localCard.colorText.text = GameManager.RED_TEXT;
+                    }
+                    else
+                        if (taskCardsPVP.val4.TaskCardColor == GameManager.GREEN_TEXT)
+                        {
+                            localCard.valueText.color = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
+                            applyTaskCardSkin(localCard, GREEN_TEXT);
+                            localCard.colorText.text = GameManager.GREEN_TEXT;
+                        }
+                        else
+                        {
+                            localCard.valueText.color = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
+                            applyTaskCardSkin(localCard, BLUE_TEXT);
+                            localCard.colorText.text = GameManager.BLUE_TEXT;
+                        }
+
+                    localCard.valueText.text = taskCardsPVP.val4.TaskCardValue.ToString();
+                    localCard.victoryPointsText.text = (int.Parse(localCard.valueText.text) / 10).ToString();
+            
+                }*/
             }
         }
         else
@@ -654,7 +1222,7 @@ UNITY_STANDALONE_WIN
     void CmdSetVictoryPoints(float value)
     {
         victoryPointsNumberP2 = value;
-        print("CmdSet");
+        //print("CmdSet");
     }
 
     void SetVictoryPointsTextP1(float value)
@@ -669,7 +1237,14 @@ UNITY_STANDALONE_WIN
 
     public void Back()
     {
-        closeConfirmationPanel.gameObject.SetActive(true); 
+        if (!tasks.gameObject.activeSelf)
+        {
+            BackToTasks();
+        }
+        else
+        {
+            closeConfirmationPanel.gameObject.SetActive(true);
+        }
     }
 
     public void BackNo()
@@ -952,6 +1527,7 @@ UNITY_STANDALONE_WIN
                 }
                 SetActiveCard(taskCards[taskCardAIToRemove], true);
                 DiscardTaskCard(taskCards[taskCardAIToRemove]);
+                Debug.Log("-AI");
                 playerAICardsRedToRemove.Clear();
                 playerAICardsGreenToRemove.Clear();
                 playerAICardsBlueToRemove.Clear();
@@ -1061,6 +1637,7 @@ UNITY_STANDALONE_WIN
         //Debug.Log(maxActualTaskCards);
         //Debug.Log(card);
         DiscardTaskCard(card);
+        Debug.Log("-AIEasy");
     }
 
     void AIEasyDiscardAIPlayerCard()
@@ -1187,6 +1764,7 @@ UNITY_STANDALONE_WIN
         //change to bigger on color with smallest playerCardsAI value
         GameObject card = taskCards[Random.Range(0, maxActualTaskCards)];
         DiscardTaskCard(card);
+        Debug.Log("-AIImpossible");
 
     }
 
@@ -1241,7 +1819,7 @@ Android uses files inside a compressed APK
         if (!activeCardSpace.activeInHierarchy && !isBack)
         {
             tasks.SetActive(false);
-            closeText.gameObject.SetActive(false);
+            //closeText.gameObject.SetActive(false);
             activeCard = card;
             transparentPlayerCardPanel.SetActive(false);
             transparentPowerUpCardPanel.SetActive(false);
@@ -1284,63 +1862,68 @@ Android uses files inside a compressed APK
         }
         else
         {
-            taskResignSFX.Play();
-            tasks.SetActive(true);
-            closeText.gameObject.SetActive(true);
-            
-            activeCardSpace.SetActive(false);
-            activeCard.transform.SetParent(tasks.transform);
-            card.transform.Find("Drop Panel").gameObject.SetActive(false);
-            activeCard = null;
-            transparentPlayerCardPanel.SetActive(true);
-            transparentPowerUpCardPanel.SetActive(true);
-            transparentButton.gameObject.SetActive(false);
-            for (int i = 0; i < powerUpCards.Count; ++i)
-            {
-                card = powerUpCards[i];
-                card.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>().text = "";
-                card.transform.SetParent(powerUps.transform);
-            }
-            for (int i = 0; i < playerCards.Count; ++i)
-            {
-               // if (playerCards[i].gameObject.activeSelf)
-                {
-                    card = playerCards[i];
-                    card.SetActive(true);
-                    //card.GetComponent<PlayerCard>().hideByColor = true;
-                    card.GetComponent<PlayerCard>().hasMultiply = false;
-                    card.transform.Find("Player Drop Panel").gameObject.SetActive(false);
-                    card.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text = "";
-                    card.transform.SetParent(hands.transform);
-                    card.transform.localScale = card.GetComponent<PlayerCard>().normalScale;
-                }
-            }
+            BackToTasks();
+        }
+ 
+    }
 
-            hands.SetActive(true);
-           // handsSorted.SetActive(false);
-            collectPointsBtn.SetActive(false);
-            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+    void BackToTasks()
+    {
+        taskResignSFX.Play();
+        tasks.SetActive(true);
+        closeText.gameObject.SetActive(true);
+
+        activeCardSpace.SetActive(false);
+        activeCard.transform.SetParent(tasks.transform);
+        card.transform.Find("Drop Panel").gameObject.SetActive(false);
+        activeCard = null;
+        transparentPlayerCardPanel.SetActive(true);
+        transparentPowerUpCardPanel.SetActive(true);
+        transparentButton.gameObject.SetActive(false);
+        for (int i = 0; i < powerUpCards.Count; ++i)
+        {
+            card = powerUpCards[i];
+            card.transform.Find("PowerUp Parent Name").GetComponent<TextMeshProUGUI>().text = "";
+            card.transform.SetParent(powerUps.transform);
+        }
+        for (int i = 0; i < playerCards.Count; ++i)
+        {
+            // if (playerCards[i].gameObject.activeSelf)
             {
-                endTurnBtn.SetActive(true);
+                card = playerCards[i];
+                card.SetActive(true);
+                //card.GetComponent<PlayerCard>().hideByColor = true;
+                card.GetComponent<PlayerCard>().hasMultiply = false;
+                card.transform.Find("Player Drop Panel").gameObject.SetActive(false);
+                card.transform.Find("Parent Name").GetComponent<TextMeshProUGUI>().text = "";
+                card.transform.SetParent(hands.transform);
+                card.transform.localScale = card.GetComponent<PlayerCard>().normalScale;
             }
-            else
+        }
+
+        hands.SetActive(true);
+        // handsSorted.SetActive(false);
+        collectPointsBtn.SetActive(false);
+        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_SOLO)
+        {
+            endTurnBtn.SetActive(true);
+        }
+        else
+        {
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
             {
-                if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
-                {
-                    if (GetIsHostTurn())
-                    {
-                        endTurnBtn.SetActive(true);
-                    }
-                }
-                else
+                if (GetIsHostTurn())
                 {
                     endTurnBtn.SetActive(true);
                 }
             }
-
-            CheckCardNumbers(true);
+            else
+            {
+                endTurnBtn.SetActive(true);
+            }
         }
- 
+
+        CheckCardNumbers(true);
     }
 
     void ShowAchievementPanel(int achievementNumber)
@@ -1380,8 +1963,9 @@ Android uses files inside a compressed APK
             cardTask = taskCards[i];
             //if (card.gameObject.activeSelf)
             DiscardTaskCard(cardTask);
+            Debug.Log("-ReRoll");
         }
-        actualTaskCardsCount = 0;
+        //actualTaskCardsCount = 0;
         //Debug.Log("actualTaskCardsCount BEFORE draw:" + actualTaskCardsCount);
         for (int i = 0; i < howManyCards; ++i) //newCard
         {
@@ -1508,7 +2092,7 @@ Android uses files inside a compressed APK
          for (int i = 0; i < maxTaskCardsAddLate + taskCardsToDraw; ++i)
          //for (int i = 0; i < maxActualTaskCards; ++i)
          {
-             DiscardTaskCard(taskCards[i]);
+             //DiscardTaskCard(taskCards[i]);
          }
          for (int i = 0; i < taskCardsOnStart; ++i)
          {
@@ -1517,6 +2101,7 @@ Android uses files inside a compressed APK
                 if (isHost)
                 {
                     DrawTaskCard();
+                    endTurnBtn.SetActive(true);
                 }
                 else
                 {
@@ -1526,12 +2111,15 @@ Android uses files inside a compressed APK
             else
             {
                 DrawTaskCard();//player1
+                endTurnBtn.SetActive(true);
             }
              //if pvp
              //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
          }
          //tasks.SetActive(true);
          tasks.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+         SetVictoryPoints(0.0f);
+         
      }
 
     private void Start()
@@ -1568,6 +2156,7 @@ Android uses files inside a compressed APK
         transparentButton.gameObject.SetActive(false);
         closeConfirmationPanel.gameObject.SetActive(false);
         transparentAllPanel.gameObject.SetActive(false);
+        endTurnBtn.SetActive(false);
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
             infoText.gameObject.SetActive(true);
@@ -1664,6 +2253,13 @@ Android uses files inside a compressed APK
         changeSound();
 
         CreateTaskCards();
+
+        for (int i = 0; i < maxActualTaskCards; ++i)
+        {
+            DiscardTaskCard(taskCards[i]);
+            //Debug.Log("-First9");
+        }
+//        actualTaskCardsCount = 0;
         //CreatePlayerCards();
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
@@ -1738,8 +2334,12 @@ Android uses files inside a compressed APK
 
         //helpTask.transform.position = tasks.transform.position;//(taskCards[0].transform.position);//transform.TransformPoint
         //helpTask.transform.SetParent(tasks.transform);
-        SetVictoryPoints(0.0f);
-        StartCoroutine(LateStart(0.5f));
+       // SetVictoryPoints(0.0f);//to host
+//        endTurnBtn.SetActive(false);
+        if (!isHost)
+            StartCoroutine(LateStart(1.65f));
+        else//isHost
+            StartCoroutine(LateStart(0.8f));
     }
 
     public void AchievementPanelHide()
@@ -1876,6 +2476,7 @@ Android uses files inside a compressed APK
                         if (actualTaskCardsCount > maxTaskCards)
                         {
                             DiscardTaskCard(taskCards[0]);
+                            Debug.Log("-LimitedTurnTime");
                         }
                     }
 
@@ -2119,25 +2720,39 @@ Android uses files inside a compressed APK
         }
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
-            if ((GetPVPCommand() != PVP_IDLE) &&
-                //(((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost))))
+         /*   if (
+                //(GetPVPCommand() != PVP_IDLE) &&
+              //  (((isHostTurn) && (!isHost)) || ((!isHostTurn) && (isHost)))
                 (((!isHostTurn) && (!isHost)) || ((isFirstTurn)&&(!isHost))||(!isHost))
                 )
-               
+              */ 
             {
+                
+                
                 //if (isPVPCommandChange)
-                if (AIActivityTime > 0)
+                /*if (AIActivityTime > 0)
                 {
                     AIActivityTime -= Time.deltaTime;
                 }
-                else
+                else*/
+                if (GetPVPCommand() == PVP_IDLE)
+                {
+                    previousPVPCommand = PVP_IDLE;
+                }
+              /*  if ((previousPVPCommand != GetPVPCommand())&&(GetPVPCommand() != PVP_IDLE)
+                    )*/
+                //if (isPVPCommandChange)
+                //if (GetIsPVPCommandChange())
                 
                 {
-                    Debug.Log("RunPVPCommand:UPDATE");
+                    //Debug.Log("previousPVPCommand:" + previousPVPCommand);
+                    //Debug.Log("PVPCommand:" + GetPVPCommand());
+                    //Debug.Log("RunPVPCommand:UPDATE");
                     RunPVPCommand();
+                    //Debug.Log("RunPVPUpdate");
                     //isPVPCommandChange = false;
-                    SetPVPCommand(PVP_IDLE);
-                    AIActivityTime = SkinManager.PVP_ACTIVITY_TIME;
+    //                SetPVPCommand(PVP_IDLE);
+                    //AIActivityTime = SkinManager.PVP_ACTIVITY_TIME;
                 }
             }
         }
@@ -2276,30 +2891,55 @@ Android uses files inside a compressed APK
         card.name = "TaskCard"+ taskCards.Count.ToString();
     }
 
-    void DrawTaskCard(string color, int colorValue) //, GameObject whichTasks)
+    void DrawTaskCard(string color, int colorValue, int position) //, GameObject whichTasks)
     {
-        //actualTaskCardsCount
-       
-        if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
-        // GameObject card = Instantiate(taskCardPrefab);
-        // taskCards.Add(card);
-        for (int i = 0; i < maxActualTaskCards; ++i)
+        
+        //if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
-            card = taskCards[i];
-            if (!card.gameObject.activeSelf)
+            if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
+            card = taskCards[position];
+            TaskCard localCard = card.GetComponent<TaskCard>();
+            //check the same
+            if ((localCard.colorText.text != color) || (localCard.valueText.text != colorValue.ToString()))
             {
                 card.transform.SetParent(tasks.transform, false);
-                //               card.name = "TaskCard" + taskCards.Count.ToString();
-                //RandomizeTaskCard(card);
-
+                if (!card.gameObject.activeSelf)
+                    actualTaskCardsCount++;
                 card.gameObject.SetActive(true);
-                //card.GetComponent<TaskCard>().Randomize();
                 SetValueTaskCard(card, color, colorValue);
-                actualTaskCardsCount++;
-                break;
+                Debug.Log("DrawTaskCard:Count:" + actualTaskCardsCount);
             }
         }
-        //Debug.Log("Zmieniona TaskCard");
+    }
+
+    void DrawTaskCard(string color, int colorValue) //, GameObject whichTasks)
+    {
+ //       if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
+        {
+            //actualTaskCardsCount
+            //Debug.Log("actualTaskCardsCount:" + actualTaskCardsCount);
+            if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
+            // GameObject card = Instantiate(taskCardPrefab);
+            // taskCards.Add(card);
+            for (int i = 0; i < maxActualTaskCards; ++i)
+            {
+                card = taskCards[i];
+                if (!card.gameObject.activeSelf)
+                {
+                    card.transform.SetParent(tasks.transform, false);
+                    //               card.name = "TaskCard" + taskCards.Count.ToString();
+                    //RandomizeTaskCard(card);
+
+                    card.gameObject.SetActive(true);
+                    //card.GetComponent<TaskCard>().Randomize();
+                    SetValueTaskCard(card, color, colorValue);
+                    actualTaskCardsCount++;
+                    //Debug.Log("DrawTaskCard:"+color+":"+colorValue);
+                    break;
+                }
+            }
+            //Debug.Log("Zmieniona TaskCard");
+        }
     }
 
     void DrawTaskCard()
@@ -2308,6 +2948,7 @@ Android uses files inside a compressed APK
         //Debug.Log("maxTaskCards:" + maxTaskCards);
         //Debug.Log("taskCardsToDraw:" + taskCardsToDraw);
         //actualTaskCardsCount
+        //Debug.Log("actualTaskCardsCount:" + actualTaskCardsCount);
         if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
        // GameObject card = Instantiate(taskCardPrefab);
        // taskCards.Add(card);
@@ -2325,7 +2966,7 @@ Android uses files inside a compressed APK
                 //card.GetComponent<TaskCard>().Randomize();
                 RandomizeTaskCard(card);
                 actualTaskCardsCount++;
-                Debug.Log("SetPVPCommands, HostTurn:" + GetIsHostTurn());
+                //Debug.Log("SetPVPCommands, HostTurn:" + GetIsHostTurn());
                 if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
@@ -2349,8 +2990,11 @@ Android uses files inside a compressed APK
                         }
                         //sendValue                        
                         SetPVPValue2(int.Parse(card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text));
+                        //send position
+                        SetPVPValue3(i);
                         //sendCommand
                         SetPVPCommand(PVP_DRAW_TASK);
+                        //Debug.Log("DrawTaskCard:random"+GetPVPValue2());
                     }
                 }
                 break;
@@ -2361,6 +3005,7 @@ Android uses files inside a compressed APK
     public void DiscardFirst()
     {
         DiscardTaskCard(taskCards[0]);
+        Debug.Log("-FromProcedureDiscardFirst()");
     }
 
     void SetValueTaskCard(GameObject card, string color, int colorValue)
@@ -2816,15 +3461,17 @@ Android uses files inside a compressed APK
 
     public void DiscardTaskCard(GameObject cardToRemove)
     {
+        int tmpTaskCards = 0;
         trashSFX.Play();
         //Debug.Log("Running DiscardTaskCard");
         for (int i = 0; i < maxActualTaskCards; ++i)
         {
             card = taskCards[i];
             if (card == cardToRemove)
+                if (card.gameObject.activeSelf)
             {
-                Debug.Log("Discard:isHostTurn" + GetIsHostTurn());
-                Debug.Log("Discard:isHost" + isHost);
+                //Debug.Log("Discard:isHostTurn" + GetIsHostTurn());
+                //Debug.Log("Discard:isHost" + isHost);
                 if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
@@ -2837,11 +3484,19 @@ Android uses files inside a compressed APK
 
                 card.GetComponent<TaskCard>().activeVideoPlayer.GetComponent<VideoPlayer>().Stop();
                 //card.transform.SetParent(null, false);
+                //if (!card.gameObject.activeSelf)
+                    actualTaskCardsCount--;
                 card.gameObject.SetActive(false);
-                actualTaskCardsCount--;
-                break;
+                
+                
+                //Debug.Log("Discard:"+i+":isHost:" + isHost);
+  //              break;
             }
+            if (card.gameObject.activeSelf)
+                tmpTaskCards++;
         }
+        actualTaskCardsCount = tmpTaskCards;
+        Debug.Log("DiscardTaskCard:Count:" + actualTaskCardsCount);
     }
 
     public void DiscardPlayerCard(GameObject card)
@@ -3081,6 +3736,98 @@ Android uses files inside a compressed APK
                 RerollTaskCardCheck();
                 CheckCardNumbers(true);
             }
+
+        //my turn, send task card
+ //           for (int i = 0; i < maxActualTaskCards; ++i)
+ //           {
+ //               card = taskCards[i];
+                //if (!card.gameObject.activeSelf)
+             /*  {
+                    card.transform.SetParent(tasks.transform, false);
+                    card.gameObject.SetActive(true);
+                    SetValueTaskCard(card, color, colorValue);
+                }*/
+
+   //             TaskCard localCard = card.GetComponent<TaskCard>();
+   //             switch (i)
+   //             {
+   //                 case 0:
+     /*                   localCard.valueText.text = colorValue.ToString();
+        if (color == RED_TEXT)
+        {
+            localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+            applyTaskCardSkin(localCard, RED_TEXT);
+            localCard.colorText.text = GameManager.RED_TEXT;
+        }*/
+    /*                    if (localCard.colorText.text == GameManager.RED_TEXT)
+                            SetTaskCardsPVP1Color(RED_TEXT);
+                        else
+                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
+                                SetTaskCardsPVP1Color(GREEN_TEXT);
+                            else
+                                SetTaskCardsPVP1Color(BLUE_TEXT);
+                        SetTaskCardsPVP1Value (int.Parse(localCard.valueText.text));
+                        if (!card.gameObject.activeSelf)
+                            SetTaskCardsPVP1Color(NONE_TEXT);
+                        //taskCardsPVP.val0.active = card.gameObject.activeSelf;
+                        break;
+                    case 1:
+                        if (localCard.colorText.text == GameManager.RED_TEXT)
+                            SetTaskCardsPVP2Color(RED_TEXT);
+                        else
+                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
+                                SetTaskCardsPVP2Color(GREEN_TEXT);
+                            else
+                                SetTaskCardsPVP2Color(BLUE_TEXT);
+                        SetTaskCardsPVP2Value( int.Parse(localCard.valueText.text));
+                        if (!card.gameObject.activeSelf)
+                            SetTaskCardsPVP2Color(NONE_TEXT);
+                        //taskCardsPVP.val1.active = card.gameObject.activeSelf;
+                        break;
+                    case 2:
+                        if (localCard.colorText.text == GameManager.RED_TEXT)
+                            taskCardsPVP3Color = RED_TEXT;
+                        else
+                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
+                                taskCardsPVP3Color = GREEN_TEXT;
+                            else
+                                taskCardsPVP3Color = BLUE_TEXT;
+                        taskCardsPVP3Value = int.Parse(localCard.valueText.text);
+                        if (!card.gameObject.activeSelf)
+                            taskCardsPVP3Color = NONE_TEXT;
+                        //taskCardsPVP.val2.active = card.gameObject.activeSelf;
+                        break;
+                    case 3:
+                        if (localCard.colorText.text == GameManager.RED_TEXT)
+                            taskCardsPVP4Color = RED_TEXT;
+                        else
+                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
+                                taskCardsPVP4Color = GREEN_TEXT;
+                            else
+                                taskCardsPVP4Color = BLUE_TEXT;
+                        taskCardsPVP4Value = int.Parse(localCard.valueText.text);
+                        if (!card.gameObject.activeSelf)
+                            taskCardsPVP4Color = NONE_TEXT;
+                        //taskCardsPVP.val3.active = card.gameObject.activeSelf;
+                        break;
+                    case 4:
+                        if (localCard.colorText.text == GameManager.RED_TEXT)
+                            taskCardsPVP5Color = RED_TEXT;
+                        else
+                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
+                                taskCardsPVP5Color = GREEN_TEXT;
+                            else
+                                taskCardsPVP5Color = BLUE_TEXT;
+                        taskCardsPVP5Value = int.Parse(localCard.valueText.text);
+                        if (!card.gameObject.activeSelf)
+                            taskCardsPVP5Color = NONE_TEXT;
+                        //taskCardsPVP.val4.active = card.gameObject.activeSelf;
+                        break;
+                    // default:
+                    //    cout << "didn't get card \n";
+                }
+            }
+            Debug.Log("write:" + GetTaskCardsPVP1Value() + "+" + GetTaskCardsPVP1Color());*/
         }
         else//not my turn, opposite turn
         {
@@ -3652,6 +4399,7 @@ Android uses files inside a compressed APK
             cardToDiscard = activeCard;
             SetActiveCard(activeCard, true);
             DiscardTaskCard(cardToDiscard);
+            Debug.Log("-CollectPoints");
             //bonus card
             if (GetVictoryPoints() < middleGamePoint)
             {
@@ -3749,6 +4497,7 @@ Android uses files inside a compressed APK
                 cardToDiscard = activeCard;
                 SetActiveCard(activeCard, true);
                 DiscardTaskCard(cardToDiscard);
+                Debug.Log("-CollectPoints2");
                 //bonuscard
                 if (GetVictoryPoints() < earlyGamePoint)
                 {

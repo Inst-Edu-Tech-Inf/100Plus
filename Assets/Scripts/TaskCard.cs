@@ -20,11 +20,11 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Image backgroundTest;
     Vector2 normalScale = new Vector2(1.9f, 1.9f);
     Vector2 biggerScale = new Vector2(2.2f, 2.2f);
-    bool isPreset;
-    string presetColor = GameManager.RED_TEXT;
-    int presetTask = 0;
+    //bool isPreset;
+    //string presetColor = GameManager.RED_TEXT;
+    //int presetTask = 0;
 
-    public TaskCard(string kolor, int zadanie)
+   /* public TaskCard(string kolor, int zadanie)
     {
         isPreset = true;
         if (kolor == GameManager.RED_TEXT)
@@ -46,7 +46,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TaskCard()
     {
         isPreset = false;
-    }
+    }*/
 
     void applySkin()
     {
