@@ -24,6 +24,8 @@ public class SkinManager : MonoBehaviour
         }
     }*/
 
+    public const int VICTORY_CONDITIONS_20 = 20;
+    public const int VICTORY_CONDITIONS_100 = 100;
     public const int CARD_IMAGE_WIDTH = 150;
     public const int CARD_IMAGE_HEIGHT = 300;
     public const string RED_TEXT = "Red";

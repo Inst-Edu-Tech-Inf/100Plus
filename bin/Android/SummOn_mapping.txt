@@ -96,29 +96,30 @@ com.unity.purchasing.googleplay.FailedPurchaseReconciler$ReconciliationState -> 
     com.unity.purchasing.googleplay.FailedPurchaseReconciler$ReconciliationState[] $VALUES -> a
 com.unity.purchasing.googleplay.GooglePlayPurchasing -> com.unity.purchasing.googleplay.GooglePlayPurchasing:
     com.unity.purchasing.googleplay.GooglePlayPurchasing instance -> b
-    com.unity.purchasing.googleplay.Inventory inventory -> g
-    boolean isUnityVrEnabled -> j
-    boolean purchaseInProgress -> s
-    java.util.HashSet suspectFailedConsumableSkus -> i
-    boolean subscriptionUpdateInProgress -> t
-    com.unity.purchasing.common.IStoreCallback unityPurchasing -> l
-    com.unity.purchasing.googleplay.IabHelper helper -> c
-    com.unity.purchasing.googleplay.ITimekeeper timekeeper -> n
-    com.unity.purchasing.googleplay.IActivityLauncher launcher -> p
-    com.unity.purchasing.googleplay.FailedPurchaseReconciler failedPurchaseReconciler -> f
-    android.content.Context context -> o
-    com.unity.purchasing.googleplay.GooglePlayPurchasing$Features features -> k
-    com.unity.purchasing.common.ProductDefinition productUnderPurchase -> h
-    com.unity.purchasing.googleplay.IBillingServiceManager manager -> m
-    android.content.BroadcastReceiver purchasesUpdatedReceiver -> q
+    boolean isUnityVrEnabled -> k
+    com.unity.purchasing.googleplay.Inventory inventory -> h
+    boolean subscriptionUpdateInProgress -> u
+    java.util.HashSet suspectFailedConsumableSkus -> j
+    boolean purchaseInProgress -> t
+    com.unity.purchasing.googleplay.ITimekeeper timekeeper -> o
+    com.unity.purchasing.googleplay.IActivityLauncher launcher -> q
+    android.content.Context context -> p
+    com.unity.purchasing.googleplay.IabHelper helper -> d
+    com.unity.purchasing.googleplay.FailedPurchaseReconciler failedPurchaseReconciler -> g
+    com.unity.purchasing.common.IStoreCallback unityPurchasing -> m
+    com.unity.purchasing.common.ProductDefinition productUnderPurchase -> i
+    android.content.BroadcastReceiver purchasesUpdatedReceiver -> r
     boolean isDaydreamApiAvailable -> a
-    int offlineBackOffTime -> r
-    com.unity.purchasing.googleplay.GooglePlayPurchasing$ConsumptionManager consumptionManager -> e
-    java.lang.String persistentDataPath -> d
+    int offlineBackOffTime -> s
+    boolean aggressivelyRecoverLostPurchases -> c
+    java.lang.String persistentDataPath -> e
+    com.unity.purchasing.googleplay.IBillingServiceManager manager -> n
+    com.unity.purchasing.googleplay.GooglePlayPurchasing$ConsumptionManager consumptionManager -> f
+    com.unity.purchasing.googleplay.GooglePlayPurchasing$Features features -> l
     void QueryInventory(java.util.List,long) -> a
     com.unity.purchasing.googleplay.ITimekeeper access$000(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> a
     void access$100(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Purchase) -> a
-    void access$1200(com.unity.purchasing.googleplay.GooglePlayPurchasing,java.util.List,long) -> a
+    void access$1300(com.unity.purchasing.googleplay.GooglePlayPurchasing,java.util.List,long) -> a
     int access$402(com.unity.purchasing.googleplay.GooglePlayPurchasing,int) -> a
     void access$500(com.unity.purchasing.googleplay.GooglePlayPurchasing,com.unity.purchasing.googleplay.Inventory) -> a
     boolean access$702(com.unity.purchasing.googleplay.GooglePlayPurchasing,boolean) -> a
@@ -133,26 +134,27 @@ com.unity.purchasing.googleplay.GooglePlayPurchasing -> com.unity.purchasing.goo
     void onActivityResult(int,int,android.content.Intent) -> a
     void removeFromInventory(com.unity.purchasing.googleplay.Purchase) -> a
     void trackPurchase(java.lang.String,com.unity.purchasing.common.ProductType) -> a
-    com.unity.purchasing.common.IStoreCallback access$1000(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> b
+    boolean access$1000(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> b
     void initInventory(com.unity.purchasing.googleplay.Inventory) -> b
     void logDebug(java.lang.String) -> b
     void logDebug(java.lang.String,java.lang.String) -> b
     void pollForNewPurchases() -> b
-    void access$1100(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> c
+    com.unity.purchasing.common.IStoreCallback access$1100(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> c
     void logError(java.lang.String) -> c
     void logError(java.lang.String,java.lang.String) -> c
     void registerPurchasesUpdatedReceiver() -> c
-    com.unity.purchasing.googleplay.Inventory access$200(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> d
+    void access$1200(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> d
     void untrackPurchase(java.lang.String) -> d
-    com.unity.purchasing.googleplay.IabHelper access$300(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> e
+    com.unity.purchasing.googleplay.Inventory access$200(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> e
     com.unity.purchasing.googleplay.Purchase findPurchaseByOrderId(java.lang.String) -> e
-    int access$400(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> f
+    com.unity.purchasing.googleplay.IabHelper access$300(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> f
     void finishTransactionInternal(java.lang.String) -> f
-    android.content.Context access$600(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> g
+    int access$400(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> g
     void initPersistentDataPath(java.lang.String) -> g
-    boolean access$700(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> h
-    com.unity.purchasing.common.ProductDefinition access$800(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> i
-    java.util.HashSet access$900(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> j
+    android.content.Context access$600(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> h
+    boolean access$700(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> i
+    com.unity.purchasing.common.ProductDefinition access$800(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> j
+    java.util.HashSet access$900(com.unity.purchasing.googleplay.GooglePlayPurchasing) -> k
 com.unity.purchasing.googleplay.GooglePlayPurchasing$1 -> com.unity.purchasing.googleplay.GooglePlayPurchasing$1:
     com.unity.purchasing.googleplay.GooglePlayPurchasing this$0 -> b
     com.unity.purchasing.googleplay.IGooglePlayStoreCallback val$callback -> a

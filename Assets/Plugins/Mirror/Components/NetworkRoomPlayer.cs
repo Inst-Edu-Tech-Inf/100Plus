@@ -154,9 +154,9 @@ namespace Mirror
         void DrawPlayerReadyState()
         {
             GUIStyle customButton = new GUIStyle("button");
-            customButton.fontSize = 40;
+            customButton.fontSize = 80;
 
-            GUILayout.BeginArea(new Rect(120f + (index * 100), 200f, 90f, 130f));
+            GUILayout.BeginArea(new Rect(Screen.height - (index * 150), Screen.width - 200f, 200f, 150f));
 
             GUILayout.Label($"Player [{index + 1}]");
 
@@ -179,13 +179,13 @@ namespace Mirror
         void DrawPlayerReadyButton()
         {
             GUIStyle customButton = new GUIStyle("button");
-            customButton.fontSize = 40;
+            customButton.fontSize = 80;
             customButton.normal.textColor = Color.red;
  
 
             if (NetworkClient.active && isLocalPlayer)
             {
-                GUILayout.BeginArea(new Rect(120f, 300f, 200f, 400f));
+                GUILayout.BeginArea(new Rect(200f,  Screen.height - 250f, 400f,  250f));
 
                 if (readyToBegin)
                 {
@@ -194,7 +194,7 @@ namespace Mirror
                 }
                 else
                 {
-                    Texture tex= Resources.Load<Texture>("ChoiceOKsmall");
+                    Texture tex= Resources.Load<Texture>("ChoiceOK");//ChoiceOKsmall
                     if (GUILayout.Button(tex))
                     //if (GUILayout.Button("Ready",customButton))
                         CmdChangeReadyState(true);

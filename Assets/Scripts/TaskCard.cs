@@ -218,6 +218,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         else
         {
             gm.SetActiveCard(gameObject, false);
+            Debug.Log("TaskCard setActive:" + gm.tasks.gameObject.activeSelf);
            // gm.transparentPlayerCardPanel.SetActive(false);
            // gm.transparentPowerUpCardPanel.SetActive(false);
         }

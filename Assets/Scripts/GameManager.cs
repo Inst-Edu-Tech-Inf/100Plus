@@ -533,14 +533,16 @@ UNITY_STANDALONE_WIN
                     DrawTaskCard(kolor, GetPVPValue2(), GetPVPValue3());
                    // Debug.Log("DrawTaskCard RunCmd after");
                     RerollTaskCardCheck();
-                    CheckCardNumbers(true);
+                    CheckCardNumbers(false);
+                    //Debug.Log("activeTasks5:" + tasks.gameObject.activeSelf);
                     break;
                 case PVP_DISCARD_TASK:
                     //infoText.text = infoText.text + ";D" + GetPVPValue1();
                     DiscardTaskCard(taskCards[GetPVPValue1()]);
-                    Debug.Log("-RunPVP");
+                    //Debug.Log("-RunPVP");
                     RerollTaskCardCheck();
-                    CheckCardNumbers(true);
+                    CheckCardNumbers(false);
+                    //Debug.Log("activeTasks6:" + tasks.gameObject.activeSelf);
                     break;
                 case PVP_SET_ACTIVE_CARD:
 
@@ -979,6 +981,7 @@ UNITY_STANDALONE_WIN
                 transparentAllPanel.gameObject.SetActive(false);
                 RerollTaskCardCheck();
                 CheckCardNumbers(true);
+                //Debug.Log("activeTasks7:" + tasks.gameObject.activeSelf);
 
                 /*if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                 {
@@ -1240,7 +1243,7 @@ UNITY_STANDALONE_WIN
     {
         if (!tasks.gameObject.activeSelf)
         {
-            BackToTasks();
+            BackToTasks(activeCard);
         }
         else
         {
@@ -1528,7 +1531,7 @@ UNITY_STANDALONE_WIN
                 }
                 SetActiveCard(taskCards[taskCardAIToRemove], true);
                 DiscardTaskCard(taskCards[taskCardAIToRemove]);
-                Debug.Log("-AI");
+                //Debug.Log("-AI");
                 playerAICardsRedToRemove.Clear();
                 playerAICardsGreenToRemove.Clear();
                 playerAICardsBlueToRemove.Clear();
@@ -1564,6 +1567,7 @@ UNITY_STANDALONE_WIN
                 aiCommands.RemoveAt(0);
                 //activeCard = taskCards[aiCommands[0]];
                 SetActiveCard(taskCards[aiCommands[0]],false);
+                //Debug.Log("TaskAI:" + tasks.gameObject.activeSelf);
                 taskCardAIToRemove = aiCommands[0];
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
@@ -1638,7 +1642,7 @@ UNITY_STANDALONE_WIN
         //Debug.Log(maxActualTaskCards);
         //Debug.Log(card);
         DiscardTaskCard(card);
-        Debug.Log("-AIEasy");
+        //Debug.Log("-AIEasy");
     }
 
     void AIEasyDiscardAIPlayerCard()
@@ -1765,7 +1769,7 @@ UNITY_STANDALONE_WIN
         //change to bigger on color with smallest playerCardsAI value
         GameObject card = taskCards[Random.Range(0, maxActualTaskCards)];
         DiscardTaskCard(card);
-        Debug.Log("-AIImpossible");
+        //Debug.Log("-AIImpossible");
 
     }
 
@@ -1820,6 +1824,7 @@ Android uses files inside a compressed APK
         if (!activeCardSpace.activeInHierarchy && !isBack)
         {
             tasks.SetActive(false);
+            //Debug.Log("Task:" + tasks.gameObject.activeSelf);
             //closeText.gameObject.SetActive(false);
             activeCard = card;
             transparentPlayerCardPanel.SetActive(false);
@@ -1863,15 +1868,16 @@ Android uses files inside a compressed APK
         }
         else
         {
-            BackToTasks();
+            BackToTasks(card);
         }
- 
+        //Debug.Log("SetActiveTaskEnd:" + tasks.gameObject.activeSelf);
     }
 
-    void BackToTasks()
+    void BackToTasks(GameObject card)
     {
         taskResignSFX.Play();
         tasks.SetActive(true);
+        //Debug.Log("BackToTaskTrue");
         closeText.gameObject.SetActive(true);
 
         activeCardSpace.SetActive(false);
@@ -1925,6 +1931,7 @@ Android uses files inside a compressed APK
         }
 
         CheckCardNumbers(true);
+        //Debug.Log("activeTasks8:" + tasks.gameObject.activeSelf);
     }
 
     void ShowAchievementPanel(int achievementNumber)
@@ -1964,7 +1971,7 @@ Android uses files inside a compressed APK
             cardTask = taskCards[i];
             //if (card.gameObject.activeSelf)
             DiscardTaskCard(cardTask);
-            Debug.Log("-ReRoll");
+            //Debug.Log("-ReRoll");
         }
         //actualTaskCardsCount = 0;
         //Debug.Log("actualTaskCardsCount BEFORE draw:" + actualTaskCardsCount);
@@ -2093,7 +2100,7 @@ Android uses files inside a compressed APK
          for (int i = 0; i < maxTaskCardsAddLate + taskCardsToDraw; ++i)
          //for (int i = 0; i < maxActualTaskCards; ++i)
          {
-             //DiscardTaskCard(taskCards[i]);
+             DiscardTaskCard(taskCards[i]);
          }
          for (int i = 0; i < taskCardsOnStart; ++i)
          {
@@ -2107,6 +2114,7 @@ Android uses files inside a compressed APK
                 else
                 {
                     isFirstTurn = true;
+                    endTurnBtn.SetActive(false);
                 }
             }
             else
@@ -2255,12 +2263,12 @@ Android uses files inside a compressed APK
 
         CreateTaskCards();
 
-        for (int i = 0; i < maxActualTaskCards; ++i)
+ /*       for (int i = 0; i < maxActualTaskCards; ++i)
         {
-            DiscardTaskCard(taskCards[i]);
+ //           DiscardTaskCard(taskCards[i]);
             //Debug.Log("-First9");
-        }
-//        actualTaskCardsCount = 0;
+        }*/
+
         //CreatePlayerCards();
 
         for (int i = 0; i < powerUpCardsOnStart; i++)
@@ -2477,7 +2485,7 @@ Android uses files inside a compressed APK
                         if (actualTaskCardsCount > maxTaskCards)
                         {
                             DiscardTaskCard(taskCards[0]);
-                            Debug.Log("-LimitedTurnTime");
+                            //Debug.Log("-LimitedTurnTime");
                         }
                     }
 
@@ -2492,6 +2500,7 @@ Android uses files inside a compressed APK
                     if (activeCard != null)
                     {
                         SetActiveCard(activeCard, false);
+                        //Debug.Log("TaskUpdate:" + tasks.gameObject.activeSelf);
                     }
                     EndTurn();
                     //tutaj czekanie na drugiego gracza
@@ -2530,6 +2539,35 @@ Android uses files inside a compressed APK
                 timerText.text = tmpFloat.ToString("F2");
             }
             //Victory panel
+            if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+            {
+                if ((float.Parse(victoryPoints.text) >= VictoryPointFirstValue) || (float.Parse(victoryPointsP2.text) >= VictoryPointFirstValue))
+                {
+                    isVictory = true;
+                    if (float.Parse(victoryPoints.text) == float.Parse(victoryPointsP2.text))
+                    {
+                        isVictoryResult = true;
+                        //victorySFX.Play();
+                    }
+                    else
+                    {
+                        //Debug.Log("P1:"+float.Parse(victoryPoints.text));
+                        //Debug.Log("P2:"+float.Parse(victoryPointsP2.text));
+                        //Debug.Log("Host:"+isHost);
+                        if (((float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text)) && (isHost)) ||
+                        ((float.Parse(victoryPoints.text) < float.Parse(victoryPointsP2.text)) && (!isHost)))
+                        {
+                            isVictoryResult = true;
+                            //victorySFX.Play();
+                        }
+                        else
+                        {
+                            isVictoryResult = false;
+                        }
+                    }
+                }
+            }
+
             if ((isVictoryTimePass)||(isVictory))
             {
                 //Debug.Log("Victory Time Pass");
@@ -2908,7 +2946,7 @@ Android uses files inside a compressed APK
                     actualTaskCardsCount++;
                 card.gameObject.SetActive(true);
                 SetValueTaskCard(card, color, colorValue);
-                Debug.Log("DrawTaskCard:Count:" + actualTaskCardsCount);
+                //Debug.Log("DrawTaskCard:Count:" + actualTaskCardsCount);
             }
         }
     }
@@ -2935,6 +2973,36 @@ Android uses files inside a compressed APK
                     //card.GetComponent<TaskCard>().Randomize();
                     SetValueTaskCard(card, color, colorValue);
                     actualTaskCardsCount++;
+                   /* if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
+                    {
+                        if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
+                        {
+                            //sendColor
+
+                            if (card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
+                            {
+                                SetPVPValue1(PVP_RED);
+                            }
+                            else
+                            {
+                                if (card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
+                                {
+                                    SetPVPValue1(PVP_GREEN);
+                                }
+                                else
+                                {
+                                    SetPVPValue1(PVP_BLUE);
+                                }
+                            }
+                            //sendValue                        
+                            SetPVPValue2(int.Parse(card.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text));
+                            //send position
+                            SetPVPValue3(i);
+                            //sendCommand
+                            SetPVPCommand(PVP_DRAW_TASK);
+                            //Debug.Log("DrawTaskCard:random"+GetPVPValue2());
+                        }
+                    }*/
                     //Debug.Log("DrawTaskCard:"+color+":"+colorValue);
                     break;
                 }
@@ -3006,7 +3074,7 @@ Android uses files inside a compressed APK
     public void DiscardFirst()
     {
         DiscardTaskCard(taskCards[0]);
-        Debug.Log("-FromProcedureDiscardFirst()");
+        //Debug.Log("-FromProcedureDiscardFirst()");
     }
 
     void SetValueTaskCard(GameObject card, string color, int colorValue)
@@ -3497,7 +3565,7 @@ Android uses files inside a compressed APK
                 tmpTaskCards++;
         }
         actualTaskCardsCount = tmpTaskCards;
-        Debug.Log("DiscardTaskCard:Count:" + actualTaskCardsCount);
+        //Debug.Log("DiscardTaskCard:Count:" + actualTaskCardsCount);
     }
 
     public void DiscardPlayerCard(GameObject card)
@@ -3550,6 +3618,7 @@ Android uses files inside a compressed APK
                 hands.SetActive(true);//tutaj
                 //tasks.SetActive(false);
                 tasks.SetActive(true);
+                //Debug.Log("CheckCardNumbersInTask:" + tasks.gameObject.activeSelf);
                 //powerUps.SetActive(false);
                 transparentPlayerCardPanel.SetActive(false);
                 transparentPowerUpCardPanel.SetActive(true);
@@ -3570,6 +3639,7 @@ Android uses files inside a compressed APK
                 {
                     
                     tasks.SetActive(true);
+                    //Debug.Log("CheckCardNumbersInTask:" + tasks.gameObject.activeSelf);
                     //hands.SetActive(false);
                     //powerUps.SetActive(false);
                     transparentPlayerCardPanel.SetActive(true);
@@ -3611,6 +3681,7 @@ Android uses files inside a compressed APK
             if (taskEnable)
             {
                 tasks.SetActive(true);
+                //Debug.Log("CheckCardNumbersTask:" + tasks.gameObject.activeSelf);
                 for (int i = 0; i < maxActualTaskCards;++i)//taskCards.Count; ++i)
                 {
                     card = taskCards[i];
@@ -3736,6 +3807,7 @@ Android uses files inside a compressed APK
               //  Debug.Log("CheckCardNumbers");
                 RerollTaskCardCheck();
                 CheckCardNumbers(true);
+                //Debug.Log("activeTasks1:" + tasks.gameObject.activeSelf);
             }
 
         //my turn, send task card
@@ -3860,6 +3932,7 @@ Android uses files inside a compressed APK
                         }
                     RerollTaskCardCheck();
                     CheckCardNumbers(true);
+                    //Debug.Log("activeTasks2:" + tasks.gameObject.activeSelf);
                 }
             }
             else//PVP modes
@@ -4221,6 +4294,9 @@ Android uses files inside a compressed APK
                         }
                         else
                         {
+                            //Debug.Log("P1:"+float.Parse(victoryPoints.text));
+                            //Debug.Log("P2:"+float.Parse(victoryPointsP2.text));
+                            //Debug.Log("Host:"+isHost);
                             if (((float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))&&(isHost))||
                             ((float.Parse(victoryPoints.text) < float.Parse(victoryPointsP2.text))&&(!isHost)))
                             {
@@ -4400,7 +4476,7 @@ Android uses files inside a compressed APK
             cardToDiscard = activeCard;
             SetActiveCard(activeCard, true);
             DiscardTaskCard(cardToDiscard);
-            Debug.Log("-CollectPoints");
+            //Debug.Log("-CollectPoints");
             //bonus card
             if (GetVictoryPoints() < middleGamePoint)
             {
@@ -4408,6 +4484,7 @@ Android uses files inside a compressed APK
             }
             //DrawPlayerCard();
             CheckCardNumbers(true);
+            //Debug.Log("activeTasks3:" + tasks.gameObject.activeSelf);
             //achievement LongWay
             if (sumCardCount >= 5)
                 if (!SkinManager.instance.LongWay)
@@ -4498,13 +4575,14 @@ Android uses files inside a compressed APK
                 cardToDiscard = activeCard;
                 SetActiveCard(activeCard, true);
                 DiscardTaskCard(cardToDiscard);
-                Debug.Log("-CollectPoints2");
+                //Debug.Log("-CollectPoints2");
                 //bonuscard
                 if (GetVictoryPoints() < earlyGamePoint)
                 {
                     DrawPlayerCard();
                 }
                 CheckCardNumbers(true);
+                //Debug.Log("activeTasks4:" + tasks.gameObject.activeSelf);
             }
 
         }
@@ -4581,7 +4659,12 @@ Android uses files inside a compressed APK
             {
                 victorySFX.Play();
                 isVictory = true;
-                if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                //if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
+                //Debug.Log("P1:" + float.Parse(victoryPoints.text));
+                //Debug.Log("P2:" + float.Parse(victoryPointsP2.text));
+                //Debug.Log("Host:" + isHost);
+                if (((float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text)) && (isHost)) ||
+                            ((float.Parse(victoryPoints.text) < float.Parse(victoryPointsP2.text)) && (!isHost)))
                 {
                     isVictoryResult = true;
                 }

@@ -156,7 +156,7 @@ Android uses files inside a compressed APK
                         PlayerPrefs.SetInt("IsVictoryTimePass", false ? 1 : 0);
                         PlayerPrefs.SetInt("IsVictoryPointFirst", true ? 1 : 0);
                         PlayerPrefs.SetInt("VictoryTimePass", 0);
-                        PlayerPrefs.SetInt("VictoryPointFirst", 20);
+                        PlayerPrefs.SetInt("VictoryPointFirst", SkinManager.VICTORY_CONDITIONS_20);
                     }
                     else
                     {
@@ -167,7 +167,7 @@ Android uses files inside a compressed APK
                         PlayerPrefs.SetInt("IsVictoryTimePass", false ? 1 : 0);
                         PlayerPrefs.SetInt("IsVictoryPointFirst", true ? 1 : 0);
                         PlayerPrefs.SetInt("VictoryTimePass", 0);
-                        PlayerPrefs.SetInt("VictoryPointFirst", 100);
+                        PlayerPrefs.SetInt("VictoryPointFirst", SkinManager.VICTORY_CONDITIONS_100);
                     }
                 }
             }

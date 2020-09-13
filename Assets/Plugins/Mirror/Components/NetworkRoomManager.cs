@@ -696,21 +696,25 @@ namespace Mirror
         public virtual void OnGUI()
         {
             GUIStyle customButton = new GUIStyle("button");
-            customButton.fontSize = 40;
+            customButton.fontSize = 80;
 
             if (!showRoomGUI)
                 return;
 
             if (NetworkServer.active && IsSceneActive(GameplayScene))
             {
-                GUILayout.BeginArea(new Rect(Screen.width - 150f, 10f, 140f, 200f));
+                Texture tex= Resources.Load<Texture>("BackButtonSmall");//ChoiceOKsmall
+                //GUILayout.BeginArea(new Rect(Screen.width - 120f, 15f, 70f, 200f));
+                GUILayout.BeginArea(new Rect(Screen.width + 1f, 0f, 1f, 1f));//small back to room
                 if (GUILayout.Button("Back", customButton))//"Return to Room"
+                //if (GUILayout.Button(tex))//"Return to Room"
                     ServerChangeScene(RoomScene);
                 GUILayout.EndArea();
             }
 
             if (IsSceneActive(RoomScene))
-                GUI.Box(new Rect(100f, Screen.height - 200f, 320f, 200f), "PLAYERS");
+                GUI.Box(new Rect(0f, Screen.height, 1f, Screen.height + 1f), "");
+                //GUI.Box(new Rect(100f, Screen.height - 200f, 320f, 200f), "PLAYERS");
         }
 
         #endregion
