@@ -2136,6 +2136,7 @@ MonoBehaviour:
   cash: {fileID: 1270060335}
   price: {fileID: 1280650416}
   skinName: {fileID: 301365310}
+  infoText: {fileID: 0}
   chooseButtonImage: {fileID: 999026809}
 --- !u!1 &693926839
 GameObject:
@@ -2786,7 +2787,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -775, y: -204}
-  m_SizeDelta: {x: 300, y: 150}
+  m_SizeDelta: {x: 300.00012, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887344773
 MonoBehaviour:
@@ -3538,6 +3539,7 @@ MonoBehaviour:
   ActivePlayerEndTime: 0
   CurrentCash: 0
   BestResult: 0
+  AIDifficulty: 0
   ActivePlayerMode: 0
   PureSolo: 0
   NotPureSolo: 0

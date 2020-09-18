@@ -1,4 +1,4 @@
-﻿//#define HTML5
+//#define HTML5
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +41,7 @@ namespace CompleteProject
     public TextMeshProUGUI cash;
     public TextMeshProUGUI price;
     public TextMeshProUGUI skinName;
+    public TextMeshProUGUI infoText;
     public Image chooseButtonImage;
     bool isSkins = true;
     bool isFrames = false;
@@ -54,19 +55,37 @@ namespace CompleteProject
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
+        //
+        byte[] imgData;
+        
+        
+        //if ((pathWithPrefix.Contains("://")||pathWithPrefix.Contains(":///")))
+        if ((Application.platform == RuntimePlatform.IPhonePlayer)||
+            (Application.platform == RuntimePlatform.OSXEditor))
         {
-            Debug.Log(www.error);
+        imgData = System.IO.File.ReadAllBytes(pathWithPrefix);
+        Debug.Log(imgData.Length);
+        Texture2D texture2D = new Texture2D(2,2);
+        texture2D.LoadImage(imgData);
+        Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+        backgroundImage.sprite = fromTex;
         }
         else
         {
-            //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
-            Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
-            backgroundImage.sprite = fromTex;
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
+            yield return www.SendWebRequest();
+            //imgData = www.downloadHandler.data;
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
+                Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
+                backgroundImage.sprite = fromTex;
+            }
         }
     }
 
@@ -176,8 +195,20 @@ Android uses files inside a compressed APK
         {
             string pom3 = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
             //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
-            pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            //pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
+            pom3 = System.IO.Path.Combine(Application.streamingAssetsPath, pom3);
+            //skinName.text = pom3;
             StartCoroutine(GetWWWTexture(pom3));
+        }
+        if (Application.platform == RuntimePlatform.OSXEditor)
+        {
+            string pom4 = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+
+            //pom4 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom4);
+            //pom4 = System.IO.Path.Combine(Application.streamingAssetsPath + "/Raw", pom4);
+            //pom4 = Application.streamingAssetsPath + pom4;
+            pom4 = System.IO.Path.Combine(Application.streamingAssetsPath , pom4);
+            StartCoroutine(GetWWWTexture(pom4));
         }
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
@@ -301,6 +332,13 @@ Android uses files inside a compressed APK
        /* string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//"/Background/"
         pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);
         skinName.text = pom;*/
+        
+        /*string pom4 = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
+
+        //pom4 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom4);
+        pom4 = System.IO.Path.Combine(Application.streamingAssetsPath , pom4);
+        //pom4 = Path.Combine(Application.streamingAssetsPath,pom4);
+        skinName.text = pom4;*/
         
     }
 

@@ -1,4 +1,4 @@
-﻿//#define HTML5
+//#define HTML5
 
 using System.Collections;
 using System.Collections.Generic;
@@ -464,6 +464,18 @@ public class SkinManager : MonoBehaviour
         VictoryPointFirstValue = PlayerPrefs.GetInt("VictoryPointFirst");
         VictoryTimePassValue = PlayerPrefs.GetInt("VictoryTimePass");
         ActiveVictoryConditions = PlayerPrefs.GetInt("ActiveVictoryConditions");
+        Debug.Log("ActiveVictoryConditions:"+ActiveVictoryConditions);
+        if (ActiveVictoryConditions == 0)
+        {
+            SkinManager.instance.SetIsVictoryTimePass(true);
+            SkinManager.instance.SetIsVictoryPointFirst(false);
+            SkinManager.instance.SetVictoryTimePassValue(5 * 60);
+            SkinManager.instance.SetVictoryPointFirstValue(0);
+            PlayerPrefs.SetInt("IsVictoryTimePass", true ? 1 : 0);
+            PlayerPrefs.SetInt("IsVictoryPointFirst", false ? 1 : 0);
+            PlayerPrefs.SetInt("VictoryTimePass", 5 * 60);
+            PlayerPrefs.SetInt("VictoryPointFirst", 0);
+        }
         ActivePlayerTurnConditions = PlayerPrefs.GetInt("ActivePlayerTurnConditions");
         ActivePlayerEndTime = PlayerPrefs.GetInt("ActivePlayerEndTime");
         CurrentCash = PlayerPrefs.GetInt("CurrentCash");

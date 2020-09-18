@@ -53,34 +53,29 @@
             sampler2D _MainTex;
 	sampler2D _SecondaryTex;
 
-	// color from the material
-           fixed4 _Color;
+// color from the material
+            fixed4 _Color;
             fixed4 _TransparentColor;
 	half _Threshold;
 
             // pixel shader; returns low precision ("fixed4" type)
             // color ("SV_Target" semantic)
-            fixed4 frag (v2f i) : SV_Target
+            fixed3 frag (v2f i) : SV_Target
             {
                 // sample texture and return it
                 fixed4 col = tex2D(_MainTex, i.uv);
 	fixed4 overlayTex = tex2D (_SecondaryTex,i.uv);
 	//add second texture
-//	half3 mainTexVisible = col.rgb * (1-overlayTex.a);
-//	half3 overlayTexVisible = overlayTex.rgb * (overlayTex.a);
-half4 mainTexVisible = col * (1-overlayTex.a);
-half4 overlayTexVisible = overlayTex * (overlayTex.a);          
-	//float3 finalColor = (mainTexVisible + overlayTexVisible) * _Color;
-fixed4 finalColor = (mainTexVisible + overlayTexVisible) * _Color;
+	half3 mainTexVisible = col.rgb * (1-overlayTex.a);
+	half3 overlayTexVisible = overlayTex.rgb * (overlayTex.a);          
+	float3 finalColor = (mainTexVisible + overlayTexVisible) * _Color;
 	//video transparency here
 	half3 transparent_diff = finalColor.xyz - _TransparentColor.xyz;
 	half transparent_diff_squared = dot(transparent_diff,transparent_diff);
 	  if(transparent_diff_squared < 0.025)//_Threshold
                    discard;
 
-
 	return finalColor;
-
             }
             ENDCG
         }
