@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -25,11 +25,19 @@ namespace CompleteProject
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
        // public static string kProductIDConsumable = "consumable";
-        public static string kProductIDConsumableCoins20 = "coins20";
-        public static string kProductIDConsumableCoins100 = "coins100";
-        public static string kProductIDConsumableCoins350 = "coins350";
-        public static string kProductIDNonConsumable = "nonconsumable";
-        public static string kProductIDSubscription = "subscription";
+            public static string kProductIDConsumableCoins20 = "coins20";
+            public static string kProductIDConsumableCoins100 = "coins100";
+            //public static string kProductIDConsumableCoins20 = "1531775421";
+            //public static string kProductIDConsumableCoins100 = "com.ieti.summon.coins100";
+            public static string kProductIDConsumableCoins350 = "coins350";
+            public static string kProductIDNonConsumable = "nonconsumable";
+            public static string kProductIDSubscription = "subscription";
+      //      public static string ikProductIDConsumableCoins20 = "1531775421";
+       //     public static string ikProductIDConsumableCoins100 = "com.ieti.summon.coins100";
+      //      public static string ikProductIDConsumableCoins350 = "com.ieti.summon.coins350";
+      //      public static string ikProductIDNonConsumable = "nonconsumable";
+      //      public static string ikProductIDSubscription = "subscription";
+
 
         // Apple App Store-specific product identifier for the subscription product.
 //        private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
@@ -63,9 +71,19 @@ namespace CompleteProject
 
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
-            builder.AddProduct(kProductIDConsumableCoins20, ProductType.Consumable);
-            builder.AddProduct(kProductIDConsumableCoins100, ProductType.Consumable);
-            builder.AddProduct(kProductIDConsumableCoins350, ProductType.Consumable);
+            //if (Application.platform == RuntimePlatform.Android)
+            {
+                builder.AddProduct(kProductIDConsumableCoins20, ProductType.Consumable);
+                builder.AddProduct(kProductIDConsumableCoins100, ProductType.Consumable);
+                builder.AddProduct(kProductIDConsumableCoins350, ProductType.Consumable);
+            }
+            //else
+            //if (Application.platform == RuntimePlatform.IPhonePlayer)
+           // {
+            //    builder.AddProduct(ikProductIDConsumableCoins20, ProductType.Consumable);
+            //    builder.AddProduct(ikProductIDConsumableCoins100, ProductType.Consumable);
+            //    builder.AddProduct(ikProductIDConsumableCoins350, ProductType.Consumable);
+           // }
             // Continue adding the non-consumable product.
        //     builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
             // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -101,21 +119,45 @@ namespace CompleteProject
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-            BuyProductID(kProductIDConsumableCoins20);
+            //if (Application.platform == RuntimePlatform.Android)
+            {
+                BuyProductID(kProductIDConsumableCoins20);
+            }
+            //else
+            //if (Application.platform == RuntimePlatform.IPhonePlayer)
+           // {
+            //    BuyProductID(ikProductIDConsumableCoins20);
+            //}
         }
         
         public void BuyConsumableCoins100()
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-            BuyProductID(kProductIDConsumableCoins100);
+          //  if (Application.platform == RuntimePlatform.Android)
+            {
+                BuyProductID(kProductIDConsumableCoins100);
+            }
+          //  else
+           // if (Application.platform == RuntimePlatform.IPhonePlayer)
+         //   {
+          //      BuyProductID(ikProductIDConsumableCoins100);
+          //  }
         }
         
         public void BuyConsumableCoins350()
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-            BuyProductID(kProductIDConsumableCoins350);
+         //   if (Application.platform == RuntimePlatform.Android)
+            {
+                BuyProductID(kProductIDConsumableCoins350);
+            }
+         //   else
+         //   if (Application.platform == RuntimePlatform.IPhonePlayer)
+          //  {
+          //      BuyProductID(ikProductIDConsumableCoins350);
+          //  }
         }
 
 
@@ -245,62 +287,135 @@ namespace CompleteProject
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
             // A consumable product has been purchased by this user.
-            if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins20, StringComparison.Ordinal))
+            //if (Application.platform == RuntimePlatform.Android)
             {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                //ScoreManager.score += 100;//SkinManager
-                int newCash;
-                //cashBuyDone.Play();
-                newCash = SkinManager.instance.CurrentCash + 20;
-                SkinManager.instance.SetCurrentCash(newCash);
-                PlayerPrefs.SetInt("CurrentCash", newCash);
-                SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                //CompleteProject.Skins.BuySucced();
-                sk.BackPurchase();
+                if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins20, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                    //ScoreManager.score += 100;//SkinManager
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 20;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //CompleteProject.Skins.BuySucced();
+                    sk.BackPurchase();
+                }
+                else if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins100, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //do
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 100;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    sk.BackPurchase();
+                }
+                else if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins350, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //do
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 350;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    sk.BackPurchase();
+                }
+                // Or ... a non-consumable product has been purchased by this user.
+                else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
+                }
+                // Or ... a subscription product has been purchased by this user.
+                else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // TODO: The subscription item has been successfully purchased, grant this to the player.
+                }
+                // Or ... an unknown product has been purchased by this user. Fill in additional products here....
+                else
+                {
+                    Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                }
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins100, StringComparison.Ordinal))
+           /* else
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                //do
-                int newCash;
-                //cashBuyDone.Play();
-                newCash = SkinManager.instance.CurrentCash + 100;
-                SkinManager.instance.SetCurrentCash(newCash);
-                PlayerPrefs.SetInt("CurrentCash", newCash);
-                SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                sk.BackPurchase();
+                if (String.Equals(args.purchasedProduct.definition.id, ikProductIDConsumableCoins20, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                    //ScoreManager.score += 100;//SkinManager
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 20;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //CompleteProject.Skins.BuySucced();
+                    sk.BackPurchase();
+                }
+                else if (String.Equals(args.purchasedProduct.definition.id, ikProductIDConsumableCoins100, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //do
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 100;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    sk.BackPurchase();
+                }
+                else if (String.Equals(args.purchasedProduct.definition.id, ikProductIDConsumableCoins350, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //do
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 350;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    sk.BackPurchase();
+                }
+                // Or ... a non-consumable product has been purchased by this user.
+                else if (String.Equals(args.purchasedProduct.definition.id, ikProductIDNonConsumable, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
+                }
+                // Or ... a subscription product has been purchased by this user.
+                else if (String.Equals(args.purchasedProduct.definition.id, ikProductIDSubscription, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // TODO: The subscription item has been successfully purchased, grant this to the player.
+                }
+                // Or ... an unknown product has been purchased by this user. Fill in additional products here....
+                else
+                {
+                    Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+                }
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins350, StringComparison.Ordinal))
-            {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                //do
-                int newCash;
-                //cashBuyDone.Play();
-                newCash = SkinManager.instance.CurrentCash + 350;
-                SkinManager.instance.SetCurrentCash(newCash);
-                PlayerPrefs.SetInt("CurrentCash", newCash);
-                SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                sk.BackPurchase();
-            }
-            // Or ... a non-consumable product has been purchased by this user.
-            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))
-            {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
-            }
-            // Or ... a subscription product has been purchased by this user.
-            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
-            {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                // TODO: The subscription item has been successfully purchased, grant this to the player.
-            }
-            // Or ... an unknown product has been purchased by this user. Fill in additional products here....
-            else
-            {
-                Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-                SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-            }
+            */
+            
 
             // Return a flag indicating whether this product has completely been received, or if the application needs 
             // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
@@ -315,6 +430,7 @@ namespace CompleteProject
             // this reason with the user to guide their troubleshooting actions.
             Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
             SkinManager.instance.SetDebugToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
+            SkinManager.instance.SetAIPToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
         }
     }
 }

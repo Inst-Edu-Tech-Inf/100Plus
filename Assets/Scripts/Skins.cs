@@ -339,6 +339,7 @@ Android uses files inside a compressed APK
         pom4 = System.IO.Path.Combine(Application.streamingAssetsPath , pom4);
         //pom4 = Path.Combine(Application.streamingAssetsPath,pom4);
         skinName.text = pom4;*/
+        //skinName.text = SkinManager.instance.GetAIPToShow();
         
     }
 

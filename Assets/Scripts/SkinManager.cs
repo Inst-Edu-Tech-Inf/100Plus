@@ -213,6 +213,7 @@ public class SkinManager : MonoBehaviour
     public static SkinManager instance;
     public int CurrentScore;
     public string DebugToShow;
+    public string AIPToShow;
     public string UserID;
 
     // Start is called before the first frame update
@@ -800,6 +801,15 @@ public class SkinManager : MonoBehaviour
         WinPVP = Value;
     }
 
+    public void SetAIPToShow(string Value)
+    {
+        AIPToShow += Value;
+    }
+    
+    public string GetAIPToShow()
+    {
+        return AIPToShow;
+    }
 
     public void SetDebugToShow(string Value)
     {

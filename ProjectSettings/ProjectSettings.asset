@@ -127,7 +127,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0.44
+  bundleVersion: 1.0.45
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -175,7 +175,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: com.ieti.summon
   buildNumber:
-    iPhone: 1.0.44
+    iPhone: 1.0.45
   AndroidBundleVersionCode: 62
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 29
@@ -238,12 +238,12 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: S5R3LC3Q3S
-  iOSManualSigningProvisioningProfileID: 
+  appleDeveloperTeamID: 
+  iOSManualSigningProvisioningProfileID: bdcb24fb-dd21-47e4-9386-a8fdb39159a9
   tvOSManualSigningProvisioningProfileID: 
-  iOSManualSigningProvisioningProfileType: 0
+  iOSManualSigningProvisioningProfileType: 2
   tvOSManualSigningProvisioningProfileType: 0
-  appleEnableAutomaticSigning: 0
+  appleEnableAutomaticSigning: 1
   iOSRequireARKit: 0
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
@@ -874,6 +874,10 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   luminIcon:
     m_Name: 
