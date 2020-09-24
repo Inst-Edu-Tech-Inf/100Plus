@@ -25,7 +25,7 @@ namespace CompleteProject
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
        // public static string kProductIDConsumable = "consumable";
-            public static string kProductIDConsumableCoins20 = "coins20";
+            public static string kProductIDConsumableCoins20 = "coins_20";
             public static string kProductIDConsumableCoins100 = "coins100";
             //public static string kProductIDConsumableCoins20 = "1531775421";
             //public static string kProductIDConsumableCoins100 = "com.ieti.summon.coins100";
