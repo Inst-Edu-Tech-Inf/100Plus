@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Mirror;
+
 //using Mirror.Discovery;
 
 public class Multiplayer : MonoBehaviour
@@ -16,11 +17,14 @@ public class Multiplayer : MonoBehaviour
     public GameObject pvpPanel;
     public GameObject aiDifficultyPanel;
     public Button readyButton;
+    public Text gameModeText;
     public Button soloButton;
     public Button aiButton;
     public Button pvpButton;
     public Button startButton;
     public Text sciezka;
+    //public Text gameModeText;
+    
     public NetworkRoomManager roomManagerShowGUI;
     //public NetworkRoomPlayer roomManagerShowGUI;
     NetworkRoomPlayer roomPlayerShowGUI;
@@ -29,12 +33,25 @@ public class Multiplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SystemLanguage iLang = Application.systemLanguage;
         //changeBackground();
         //string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
         //backgroundImage.sprite = Resources.Load<Sprite>(pom2);
         //StartCoroutine(GetWWWTexture("http://ieti.pl/portal/images/Autumn.jpg"));
         gameConditionsList.value = SkinManager.instance.ActivePlayerMode;
+        switch (iLang)
+        {
+            case SystemLanguage.English:
+                gameModeText.text = SkinManager.MENU_EN[SkinManager.TRYB_GRY];
+                
+                break;
+            case SystemLanguage.Polish:
+                gameModeText.text = SkinManager.MENU_PL[SkinManager.TRYB_GRY];
+                break;
+            default:
+                gameModeText.text = SkinManager.MENU_EN[SkinManager.TRYB_GRY];
+                break;
+        }
         //readyButton.interactable = false;
         readyButton.gameObject.SetActive(false);
         if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SOLO)

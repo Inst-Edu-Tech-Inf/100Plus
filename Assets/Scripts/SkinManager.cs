@@ -95,6 +95,90 @@ public class SkinManager : MonoBehaviour
     public const int AI_EASY = 0;
     public const int AI_IMPOSSIBLE = 1;
 
+    public const int PROGRAMISCI = 0;
+    public const int GRAFICY = 1;
+    public const int TESTERZY = 2;
+    public const int KONCEPCJA_GRY = 3;
+    public const int WARUNKI_ZWYCIESTWA = 4;
+    public const int KONIEC_TURY_GRACZA = 5;
+    public const int DZWIEK = 6;
+    public const int TRYB_GRY = 7;
+    public const int GOTOWY = 8;
+    public static string[] SKORKI_PL = new string[] { "Widzê ogieñ", "W³adca Pierœcieni", "Ziuuuu...", "Widzia³em ogieñ", "W³adca pierœcieni", "ziuuuu...", "Pierœcionek",
+        "Aaaaaaa! Troll!","Jednoro¿ec","Zagrajmy","Wszyscy razem", "Zimorodek"};
+    public static string[] RAMKI_PL = new string[] { "Z³oty prostok¹t", "Bia³y kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
+        "Razem","Pokój","Pianino","Fale","Z³ote fale","Podniebne fale","Trawiaste fale","Ró¿owe fale","Ogniste fale"};
+    public static string[] TLA_PL = new string[] { "W sumie...", "GwieŸdzista noc", "G³êboka przestrzeñ", "Jaœniejszy Summ On",  "Buuum","Galaktyka spiralna","Têcza","MroŸnie",
+        "Gotów, weŸ, rysuj","Palma","Storczyk","Na Ksiê¿yc!","Ziemia","Jezioro w lesie","Tak ró¿owo...","Kwiat","Jesieñ","Kasztany","Ró¿a", "¯ó³w",
+        "Saturn","System s³oneczny","Dziki i groŸny","Fajerwerki","Gdzie jest skarb?"};
+    public static string[] MUZYKI_PL = new string[] { "Jak s³odko", "Szalona", "Jak mi³o" };
+    public static string[] OSIAGNIECIA_PL = new string[] { "Trudne pocz¹tki", "Zmiana kart", "Szybki","Szybszy","Podwójnie",
+        "Potrójnie","Poczwórnie","Zwyciêzca","Bystry","Bystrzejszy","Idealny Uczeñ",
+        "Niechlujny Uczeñ","Idealny Pracownik",
+        "Niechlujny Pracownik", "Idealny Akolita",
+        "Niechlujny Akolita","Idealny Czeladnik",
+        "Niechlujny Czeladnk","Idealny Rzemieœlnik",
+        "Niechlujny Rzemieœlnik","Idealny Magik",
+        "Niechlujny Magik","Idealny Master",
+        "Niechlujny Master", "Idealny Artysta",
+        "Niechlujny Artysta","Idealny Czarodziej",
+        "Niechlujny Czarodziej","Bogactwo","Doskonale","Szczêœciarz", 
+        "Daleka droga"}; 
+    public static string[] OSIAGNIECIA_OPIS_PL = new string[] { "Ukoñczony samouczek", "Odblokowane zaawansowane karty mno¿ników", "Szybszy ni¿ b³yskawica","Szybszy ni¿ œwiat³o","Pomnó¿ dwukrotnie",
+        "Pomnó¿ trzykrotnie","Pomnó¿ czterokrotnie","Wygraj grê solo","Wygraj grê z komputerem (poziom hard)", "Wygraj grê z innym graczem","Uzbieraj sam " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innyms " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za du¿e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za du¿e wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem pop³aca",
+        "U¿yj 5 kart na raz, ¿eby zebraæ idealny wynik"};
+    public static string[] MENU_PL = new string[] { "Programisci", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwyciêstwa", "Koniec tury gracza", "DŸwiêk", "Tryb gry", "Gotowy" };
+   // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
+    public static string[] SAMOUCZEK_PL = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
+
+    public static string[] SKORKI_EN = new string[] { "I see fire", "Lord of the Rings", "Ziiiiip...", "I saw fire", "lord of the rings", "ziiip...", "Eye ring",
+        "Aaaaaaa! A troll!","The unicorn","Lets play","All together", "The kingfisher"};
+    public static string[] RAMKI_EN = new string[] { "The golden rectangle", "The white kitty", "Hello kitty","Like photo album","Like colored photo album", "Step by step",
+        "Together","Peace","The piano","The waves","The gold waves","The sky waves","The grass waves","The pink waves","The fire waves"};
+    public static string[] TLA_EN = new string[] { "Lets Summ On", "Starry night", "Deep space", "Summ On Lighter",  "Baaam","Spiral galaxy","Rainbow","Cold look",
+        "Ready, set, colour","The palm","The orchidea","Go to the Moon","Earth","Lake in the forest","So pinky...","The flower","Autumn","Chestnuts","Rose", "The turtle",
+        "Saturn","Solar system","The wild and dangerous","Fireworks","Where is the treasure?"};
+    public static string[] MUZYKI_EN = new string[] { "So sweet", "I'm crazy", "How nice" };
+    public static string[] OSIAGNIECIA_EN = new string[] { "Hard begining", "Cards changed", "Fast","Faster","Twice",
+        "Triple","Quadruple","Winner","Smart","Smarter","Pure Pupil",
+        "Messy Pupil","Pure Worker",
+        "Messy Worker", "Pure Acolyte",
+        "Messy Acolyte","Pure Peon",
+        "Messy Peon","Pure Craftsman",
+        "Messy Craftsman","Pure Magican",
+        "Messy Magican","Pure Master",
+        "Messy Master", "Pure Artist",
+        "Messy Artist","Pure Mage",
+        "Messy Mage","Richness","Excelent","Lucky", 
+        "Long way"};   
+    public static string[] OSIAGNIECIA_OPIS_EN = new string[] { "Pass the tutorial", "The first mixed multiply available", "Faster than bolt","Faster than light","Multiply twice",
+        "Multiply triple","Multiply quad","Win solo game","Win game against computer (hard level)", "Win game against human","Gain solo " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value",
+        "Gain solo " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value","Gain AI games " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value",
+        "Gain AI games " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value","Gain PVP games " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value",
+        "Gain PVP games " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value","Gain solo " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value",
+        "Gain solo " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value","Gain AI games " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value",
+        "Gain AI games " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value","Gain PVP games " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value",
+        "Gain PVP games " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value","Gain solo " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
+        "Gain solo " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","Gain AI games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
+        "Gain AI games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","Gain PVP games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
+        "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","I'm rich...","Just excelent game", "The risk is sometimes better",
+        "Use 5 card at row to collect pure result"};  
+    public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers","Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode", "Ready" };
+    public static string[] SAMOUCZEK_EN = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
+             
+
+
+
+
     public struct SkinsInfo
     {
         //Variable declaration
@@ -215,10 +299,13 @@ public class SkinManager : MonoBehaviour
     public string DebugToShow;
     public string AIPToShow;
     public string UserID;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        string[] skorkiLang, ramkiLang, tlaLang, muzykiLang, osiagnieciaLang, osiagnieciaOpisLang;
+        SystemLanguage iLang = Application.systemLanguage;
         instance = this;
         skorki.Clear();
         ramki.Clear();
@@ -227,110 +314,139 @@ public class SkinManager : MonoBehaviour
         osiagniecia.Clear();
         SetUserID();
 
-        skorki.Add(new SkinsInfo("Explodes", GameManager.KARTA_DYNAMICZNA, "I see fire"));
-        skorki.Add(new SkinsInfo("Rings",GameManager.KARTA_DYNAMICZNA,ANIMATED_CARD_PRICE, "Lord of the Rings"));
-        skorki.Add(new SkinsInfo("Fireworks", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, "Ziiiiip..."));
-        skorki.Add(new SkinsInfo("Explode", GameManager.KARTA_STATYCZNA, "I saw fire"));
-        skorki.Add(new SkinsInfo("Ring", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "lord of the rings"));
-        skorki.Add(new SkinsInfo("Firework", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "ziiip..."));
-        skorki.Add(new SkinsInfo("DiamondRing", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "eye ring"));
-        skorki.Add(new SkinsInfo("Troll", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "Aaaaaaa! A troll!"));
-        skorki.Add(new SkinsInfo("Unicorn", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "The unicorn"));
-        skorki.Add(new SkinsInfo("Ball", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "Lets play"));
-        skorki.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "All together"));
-        skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "The kingfisher"));
+        switch (iLang)
+        {
+            case SystemLanguage.English:
+                skorkiLang = SKORKI_EN;
+                ramkiLang = RAMKI_EN;
+                tlaLang = TLA_EN;
+                muzykiLang = MUZYKI_EN;
+                osiagnieciaLang = OSIAGNIECIA_EN;
+                osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
+                break;
+            case SystemLanguage.Polish:
+                skorkiLang = SKORKI_PL;
+                ramkiLang = RAMKI_PL;
+                tlaLang = TLA_PL;
+                muzykiLang = MUZYKI_PL;
+                osiagnieciaLang = OSIAGNIECIA_PL;
+                osiagnieciaOpisLang = OSIAGNIECIA_OPIS_PL;
+                break;
+            default:
+                skorkiLang = SKORKI_EN;
+                ramkiLang = RAMKI_EN;
+                tlaLang = TLA_EN;
+                muzykiLang = MUZYKI_EN;
+                osiagnieciaLang = OSIAGNIECIA_EN;
+                osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
+                break;
+        }
+        //.Log(Application.systemLanguage);
+
+        skorki.Add(new SkinsInfo("Explodes", GameManager.KARTA_DYNAMICZNA, skorkiLang[0]));
+        skorki.Add(new SkinsInfo("Rings", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, skorkiLang[1]));
+        skorki.Add(new SkinsInfo("Fireworks", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, skorkiLang[2]));
+        skorki.Add(new SkinsInfo("Explode", GameManager.KARTA_STATYCZNA, skorkiLang[3]));
+        skorki.Add(new SkinsInfo("Ring", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[4]));
+        skorki.Add(new SkinsInfo("Firework", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[5]));
+        skorki.Add(new SkinsInfo("DiamondRing", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[6]));
+        skorki.Add(new SkinsInfo("Troll", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[7]));
+        skorki.Add(new SkinsInfo("Unicorn", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[8]));
+        skorki.Add(new SkinsInfo("Ball", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[9]));
+        skorki.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[10]));
+        skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[11]));
         //skorki.Add(new SkinsInfo("gifDoGry", GameManager.KARTA_DYNAMICZNA, "Zuza"));
         //skorki.Add(new SkinsInfo("summOnDots", GameManager.KARTA_DYNAMICZNA, "Wiktor"));
         //
-        ramki.Add(new SkinsInfo("RamkaGold", GameManager.KARTA_RAMKA, "The golden rectangle"));
-        ramki.Add(new SkinsInfo("CatFrame", GameManager.KARTA_RAMKA, FRAME_PRICE, "The white kitty"));
-        ramki.Add(new SkinsInfo("CatFramePink", GameManager.KARTA_RAMKA, FRAME_PRICE, "Hello kitty"));
+        ramki.Add(new SkinsInfo("RamkaGold", GameManager.KARTA_RAMKA, ramkiLang[0]));
+        ramki.Add(new SkinsInfo("CatFrame", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[1]));
+        ramki.Add(new SkinsInfo("CatFramePink", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[2]));
         //ramki.Add(new SkinsInfo("CatFrameYellow", GameManager.KARTA_RAMKA, FRAME_PRICE, "The yellow kitty"));//yellow submarine
-        ramki.Add(new SkinsInfo("Flower", GameManager.KARTA_RAMKA, FRAME_PRICE, "Like photo album"));
-        ramki.Add(new SkinsInfo("FlowerLightBlue", GameManager.KARTA_RAMKA, FRAME_PRICE, "Like colored photo album"));
-        ramki.Add(new SkinsInfo("PawsWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, "Step by step"));
-        ramki.Add(new SkinsInfo("PeopleWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, "Together"));
-        ramki.Add(new SkinsInfo("CelticPeaceWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, "Peace"));
-        ramki.Add(new SkinsInfo("Piano", GameManager.KARTA_RAMKA, FRAME_PRICE, "The piano"));
-        ramki.Add(new SkinsInfo("WaveWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, "The waves"));
-        ramki.Add(new SkinsInfo("WaveYellow", GameManager.KARTA_RAMKA, FRAME_PRICE, "The gold waves"));
-        ramki.Add(new SkinsInfo("WaveLightBlue", GameManager.KARTA_RAMKA, FRAME_PRICE, "The sky waves"));
-        ramki.Add(new SkinsInfo("WaveGreen", GameManager.KARTA_RAMKA, FRAME_PRICE, "The grass waves"));
-        ramki.Add(new SkinsInfo("WavePink", GameManager.KARTA_RAMKA, FRAME_PRICE, "The pink waves"));
-        ramki.Add(new SkinsInfo("WaveRed", GameManager.KARTA_RAMKA, FRAME_PRICE, "The fire waves"));
+        ramki.Add(new SkinsInfo("Flower", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[3]));
+        ramki.Add(new SkinsInfo("FlowerLightBlue", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[4]));
+        ramki.Add(new SkinsInfo("PawsWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[5]));
+        ramki.Add(new SkinsInfo("PeopleWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[6]));
+        ramki.Add(new SkinsInfo("CelticPeaceWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[7]));
+        ramki.Add(new SkinsInfo("Piano", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[8]));
+        ramki.Add(new SkinsInfo("WaveWhite", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[9]));
+        ramki.Add(new SkinsInfo("WaveYellow", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[10]));
+        ramki.Add(new SkinsInfo("WaveLightBlue", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[11]));
+        ramki.Add(new SkinsInfo("WaveGreen", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[12]));
+        ramki.Add(new SkinsInfo("WavePink", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[13]));
+        ramki.Add(new SkinsInfo("WaveRed", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[14]));
         //
-        tla.Add(new SkinsInfo("SplashScreen", GameManager.BACKGROUND_STATIC, "Lets Summ On"));
-        tla.Add(new SkinsInfo("NGC_5477_Hubble", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Starry night"));
-        tla.Add(new SkinsInfo("STSCI-H-p2003c-m", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Deep space"));
-        tla.Add(new SkinsInfo("SummOnLight", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Summ On Lighter"));
-        tla.Add(new SkinsInfo("STSCI-H-p1918a-f", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Baaam"));
+        tla.Add(new SkinsInfo("SplashScreen", GameManager.BACKGROUND_STATIC, tlaLang[0]));
+        tla.Add(new SkinsInfo("NGC_5477_Hubble", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE,tlaLang[1]));
+        tla.Add(new SkinsInfo("STSCI-H-p2003c-m", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[2]));
+        tla.Add(new SkinsInfo("SummOnLight", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[3]));
+        tla.Add(new SkinsInfo("STSCI-H-p1918a-f", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[4]));
         //tla.Add(new SkinsInfo("BubbleNebula", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Blue space"));
-        tla.Add(new SkinsInfo("STSCI-H-p2001a-m", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Spiral galaxy"));
-        tla.Add(new SkinsInfo("Rainbow", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Rainbow"));
-        tla.Add(new SkinsInfo("PolarBear", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Cold look"));
-        tla.Add(new SkinsInfo("Pencils", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Ready, set, colour"));
-        tla.Add(new SkinsInfo("Palm", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "The palm"));
-        tla.Add(new SkinsInfo("Orchidea", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "The orchidea"));
-        tla.Add(new SkinsInfo("Moon", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Go to the Moon"));
-        tla.Add(new SkinsInfo("Earth", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Earth"));
-        tla.Add(new SkinsInfo("Lake", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Lake in the forest"));
-        tla.Add(new SkinsInfo("Flowers", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "So pinky..."));
-        tla.Add(new SkinsInfo("Flower", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "The flower"));
-        tla.Add(new SkinsInfo("Autumn", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Autumn"));
-        tla.Add(new SkinsInfo("Kasztany", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Chestnuts"));
-        tla.Add(new SkinsInfo("Rose", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Rose"));
-        tla.Add(new SkinsInfo("Turtle", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "The turtle"));
-        tla.Add(new SkinsInfo("Saturn", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Saturn"));
-        tla.Add(new SkinsInfo("SolarSystem", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Solar system"));
-        tla.Add(new SkinsInfo("Lions", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "The wild and dangerous"));
-        tla.Add(new SkinsInfo("Fireworks", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Fireworks"));
-        tla.Add(new SkinsInfo("OldMap", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, "Where is the treasure?"));
+        tla.Add(new SkinsInfo("STSCI-H-p2001a-m", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[5]));
+        tla.Add(new SkinsInfo("Rainbow", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[6]));
+        tla.Add(new SkinsInfo("PolarBear", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[7]));
+        tla.Add(new SkinsInfo("Pencils", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[8]));
+        tla.Add(new SkinsInfo("Palm", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[9]));
+        tla.Add(new SkinsInfo("Orchidea", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[10]));
+        tla.Add(new SkinsInfo("Moon", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[11]));
+        tla.Add(new SkinsInfo("Earth", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[12]));
+        tla.Add(new SkinsInfo("Lake", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[13]));
+        tla.Add(new SkinsInfo("Flowers", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[14]));
+        tla.Add(new SkinsInfo("Flower", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[15]));
+        tla.Add(new SkinsInfo("Autumn", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[16]));
+        tla.Add(new SkinsInfo("Kasztany", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[17]));
+        tla.Add(new SkinsInfo("Rose", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[18]));
+        tla.Add(new SkinsInfo("Turtle", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[19]));
+        tla.Add(new SkinsInfo("Saturn", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[20]));
+        tla.Add(new SkinsInfo("SolarSystem", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[21]));
+        tla.Add(new SkinsInfo("Lions", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[22]));
+        tla.Add(new SkinsInfo("Fireworks", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[23]));
+        tla.Add(new SkinsInfo("OldMap", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[24]));
             
                 
                     
         //
-        muzyki.Add(new SkinsInfo("Island Puzzle Acoustic", GameManager.SOUND_BACKGROUND, "So sweet"));
-        muzyki.Add(new SkinsInfo("Crazy Puzzle Electronic", GameManager.SOUND_BACKGROUND, SOUND_PRICE, "I'm crazy"));
-        muzyki.Add(new SkinsInfo("Epic Puzzle Orchestral", GameManager.SOUND_BACKGROUND, SOUND_PRICE, "How nice"));
+        muzyki.Add(new SkinsInfo("Island Puzzle Acoustic", GameManager.SOUND_BACKGROUND, muzykiLang[0]));
+        muzyki.Add(new SkinsInfo("Crazy Puzzle Electronic", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[1]));
+        muzyki.Add(new SkinsInfo("Epic Puzzle Orchestral", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[2]));
        // ResetAllSkins();
-        
 
-        osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 0, "Hard begining","The first summing pass"));//ID, type, progress, reward, descripton 
-        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 0, "Cards changed", "The first mixed multiply available"));
-        osiagniecia.Add(new AchievementInfo("FasterThanLightMiddle", NORMAL_ACHIEVEMENT, 0, 5, "Fast", "Faster than bolt"));
-        osiagniecia.Add(new AchievementInfo("FasterThanLightLate", NORMAL_ACHIEVEMENT, 0, 15, "Faster", "Faster than light"));
-        osiagniecia.Add(new AchievementInfo("MultiplyTwice", NORMAL_ACHIEVEMENT, 0, 5, "Twice", "Multiply twice"));
-        osiagniecia.Add(new AchievementInfo("MultiplyThree", NORMAL_ACHIEVEMENT, 0, 5, "Triple", "Multiply triple"));
-        osiagniecia.Add(new AchievementInfo("MultiplyFour", NORMAL_ACHIEVEMENT, 0, 5, "Quadruple", "Multiply quad"));
-        osiagniecia.Add(new AchievementInfo("WinSolo", NORMAL_ACHIEVEMENT, 0, 5, "Winner", "Win solo game"));
-        osiagniecia.Add(new AchievementInfo("WinSI", NORMAL_ACHIEVEMENT, 0, 10, "Smart", "Win game against computer (hard level)"));
-        osiagniecia.Add(new AchievementInfo("WinPVP", NORMAL_ACHIEVEMENT, 0, 15, "Smarter", "Win game against human"));
 
-        osiagniecia.Add(new AchievementInfo("Pure1kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, "Pure Pupil", "Gain solo " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure1kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Pupil", "Gain solo " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure1kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, "Pure Worker", "Gain SI games " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure1kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Worker", "Gain SI games " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure1kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, "Pure Acolyte", "Gain PVP games " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure1kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Acolyte", "Gain PVP games " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value"));
+        osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[0], osiagnieciaOpisLang[0]));//ID, type, progress, reward, descripton 
+        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[1], osiagnieciaOpisLang[1]));
+        osiagniecia.Add(new AchievementInfo("FasterThanLightMiddle", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[2], osiagnieciaOpisLang[2]));
+        osiagniecia.Add(new AchievementInfo("FasterThanLightLate", NORMAL_ACHIEVEMENT, 0, 15, osiagnieciaLang[3], osiagnieciaOpisLang[3]));
+        osiagniecia.Add(new AchievementInfo("MultiplyTwice", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[4], osiagnieciaOpisLang[4]));
+        osiagniecia.Add(new AchievementInfo("MultiplyThree", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[5], osiagnieciaOpisLang[5]));
+        osiagniecia.Add(new AchievementInfo("MultiplyFour", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[6], osiagnieciaOpisLang[6]));
+        osiagniecia.Add(new AchievementInfo("WinSolo", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[7], osiagnieciaOpisLang[7]));
+        osiagniecia.Add(new AchievementInfo("WinSI", NORMAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[8], osiagnieciaOpisLang[8]));
+        osiagniecia.Add(new AchievementInfo("WinPVP", NORMAL_ACHIEVEMENT, 0, 15, osiagnieciaLang[9], osiagnieciaOpisLang[9]));
 
-        osiagniecia.Add(new AchievementInfo("Pure2kSolo", INCREMENTAL_ACHIEVEMENT, 0, 10, "Pure Peon", "Gain solo " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure5kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Peon", "Gain solo " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure2kSI", INCREMENTAL_ACHIEVEMENT, 0, 10, "Pure Craftsman", "Gain SI games " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure5kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Craftsman", "Gain SI games " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure2kPVP", INCREMENTAL_ACHIEVEMENT, 0, 10, "Pure Magican", "Gain PVP games " + ACHIEVEMENT_PURE_2ND.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure5kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Magican", "Gain PVP games " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " score - only bigger than task value"));
+        osiagniecia.Add(new AchievementInfo("Pure1kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[10], osiagnieciaOpisLang[10]));
+        osiagniecia.Add(new AchievementInfo("NotPure1kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[11], osiagnieciaOpisLang[11]));
+        osiagniecia.Add(new AchievementInfo("Pure1kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[12], osiagnieciaOpisLang[12]));
+        osiagniecia.Add(new AchievementInfo("NotPure1kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[13], osiagnieciaOpisLang[13]));
+        osiagniecia.Add(new AchievementInfo("Pure1kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[14], osiagnieciaOpisLang[14]));
+        osiagniecia.Add(new AchievementInfo("NotPure1kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[15], osiagnieciaOpisLang[15]));
 
-        osiagniecia.Add(new AchievementInfo("Pure4kSolo", INCREMENTAL_ACHIEVEMENT, 0, 10, "Pure Master", "Gain solo " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure10kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, "Messy Master", "Gain solo " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure4kSI", INCREMENTAL_ACHIEVEMENT, 0, 15, "Pure Artist", "Gain SI games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure10kSI", INCREMENTAL_ACHIEVEMENT, 0, 10, "Messy Artist", "Gain SI games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value"));
-        osiagniecia.Add(new AchievementInfo("Pure4kPVP", INCREMENTAL_ACHIEVEMENT, 0, 30, "Pure Mage", "Gain PVP games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value"));
-        osiagniecia.Add(new AchievementInfo("NotPure10kPVP", INCREMENTAL_ACHIEVEMENT, 0, 25, "Messy Mage", "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value"));
+        osiagniecia.Add(new AchievementInfo("Pure2kSolo", INCREMENTAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[16], osiagnieciaOpisLang[16]));
+        osiagniecia.Add(new AchievementInfo("NotPure5kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[17], osiagnieciaOpisLang[17]));
+        osiagniecia.Add(new AchievementInfo("Pure2kSI", INCREMENTAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[18], osiagnieciaOpisLang[18]));
+        osiagniecia.Add(new AchievementInfo("NotPure5kSI", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[19], osiagnieciaOpisLang[19]));
+        osiagniecia.Add(new AchievementInfo("Pure2kPVP", INCREMENTAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[20], osiagnieciaOpisLang[20]));
+        osiagniecia.Add(new AchievementInfo("NotPure5kPVP", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[21], osiagnieciaOpisLang[21]));
 
-        osiagniecia.Add(new AchievementInfo("UnlockAllSkins", HIDDEN_ACHIEVEMENT, 0, 0, "Richness", "I'm rich..."));
-        osiagniecia.Add(new AchievementInfo("PureGame", NORMAL_ACHIEVEMENT, 0, 30, "Excelent", "Just excelent game"));
-        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 0, "Lucky", "The risk is sometimes better"));
-        osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, "Long way", "Use 5 card at row to collect pure result"));
+        osiagniecia.Add(new AchievementInfo("Pure4kSolo", INCREMENTAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[22], osiagnieciaOpisLang[22]));
+        osiagniecia.Add(new AchievementInfo("NotPure10kSolo", INCREMENTAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[23], osiagnieciaOpisLang[23]));
+        osiagniecia.Add(new AchievementInfo("Pure4kSI", INCREMENTAL_ACHIEVEMENT, 0, 15, osiagnieciaLang[24], osiagnieciaOpisLang[24]));
+        osiagniecia.Add(new AchievementInfo("NotPure10kSI", INCREMENTAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[25], osiagnieciaOpisLang[25]));
+        osiagniecia.Add(new AchievementInfo("Pure4kPVP", INCREMENTAL_ACHIEVEMENT, 0, 30, osiagnieciaLang[26], osiagnieciaOpisLang[26]));
+        osiagniecia.Add(new AchievementInfo("NotPure10kPVP", INCREMENTAL_ACHIEVEMENT, 0, 25, osiagnieciaLang[27], osiagnieciaOpisLang[27]));
+
+        osiagniecia.Add(new AchievementInfo("UnlockAllSkins", HIDDEN_ACHIEVEMENT, 0, 0, osiagnieciaLang[28], osiagnieciaOpisLang[28]));
+        osiagniecia.Add(new AchievementInfo("PureGame", NORMAL_ACHIEVEMENT, 0, 30, osiagnieciaLang[29], osiagnieciaOpisLang[29]));
+        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[30], osiagnieciaOpisLang[30]));
+        osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[31],osiagnieciaOpisLang[31]));
        // ResetAllAchievements();
         LoadUserData();
     }

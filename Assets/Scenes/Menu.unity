@@ -879,7 +879,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1435692961}
-        m_MethodName: multiplayerButton
+        m_MethodName: ligaButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1623,6 +1623,7 @@ MonoBehaviour:
   LongWay: 0
   CurrentScore: 0
   DebugToShow: 
+  AIPToShow: 
   UserID: 
 --- !u!1 &1595627087
 GameObject:

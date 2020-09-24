@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Achievement.unity
     guid: eb4087a6c38eb2048bfed2c681bd536b
+  - enabled: 1
+    path: Assets/Scenes/Liga.unity
+    guid: 72df6f4d866a9de4cb7f13691eb5ab33
   m_configObjects: {}

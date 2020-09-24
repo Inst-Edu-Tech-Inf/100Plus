@@ -113,6 +113,11 @@ public class MenuButtons : MonoBehaviour
 		SceneManager.LoadScene("Achievement");
 	}
 
+    public void ligaButton()
+    {
+        SceneManager.LoadScene("Liga");
+    }
+
 	/*  void OnGUI()
 	  {
 		  const int ILE_ELEMENTOW_MENU = 6;

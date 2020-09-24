@@ -9,6 +9,10 @@ public class About : MonoBehaviour
 {
     [Header("Background"), SerializeField]
     public Image backgroundImage;
+    public Text programisciText;
+    public Text graficyText;
+    public Text testerzyText;
+    public Text koncepcjaText;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -32,12 +36,35 @@ public class About : MonoBehaviour
     void Start()
     {
         //changeBackground();
+        SystemLanguage iLang = Application.systemLanguage;
+        switch (iLang)
+        {
+            case SystemLanguage.English:
+                programisciText.text = SkinManager.MENU_EN[SkinManager.PROGRAMISCI];
+                graficyText.text = SkinManager.MENU_EN[SkinManager.GRAFICY];
+                testerzyText.text = SkinManager.MENU_EN[SkinManager.TESTERZY];
+                koncepcjaText.text = SkinManager.MENU_EN[SkinManager.KONCEPCJA_GRY];
+
+                break;
+            case SystemLanguage.Polish:
+                programisciText.text = SkinManager.MENU_PL[SkinManager.PROGRAMISCI];
+                graficyText.text = SkinManager.MENU_PL[SkinManager.GRAFICY];
+                testerzyText.text = SkinManager.MENU_PL[SkinManager.TESTERZY];
+                koncepcjaText.text = SkinManager.MENU_PL[SkinManager.KONCEPCJA_GRY];
+                break;
+            default:
+                programisciText.text = SkinManager.MENU_EN[SkinManager.PROGRAMISCI];
+                graficyText.text = SkinManager.MENU_EN[SkinManager.GRAFICY];
+                testerzyText.text = SkinManager.MENU_EN[SkinManager.TESTERZY];
+                koncepcjaText.text = SkinManager.MENU_EN[SkinManager.KONCEPCJA_GRY];
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Back()

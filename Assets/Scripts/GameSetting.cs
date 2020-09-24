@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+
 public class GameSetting : MonoBehaviour
 {
     [Header("Game Settings"), SerializeField]
@@ -13,6 +14,9 @@ public class GameSetting : MonoBehaviour
     public Dropdown victoryList;
     public Dropdown playerTurnList;
     public Image backgroundImage;
+    public Text victorySettingsText;
+    public Text playerTurnText;
+    public Text soundSettingsText;
     // Start is called before the first frame update
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
@@ -35,6 +39,8 @@ public class GameSetting : MonoBehaviour
 
     void Start()
     {
+        
+        SystemLanguage iLang = Application.systemLanguage;
         try
         {
             Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
@@ -45,7 +51,29 @@ public class GameSetting : MonoBehaviour
             sliderSound.value = SkinManager.instance.ActiveSoundValue;
             victoryList.value = SkinManager.instance.ActiveVictoryConditions;
             playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
+
+        switch (iLang)
+            {
+                case SystemLanguage.English:
+                    victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
+                    playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
+                    soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
+                    break;
+                case SystemLanguage.Polish:
+                    //menuLang = SkinManager.instance.MENU_PL;
+                    victorySettingsText.text = SkinManager.MENU_PL[SkinManager.WARUNKI_ZWYCIESTWA];
+                    playerTurnText.text = SkinManager.MENU_PL[SkinManager.KONIEC_TURY_GRACZA];
+                    soundSettingsText.text = SkinManager.MENU_PL[SkinManager.DZWIEK];
+                    break;
+                default:
+                    victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
+                    playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
+                    soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
+                    break;
+            }
+    
         }
+            
         catch (System.Exception exception)
         {
             Debug.LogWarning(exception);
