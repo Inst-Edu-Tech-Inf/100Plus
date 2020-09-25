@@ -1,17 +1,15 @@
-//#define HTML5
+﻿//#define HTML5
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography;
 
+
 public class SkinManager : MonoBehaviour
 {
     /*private static SkinManager _instance;
-
     public static SkinManager Instance { get { return _instance; } }
-
-
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -92,8 +90,38 @@ public class SkinManager : MonoBehaviour
     public const int PUREGAME = 29;
     public const int LUCKY = 30;
     public const int LONGWAY = 31;
+    //public const int TUTORIALPASS = 32;
+    //public const int SKIN_TUTORIALPASS = 33;
     public const int AI_EASY = 0;
     public const int AI_IMPOSSIBLE = 1;
+
+
+    public const int SAMOUCZEK_POCZATEK = 0;
+    public const int SAMOUCZEK_KOLEJNE_ZADANIE = 1;
+    public const int SAMOUCZEK_BRAK_CZERWONYCH = 2;
+    public const int SAMOUCZEK_ODRZUC_DWIE = 3;
+    public const int SAMOUCZEK_KONIEC_TURY = 4;
+    public const int SAMOUCZEK_ODRZUC_INNE_CZERWONE = 5;
+    public const int SAMOUCZEK_ODRZUC_ZADANIE_NIEBIESKIE15 = 6;
+    public const int SAMOUCZEK_TAPNIJ_CZERWONE15_ZADANIE = 7;
+    public const int SAMOUCZEK_ZDOBADZ_CZERWONE = 8;
+    public const int SAMOUCZEK_OTRZYMALES_PUNKT = 9;
+    public const int SAMOUCZEK_ODRZUC_INNE_ZIELONE = 10;
+    public const int SAMOUCZEK_TAPNIJ_ZIELONE14_ZADANIE = 11;
+    public const int SAMOUCZEK_ZDOBADZ_ZIELONE = 12;
+    public const int SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT = 13;
+    public const int SAMOUCZEK_ZMIEN_KOLORY = 14;
+    public const int SAMOUCZEK_ZDOBYLES_SZCZESCIARZ = 15;
+    public const int SAMOUCZEK_ZDOBYLES_TRUDNY = 16;
+    public const int SAMOUCZEK_TAPNIJ_CZERWONE33_ZADANIE = 17;
+    public const int SAMOUCZEK_PRZEMNOZ = 18;
+    public const int SAMOUCZEK_UKONCZ = 19;
+
+    public const int SAMOUCZEK_SKLEP_POCZATEK = 0;
+    public const int SAMOUCZEK_SKLEP_WLACZ_RAMKI = 1;
+    public const int SAMOUCZEK_SKLEP_ZMIEN_RAMKI = 2;
+    public const int SAMOUCZEK_SKLEP_WYBIERZ_RAMKE = 3;
+    public const int SAMOUCZEK_SKLEP_UKONCZ = 4;
 
     public const int PROGRAMISCI = 0;
     public const int GRAFICY = 1;
@@ -104,41 +132,69 @@ public class SkinManager : MonoBehaviour
     public const int DZWIEK = 6;
     public const int TRYB_GRY = 7;
     public const int GOTOWY = 8;
-    public static string[] SKORKI_PL = new string[] { "Widz� ogie�", "W�adca Pier�cieni", "Ziuuuu...", "Widzia�em ogie�", "W�adca pier�cieni", "ziuuuu...", "Pier�cionek",
-        "Aaaaaaa! Troll!","Jednoro�ec","Zagrajmy","Wszyscy razem", "Zimorodek"};
-    public static string[] RAMKI_PL = new string[] { "Z�oty prostok�t", "Bia�y kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
-        "Razem","Pok�j","Pianino","Fale","Z�ote fale","Podniebne fale","Trawiaste fale","R�owe fale","Ogniste fale"};
-    public static string[] TLA_PL = new string[] { "W sumie...", "Gwie�dzista noc", "G��boka przestrze�", "Ja�niejszy Summ On",  "Buuum","Galaktyka spiralna","T�cza","Mro�nie",
-        "Got�w, we�, rysuj","Palma","Storczyk","Na Ksi�yc!","Ziemia","Jezioro w lesie","Tak r�owo...","Kwiat","Jesie�","Kasztany","R�a", "��w",
-        "Saturn","System s�oneczny","Dziki i gro�ny","Fajerwerki","Gdzie jest skarb?"};
-    public static string[] MUZYKI_PL = new string[] { "Jak s�odko", "Szalona", "Jak mi�o" };
-    public static string[] OSIAGNIECIA_PL = new string[] { "Trudne pocz�tki", "Zmiana kart", "Szybki","Szybszy","Podw�jnie",
-        "Potr�jnie","Poczw�rnie","Zwyci�zca","Bystry","Bystrzejszy","Idealny Ucze�",
-        "Niechlujny Ucze�","Idealny Pracownik",
+    public static string[] SKORKI_PL = new string[] { "Widzê ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
+        "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
+    public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
+        "Razem","Pokój","Pianino","Fale","Złote fale","Podniebne fale","Trawiaste fale","Różowe fale","Ogniste fale"};
+    public static string[] TLA_PL = new string[] { "W sumie...", "Gwieździsta noc", "Głęboka przestrzeń", "Jaśniejszy Summ On",  "Buuum","Galaktyka spiralna","Tęcza","Mroźnie",
+        "Gotów, chwyć, rysuj","Palma","Storczyk","Na Księżyc!","Ziemia","Jezioro w lesie","Tak ró¿owo...","Kwiat","Jesień","Kasztany","Róża", "Żółw",
+        "Saturn","System słoneczny","Dziki i groźny","Fajerwerki","Gdzie jest skarb?"};
+    public static string[] MUZYKI_PL = new string[] { "Jak słodko", "Szalona", "Jak miło" };
+    public static string[] OSIAGNIECIA_PL = new string[] { "Trudne początki", "Zmiana kart", "Szybki","Szybszy","Podwójnie",
+        "Potrójnie","Poczwórnie","Zwycięzca","Bystry","Bystrzejszy","Idealny Uczeń",
+        "Niechlujny Uczeń","Idealny Pracownik",
         "Niechlujny Pracownik", "Idealny Akolita",
         "Niechlujny Akolita","Idealny Czeladnik",
-        "Niechlujny Czeladnk","Idealny Rzemie�lnik",
-        "Niechlujny Rzemie�lnik","Idealny Magik",
+        "Niechlujny Czeladnk","Idealny Rzemieślnik",
+        "Niechlujny Rzemieślnik","Idealny Magik",
         "Niechlujny Magik","Idealny Master",
         "Niechlujny Master", "Idealny Artysta",
         "Niechlujny Artysta","Idealny Czarodziej",
-        "Niechlujny Czarodziej","Bogactwo","Doskonale","Szcz�ciarz", 
-        "Daleka droga"}; 
-    public static string[] OSIAGNIECIA_OPIS_PL = new string[] { "Uko�czony samouczek", "Odblokowane zaawansowane karty mno�nik�w", "Szybszy ni� b�yskawica","Szybszy ni� �wiat�o","Pomn� dwukrotnie",
-        "Pomn� trzykrotnie","Pomn� czterokrotnie","Wygraj gr� solo","Wygraj gr� z komputerem (poziom hard)", "Wygraj gr� z innym graczem","Uzbieraj sam " + ACHIEVEMENT_PURE_1ST.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_1ST.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_1ST.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_2ND.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_2ND.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_2ND.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw innyms " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_3RD.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_3RD.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punkt�w - tylko za du�e wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_3RD.ToString() + " punkt�w - tylko idealne wyniki",
-        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punkt�w - tylko za du�e wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem pop�aca",
-        "U�yj 5 kart na raz, �eby zebra� idealny wynik"};
-    public static string[] MENU_PL = new string[] { "Programisci", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwyci�stwa", "Koniec tury gracza", "D�wi�k", "Tryb gry", "Gotowy" };
-   // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
-    public static string[] SAMOUCZEK_PL = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
+        "Niechlujny Czarodziej","Bogactwo","Doskonale","Szczęściarz", 
+        "Daleka droga"};
+    public static string[] OSIAGNIECIA_OPIS_PL = new string[] { "Ukończony samouczek", "Odblokowane zaawansowane karty mnożników", "Szybszy niż błyskawica","Szybszy niż œwiatło","Pomnóż dwukrotnie",
+        "Pomnóż trzykrotnie","Pomnóż czterokrotnie","Wygraj grę solo","Wygraj grę z komputerem (poziom hard)", "Wygraj grę z innym graczem","Uzbieraj sam " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innyms " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem popłaca",
+        "Użyj 5 kart na raz, żeby zebrać idealny wynik"};
+    public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", "Gotowy" };
+    // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
+    public static string[] SAMOUCZEK_PL = new string[] { 
+        "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
+        "Pojawiło się kolejne zadanie oraz dwie nowe karty, ponownie zakończ turę",
+        "Nadal brakuje Ci czerwonych kart, ponownie zakończ turę",
+        "Ponieważ w pasku dolnym masz za dużo kart, musisz odrzucić dwie do kosza",
+        "Zakończ turę",
+        "Odrzuć dwie karty w kolorze innym niż czerwony",
+        "Ponieważ zebrało się za dużo zadań, usuń niebieskie zadanie o wartości 15, tapnij je",
+        "Żeby zdobyć punkty za czerwoną kartę zadań, tapnij ją",
+        "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
+        "Otrzymałeś dokładnie jeden punkt. Zakończ turę",
+        "Odrzuć jedną kartę w kolorze innym niż zielony",
+        "Tapnij zielone zadanie o wartości 14",
+        "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
+        "Ponieważ 8+7=15 jest większe od 14, otrzymałeś jedynie 0,49 punktu. Zakończ turę",
+        "Ponieważ dużo zadań jest w tym samym kolorze, możesz zmienić je, wydając 1 punkt. Tapnij obraz z podkową i kostkami",
+        "Zdobyłeś osiągnięcie 'Szczęściarz' i 5 monet na zakup skórek. Graj dalej, żeby zdobyć 6 punktów",
+        "Zdobyłeś osiągnięcie 'Trudne' i 5 monet na zakup skórek. Zakończ turę",
+        "Tapnij czerwone zadanie 33",
+        "Tapnij kartę 11 czerwone z dolnego przybornika, przeciągnij na nią kartę '3x' z prawego rogu i zaakceptuj znakiem √",
+        "Zdobyłeś 3 punkty i ukończyłeś samouczek. Możesz dokończyć grę i wydać monety w sklepie ze skórkami"
+        };
+    public static string[] SAMOUCZEK_SKLEP_PL = new string[] { 
+        "Zmień wygląd karty. Tapnij obrazek → lub ←",
+        "Ponieważ nie został jeszcze odblokowany, widzisz ikonę monet. Koszt ($) zmienił kolor na czerwony. Tapnij obrazek ramki obok motyla",
+        "Teraz zmień wygląd ramki. Tapnij obrazek → lub ←",
+        "Koszt zmienił kolor na zielony. Wybierz dowolną ramkę i kup ją tapnięciem na ikonę monet tuż obok wybranej ramki",
+        "Kupiona ramka jest aktywna. Aktywne skórki ustawiasz tapnięciem na znak √"
+        };
 
     public static string[] SKORKI_EN = new string[] { "I see fire", "Lord of the Rings", "Ziiiiip...", "I saw fire", "lord of the rings", "ziiip...", "Eye ring",
         "Aaaaaaa! A troll!","The unicorn","Lets play","All together", "The kingfisher"};
@@ -159,7 +215,7 @@ public class SkinManager : MonoBehaviour
         "Messy Master", "Pure Artist",
         "Messy Artist","Pure Mage",
         "Messy Mage","Richness","Excelent","Lucky", 
-        "Long way"};   
+        "Long way"};
     public static string[] OSIAGNIECIA_OPIS_EN = new string[] { "Pass the tutorial", "The first mixed multiply available", "Faster than bolt","Faster than light","Multiply twice",
         "Multiply triple","Multiply quad","Win solo game","Win game against computer (hard level)", "Win game against human","Gain solo " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value",
         "Gain solo " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " score - only bigger than task value","Gain AI games " + ACHIEVEMENT_PURE_1ST.ToString() + " score - only the exact task value",
@@ -171,10 +227,37 @@ public class SkinManager : MonoBehaviour
         "Gain solo " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","Gain AI games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
         "Gain AI games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","Gain PVP games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
         "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","I'm rich...","Just excelent game", "The risk is sometimes better",
-        "Use 5 card at row to collect pure result"};  
-    public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers","Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode", "Ready" };
-    public static string[] SAMOUCZEK_EN = new string[] { RED_TEXT, GREEN_TEXT, BLUE_TEXT };
-             
+        "Use 5 card at row to collect pure result"};
+    public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode", "Ready" };
+    public static string[] SAMOUCZEK_EN = new string[] { 
+        "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
+        "You see next task and two new cards. Again end turn",
+        "You still empty with red cards. Again end turn",
+        "Because you have too many cards you need to discard 2 cards to the trash",
+        "End turn now",
+        "Discard two cards in colour different than red",
+        "Because you have too many task, discard blue task with a value 15, just tap it",
+        "Tap red task card to collect points",
+        "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
+        "You received exactly one point. End turn now.",
+        "Discard one card in colour different than green",
+        "Tap green task with a value 14",
+        "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
+        "Because 8+7=15 is greater than 14, you received only 0,49 point. End turn now",
+        "Because of many task are the same colour you can change it by cost of 1 point. Tap the horseshoe and dice picture",
+        "You earned the achievement 'Lucky' and 5 coins to buy skins. keep playing until you get 6 points",
+        "You earned the achievement 'Hardly' and 5 coins to buy skins. End turn now",
+        "Tap red task with a value 33",
+        "Tap red card 11 at bottom tray, then drag on it the card '3x' from right bottom corner and accept by tapping green mark √",
+        "You earned 3 points and finished tutorial. You can continue game and spend coins at the skins shop"
+        };
+    public static string[] SAMOUCZEK_SKLEP_EN = new string[] { 
+        "Change the cards look. Tap the picture → or ←",
+        "Because skin isn't unlock, you see coins icon. The price($) changed colour to red. Tap frame picture near butterfly",
+        "Change the frame look now. Tap the picture → lub ←",
+        "The price($) changed colour to green. Choose any frame and buy it by tapping coins icon near choosen frame",
+        "The bought frame is now active. You set active skins by tapping on the mark √"
+        };
 
 
 
@@ -299,7 +382,10 @@ public class SkinManager : MonoBehaviour
     public string DebugToShow;
     public string AIPToShow;
     public string UserID;
-    
+
+    public bool isTutorialPass = false;
+    public bool isSkinTutorialPass = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -376,7 +462,7 @@ public class SkinManager : MonoBehaviour
         ramki.Add(new SkinsInfo("WaveRed", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[14]));
         //
         tla.Add(new SkinsInfo("SplashScreen", GameManager.BACKGROUND_STATIC, tlaLang[0]));
-        tla.Add(new SkinsInfo("NGC_5477_Hubble", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE,tlaLang[1]));
+        tla.Add(new SkinsInfo("NGC_5477_Hubble", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[1]));
         tla.Add(new SkinsInfo("STSCI-H-p2003c-m", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[2]));
         tla.Add(new SkinsInfo("SummOnLight", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[3]));
         tla.Add(new SkinsInfo("STSCI-H-p1918a-f", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[4]));
@@ -401,14 +487,14 @@ public class SkinManager : MonoBehaviour
         tla.Add(new SkinsInfo("Lions", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[22]));
         tla.Add(new SkinsInfo("Fireworks", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[23]));
         tla.Add(new SkinsInfo("OldMap", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[24]));
-            
-                
-                    
+
+
+
         //
         muzyki.Add(new SkinsInfo("Island Puzzle Acoustic", GameManager.SOUND_BACKGROUND, muzykiLang[0]));
         muzyki.Add(new SkinsInfo("Crazy Puzzle Electronic", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[1]));
         muzyki.Add(new SkinsInfo("Epic Puzzle Orchestral", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[2]));
-       // ResetAllSkins();
+        // ResetAllSkins();
 
 
         osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[0], osiagnieciaOpisLang[0]));//ID, type, progress, reward, descripton 
@@ -445,16 +531,16 @@ public class SkinManager : MonoBehaviour
 
         osiagniecia.Add(new AchievementInfo("UnlockAllSkins", HIDDEN_ACHIEVEMENT, 0, 0, osiagnieciaLang[28], osiagnieciaOpisLang[28]));
         osiagniecia.Add(new AchievementInfo("PureGame", NORMAL_ACHIEVEMENT, 0, 30, osiagnieciaLang[29], osiagnieciaOpisLang[29]));
-        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 10, osiagnieciaLang[30], osiagnieciaOpisLang[30]));
-        osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[31],osiagnieciaOpisLang[31]));
-       // ResetAllAchievements();
+        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[30], osiagnieciaOpisLang[30]));
+        osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[31], osiagnieciaOpisLang[31]));
+        // ResetAllAchievements();
         LoadUserData();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public static string Md5Sum(string strToEncrypt)
@@ -476,7 +562,7 @@ public class SkinManager : MonoBehaviour
     public void SetUserID()
     {
         string pom = PlayerPrefs.GetString("UserID");
-        
+
         //Debug.Log(pom.Length);
         if (pom.Length <= 0)
         {
@@ -484,7 +570,7 @@ public class SkinManager : MonoBehaviour
             //Debug.Log(pom);
             pom = Md5Sum(pom);
             //Debug.Log("Po:" + pom);
-            PlayerPrefs.SetString("UserID", pom); 
+            PlayerPrefs.SetString("UserID", pom);
             SkinManager.instance.UserID = pom;
         }
         else
@@ -520,7 +606,18 @@ public class SkinManager : MonoBehaviour
         SetNotPurePVP(0);
         ResetBestResult();
         LoadUserData();
-        
+
+    }
+
+    public void ResetTutorial()
+    {
+        PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[0].ID, 0);
+        PlayerPrefs.SetInt("isTutorialPass", false ? 1 : 0);
+    }
+
+    public void ResetSkinTutorial()
+    {
+        PlayerPrefs.SetInt("isSkinTutorialPass", false ? 1 : 0);
     }
 
     public void ResetCash()
@@ -555,7 +652,7 @@ public class SkinManager : MonoBehaviour
     {
         bool isUnlockAllSkins = true;
         AchievementInfo tmpAchievement;
-        
+
 #if HTML5
         ActiveSkin = 3;
 #else
@@ -581,7 +678,7 @@ public class SkinManager : MonoBehaviour
         VictoryPointFirstValue = PlayerPrefs.GetInt("VictoryPointFirst");
         VictoryTimePassValue = PlayerPrefs.GetInt("VictoryTimePass");
         ActiveVictoryConditions = PlayerPrefs.GetInt("ActiveVictoryConditions");
-        Debug.Log("ActiveVictoryConditions:"+ActiveVictoryConditions);
+        Debug.Log("ActiveVictoryConditions:" + ActiveVictoryConditions);
         if (ActiveVictoryConditions == 0)
         {
             SkinManager.instance.SetIsVictoryTimePass(true);
@@ -620,12 +717,12 @@ public class SkinManager : MonoBehaviour
         LongWay = (PlayerPrefs.GetInt("LongWay") != 0);
         AIDifficulty = PlayerPrefs.GetInt("AIDifficulty");
         //TODO progres
-       // Debug.Log(osiagniecia.Count);
-       // Debug.Log(PURE1KSOLO);
-       /* if (PlayerPrefs.GetInt(SkinManager.instance.osiagniecia[SkinManager.PURE1KSOLO].ID) == null)
-        {
-            PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.PURE1KSOLO].ID, 0);
-        }*/
+        // Debug.Log(osiagniecia.Count);
+        // Debug.Log(PURE1KSOLO);
+        /* if (PlayerPrefs.GetInt(SkinManager.instance.osiagniecia[SkinManager.PURE1KSOLO].ID) == null)
+         {
+             PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.PURE1KSOLO].ID, 0);
+         }*/
         isPureSolo1 = (PlayerPrefs.GetInt(osiagniecia[PURE1KSOLO].ID) != 0);
         tmpAchievement = SkinManager.instance.osiagniecia[SkinManager.PURE1KSOLO];
         tmpAchievement.Progress = PureSolo;
@@ -736,6 +833,13 @@ public class SkinManager : MonoBehaviour
             isUnlockAllSkins = isUnlockAllSkins && (PlayerPrefs.GetInt(SkinManager.instance.muzyki[i].Name) != 0);
         }
 
+        if (MiddlePass)
+        {
+            PlayerPrefs.SetInt("isTutorialPass", true ? 1 : 0);
+        }
+        isSkinTutorialPass = (PlayerPrefs.GetInt("isSkinTutorialPass") != 0);
+        isTutorialPass = (PlayerPrefs.GetInt("isTutorialPass") != 0);
+
         if (isUnlockAllSkins)
         {
             if (!SkinManager.instance.UnlockAllSkins)
@@ -748,6 +852,16 @@ public class SkinManager : MonoBehaviour
         }
 
 
+    }
+
+    public void SetIsTutorialPass(bool Value)
+    {
+        isTutorialPass = Value;
+    }
+
+    public void SetIsSkinTutorialPass(bool Value)
+    {
+        isSkinTutorialPass = Value;
     }
 
     public void SetLongWay(bool Value)
@@ -780,7 +894,7 @@ public class SkinManager : MonoBehaviour
     }
     public void SetIsPureSI1(bool Value)
     {
-        isPureSI1= Value;
+        isPureSI1 = Value;
     }
     public void SetIsNotPureSI1(bool Value)
     {
@@ -921,7 +1035,7 @@ public class SkinManager : MonoBehaviour
     {
         AIPToShow += Value;
     }
-    
+
     public string GetAIPToShow()
     {
         return AIPToShow;
@@ -1017,7 +1131,7 @@ public class SkinManager : MonoBehaviour
     {
         CurrentCash = Value;
     }
-    
+
 
 
     void Awake()
@@ -1025,12 +1139,12 @@ public class SkinManager : MonoBehaviour
         //!!root game object only
         //DontDestroyOnLoad(transform.gameObject);
         if (osiagniecia.Count > 0)
-        LoadUserData();
+            LoadUserData();
     }
 
     void OnEnable()
     {
         if (osiagniecia.Count > 0)
-        LoadUserData();
+            LoadUserData();
     }
 }
