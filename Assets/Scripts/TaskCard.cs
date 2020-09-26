@@ -208,8 +208,13 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             &&((gm.activeTutorialStep==SkinManager.SAMOUCZEK_POCZATEK)||
                 (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)||
                 (gm.activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)||
-                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
-                
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_ZMIEN_KOLORY)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ)
                 )
             )
         {
@@ -235,14 +240,30 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     if (gm.activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE)//
                 {
                     //Debug.Log("KOLOR:" + colorText.text);
-                    Debug.Log("Wartosc:" + valueText.text);
-                    Debug.Log(int.Parse(valueText.text) != 16);
+                    //Debug.Log("Wartosc:" + valueText.text);
+                    //Debug.Log(int.Parse(valueText.text) != 16);
                     int val = 16;
-                    if ((colorText.text != GameManager.RED_TEXT)&&(int.Parse(valueText.text) != 16))
+                    if ((colorText.text != GameManager.RED_TEXT)||(int.Parse(valueText.text) != 16))
                         return;
                     else
                         gm.activeTutorialStep = SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE;
                 }
+                else
+                        if (gm.activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE11_ZADANIE)//
+                {
+                    if ((colorText.text != GameManager.RED_TEXT)||(int.Parse(valueText.text) != 11))
+                        return;
+                    else
+                        gm.activeTutorialStep = SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11;
+                }
+                else
+                    if (gm.activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE33_ZADANIE)//
+                    {
+                        if ((colorText.text != GameManager.RED_TEXT) || (int.Parse(valueText.text) != 33))
+                            return;
+                        else
+                            gm.activeTutorialStep = SkinManager.SAMOUCZEK_PRZEMNOZ;
+                    }
                     
             }
        /* Debug.Log("TUTORIAL Step:" + gm.activeTutorialStep);

@@ -106,9 +106,9 @@ public class SkinManager : MonoBehaviour
     public const int SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE = 7;
     public const int SAMOUCZEK_ZDOBADZ_CZERWONE = 8;
     public const int SAMOUCZEK_OTRZYMALES_PUNKT = 9;
-    public const int SAMOUCZEK_ODRZUC_INNE_ZIELONE = 10;
-    public const int SAMOUCZEK_TAPNIJ_ZIELONE14_ZADANIE = 11;
-    public const int SAMOUCZEK_ZDOBADZ_ZIELONE = 12;
+    public const int SAMOUCZEK_ODRZUC_ZIELONE = 10;
+    public const int SAMOUCZEK_TAPNIJ_CZERWONE11_ZADANIE = 11;
+    public const int SAMOUCZEK_ZDOBADZ_CZERWONE11 = 12;
     public const int SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT = 13;
     public const int SAMOUCZEK_ZMIEN_KOLORY = 14;
     public const int SAMOUCZEK_ZDOBYLES_SZCZESCIARZ = 15;
@@ -177,11 +177,11 @@ public class SkinManager : MonoBehaviour
         "Żeby zdobyć punkty za czerwoną kartę (16) zadań, tapnij ją",
         "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
         "Otrzymałeś dokładnie jeden punkt. Zakończ turę",
-        "Odrzuć jedną kartę w kolorze innym niż zielony",
-        "Tapnij zielone zadanie o wartości 14",
-        "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
-        "Ponieważ 8+7=15 jest większe od 14, otrzymałeś jedynie 0,49 punktu. Zakończ turę",
-        "Ponieważ dużo zadań jest w tym samym kolorze, możesz zmienić je, wydając 1 punkt. Tapnij obraz z podkową i kostkami",
+        "Odrzuć dwie karty w kolorze innym niż czerwony",
+        "Tapnij czerwone zadanie o wartości 11",
+        "Tapnij po kolei dwie karty (6) z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
+        "Ponieważ 6+6=12 jest większe od 11, otrzymałeś jedynie 0,48 punktu. Zakończ turę",
+        "\n \n \n \n \n \nPonieważ dużo zadań jest w tym samym kolorze, możesz zmienić je, wydając 1 punkt. Tapnij obraz z podkową i kostkami",
         "Zdobyłeś osiągnięcie '"+OSIAGNIECIA_PL[LUCKY]+"' i 5 monet na zakup skórek. Graj dalej, żeby zdobyć 6 punktów",
         "Zdobyłeś osiągnięcie '"+OSIAGNIECIA_PL[LATEPASS]+"' i 5 monet na zakup skórek. Zakończ turę",
         "Tapnij czerwone zadanie 33",
@@ -240,10 +240,10 @@ public class SkinManager : MonoBehaviour
         "Tap red task card (16) to collect points",
         "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
         "You received exactly one point. End turn now.",
-        "Discard one card in colour different than green",
-        "Tap green task with a value 14",
-        "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
-        "Because 8+7=15 is greater than 14, you received only 0,49 point. End turn now",
+        "Discard two cards in colour different than czerwony",
+        "Tap red task with a value 11",
+        "Tap two cards (2) from bottom tray, one by one and accept by tapping at green mark √",
+        "Because 6+6=12 is greater than 11, you received only 0,48 point. End turn now",
         "Because of many task are the same colour you can change it by cost of 1 point. Tap the horseshoe and dice picture",
         "You earned the achievement '"+OSIAGNIECIA_PL[LUCKY]+"' and 5 coins to buy skins. keep playing until you get 6 points",
         "You earned the achievement '"+OSIAGNIECIA_EN[LATEPASS]+"' and 5 coins to buy skins. End turn now",

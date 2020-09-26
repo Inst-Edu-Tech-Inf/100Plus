@@ -2008,6 +2008,13 @@ Android uses files inside a compressed APK
         int howManyCards = actualTaskCardsCount;
         //if (actualTaskCardsCount <= maxTaskCards)
         //    howManyCards--;
+        if (!SkinManager.instance.MiddlePass)
+        {
+            if (activeTutorialStep == SkinManager.SAMOUCZEK_ZMIEN_KOLORY)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ;
+            }
+        }
 
         if (!SkinManager.instance.Lucky)
         {
@@ -2491,10 +2498,23 @@ Android uses files inside a compressed APK
             //activeTutorialColor = activeTutorialColor + 0.01f;
             //if ((activeTutorialColor == 0) || (activeTutorialColor == 150) || (activeTutorialColor == 250))
             {
-                endTurnBtn.GetComponent<Outline>().effectColor = new Color(activeTutorialColor, activeTutorialColor-0.5f, activeTutorialColor-0.5f);
+                if (activeTutorialStep < SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ)
+                    endTurnBtn.GetComponent<Outline>().effectColor = new Color(activeTutorialColor, activeTutorialColor-0.5f, activeTutorialColor-0.5f);
+                if ((activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE)||
+                    (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11))//
+                {
+                    collectPointsBtn.GetComponent<Outline>().effectColor = new Color(activeTutorialColor, activeTutorialColor - 0.5f, activeTutorialColor - 0.5f);
+                }
+
                 //Debug.Log(activeTutorialColor);
             }
-            if (activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE)//
+
+            if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)//
+            {
+                collectPointsBtn.GetComponent<Outline>().effectColor = new Color(activeTutorialColor, activeTutorialColor - 0.5f, activeTutorialColor - 0.5f);
+            }
+            if ((activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE)||
+                (activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE11_ZADANIE))
             {
                 endTurnBtn.GetComponent<Outline>().effectColor = new Color(1, 1, 1);
             }
@@ -3732,6 +3752,13 @@ Android uses files inside a compressed APK
         {
             if (playerCards.Count > maxPlayerCards)
             {
+                if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                {
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_ZIELONE)//
+                    {
+                        activeTutorialStep = SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE11_ZADANIE;
+                    }
+                }
                 hands.SetActive(true);//tutaj
                 //tasks.SetActive(false);
                 tasks.SetActive(true);
@@ -3743,8 +3770,10 @@ Android uses files inside a compressed APK
             }
             else
             {
+                
                 if (powerUpCards.Count > maxPowerUpCards)
                 {
+                    
                     powerUps.SetActive(true);
                     //hands.SetActive(false);
                     //tasks.SetActive(false);
@@ -3757,7 +3786,7 @@ Android uses files inside a compressed APK
                     //Debug.Log("Step:" + activeTutorialStep);
                     if (!SkinManager.instance.MiddlePass)//zacznij tutorial
                     {
-                        
+                        //Debug.Log("StepTrash:" + activeTutorialStep);
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE)//
                         {
                             activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_ZADANIE_ZIELONE15;
@@ -3834,7 +3863,11 @@ Android uses files inside a compressed APK
             if ((activeTutorialStep != SkinManager.SAMOUCZEK_POCZATEK)&&
                 (activeTutorialStep != SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)&&
                 (activeTutorialStep != SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)&&
-                (activeTutorialStep != SkinManager.SAMOUCZEK_KONIEC_TURY)
+                (activeTutorialStep != SkinManager.SAMOUCZEK_KONIEC_TURY)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
                 )
             
             {
@@ -3900,7 +3933,18 @@ Android uses files inside a compressed APK
                         {
                             DrawPlayerCard(RED_TEXT, 8);
                         }
-                            
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
+                        {
+                            DrawPlayerCard(RED_TEXT, 6);
+                        }
+                        else
+                            if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+                        {
+                                if (playerCards.Count > 6)
+                                    DiscardPlayerCard(playerCards[0]);
+                            DrawPlayerCard(RED_TEXT, 11); 
+                        }
                         else
                             DrawPlayerCard();
                         
@@ -3936,6 +3980,21 @@ Android uses files inside a compressed APK
                             DrawTaskCard(GREEN_TEXT, Random.Range(10, 19));
                         }
                         else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
+                        {
+                            DrawTaskCard(RED_TEXT, 11);
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)
+                        {
+                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+                        {
+                            DrawTaskCard(RED_TEXT, 33);
+                        }    
+                        else
                             DrawTaskCard();
                     }
                     else
@@ -3954,6 +4013,18 @@ Android uses files inside a compressed APK
                     }
                     else
                     {
+                        if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                        {
+                            if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+                            {
+                                DrawPowerUpCard(3, 3, 3);
+                            }
+                            else
+                            {
+                                DrawPowerUpCard();
+                            }
+                        }
+                        else
                         DrawPowerUpCard();//player1
                     }
                     //DrawPowerUpCard(3, 4, 5);//for player2(Client) to set it 
@@ -4079,6 +4150,18 @@ Android uses files inside a compressed APK
                 if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
             {
                 activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE;
+            }
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_ZIELONE;
+            }
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_ZMIEN_KOLORY;
+            }
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE33_ZADANIE;
             }
             
         }
@@ -4366,6 +4449,8 @@ Android uses files inside a compressed APK
         double Pom;
         double aiResult, needed;
 
+        
+
         if (aiPointsGet > aiTaskNeed)
         {
             aiResult = aiPointsGet;
@@ -4542,6 +4627,34 @@ Android uses files inside a compressed APK
         }
         if (Victory == Suma)
         {
+            if (!SkinManager.instance.MiddlePass)
+            {
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE)//
+                {
+                    activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT;
+                }
+                else
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11)//
+                {
+                    activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT;
+                }                
+                else
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ)//
+                    {
+                        //Debug.Log("STEPlast:" + activeTutorialStep);
+                        activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
+                        infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
+                        //Debug.Log("STEPAfter:" + activeTutorialStep);
+                        //achievement
+                        if (!SkinManager.instance.MiddlePass)
+                        {
+                                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
+                                SkinManager.instance.SetMiddlePass(true);
+                                AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
+                                ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                        }
+                    }
+            }
             isScored = true;
             Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
             AddAchievementPurePoint((float)Pom);
@@ -4632,6 +4745,27 @@ Android uses files inside a compressed APK
         {
             if (Suma > Victory) 
             {
+                if (!SkinManager.instance.MiddlePass)
+                {
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11)//
+                    {
+                        activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT;
+                    }
+                    else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ)//
+                        {
+                            activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
+                            infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
+                            //achievement
+                            if (!SkinManager.instance.MiddlePass)
+                            {
+                                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
+                                SkinManager.instance.SetMiddlePass(true);
+                                AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
+                                ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                            }
+                        }
+                }
                 isPureGame = false;
                 isScored = true;
                 Pom = (Suma - Victory) / (Victory);
@@ -4729,6 +4863,14 @@ Android uses files inside a compressed APK
         {
             if (GetVictoryPoints() < middleGamePoint)
             {
+                if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                {
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ)//
+                    {
+                        activeTutorialStep = SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY;
+                    }
+
+                }
                 //achievement
                 /*if (!SkinManager.instance.MiddlePass)
                 {
@@ -4747,13 +4889,6 @@ Android uses files inside a compressed APK
                         ShowAchievementPanel(SkinManager.FASTERTHANLIGHTMIDDLE);
                     }
                 }
-                slider.minValue = earlyGamePoint;
-                slider.maxValue = middleGamePoint;
-                maxPlayerCards = maxPlayerCardsAddMidle;
-                maxTaskCards = maxTaskCardsAddMiddle;
-            }
-            else//lateGame
-            {
                 if (!SkinManager.instance.LatePass)
                 {
                     PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.LATEPASS].ID, true ? 1 : 0);
@@ -4761,6 +4896,20 @@ Android uses files inside a compressed APK
                     AddCash(SkinManager.instance.osiagniecia[SkinManager.LATEPASS].Reward);
                     ShowAchievementPanel(SkinManager.LATEPASS);
                 }
+                slider.minValue = earlyGamePoint;
+                slider.maxValue = middleGamePoint;
+                maxPlayerCards = maxPlayerCardsAddMidle;
+                maxTaskCards = maxTaskCardsAddMiddle;
+            }
+            else//lateGame
+            {
+                /*if (!SkinManager.instance.LatePass)
+                {
+                    PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.LATEPASS].ID, true ? 1 : 0);
+                    SkinManager.instance.SetLatePass(true);
+                    AddCash(SkinManager.instance.osiagniecia[SkinManager.LATEPASS].Reward);
+                    ShowAchievementPanel(SkinManager.LATEPASS);
+                }*/
                 if (!SkinManager.instance.FasterThanLightLate)
                 {
                     if (timeFromStart < SkinManager.FASTER_THAN_LIGHT_LATE)

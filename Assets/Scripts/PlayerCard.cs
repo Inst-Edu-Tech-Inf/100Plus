@@ -231,7 +231,10 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             //Debug.Log("TRASH:" + additionText.text);
             if ((!SkinManager.instance.MiddlePass)// tutorial
-            &&(gm.activeTutorialStep==SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE))
+            &&((gm.activeTutorialStep==SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE)||
+                (gm.activeTutorialStep==SkinManager.SAMOUCZEK_ODRZUC_ZIELONE))
+                
+                )
             {
                 //Debug.Log("MiddlePass");
                 Color redColor = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
