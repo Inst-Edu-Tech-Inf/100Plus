@@ -102,8 +102,8 @@ public class SkinManager : MonoBehaviour
     public const int SAMOUCZEK_ODRZUC_DWIE = 3;
     public const int SAMOUCZEK_KONIEC_TURY = 4;
     public const int SAMOUCZEK_ODRZUC_INNE_CZERWONE = 5;
-    public const int SAMOUCZEK_ODRZUC_ZADANIE_NIEBIESKIE15 = 6;
-    public const int SAMOUCZEK_TAPNIJ_CZERWONE15_ZADANIE = 7;
+    public const int SAMOUCZEK_ODRZUC_ZADANIE_ZIELONE15 = 6;
+    public const int SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE = 7;
     public const int SAMOUCZEK_ZDOBADZ_CZERWONE = 8;
     public const int SAMOUCZEK_OTRZYMALES_PUNKT = 9;
     public const int SAMOUCZEK_ODRZUC_INNE_ZIELONE = 10;
@@ -173,8 +173,8 @@ public class SkinManager : MonoBehaviour
         "Ponieważ w pasku dolnym masz za dużo kart, musisz odrzucić dwie do kosza",
         "Zakończ turę",
         "Odrzuć dwie karty w kolorze innym niż czerwony",
-        "Ponieważ zebrało się za dużo zadań, usuń niebieskie zadanie o wartości 15, tapnij je",
-        "Żeby zdobyć punkty za czerwoną kartę zadań, tapnij ją",
+        "Ponieważ zebrało się za dużo zadań, usuń zielone zadanie, tapnij je",
+        "Żeby zdobyć punkty za czerwoną kartę (16) zadań, tapnij ją",
         "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
         "Otrzymałeś dokładnie jeden punkt. Zakończ turę",
         "Odrzuć jedną kartę w kolorze innym niż zielony",
@@ -182,8 +182,8 @@ public class SkinManager : MonoBehaviour
         "Tapnij po kolei obie karty z dolnego przybornika i zaakceptuj tapnięciem w zielony znak √",
         "Ponieważ 8+7=15 jest większe od 14, otrzymałeś jedynie 0,49 punktu. Zakończ turę",
         "Ponieważ dużo zadań jest w tym samym kolorze, możesz zmienić je, wydając 1 punkt. Tapnij obraz z podkową i kostkami",
-        "Zdobyłeś osiągnięcie 'Szczęściarz' i 5 monet na zakup skórek. Graj dalej, żeby zdobyć 6 punktów",
-        "Zdobyłeś osiągnięcie 'Trudne' i 5 monet na zakup skórek. Zakończ turę",
+        "Zdobyłeś osiągnięcie '"+OSIAGNIECIA_PL[LUCKY]+"' i 5 monet na zakup skórek. Graj dalej, żeby zdobyć 6 punktów",
+        "Zdobyłeś osiągnięcie '"+OSIAGNIECIA_PL[LATEPASS]+"' i 5 monet na zakup skórek. Zakończ turę",
         "Tapnij czerwone zadanie 33",
         "Tapnij kartę 11 czerwone z dolnego przybornika, przeciągnij na nią kartę '3x' z prawego rogu i zaakceptuj znakiem √",
         "Zdobyłeś 3 punkty i ukończyłeś samouczek. Możesz dokończyć grę i wydać monety w sklepie ze skórkami"
@@ -236,8 +236,8 @@ public class SkinManager : MonoBehaviour
         "Because you have too many cards you need to discard 2 cards to the trash",
         "End turn now",
         "Discard two cards in colour different than red",
-        "Because you have too many task, discard blue task with a value 15, just tap it",
-        "Tap red task card to collect points",
+        "Because you have too many task, discard green task, just tap it",
+        "Tap red task card (16) to collect points",
         "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
         "You received exactly one point. End turn now.",
         "Discard one card in colour different than green",
@@ -245,8 +245,8 @@ public class SkinManager : MonoBehaviour
         "Tap both cards from bottom tray, one by one and accept by tapping at green mark √",
         "Because 8+7=15 is greater than 14, you received only 0,49 point. End turn now",
         "Because of many task are the same colour you can change it by cost of 1 point. Tap the horseshoe and dice picture",
-        "You earned the achievement 'Lucky' and 5 coins to buy skins. keep playing until you get 6 points",
-        "You earned the achievement 'Hardly' and 5 coins to buy skins. End turn now",
+        "You earned the achievement '"+OSIAGNIECIA_PL[LUCKY]+"' and 5 coins to buy skins. keep playing until you get 6 points",
+        "You earned the achievement '"+OSIAGNIECIA_EN[LATEPASS]+"' and 5 coins to buy skins. End turn now",
         "Tap red task with a value 33",
         "Tap red card 11 at bottom tray, then drag on it the card '3x' from right bottom corner and accept by tapping green mark √",
         "You earned 3 points and finished tutorial. You can continue game and spend coins at the skins shop"
@@ -385,6 +385,8 @@ public class SkinManager : MonoBehaviour
 
     public bool isTutorialPass = false;
     public bool isSkinTutorialPass = false;
+    public string[] TutorialLang;
+    public string[] SkinTutorialLang;
 
 
     // Start is called before the first frame update
@@ -409,6 +411,8 @@ public class SkinManager : MonoBehaviour
                 muzykiLang = MUZYKI_EN;
                 osiagnieciaLang = OSIAGNIECIA_EN;
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
+                TutorialLang = SAMOUCZEK_EN;
+                SkinTutorialLang = SAMOUCZEK_SKLEP_EN;
                 break;
             case SystemLanguage.Polish:
                 skorkiLang = SKORKI_PL;
@@ -417,6 +421,8 @@ public class SkinManager : MonoBehaviour
                 muzykiLang = MUZYKI_PL;
                 osiagnieciaLang = OSIAGNIECIA_PL;
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_PL;
+                TutorialLang = SAMOUCZEK_PL;
+                SkinTutorialLang = SAMOUCZEK_SKLEP_PL;
                 break;
             default:
                 skorkiLang = SKORKI_EN;
@@ -425,6 +431,8 @@ public class SkinManager : MonoBehaviour
                 muzykiLang = MUZYKI_EN;
                 osiagnieciaLang = OSIAGNIECIA_EN;
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
+                TutorialLang = SAMOUCZEK_EN;
+                SkinTutorialLang = SAMOUCZEK_SKLEP_EN;
                 break;
         }
         //.Log(Application.systemLanguage);
@@ -497,8 +505,8 @@ public class SkinManager : MonoBehaviour
         // ResetAllSkins();
 
 
-        osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[0], osiagnieciaOpisLang[0]));//ID, type, progress, reward, descripton 
-        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[1], osiagnieciaOpisLang[1]));
+        osiagniecia.Add(new AchievementInfo("MiddlePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[MIDDLEPASS], osiagnieciaOpisLang[MIDDLEPASS]));//ID, type, progress, reward, descripton 
+        osiagniecia.Add(new AchievementInfo("LatePass", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[LATEPASS], osiagnieciaOpisLang[LATEPASS]));
         osiagniecia.Add(new AchievementInfo("FasterThanLightMiddle", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[2], osiagnieciaOpisLang[2]));
         osiagniecia.Add(new AchievementInfo("FasterThanLightLate", NORMAL_ACHIEVEMENT, 0, 15, osiagnieciaLang[3], osiagnieciaOpisLang[3]));
         osiagniecia.Add(new AchievementInfo("MultiplyTwice", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[4], osiagnieciaOpisLang[4]));
@@ -531,7 +539,7 @@ public class SkinManager : MonoBehaviour
 
         osiagniecia.Add(new AchievementInfo("UnlockAllSkins", HIDDEN_ACHIEVEMENT, 0, 0, osiagnieciaLang[28], osiagnieciaOpisLang[28]));
         osiagniecia.Add(new AchievementInfo("PureGame", NORMAL_ACHIEVEMENT, 0, 30, osiagnieciaLang[29], osiagnieciaOpisLang[29]));
-        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[30], osiagnieciaOpisLang[30]));
+        osiagniecia.Add(new AchievementInfo("Lucky", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[LUCKY], osiagnieciaOpisLang[LUCKY]));
         osiagniecia.Add(new AchievementInfo("LongWay", NORMAL_ACHIEVEMENT, 0, 5, osiagnieciaLang[31], osiagnieciaOpisLang[31]));
         // ResetAllAchievements();
         LoadUserData();
@@ -613,6 +621,7 @@ public class SkinManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[0].ID, 0);
         PlayerPrefs.SetInt("isTutorialPass", false ? 1 : 0);
+        PlayerPrefs.SetInt("Lucky", false ? 1 : 0);
     }
 
     public void ResetSkinTutorial()

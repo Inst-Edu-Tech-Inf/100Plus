@@ -203,6 +203,54 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         //Debug.Log(pointerEventData);
+        Debug.Log("TUTORIAL Step:" + gm.activeTutorialStep);
+        if ((!SkinManager.instance.MiddlePass)//zacznij tutorial
+            &&((gm.activeTutorialStep==SkinManager.SAMOUCZEK_POCZATEK)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                
+                )
+            )
+        {
+           /* Debug.Log("TUTORIAL Step:" + gm.activeTutorialStep);
+            Debug.Log(gm.activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK);
+            Debug.Log(gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE);
+            Debug.Log((gm.activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK) ||
+                (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE));*/
+            return;
+        }
+        else
+            if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+            {
+
+                if (gm.activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_ZADANIE_ZIELONE15)//
+                {
+                    if (colorText.text != GameManager.GREEN_TEXT)
+                        return;
+                    else
+                        gm.activeTutorialStep = SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE;
+                }
+                else
+                    if (gm.activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE)//
+                {
+                    //Debug.Log("KOLOR:" + colorText.text);
+                    Debug.Log("Wartosc:" + valueText.text);
+                    Debug.Log(int.Parse(valueText.text) != 16);
+                    int val = 16;
+                    if ((colorText.text != GameManager.RED_TEXT)&&(int.Parse(valueText.text) != 16))
+                        return;
+                    else
+                        gm.activeTutorialStep = SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE;
+                }
+                    
+            }
+       /* Debug.Log("TUTORIAL Step:" + gm.activeTutorialStep);
+        Debug.Log(gm.activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK);
+        Debug.Log(gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE);
+        Debug.Log((gm.activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK) ||
+            (gm.activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE));*/
+
         if (gm.trashArea.activeSelf)
         {
             if ((gm.transparentPlayerCardPanel.activeSelf)&&(gm.transparentPowerUpCardPanel.activeSelf))

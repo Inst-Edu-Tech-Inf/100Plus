@@ -170,6 +170,8 @@ UNITY_STANDALONE_WIN
     public Image p2TurnImage;
     public GameObject transparentAllPanel;
     public Text infoText;
+    public int activeTutorialStep = -1;
+    
 
     List<GameObject> playerCards = new List<GameObject>();
     //List<GameObject> playerAICardsToRemove = new List<GameObject>();
@@ -263,6 +265,7 @@ UNITY_STANDALONE_WIN
     //bool isPVPCommandChange = true;
     bool isFirstTurn = false;
     int previousPVPCommand = PVP_IDLE;
+    float activeTutorialColor = 0.0f;//byte
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1=0;
@@ -2170,7 +2173,17 @@ Android uses files inside a compressed APK
             }
             else
             {
-                DrawTaskCard();//player1
+                if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                {
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
+                    {
+                        DrawTaskCard(RED_TEXT, 16);
+                    }
+                }
+                else
+                {
+                    DrawTaskCard();//player1
+                }
                 endTurnBtn.SetActive(true);
             }
              //if pvp
@@ -2219,7 +2232,8 @@ Android uses files inside a compressed APK
         endTurnBtn.SetActive(false);
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
-            infoText.gameObject.SetActive(true);
+            //infoText.gameObject.SetActive(true);
+            infoText.gameObject.SetActive(false);
             if (!isHost)
             {
                 transparentAllPanel.gameObject.SetActive(true);
@@ -2227,7 +2241,19 @@ Android uses files inside a compressed APK
         }
         else
         {
-            infoText.gameObject.SetActive(false);
+            //infoText.gameObject.SetActive(false);
+            if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+            {
+                infoText.gameObject.SetActive(true);
+                //infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep]; //"Zaczynamy tutorial";
+                activeTutorialStep = SkinManager.SAMOUCZEK_POCZATEK;
+                activeTutorialColor = 0.0f;
+                //endTurnBtn.GetComponent<Outline>().effectColor = new Color(255, 0, 0);
+            }
+            else
+            {
+                infoText.gameObject.SetActive(false);
+            }
         }
         if (SkinManager.instance.ActiveVictoryConditions < 3)
         {
@@ -2337,7 +2363,17 @@ Android uses files inside a compressed APK
 
         for (int i = 0; i < playerCardsOnStart; i++)
         {
-            DrawPlayerCard();//player1
+            if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+            {
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
+                {
+                    DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                }
+            }
+            else
+            {
+                DrawPlayerCard();//player1
+            }
             //DrawPlayerCard(BLUE_TEXT, 11);//for player2(Client) to set it when need to show
         }
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
@@ -2439,6 +2475,31 @@ Android uses files inside a compressed APK
         }*/
 
         //infoText.text = GetPVPValue1().ToString() + ",Comm:" + GetPVPCommand().ToString();
+        if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+        {
+            infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
+            if (activeTutorialColor >= 1.0f)
+            {
+                activeTutorialColor = 0.0f;
+                //Debug.Log("MAXred");
+            }
+            else
+            {
+                activeTutorialColor+=0.01f;
+                //Debug.Log(activeTutorialColor);
+            }
+            //activeTutorialColor = activeTutorialColor + 0.01f;
+            //if ((activeTutorialColor == 0) || (activeTutorialColor == 150) || (activeTutorialColor == 250))
+            {
+                endTurnBtn.GetComponent<Outline>().effectColor = new Color(activeTutorialColor, activeTutorialColor-0.5f, activeTutorialColor-0.5f);
+                //Debug.Log(activeTutorialColor);
+            }
+            if (activeTutorialStep == SkinManager.SAMOUCZEK_TAPNIJ_CZERWONE16_ZADANIE)//
+            {
+                endTurnBtn.GetComponent<Outline>().effectColor = new Color(1, 1, 1);
+            }
+        }
+
         timeFromStart += Time.deltaTime;
         if (achievementPanel.activeSelf)
         {
@@ -3693,7 +3754,15 @@ Android uses files inside a compressed APK
                 }
                 else //trash tasks
                 {
-                    
+                    //Debug.Log("Step:" + activeTutorialStep);
+                    if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                    {
+                        
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE)//
+                        {
+                            activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_ZADANIE_ZIELONE15;
+                        }
+                    }
                     tasks.SetActive(true);
                     //Debug.Log("CheckCardNumbersInTask:" + tasks.gameObject.activeSelf);
                     //hands.SetActive(false);
@@ -3714,6 +3783,16 @@ Android uses files inside a compressed APK
         }
         else
         {
+            //Debug.Log("Step:" + activeTutorialStep);
+            if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+            {
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_DWIE)//
+                {
+                    activeTutorialStep = SkinManager.SAMOUCZEK_KONIEC_TURY;
+                }
+                
+            }
+
             if (trashArea.activeSelf)
                 endTurnBtn.SetActive(true);
             trashArea.SetActive(false);
@@ -3750,6 +3829,19 @@ Android uses files inside a compressed APK
 
     public void EndTurn()
     {
+        if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+        {
+            if ((activeTutorialStep != SkinManager.SAMOUCZEK_POCZATEK)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)&&
+                (activeTutorialStep != SkinManager.SAMOUCZEK_KONIEC_TURY)
+                )
+            
+            {
+                //Debug.Log("TUTORIAL Step:" + activeTutorialStep);
+                return;
+            }
+        }
         playerTurnTime = maxPlayerTurnInSeconds;
         // if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
         if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
@@ -3787,7 +3879,34 @@ Android uses files inside a compressed APK
                 }
                 else
                 {
-                    DrawPlayerCard();//player1
+                    if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                    {
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
+                        {
+                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+                        {
+                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+                        {
+                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                        {
+                            DrawPlayerCard(RED_TEXT, 8);
+                        }
+                            
+                        else
+                            DrawPlayerCard();
+                        
+                    }
+                    else
+                        DrawPlayerCard();//player1
                 }
             }
 
@@ -3795,7 +3914,32 @@ Android uses files inside a compressed APK
             {
                 //if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_AI)
                 {
-                    DrawTaskCard();//player1
+                    if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+                    {
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)//SAMOUCZEK_BRAK_CZERWONYCH
+                        {
+                            DrawTaskCard(RED_TEXT, Random.Range(10, 19));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+                        {
+                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+                        {
+                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                        }
+                        else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                        {
+                            DrawTaskCard(GREEN_TEXT, Random.Range(10, 19));
+                        }
+                        else
+                            DrawTaskCard();
+                    }
+                    else
+                        DrawTaskCard();//player1
                     //Debug.Log("DrawTask IsHost++");
                 }
                 //DrawTaskCard(BLUE_TEXT, 11);//for player2(Client) to set it 
@@ -3866,97 +4010,7 @@ Android uses files inside a compressed APK
                 //Debug.Log("activeTasks1:" + tasks.gameObject.activeSelf);
             }
 
-        //my turn, send task card
- //           for (int i = 0; i < maxActualTaskCards; ++i)
- //           {
- //               card = taskCards[i];
-                //if (!card.gameObject.activeSelf)
-             /*  {
-                    card.transform.SetParent(tasks.transform, false);
-                    card.gameObject.SetActive(true);
-                    SetValueTaskCard(card, color, colorValue);
-                }*/
-
-   //             TaskCard localCard = card.GetComponent<TaskCard>();
-   //             switch (i)
-   //             {
-   //                 case 0:
-     /*                   localCard.valueText.text = colorValue.ToString();
-        if (color == RED_TEXT)
-        {
-            localCard.valueText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
-            applyTaskCardSkin(localCard, RED_TEXT);
-            localCard.colorText.text = GameManager.RED_TEXT;
-        }*/
-    /*                    if (localCard.colorText.text == GameManager.RED_TEXT)
-                            SetTaskCardsPVP1Color(RED_TEXT);
-                        else
-                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
-                                SetTaskCardsPVP1Color(GREEN_TEXT);
-                            else
-                                SetTaskCardsPVP1Color(BLUE_TEXT);
-                        SetTaskCardsPVP1Value (int.Parse(localCard.valueText.text));
-                        if (!card.gameObject.activeSelf)
-                            SetTaskCardsPVP1Color(NONE_TEXT);
-                        //taskCardsPVP.val0.active = card.gameObject.activeSelf;
-                        break;
-                    case 1:
-                        if (localCard.colorText.text == GameManager.RED_TEXT)
-                            SetTaskCardsPVP2Color(RED_TEXT);
-                        else
-                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
-                                SetTaskCardsPVP2Color(GREEN_TEXT);
-                            else
-                                SetTaskCardsPVP2Color(BLUE_TEXT);
-                        SetTaskCardsPVP2Value( int.Parse(localCard.valueText.text));
-                        if (!card.gameObject.activeSelf)
-                            SetTaskCardsPVP2Color(NONE_TEXT);
-                        //taskCardsPVP.val1.active = card.gameObject.activeSelf;
-                        break;
-                    case 2:
-                        if (localCard.colorText.text == GameManager.RED_TEXT)
-                            taskCardsPVP3Color = RED_TEXT;
-                        else
-                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
-                                taskCardsPVP3Color = GREEN_TEXT;
-                            else
-                                taskCardsPVP3Color = BLUE_TEXT;
-                        taskCardsPVP3Value = int.Parse(localCard.valueText.text);
-                        if (!card.gameObject.activeSelf)
-                            taskCardsPVP3Color = NONE_TEXT;
-                        //taskCardsPVP.val2.active = card.gameObject.activeSelf;
-                        break;
-                    case 3:
-                        if (localCard.colorText.text == GameManager.RED_TEXT)
-                            taskCardsPVP4Color = RED_TEXT;
-                        else
-                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
-                                taskCardsPVP4Color = GREEN_TEXT;
-                            else
-                                taskCardsPVP4Color = BLUE_TEXT;
-                        taskCardsPVP4Value = int.Parse(localCard.valueText.text);
-                        if (!card.gameObject.activeSelf)
-                            taskCardsPVP4Color = NONE_TEXT;
-                        //taskCardsPVP.val3.active = card.gameObject.activeSelf;
-                        break;
-                    case 4:
-                        if (localCard.colorText.text == GameManager.RED_TEXT)
-                            taskCardsPVP5Color = RED_TEXT;
-                        else
-                            if (localCard.colorText.text == GameManager.GREEN_TEXT)
-                                taskCardsPVP5Color = GREEN_TEXT;
-                            else
-                                taskCardsPVP5Color = BLUE_TEXT;
-                        taskCardsPVP5Value = int.Parse(localCard.valueText.text);
-                        if (!card.gameObject.activeSelf)
-                            taskCardsPVP5Color = NONE_TEXT;
-                        //taskCardsPVP.val4.active = card.gameObject.activeSelf;
-                        break;
-                    // default:
-                    //    cout << "didn't get card \n";
-                }
-            }
-            Debug.Log("write:" + GetTaskCardsPVP1Value() + "+" + GetTaskCardsPVP1Color());*/
+ 
         }
         else//not my turn, opposite turn
         {
@@ -4005,6 +4059,29 @@ Android uses files inside a compressed APK
         }
 
         isFirstTurn = false;
+        if (!SkinManager.instance.MiddlePass)//zacznij tutorial
+        {
+            if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE;
+            }
+            else
+            if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_BRAK_CZERWONYCH;
+            }
+            else
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_DWIE;
+            }
+            else
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+            {
+                activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE;
+            }
+            
+        }
     }
 
     void AddAchievementPurePoint(float Value)
@@ -4653,13 +4730,13 @@ Android uses files inside a compressed APK
             if (GetVictoryPoints() < middleGamePoint)
             {
                 //achievement
-                if (!SkinManager.instance.MiddlePass)
+                /*if (!SkinManager.instance.MiddlePass)
                 {
                         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
                         SkinManager.instance.SetMiddlePass(true);
                         AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
                         ShowAchievementPanel(SkinManager.MIDDLEPASS);
-                }
+                }*/
                 if (!SkinManager.instance.FasterThanLightMiddle)
                 {
                     if (timeFromStart < SkinManager.FASTER_THAN_LIGHT_MIDDLE)

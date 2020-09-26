@@ -229,8 +229,24 @@ public class PlayerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         if (pointerEventData.pointerCurrentRaycast.gameObject.name == "Trash")
         {
-            gm.DiscardPlayerCard(this.gameObject);
-            gm.CheckCardNumbers(true);
+            //Debug.Log("TRASH:" + additionText.text);
+            if ((!SkinManager.instance.MiddlePass)// tutorial
+            &&(gm.activeTutorialStep==SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE))
+            {
+                //Debug.Log("MiddlePass");
+                Color redColor = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
+                if (additionText.color != redColor)
+                {
+                    gm.DiscardPlayerCard(this.gameObject);
+                    gm.CheckCardNumbers(true);
+                }
+            }
+            else
+            {
+                //Debug.Log("Step:" + gm.activeTutorialStep);
+                gm.DiscardPlayerCard(this.gameObject);
+                gm.CheckCardNumbers(true);
+            }
         }
 
 
