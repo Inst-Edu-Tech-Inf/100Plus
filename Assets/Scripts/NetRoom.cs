@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using Mirror;
 using TMPro;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetRoom : NetworkRoomManager
 {
@@ -23,6 +24,13 @@ public class NetRoom : NetworkRoomManager
                 readyPlayers++;
         }
         UpdateReadyText();
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        NetworkClient.Shutdown();
+        NetworkServer.Shutdown();
+        SceneManager.LoadScene("Menu");
     }
 
     public void UpdateReadyText()
