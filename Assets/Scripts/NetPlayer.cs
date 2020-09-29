@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using Mirror;
+﻿using Mirror;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetPlayer : NetworkBehaviour
 {
@@ -23,7 +24,7 @@ public class NetPlayer : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        gm = GameObject.FindGameObjectsWithTag("Game Manager")[0].GetComponent<GameManager>();
+        gm = GameObject.FindGameObjectsWithTag("Game Manager") [0].GetComponent<GameManager>();
 
         if (isServer)
         {
