@@ -132,6 +132,11 @@ public class SkinManager : MonoBehaviour
     public const int DZWIEK = 6;
     public const int TRYB_GRY = 7;
     public const int GOTOWY = 8;
+    public const int NAZWA_SZKOLY = 9;
+    public const int NAZWA_KLASY = 10;
+    public const int ILOSC_UCZNIOW = 11;
+    public const int KOD_UCZNIA = 12;
+    public const int WIEK_UCZNIA = 13;
     public static string[] SKORKI_PL = new string[] { "Widzê ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
@@ -164,7 +169,8 @@ public class SkinManager : MonoBehaviour
         "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem popłaca",
         "Użyj 5 kart na raz, żeby zebrać idealny wynik"};
-    public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", "Gotowy" };
+    public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", 
+        "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek" };
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -228,7 +234,8 @@ public class SkinManager : MonoBehaviour
         "Gain AI games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","Gain PVP games " + ACHIEVEMENT_PURE_3RD.ToString() + " score - only the exact task value",
         "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","I'm rich...","Just excelent game", "The risk is sometimes better",
         "Use 5 card at row to collect pure result"};
-    public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode", "Ready" };
+    public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode",
+        "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age" };
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",
@@ -567,6 +574,22 @@ public class SkinManager : MonoBehaviour
         return hashString.PadLeft(32, '0');
     }
 
+    public static string Md5SumShort(string strToEncrypt)
+    {
+        System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
+        byte[] bytes = ue.GetBytes(strToEncrypt);
+        // encrypt bytes
+        System.Security.Cryptography.SHA1CryptoServiceProvider md5 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+        byte[] hashBytes = md5.ComputeHash(bytes);
+        // Convert the encrypted bytes back to a string (base 16)
+        string hashString = "";
+        for (int i = 0; i < hashBytes.Length; i++)
+        {
+            hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+        }
+        return hashString.PadLeft(8, '0');
+    }
+
     public void SetUserID()
     {
         string pom = PlayerPrefs.GetString("UserID");
@@ -586,6 +609,24 @@ public class SkinManager : MonoBehaviour
             //Debug.Log("ID existed:"+pom);
             SkinManager.instance.UserID = pom;
         }
+
+        /*if ((pom.Contains("0")) || (pom.Contains("1")) || (pom.Contains("2")) || (pom.Contains("3")) || (pom.Contains("4")) || (pom.Contains("5"))
+            || (pom.Contains("6")) || (pom.Contains("7")) || (pom.Contains("8")) || (pom.Contains("9")))
+        {
+            pom = pom.Replace("0", "g");
+            pom = pom.Replace("1", "h");
+            pom = pom.Replace("2", "i");
+            pom = pom.Replace("3", "j");
+            pom = pom.Replace("4", "k");
+            pom = pom.Replace("5", "l");
+            pom = pom.Replace("6", "m");
+            pom = pom.Replace("7", "n");
+            pom = pom.Replace("8", "o");
+            pom = pom.Replace("9", "p");
+            //Debug.Log(pom);
+            PlayerPrefs.SetString("UserID", pom);
+            SkinManager.instance.UserID = pom;
+        }*/
     }
 
     void ResetBestResult()
