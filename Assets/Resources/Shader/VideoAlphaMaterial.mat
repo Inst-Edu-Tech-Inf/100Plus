@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondaryTex:
-        m_Texture: {fileID: 2800000, guid: b87b1e2ee38e98e499a958824e29d0c8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 29c01d6a4cfbb1542af1b4aa8d7b9978, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainHolesTexture:
@@ -125,4 +125,3 @@ Material:
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _TransparentColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []

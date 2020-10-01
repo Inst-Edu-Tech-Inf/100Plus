@@ -2445,7 +2445,11 @@ Android uses files inside a compressed APK
     void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        transparentAllPanel.gameObject.SetActive(false);
+        Debug.Log("AllPanelOff");
     }
+
+    
 
     public void AchievementPanelHide()
     {

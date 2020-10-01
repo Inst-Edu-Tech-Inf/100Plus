@@ -574,6 +574,24 @@ public class SkinManager : MonoBehaviour
         return hashString.PadLeft(32, '0');
     }
 
+    public static string Hash(string str)
+    {
+        var allowedSymbols = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+        var hash = new char[8];
+
+        for (int i = 0; i < str.Length; i++)
+        {
+            hash[i % 8] = (char)(hash[i % 8] ^ str[i]);
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            hash[i] = allowedSymbols[hash[i] % allowedSymbols.Length];
+        }
+
+        return new string(hash);
+    }
+
     public static string Md5SumShort(string strToEncrypt)
     {
         System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
@@ -586,8 +604,12 @@ public class SkinManager : MonoBehaviour
         for (int i = 0; i < hashBytes.Length; i++)
         {
             hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+            
         }
-        return hashString.PadLeft(8, '0');
+        //hashString += System.Convert.ToBase64String(hashBytes);
+        return hashString.PadLeft(32, '0');
+        
+        
     }
 
     public void SetUserID()

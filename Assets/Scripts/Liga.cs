@@ -24,7 +24,7 @@ public class Liga : MonoBehaviour
         }
     }
 
-    bool activeAddClass = false;
+    //bool activeAddClass = false;
     string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
     bool czyNauczycielIstnieje = false;
     int nrNauczyciela = 0;
@@ -55,6 +55,7 @@ public class Liga : MonoBehaviour
     public GameObject szkolaPanel;
     public GameObject klasaPanel;
     public GameObject uczenPanel;
+    public GameObject workingPanel;
     public Dropdown listaKlas;
     public Button dodajSzkoleBtn;
     public Button dodajKlaseBtn;
@@ -221,7 +222,7 @@ public class Liga : MonoBehaviour
                             tmpNazwyKlas.Add(reader["kl" + i.ToString()].ToString());                            
                         }
                     }
-                    listaKlas.AddOptions(tmpNazwyKlas);
+                    //listaKlas.AddOptions(tmpNazwyKlas);
                 }
                 skrotSzkolyText.text = skrotSzkoly;
                 nazwaSzkolyInput.text = nazwaSzkoly;
@@ -241,6 +242,9 @@ public class Liga : MonoBehaviour
             {
                 int tmpNrKlasy = 0;
                 Dropdown.OptionData tmpDropdown = new Dropdown.OptionData();
+                List<string> tmpNazwaKl = new List<string>();
+                
+
                 klasy.Clear();
                 indeksyKlas.Clear();
                 listaKlas.options.Clear();
@@ -251,7 +255,10 @@ public class Liga : MonoBehaviour
                 while (reader.Read())
                 {
                     tmpDropdown.text = reader["nazwa"].ToString();
-                    listaKlas.options.Add(tmpDropdown);
+                    //listaKlas.options.Add(tmpDropdown);
+                    tmpNazwaKl.Add(reader["nazwa"].ToString());
+                    
+
                     for (int i = 1; i <= 20; ++i)
                     {
                         indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
@@ -265,13 +272,13 @@ public class Liga : MonoBehaviour
                             kodyKlas4.text = "";
                             for (int j = 1; j <= 10; ++j)
                             {
-                                if (Convert.ToInt32(reader["u" + j.ToString()]) != 0)
+                                if (Convert.ToInt32(reader["ucz" + j.ToString()]) != 0)
                                     kodyKlas1.text += "<color=red>" + reader["u" + j.ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["u" + (j+10).ToString()]) != 0)
+                                if (Convert.ToInt32(reader["ucz" + (j+10).ToString()]) != 0)
                                     kodyKlas2.text += "<color=red>" + reader["u" + (j+10).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["u" + (j + 20).ToString()]) != 0)
+                                if (Convert.ToInt32(reader["ucz" + (j + 20).ToString()]) != 0)
                                     kodyKlas3.text += "<color=red>" + reader["u" + (j + 20).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["u" + (j + 30).ToString()]) != 0)
+                                if (Convert.ToInt32(reader["ucz" + (j + 30).ToString()]) != 0)
                                     kodyKlas4.text += "<color=red>" + reader["u" + (j + 30).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
                             }
                         }
@@ -279,7 +286,8 @@ public class Liga : MonoBehaviour
                     //nazwa bêdzie rekord
                 }
 
-                listaKlas.value = 1;
+                listaKlas.AddOptions(tmpNazwaKl);
+                listaKlas.value = 0;
             }
             catch (Exception ex)
             {
@@ -482,6 +490,7 @@ public class Liga : MonoBehaviour
     {
         List<int> nowiUczniowieID = new List<int>();
 
+        workingPanel.SetActive(true);
         //nrKlasy
         MySqlConnection conn = new MySqlConnection(connStr);
         try
@@ -508,67 +517,20 @@ public class Liga : MonoBehaviour
         List<string> tmpSkrot = new List<string>();
         for (int i = 1; i <= 40; ++i)
         {
-            tmpSkrot.Add(SkinManager.Md5SumShort(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
+            tmpSkrot.Add(SkinManager.Hash(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
         }
         //dodaj klase
+        conn = new MySqlConnection(connStr);
         try
         {
-            //string pomoc;
-            //pomoc = System.DateTime.Now.ToString() + Random.Range(0.0f, 1000.0f);
-            
-            
             conn.Open();
             //string sql = "SELECT * FROM `klasa` WHERE `szkola` LIKE '" + nrSzkoly.ToString() + "';";
-            string sql3 = "INSERT INTO `klasa` (`id`, `szkola`, `u1`, `u2`, `u3`, `u4`, `u5`, `u6`, `u7`, `u8`, `u9`, `u10`, `u11`, `u12`, `u13`, `u14`, `u15`," +
-                " `u16`, `u17`, `u18`, `u19`, `u20`, `u21`, `u22`, `u23`, `u24`, `u25`, `u26`, `u27`, `u28`, `u29`, `u30`, `u31`, `u32`, `u33`, `u34`, `u35`, " +
-                "`u36`, `u37`, `u38`, `u39`, `u40`, `nazwa`, " +
-                "`u1kod`, `u2kod`, `u3kod`, `u4kod`, `u5kod`, `u6kod`, `u7kod`, `u8kod`, `u9kod`, `u10kod`, `u11kod`, `u12kod`, `u13kod`, `u14kod`, `u15kod`," +
-                " `u16kod`, `u17kod`, `u18kod`, `u19kod`, `u20kod`, `u21kod`, `u22kod`, `u23kod`, `u24kod`, `u25kod`, `u26kod`, `u27kod`, `u28kod`, `u29kod`, `u30kod`," +
-                " `u31kod`, `u32kod`, `u33kod`, `u34kod`, `u35kod`, `u36kod`, `u37kod`, `u38kod`, `u39kod`, `u40kod`, `wiek`) " +
-                "VALUES('"+nrKlasy.ToString()+"', '"+nrSzkoly.ToString()+"', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', " +
-                "'"+ tmpSkrot[1] +"'," +
-                " '" + tmpSkrot[2] + "'," +
-                " '" + tmpSkrot[3] + "'," +
-                " '" + tmpSkrot[4] + "'," +
-                " '" + tmpSkrot[5] + "'," +
-                " '" + tmpSkrot[6] + "'," +
-                " '" + tmpSkrot[7] + "', " +
-                "'" + tmpSkrot[8] + "'," +
-                " '" + tmpSkrot[9] + "'," +
-                " '" + tmpSkrot[10] + "'," +
-                " '" + tmpSkrot[11] + "'," +
-                " '" + tmpSkrot[12] + "'," +
-                " '" + tmpSkrot[13] + "'," +
-                " '" + tmpSkrot[14] + "'," +
-                " '" + tmpSkrot[15] + "'," +
-                " '" + tmpSkrot[16] + "'," +
-                " '" + tmpSkrot[17] + "'," +
-                " '" + tmpSkrot[18] + "'," +
-                " '" + tmpSkrot[19] + "'," +
-                " '" + tmpSkrot[20] + "'," +
-                " '" + tmpSkrot[21] + "'," +
-                " '" + tmpSkrot[22] + "'," +
-                " '" + tmpSkrot[23] + "'," +
-                " '" + tmpSkrot[24] + "'," +
-                " '" + tmpSkrot[25] + "'," +
-                " '" + tmpSkrot[26] + "'," +
-                " '" + tmpSkrot[27] + "'," +
-                " '" + tmpSkrot[28] + "'," +
-                " '" + tmpSkrot[29] + "'," +
-                " '" + tmpSkrot[30] + "'," +
-                " '" + tmpSkrot[31] + "'," +
-                " '" + tmpSkrot[32] + "'," +
-                " '" + tmpSkrot[33] + "'," +
-                " '" + tmpSkrot[34] + "'," +
-                " '" + tmpSkrot[35] + "'," +
-                " '" + tmpSkrot[36] + "'," +
-                " '" + tmpSkrot[37] + "'," +
-                " '" + tmpSkrot[38] + "'," +
-                " '" + tmpSkrot[39] + "'," +
-                " '" + tmpSkrot[40] + "'," +
-                " '"+ wiekUczniowValue.text + "');"; //minus 1 indexes??
-            MySqlCommand cmd3 = new MySqlCommand(sql3, conn);
-            //System.Data.IDataReader reader = cmd.ExecuteReader();
+            string sql3;
+
+            sql3 = "INSERT INTO `klasa` (`id`, `szkola`, `ucz1`, `ucz2`, `ucz3`, `ucz4`, `ucz5`, `ucz6`, `ucz7`, `ucz8`, `ucz9`, `ucz10`, `ucz11`, `ucz12`, `ucz13`, `ucz14`, `ucz15`, `ucz16`, `ucz17`, `ucz18`, `ucz19`, `ucz20`, `ucz21`, `ucz22`, `ucz23`, `ucz24`, `ucz25`, `ucz26`, `ucz27`, `ucz28`, `ucz29`, `ucz30`, `ucz31`, `ucz32`, `ucz33`, `ucz34`, `ucz35`, `ucz36`, `ucz37`, `ucz38`, `ucz39`, `ucz40`, `nazwa`, `u1kod`, `u2kod`, `u3kod`, `u4kod`, `u5kod`, `u6kod`, `u7kod`, `u8kod`, `u9kod`, `u10kod`, `u11kod`, `u12kod`, `u13kod`, `u14kod`, `u15kod`, `u16kod`, `u17kod`, `u18kod`, `u19kod`, `u20kod`, `u21kod`, `u22kod`, `u23kod`, `u24kod`, `u25kod`, `u26kod`, `u27kod`, `u28kod`, `u29kod`, `u30kod`, `u31kod`, `u32kod`, `u33kod`, `u34kod`, `u35kod`, `u36kod`, `u37kod`, `u38kod`, `u39kod`, `u40kod`, `wiek`)"+
+                " VALUES ('" + nrKlasy.ToString() + "', '" + nrSzkoly.ToString() + "', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '" + nazwaKlasyInput.text + "', '" + tmpSkrot[0] + "', '" + tmpSkrot[1] + "', '" + tmpSkrot[2] + "', '" + tmpSkrot[3] + "', '" + tmpSkrot[4] + "', '" + tmpSkrot[5] + "', '" + tmpSkrot[6] + "', '" + tmpSkrot[7] + "', '" + tmpSkrot[8] + "', '" + tmpSkrot[9] + "', '" + tmpSkrot[10] + "', '" + tmpSkrot[11] + "', '" + tmpSkrot[12] + "', '" + tmpSkrot[13] + "', '" + tmpSkrot[14] + "', '" + tmpSkrot[15] + "', '" + tmpSkrot[16] + "', '" + tmpSkrot[17] + "', '" + tmpSkrot[18] + "', '" + tmpSkrot[19] + "', '" + tmpSkrot[20] + "', '" + tmpSkrot[21] + "', '" + tmpSkrot[22] + "', '" + tmpSkrot[23] + "', '" + tmpSkrot[24] + "', '" + tmpSkrot[25] + "', '" + tmpSkrot[26] + "', '" + tmpSkrot[27] + "', '" + tmpSkrot[28] + "', '" + tmpSkrot[29] + "', '" + tmpSkrot[30] + "', '" + tmpSkrot[31] + "', '" + tmpSkrot[32] + "', '" + tmpSkrot[33] + "', '" + tmpSkrot[34] + "', '" + tmpSkrot[35] + "', '" + tmpSkrot[36] + "', '" + tmpSkrot[37] + "', '" + tmpSkrot[38] + "', '" + tmpSkrot[39] + "', '" + wiekUczniowValue.text + "');";
+             MySqlCommand cmd3 = new MySqlCommand(sql3, conn);
+            System.Data.IDataReader reader = cmd3.ExecuteReader();
 
         }
         catch (Exception ex)
@@ -580,6 +542,7 @@ public class Liga : MonoBehaviour
         //stworz uczniow
 
         //nrUcznia
+
          conn = new MySqlConnection(connStr);
         try
         {
@@ -626,18 +589,23 @@ public class Liga : MonoBehaviour
 
 
         int Licznik = 0;
-        for (int i=1; i<=ileUczniowSlider.value; ++i)
+        int tmpNrUcznia = nrUcznia-1;
+        int tmpNrUczniaTeams = nrUczniaTeams;
+        
+       for (int i=1; i<=ileUczniowSlider.value; ++i)
         {
             Licznik = i;
+            //tmpNrUcznia = nrUcznia + Licznik - 1;
+            tmpNrUcznia++;
+            tmpNrUczniaTeams++;
             try
             {
                 conn.Open();
-                
                 string sql5 = "INSERT INTO `uczen` (`id`, `klasa`, `identyfikator`, `team_nr`, `parametry`, `skrot`) " +
-                    "VALUES('" + nrUcznia.ToString() + "', '"+nrKlasy.ToString()+ "', '', '"+nrUczniaTeams.ToString()+"', '', '"+tmpSkrot[Licznik]+"');";
+                    "VALUES('" + tmpNrUcznia.ToString() + "', '"+nrKlasy.ToString()+ "', '', '"+tmpNrUczniaTeams.ToString()+"', '', '"+tmpSkrot[Licznik-1]+"');";
                 MySqlCommand cmd5 = new MySqlCommand(sql5, conn);
-                //System.Data.IDataReader reader = cmd.ExecuteReader();
-                nrUcznia++;
+                System.Data.IDataReader reader = cmd5.ExecuteReader();
+                //nrUcznia++;
             }
             catch (Exception ex)
             {
@@ -649,10 +617,10 @@ public class Liga : MonoBehaviour
             try
             {
                 conn.Open();
-                
-                string sql5 = "UPDATE `klasa` SET `u" + Licznik.ToString() + "` = '" + (nrUcznia - 1).ToString() + "' WHERE `klasa`.`id` = " + nrKlasy.ToString() + ";";
+
+                string sql5 = "UPDATE `klasa` SET `ucz" + Licznik.ToString() + "` = '" + tmpNrUcznia.ToString() + "' WHERE `klasa`.`id` = " + nrKlasy.ToString() + ";";
                 MySqlCommand cmd5 = new MySqlCommand(sql5, conn);
-                //System.Data.IDataReader reader = cmd.ExecuteReader();
+                System.Data.IDataReader reader = cmd5.ExecuteReader();
                 
             }
             catch (Exception ex)
@@ -665,13 +633,15 @@ public class Liga : MonoBehaviour
             try
             {
                 conn.Open();
+                nrUczniaTeams++;
                 string nazwaUcznia = skrotSzkoly + "/" + nazwaKlasyInput.text + "/" + Licznik.ToString();
                 string sql5 = "INSERT INTO `jos_djl_teams` (`id`, `name`, `alias`, `logo`, `city`, `venue`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) " +
-                    "VALUES('"+nrUczniaTeams.ToString()+"', "+nazwaUcznia+"', '', '', '', '', '0', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000', '', NULL);";
+                  //  "VALUES('"+nrUczniaTeams.ToString()+"', "+nazwaUcznia+"', '', '', '', '', '0', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000', '', NULL);";
+                    "VALUES('" + nrUczniaTeams.ToString() + "', '" + nazwaUcznia + "', '', '', '', '', '0', '', '', '', '');";
                 MySqlCommand cmd5 = new MySqlCommand(sql5, conn);
-                //System.Data.IDataReader reader = cmd.ExecuteReader();
+                System.Data.IDataReader reader = cmd5.ExecuteReader();
                 
-                nrUczniaTeams++;
+               
             }
             catch (Exception ex)
             {
@@ -681,14 +651,92 @@ public class Liga : MonoBehaviour
             conn.Close();
 
             
-    }
-        
+        }//endfor ileUczniowSlider
 
+        workingPanel.SetActive(false);
+        List<string> tmpNazwa = new List<string>();
+        tmpNazwa.Add(nazwaKlasyInput.text);
+        listaKlas.AddOptions(tmpNazwa);
+        
+        kodyKlas1.text = "";
+        kodyKlas2.text = "";
+        kodyKlas3.text = "";
+        kodyKlas4.text = "";
+        for (int j = 1; j <= 10; ++j) 
+        {
+            if ( j <= ileUczniowSlider.value)
+                kodyKlas1.text += "<color=red>" + tmpSkrot[j-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+            if (j + 10 <= ileUczniowSlider.value)
+                kodyKlas2.text += "<color=red>" + tmpSkrot[j+10-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+            if (j + 20 <= ileUczniowSlider.value)
+                kodyKlas3.text += "<color=red>" + tmpSkrot[j + 20 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+            if (j + 30 <= ileUczniowSlider.value)
+                kodyKlas4.text += "<color=red>" + tmpSkrot[j + 30 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+        }
+        listaKlas.value = listaKlas.options.FindIndex(option => option.text == nazwaKlasyInput.text);
+        //listaKlas.value = listAvailableStrings.IndexOf(nazwaKlasyInput.text);
+        nazwaKlasyInput.text = "";
     }
 
     public void WyswietlKodyKlasy()
     {
-        int ktoraKlasa = listaKlas.value;
+        MySqlConnection conn = new MySqlConnection(connStr);
+        //int ktoraKlasa = listaKlas.value;
+        try
+        {
+        conn.Open();
+                string sql = "SELECT * FROM `klasa` WHERE `szkola` LIKE '" + nrSzkoly.ToString() + "';";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                System.Data.IDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    //tmpDropdown.text = reader["nazwa"].ToString();
+                    //listaKlas.options.Add(tmpDropdown);
+                    //tmpNazwaKl.Add(reader["nazwa"].ToString());
+                    
+
+                    for (int i = 1; i <= 20; ++i)
+                    {
+                        indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
+                        klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
+                        //, reader["u"+i.ToString()+"kod"].ToString()
+                        
+                        if (i == listaKlas.value-1)
+                        {
+                            Debug.Log("i:" + i);
+                            Debug.Log(listaKlas.value);
+
+                            kodyKlas1.text = "";
+                            kodyKlas2.text = "";
+                            kodyKlas3.text = "";
+                            kodyKlas4.text = "";
+                            for (int j = 1; j <= 10; ++j)
+                            {
+                                if (Convert.ToInt32(reader["ucz" + j.ToString()]) != 0)
+                                    kodyKlas1.text += "<color=red>" + reader["u" + j.ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+                                if (Convert.ToInt32(reader["ucz" + (j+10).ToString()]) != 0)
+                                    kodyKlas2.text += "<color=red>" + reader["u" + (j+10).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+                                if (Convert.ToInt32(reader["ucz" + (j + 20).ToString()]) != 0)
+                                    kodyKlas3.text += "<color=red>" + reader["u" + (j + 20).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+                                if (Convert.ToInt32(reader["ucz" + (j + 30).ToString()]) != 0)
+                                    kodyKlas4.text += "<color=red>" + reader["u" + (j + 30).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+                            }
+                        }
+                    }
+                    //nazwa bêdzie rekord
+                }
+
+                //listaKlas.AddOptions(tmpNazwaKl);
+                //listaKlas.value = 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+            Debug.Log("pokazKody");
     }
     public void DodajUcznia()
     {
