@@ -21,7 +21,11 @@ public class SkinManager : MonoBehaviour
             _instance = this;
         }
     }*/
-
+    public const int VICTORY_CONDITIONS_MODE_5MIN = 0;
+    public const int VICTORY_CONDITIONS_MODE_15MIN = 1;
+    public const int VICTORY_CONDITIONS_MODE_30MIN = 2;
+    public const int VICTORY_CONDITIONS_MODE_20PKT = 3;
+    public const int VICTORY_CONDITIONS_MODE_100PKT = 4;
     public const int VICTORY_CONDITIONS_20 = 20;
     public const int VICTORY_CONDITIONS_100 = 100;
     public const int CARD_IMAGE_WIDTH = 150;
@@ -137,12 +141,12 @@ public class SkinManager : MonoBehaviour
     public const int ILOSC_UCZNIOW = 11;
     public const int KOD_UCZNIA = 12;
     public const int WIEK_UCZNIA = 13;
-    public static string[] SKORKI_PL = new string[] { "Widzê ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
+    public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
         "Razem","Pokój","Pianino","Fale","Złote fale","Podniebne fale","Trawiaste fale","Różowe fale","Ogniste fale"};
     public static string[] TLA_PL = new string[] { "W sumie...", "Gwieździsta noc", "Głęboka przestrzeń", "Jaśniejszy Summ On",  "Buuum","Galaktyka spiralna","Tęcza","Mroźnie",
-        "Gotów, chwyć, rysuj","Palma","Storczyk","Na Księżyc!","Ziemia","Jezioro w lesie","Tak ró¿owo...","Kwiat","Jesień","Kasztany","Róża", "Żółw",
+        "Gotów, chwyć, rysuj","Palma","Storczyk","Na Księżyc!","Ziemia","Jezioro w lesie","Tak różowo...","Kwiat","Jesień","Kasztany","Róża", "Żółw",
         "Saturn","System słoneczny","Dziki i groźny","Fajerwerki","Gdzie jest skarb?"};
     public static string[] MUZYKI_PL = new string[] { "Jak słodko", "Szalona", "Jak miło" };
     public static string[] OSIAGNIECIA_PL = new string[] { "Trudne początki", "Zmiana kart", "Szybki","Szybszy","Podwójnie",

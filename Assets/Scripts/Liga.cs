@@ -9,6 +9,7 @@ using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
+
 public class Liga : MonoBehaviour
 {
     public struct KlasaStruct
@@ -62,10 +63,12 @@ public class Liga : MonoBehaviour
     public Button dodajUczniaBtn;
     public Slider ileUczniowSlider;
     public Slider wiekUczniowSlider;
+    public InputField kodyKlas1Input;
     public Text kodyKlas1;
     public Text kodyKlas2;
     public Text kodyKlas3;
     public Text kodyKlas4;
+    public Text userIDText;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -89,6 +92,9 @@ public class Liga : MonoBehaviour
     void Start()
     {
         //changeBackground();
+        userIDText.text = SkinManager.instance.UserID;
+        //nauczycielBtn.SetActive(true);
+        //uczenBtn.SetActive(true);
         SystemLanguage iLang = Application.systemLanguage;
         switch (iLang)
         {
@@ -264,7 +270,7 @@ public class Liga : MonoBehaviour
                         indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
                         klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
                         //, reader["u"+i.ToString()+"kod"].ToString()
-                        if (i==1)
+                        /*if (i==1)
                         {
                             kodyKlas1.text = "";
                             kodyKlas2.text = "";
@@ -281,13 +287,14 @@ public class Liga : MonoBehaviour
                                 if (Convert.ToInt32(reader["ucz" + (j + 30).ToString()]) != 0)
                                     kodyKlas4.text += "<color=red>" + reader["u" + (j + 30).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
                             }
-                        }
+                        }*/
                     }
                     //nazwa bêdzie rekord
                 }
 
                 listaKlas.AddOptions(tmpNazwaKl);
                 listaKlas.value = 0;
+                WyswietlKodyKlasy();
             }
             catch (Exception ex)
             {
@@ -301,11 +308,11 @@ public class Liga : MonoBehaviour
             dodajSzkoleBtn.gameObject.SetActive(true);
             klasaPanel.SetActive(false);
         }
-        
-        
-        uczenPanel.SetActive(false);
+
         nauczycielBtn.gameObject.SetActive(false);
         uczenBtn.gameObject.SetActive(false);
+        uczenPanel.SetActive(false);
+        
     }
 
     public void onSliderChanged()
@@ -319,10 +326,34 @@ public class Liga : MonoBehaviour
     }
     public void UczenClick()
     {
-        szkolaPanel.SetActive(false);
-        uczenPanel.SetActive(true);
         nauczycielBtn.gameObject.SetActive(false);
         uczenBtn.gameObject.SetActive(false);
+        szkolaPanel.SetActive(false);
+        uczenPanel.SetActive(true);
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+        //int ktoraKlasa = listaKlas.value;
+        try
+        {
+            conn.Open();
+            string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            System.Data.IDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                kodUczniaInput.text = reader["skrot"].ToString();                
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+        }
+
+        conn.Close();
     }
 
     public void DodajSzkole()
@@ -654,6 +685,7 @@ public class Liga : MonoBehaviour
         }//endfor ileUczniowSlider
 
         workingPanel.SetActive(false);
+
         List<string> tmpNazwa = new List<string>();
         tmpNazwa.Add(nazwaKlasyInput.text);
         listaKlas.AddOptions(tmpNazwa);
@@ -662,10 +694,13 @@ public class Liga : MonoBehaviour
         kodyKlas2.text = "";
         kodyKlas3.text = "";
         kodyKlas4.text = "";
+        //kodyKlas1Input.text = "";
         for (int j = 1; j <= 10; ++j) 
         {
-            if ( j <= ileUczniowSlider.value)
-                kodyKlas1.text += "<color=red>" + tmpSkrot[j-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+            if (j <= ileUczniowSlider.value)
+            {
+                kodyKlas1.text += "<color=red>" + tmpSkrot[j - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+            }
             if (j + 10 <= ileUczniowSlider.value)
                 kodyKlas2.text += "<color=red>" + tmpSkrot[j+10-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
             if (j + 20 <= ileUczniowSlider.value)
@@ -676,10 +711,14 @@ public class Liga : MonoBehaviour
         listaKlas.value = listaKlas.options.FindIndex(option => option.text == nazwaKlasyInput.text);
         //listaKlas.value = listAvailableStrings.IndexOf(nazwaKlasyInput.text);
         nazwaKlasyInput.text = "";
+
+        //kodyKlas1Input.text = kodyKlas1.text;
+        //kodyKlas1Input.text += kodyKlas1.text.ToString();
     }
 
     public void WyswietlKodyKlasy()
     {
+        int nrAktywejKlasy = 0;// listaKlas.value;
         MySqlConnection conn = new MySqlConnection(connStr);
         //int ktoraKlasa = listaKlas.value;
         try
@@ -691,6 +730,7 @@ public class Liga : MonoBehaviour
                 
                 while (reader.Read())
                 {
+                    nrAktywejKlasy++;
                     //tmpDropdown.text = reader["nazwa"].ToString();
                     //listaKlas.options.Add(tmpDropdown);
                     //tmpNazwaKl.Add(reader["nazwa"].ToString());
@@ -701,11 +741,12 @@ public class Liga : MonoBehaviour
                         indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
                         klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
                         //, reader["u"+i.ToString()+"kod"].ToString()
-                        
-                        if (i == listaKlas.value-1)
+                        //Debug.Log("kod nr" + i + ":" + Convert.ToInt32(reader["ucz1"]) + ":" + reader["u" + i.ToString() + "kod"].ToString());
+
+                        if (nrAktywejKlasy - 1 == listaKlas.value)
                         {
-                            Debug.Log("i:" + i);
-                            Debug.Log(listaKlas.value);
+                            //Debug.Log("i:" + i);
+                            //Debug.Log(listaKlas.value);
 
                             kodyKlas1.text = "";
                             kodyKlas2.text = "";
@@ -736,12 +777,13 @@ public class Liga : MonoBehaviour
             }
 
             conn.Close();
-            Debug.Log("pokazKody");
+            //Debug.Log("pokazKody");
     }
     public void DodajUcznia()
     {
 
     }
+
     public void ConnectDatabase()
     {
         //string connStr = "server=localhost;user=root;database=world;port=3306;password=******";
@@ -774,6 +816,131 @@ public class Liga : MonoBehaviour
         conn.Close();
         Console.WriteLine("Done.");
         Debug.Log("Done");
+    }
+
+    public void WyslijKodUcznia()
+    {
+        //kodUczniaInput.text="";
+        bool czyJest = false;
+        int nrUczniaRejestracja = 0;
+        int nrUczniaDlaTeam = 0;
+        string leagueParameter = "";
+        string uczenZajety = "";
+       // string leagueParameterBefore = "";
+       // string leagueParameterAfter = "";
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+        //int ktoraKlasa = listaKlas.value;
+        try
+        {
+            conn.Open();
+            string sql = "SELECT * FROM `uczen` WHERE `skrot` LIKE '" + kodUczniaInput.text.ToString() + "';";
+            //string sql = "UPDATE `uczen` SET `identyfikator` = 'aaa' WHERE `uczen`.`id` = 1;";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            System.Data.IDataReader reader = cmd.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                //Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()
+                nrUczniaRejestracja = Convert.ToInt32(reader["id"]);
+                nrUczniaDlaTeam = Convert.ToInt32(reader["team_nr"]);
+                //uczenZajety = reader["identyfikator"].ToString();
+                czyJest = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+        }
+
+        conn.Close();
+
+       // if (!czyJest)
+        //    kodUczniaInput.text = "";
+
+        //if (uczenZajety.Length <= 1)
+        {
+            conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();
+                //string sql = "SELECT * FROM `uczen` WHERE `skrot` LIKE '" + kodUczniaInput.text.ToString() + "';";
+                string sql = "UPDATE `uczen` SET `identyfikator` = '" + SkinManager.instance.UserID.ToString() + "' WHERE `uczen`.`id` = " + nrUczniaRejestracja.ToString() + ";";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                System.Data.IDataReader reader = cmd.ExecuteReader();
+
+                /* while (reader.Read())
+                 {
+                     //Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()
+                     nrUczniaRejestracja = Convert.ToInt32(reader["id"]);
+                     Debug.Log("nr ucznia:" + nrUczniaRejestracja);
+                     czyJest = true;
+                 }*/
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+
+
+            conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();
+                string sql = "SELECT * FROM `jos_djl_leagues` WHERE `id` LIKE '2';";
+                //string sql = "UPDATE `jos_djl_leagues` SET `params` = '{\"teams\":\"4,1,3\",\"rounds\":\"0\",\"win\":\"3\",\"lose\":\"-3\",\"tie\":\"1\"}' WHERE `jos_djl_leagues`.`id` = 2;";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                System.Data.IDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    leagueParameter = reader["params"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+
+
+            conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();//","rounds
+                leagueParameter = leagueParameter.Replace("\",\"rounds", "," + nrUczniaDlaTeam.ToString() + "\",\"rounds");
+                //string sql = "SELECT * FROM `uczen` WHERE `skrot` LIKE '" + kodUczniaInput.text.ToString() + "';";
+                string sql = "UPDATE `jos_djl_leagues` SET `params` = '" + leagueParameter.ToString() + "' WHERE `jos_djl_leagues`.`id` = 2;";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                System.Data.IDataReader reader = cmd.ExecuteReader();
+
+                //while (reader.Read())
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+        }
+        //else
+        //{
+        //    kodUczniaInput.text = "!!";
+        //}
     }
 
     public void Back()

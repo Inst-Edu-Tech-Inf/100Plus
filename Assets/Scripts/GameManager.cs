@@ -11,6 +11,11 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System;
+using System.Data;
+using MySql.Data;
+using MySql.Data.MySqlClient;
+using System.Globalization;
 
 public class GameManager : NetworkBehaviour
 {
@@ -286,6 +291,8 @@ public class GameManager : NetworkBehaviour
     int PVPCommand = 0;
     [SyncVar(hook = nameof(_SetIsPVPCommandChange))]
     bool isPVPCommandChange = true;
+    [SyncVar(hook = nameof(_SetClientID))]
+    string clientID = "";
     /*  [SyncVar(hook = nameof(_SetTaskCardsPVP))]
       TaskCardPVPStruct taskCardsPVP;
       [SyncVar(hook = nameof(_SetTaskCardsPVP1Value))]
@@ -423,6 +430,37 @@ public class GameManager : NetworkBehaviour
     public bool GetIsPVPCommandChange()
     {
         return isPVPCommandChange;
+    }
+    //clientID
+    void _SetClientID(string oldValue, string newValue)
+    {
+        SetClientID(newValue);
+    }
+
+    public void SetClientID(string value)
+    {
+        if (isHost)
+        {
+            //clientID = value;
+        }
+        else //assignAuthorityObj.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+        {
+            {
+                CmdSetClientID(value);
+            }
+        }
+
+    }
+
+    [Command]
+    void CmdSetClientID(string value)
+    {
+        clientID = value;
+    }
+
+    public string GetClientID()
+    {
+        return clientID;
     }
 
     //pvpCommand
@@ -1677,7 +1715,7 @@ public class GameManager : NetworkBehaviour
                 activeTaskCards.Add(i);
             }
         }
-        GameObject card = taskCards[activeTaskCards[Random.Range(0, activeTaskCards.Count)]];
+        GameObject card = taskCards[activeTaskCards[UnityEngine.Random.Range(0, activeTaskCards.Count)]];
         //Debug.Log(maxActualTaskCards);
         //Debug.Log(card);
         DiscardTaskCard(card);
@@ -1761,7 +1799,7 @@ public class GameManager : NetworkBehaviour
     void AIEasyDiscardAIPowerUpCard()
     {
         //totally random
-        GameObject card = powerUpAICards[Random.Range(0, powerUpAICards.Count)];
+        GameObject card = powerUpAICards[UnityEngine.Random.Range(0, powerUpAICards.Count)];
         powerUpAICards.Remove(card);
         Destroy(card);
         /* sumCardCount++;
@@ -1805,7 +1843,7 @@ public class GameManager : NetworkBehaviour
     void AIImpossibleDiscardTaskCard()
     {
         //change to bigger on color with smallest playerCardsAI value
-        GameObject card = taskCards[Random.Range(0, maxActualTaskCards)];
+        GameObject card = taskCards[UnityEngine.Random.Range(0, maxActualTaskCards)];
         DiscardTaskCard(card);
         //Debug.Log("-AIImpossible");
 
@@ -2200,6 +2238,8 @@ Android uses files inside a compressed APK
         //tasks.SetActive(true);
         tasks.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         SetVictoryPoints(0.0f);
+        if (!isHost)
+            SetClientID(SkinManager.instance.UserID);
 
     }
 
@@ -2372,7 +2412,7 @@ Android uses files inside a compressed APK
             {
                 if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
                 {
-                    DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                    DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
                 }
             }
             else
@@ -2686,6 +2726,8 @@ Android uses files inside a compressed APK
                     {
                         isVictoryResult = true;
                         //victorySFX.Play();
+                        if ((isHost)&&(SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                            WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                     }
                     else
                     {
@@ -2697,12 +2739,17 @@ Android uses files inside a compressed APK
                         {
                             isVictoryResult = true;
                             //victorySFX.Play();
+                            if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, false);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                         }
                         else
                         {
                             isVictoryResult = false;
+                            if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), false, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                         }
                     }
+                   
                 }
             }
 
@@ -3248,7 +3295,7 @@ Android uses files inside a compressed APK
 
     void RandomizeTaskCard(GameObject card)
     {
-        float rand = Random.Range(1, COLOR_NUMBER + 1); //to number of colors
+        float rand = UnityEngine.Random.Range(1, COLOR_NUMBER + 1); //to number of colors
         TaskCard localCard = card.GetComponent<TaskCard>();
         /* if (isPreset)
              rand = presetColor;*/
@@ -3269,7 +3316,7 @@ Android uses files inside a compressed APK
 
         if (GetVictoryPoints() < earlyGamePoint)
         {
-            localCard.valueText.text = Random.Range(10, earlyGameTaskCardMax).ToString();
+            localCard.valueText.text = UnityEngine.Random.Range(10, earlyGameTaskCardMax).ToString();
             /* if (isPreset)
                  valueText.text = presetTask.ToString();*/
         }
@@ -3277,13 +3324,13 @@ Android uses files inside a compressed APK
         {
             if (GetVictoryPoints() < middleGamePoint)
             {
-                localCard.valueText.text = Random.Range(earlyGameTaskCardMax, middleGameTaskCardMax).ToString();
+                localCard.valueText.text = UnityEngine.Random.Range(earlyGameTaskCardMax, middleGameTaskCardMax).ToString();
                 /*if (isPreset)
                     valueText.text = presetTask.ToString();*/
             }
             else //lateGamePoint
             {
-                localCard.valueText.text = Random.Range(middleGameTaskCardMax, lateGameTaskCardMax).ToString();
+                localCard.valueText.text = UnityEngine.Random.Range(middleGameTaskCardMax, lateGameTaskCardMax).ToString();
                 /* if (isPreset)
                      valueText.text = presetTask.ToString();*/
             }
@@ -3393,40 +3440,40 @@ Android uses files inside a compressed APK
         PlayerCard localCard = card.GetComponent<PlayerCard>();
         string SubStr;
         localCard.hasMultiply = false;
-        float rand = Random.Range(1, COLOR_NUMBER + 1); //to number of colors
+        float rand = UnityEngine.Random.Range(1, COLOR_NUMBER + 1); //to number of colors
         if (GetVictoryPoints() < earlyGamePoint)
         {
-            localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+            localCard.additionText.text = UnityEngine.Random.Range(1, earlyGamePlayerCardMax).ToString();
         }
         else
         {
             if (GetVictoryPoints() < middleGamePoint)
             {
-                if (Random.Range(1, 100) <= earlyChanceOnMiddle)
+                if (UnityEngine.Random.Range(1, 100) <= earlyChanceOnMiddle)
                 {
-                    localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+                    localCard.additionText.text = UnityEngine.Random.Range(1, earlyGamePlayerCardMax).ToString();
                 }
                 else
                 {
-                    localCard.additionText.text = Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
+                    localCard.additionText.text = UnityEngine.Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
                 }
             }
             else //lateGamePoint
             {
 
-                if (Random.Range(1, 100) <= earlyChanceOnLate)
+                if (UnityEngine.Random.Range(1, 100) <= earlyChanceOnLate)
                 {
-                    localCard.additionText.text = Random.Range(1, earlyGamePlayerCardMax).ToString();
+                    localCard.additionText.text = UnityEngine.Random.Range(1, earlyGamePlayerCardMax).ToString();
                 }
                 else
                 {
-                    if (Random.Range(1, 100) <= middleChanceOnLate)
+                    if (UnityEngine.Random.Range(1, 100) <= middleChanceOnLate)
                     {
-                        localCard.additionText.text = Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
+                        localCard.additionText.text = UnityEngine.Random.Range(earlyGamePlayerCardMax, middleGamePlayerCardMax).ToString();
                     }
                     else
                     {
-                        localCard.additionText.text = Random.Range(middleGamePlayerCardMax, lateGamePlayerCardMax).ToString();
+                        localCard.additionText.text = UnityEngine.Random.Range(middleGamePlayerCardMax, lateGamePlayerCardMax).ToString();
                     }
                 }
 
@@ -3532,7 +3579,7 @@ Android uses files inside a compressed APK
                 taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipBlue;
             }
 
-            pm = (int) Mathf.Round(Random.Range(0.0f, (float) taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().length));
+            pm = (int)Mathf.Round(UnityEngine.Random.Range(0.0f, (float)taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().length));
             taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().frame = pm;
             taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().Play();
         }
@@ -3616,16 +3663,16 @@ Android uses files inside a compressed APK
         PowerUpCard localCard = card.GetComponent<PowerUpCard>();
         if (float.Parse(victoryPoints.text) < middleGamePoint)
         {
-            rand = Random.Range(2, 4);
+            rand = UnityEngine.Random.Range(2, 4);
             localCard.redText.text = rand.ToString();
             localCard.greenText.text = rand.ToString();
             localCard.blueText.text = rand.ToString();
         }
         else //lateGamePoint
         {
-            localCard.redText.text = Random.Range(1, 6).ToString();
-            localCard.greenText.text = Random.Range(1, 6).ToString();
-            localCard.blueText.text = Random.Range(1, 6).ToString();
+            localCard.redText.text = UnityEngine.Random.Range(1, 6).ToString();
+            localCard.greenText.text = UnityEngine.Random.Range(1, 6).ToString();
+            localCard.blueText.text = UnityEngine.Random.Range(1, 6).ToString();
         }
     }
 
@@ -3909,17 +3956,17 @@ Android uses files inside a compressed APK
                     {
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
                         {
-                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                            DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
                         {
-                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                            DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
                         {
-                            DrawPlayerCard(GREEN_TEXT, Random.Range(1, 9));
+                            DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
@@ -3955,22 +4002,22 @@ Android uses files inside a compressed APK
                     {
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK) //SAMOUCZEK_BRAK_CZERWONYCH
                         {
-                            DrawTaskCard(RED_TEXT, Random.Range(10, 19));
+                            DrawTaskCard(RED_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
                         {
-                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
                         {
-                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
                         {
-                            DrawTaskCard(GREEN_TEXT, Random.Range(10, 19));
+                            DrawTaskCard(GREEN_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
@@ -3980,7 +4027,7 @@ Android uses files inside a compressed APK
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)
                         {
-                            DrawTaskCard(BLUE_TEXT, Random.Range(10, 19));
+                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
@@ -4499,6 +4546,9 @@ Android uses files inside a compressed APK
                         {
                             isVictoryResult = true;
                             victorySFX.Play();
+                            if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+
                         }
                         else
                         {
@@ -4510,14 +4560,188 @@ Android uses files inside a compressed APK
                             {
                                 isVictoryResult = true;
                                 victorySFX.Play();
+                                if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                                    WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, false);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                             }
                             else
                             {
                                 isVictoryResult = false;
+                                if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                                    WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), false, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                             }
                         }
+
                     }
                 }
+            }
+        }
+    }
+
+    bool WyslijNaSerwer(int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+    {
+        int ileGier = 0;
+        int hostTeamNr = 0;
+        int clientTeamNr = 4; //unknown
+        int zwyciezca = 0;//remis 1 host 2 client
+        int pktHost = 1;
+        int pktClient = 1;
+        DateTime kalendarze = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);//2008, 10, 1, 17, 4, 32);
+        string kalendarz;
+        if ((hostWin) && (clientWin))//remis
+        {
+            zwyciezca = 0;
+            pktHost = 1;
+            pktClient = 1;
+        }
+        else
+        {
+            if (hostWin)
+            {
+                zwyciezca = 1;
+                pktHost = 3;
+                pktClient = -3;
+            }
+            else
+            {
+                zwyciezca = 2;
+                pktHost = -3;
+                pktClient = 3;
+            }
+        }
+
+        kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
+        kalendarz = kalendarz.TrimEnd('Z');
+
+        string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+        MySqlConnection conn = new MySqlConnection(connStr);
+        bool czyOK = false;
+        //int ktoraKlasa = listaKlas.value;
+        try
+        {
+            conn.Open();
+            string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            System.Data.IDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                //kodUczniaInput.text = reader["skrot"].ToString();
+                // jest uczen
+                hostTeamNr = Convert.ToInt32(reader["team_nr"]);
+                czyOK = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+            czyOK =  false;
+        }
+
+        conn.Close();
+
+        conn = new MySqlConnection(connStr);
+        string tmpClientID = clientID.ToString();
+        if (clientID.ToString() == "")
+            tmpClientID = "nieznany";
+        try
+        {
+            conn.Open();
+            string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + tmpClientID.ToString() + "';";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            System.Data.IDataReader reader = cmd.ExecuteReader();
+            //Debug.Log("clientID:" + clientID.ToString());
+            while (reader.Read())
+            {
+                // jest uczen klient
+                //Debug.Log("clientTeamNr:" + clientTeamNr);
+                clientTeamNr = Convert.ToInt32(reader["team_nr"]);
+                //Debug.Log("clientTeamNr:" + clientTeamNr);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+        }
+
+        conn.Close();
+
+        if (czyOK)
+        {
+            conn = new MySqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+                string sql = "SELECT COUNT(*) FROM `jos_djl_games`";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    ileGier = Convert.ToInt32(result);
+                    ileGier++;
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+
+            conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`)"+
+                    "VALUES (" + ileGier.ToString() + ", '2', '1', '" + hostTeamNr.ToString() + "', '" + clientTeamNr.ToString() + "', '" + kalendarz.ToString() + "', '', '', '" + hostPoints.ToString() + "', '" + clientPoints.ToString() + "', '', '" + zwyciezca.ToString() + "', '" + pktHost.ToString() + "', '" + pktClient.ToString() + "', '1', '0', '', '" + kalendarz.ToString() + "', '272', '');";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    // nrSzkoly = Convert.ToInt32(result);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            conn.Close();
+
+            //INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES (NULL, '2', '1', '1', '4', '2020-05-04 15:46:00', '', '', '15', '2', '', '1', '3', '-3', '1', '0', '0000-00-00 00:00:00', '2020-05-04 13:47:44', '', NULL);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void SendMatchTestClick()
+    {
+        if (float.Parse(victoryPoints.text) == float.Parse(victoryPointsP2.text))
+        {
+                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+
+        }
+        else
+        {
+            if (((float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text)) && (isHost)) ||
+                ((float.Parse(victoryPoints.text) < float.Parse(victoryPointsP2.text)) && (!isHost)))
+            {
+                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, false);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+            }
+            else
+            {
+                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), false, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
             }
         }
     }
