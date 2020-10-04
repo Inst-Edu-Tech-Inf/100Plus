@@ -141,6 +141,7 @@ public class SkinManager : MonoBehaviour
     public const int ILOSC_UCZNIOW = 11;
     public const int KOD_UCZNIA = 12;
     public const int WIEK_UCZNIA = 13;
+    public const int KOD_ZAJETY = 14;
     public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
@@ -174,7 +175,7 @@ public class SkinManager : MonoBehaviour
         "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem popłaca",
         "Użyj 5 kart na raz, żeby zebrać idealny wynik"};
     public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", 
-        "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek" };
+        "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek", "Kod zajęty" };
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -239,7 +240,7 @@ public class SkinManager : MonoBehaviour
         "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","I'm rich...","Just excelent game", "The risk is sometimes better",
         "Use 5 card at row to collect pure result"};
     public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode",
-        "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age" };
+        "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age", "Code already used" };
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",

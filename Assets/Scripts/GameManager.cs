@@ -1326,7 +1326,7 @@ public class GameManager : NetworkBehaviour
 
     void changeSound()
     {
-        soundBackground.clip = (AudioClip) Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name);
+        soundBackground.clip = (AudioClip) UnityEngine.Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name);
         soundBackground.Play();
     }
 
@@ -2248,21 +2248,21 @@ Android uses files inside a compressed APK
         string SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
         SubStr = SubStr.Substring(0, SubStr.Length - 1);
 
-        wybranaRamka = Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
-        wybranyBlack = Resources.Load<Sprite>("Black");
-        wybranyRed = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT);
-        wybranyGreen = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT);
-        wybranyBlue = Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT);
-        wybranyRedStatic = Resources.Load<Sprite>(SubStr + RED_TEXT);
-        wybranyGreenStatic = Resources.Load<Sprite>(SubStr + GREEN_TEXT);
-        wybranyBlueStatic = Resources.Load<Sprite>(SubStr + BLUE_TEXT);
-        wybranyClipRed = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT) as VideoClip;
-        wybranyClipGreen = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT) as VideoClip;
-        wybranyClipBlue = Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT) as VideoClip;
+        wybranaRamka = UnityEngine.Resources.Load<Texture2D>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+        wybranyBlack = UnityEngine.Resources.Load<Sprite>("Black");
+        wybranyRed = UnityEngine.Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT);
+        wybranyGreen = UnityEngine.Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT);
+        wybranyBlue = UnityEngine.Resources.Load<Sprite>(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT);
+        wybranyRedStatic = UnityEngine.Resources.Load<Sprite>(SubStr + RED_TEXT);
+        wybranyGreenStatic = UnityEngine.Resources.Load<Sprite>(SubStr + GREEN_TEXT);
+        wybranyBlueStatic = UnityEngine.Resources.Load<Sprite>(SubStr + BLUE_TEXT);
+        wybranyClipRed = UnityEngine.Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + RED_TEXT) as VideoClip;
+        wybranyClipGreen = UnityEngine.Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + GREEN_TEXT) as VideoClip;
+        wybranyClipBlue = UnityEngine.Resources.Load(SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + BLUE_TEXT) as VideoClip;
 #if HTML5
-        wybranyClipRed = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + RED_TEXT + ".mp4") as VideoClip;
-        wybranyClipGreen = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + GREEN_TEXT + ".mp4") as VideoClip;
-        wybranyClipBlue = Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + BLUE_TEXT + ".mp4") as VideoClip;
+        wybranyClipRed = UnityEngine.Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + RED_TEXT + ".mp4") as VideoClip;
+        wybranyClipGreen = UnityEngine.Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + GREEN_TEXT + ".mp4") as VideoClip;
+        wybranyClipBlue = UnityEngine.Resources.Load("http://100plus.ieti.pl/public_html/StreamingAssets/Explodes" + BLUE_TEXT + ".mp4") as VideoClip;
 #endif
 
         maxActualTaskCards = maxTaskCardsAddLate + taskCardsToDraw;
@@ -3373,7 +3373,7 @@ Android uses files inside a compressed APK
         //float rand = Random.Range(1, COLOR_NUMBER + 1);//to number of colors
         localCard.additionText.text = colorValue.ToString();
 
-        localCard.frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+        localCard.frameImage.sprite = UnityEngine.Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
         if (kolor == RED_TEXT)
         {
             localCard.additionText.color = new Color32(SkinManager.RED_COLOR, 0, 0, 255);
@@ -3480,7 +3480,7 @@ Android uses files inside a compressed APK
             }
         }
 
-        localCard.frameImage.sprite = Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
+        localCard.frameImage.sprite = UnityEngine.Resources.Load<Sprite>(SkinManager.instance.ramki[SkinManager.instance.ActiveFrame].Name);
 
         if (rand <= 1)
         {

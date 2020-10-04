@@ -1,0 +1,4 @@
+<linker>
+<assembly fullname="MySql.Data" preserve="all"/>
+<assembly fullname="System.Data" preserve="all"/>
+</linker>

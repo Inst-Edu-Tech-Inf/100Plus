@@ -37,6 +37,7 @@ public class Liga : MonoBehaviour
     public List<int> indeksyKlas = new List<int>();
     string nazwaSzkoly = "";
     string skrotSzkoly = "";
+    string kodZajety = "";
 
     [Header("Background"), SerializeField]
     public Image backgroundImage;
@@ -69,6 +70,7 @@ public class Liga : MonoBehaviour
     public Text kodyKlas3;
     public Text kodyKlas4;
     public Text userIDText;
+    public Text debugInfo;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -104,6 +106,7 @@ public class Liga : MonoBehaviour
                 iloscUczniowText.text = SkinManager.MENU_EN[SkinManager.ILOSC_UCZNIOW];
                 kodUczniaText.text = SkinManager.MENU_EN[SkinManager.KOD_UCZNIA];
                 wiekUczniowText.text = SkinManager.MENU_EN[SkinManager.WIEK_UCZNIA];
+                kodZajety = SkinManager.MENU_EN[SkinManager.KOD_ZAJETY];
                 break;
             case SystemLanguage.Polish:
                 nazwaSzkolyText.text = SkinManager.MENU_PL[SkinManager.NAZWA_SZKOLY];
@@ -111,6 +114,7 @@ public class Liga : MonoBehaviour
                 iloscUczniowText.text = SkinManager.MENU_PL[SkinManager.ILOSC_UCZNIOW];
                 kodUczniaText.text = SkinManager.MENU_PL[SkinManager.KOD_UCZNIA];
                 wiekUczniowText.text = SkinManager.MENU_PL[SkinManager.WIEK_UCZNIA];
+                kodZajety = SkinManager.MENU_PL[SkinManager.KOD_ZAJETY];
                 break;
             default:
                 nazwaSzkolyText.text = SkinManager.MENU_EN[SkinManager.NAZWA_SZKOLY];
@@ -118,6 +122,7 @@ public class Liga : MonoBehaviour
                 iloscUczniowText.text = SkinManager.MENU_EN[SkinManager.ILOSC_UCZNIOW];
                 kodUczniaText.text = SkinManager.MENU_EN[SkinManager.KOD_UCZNIA];
                 wiekUczniowText.text = SkinManager.MENU_EN[SkinManager.WIEK_UCZNIA];
+                kodZajety = SkinManager.MENU_EN[SkinManager.KOD_ZAJETY];
                 break;
         }
 
@@ -330,30 +335,50 @@ public class Liga : MonoBehaviour
         uczenBtn.gameObject.SetActive(false);
         szkolaPanel.SetActive(false);
         uczenPanel.SetActive(true);
+        debugInfo.text += connStr + "__";
+        Debug.Log("Przed");
+        try
+        {
+            MySqlConnection conn2 = new MySqlConnection(connStr);
+            Debug.Log("TworzeSQL");
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+            debugInfo.text += ex.ToString() + "__";
+
+        }
 
         MySqlConnection conn = new MySqlConnection(connStr);
+        Debug.Log("Stworzone");
+        
         //int ktoraKlasa = listaKlas.value;
         try
         {
             conn.Open();
             string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
-
+            debugInfo.text +=  "oppened__"; 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             System.Data.IDataReader reader = cmd.ExecuteReader();
+            
 
             while (reader.Read())
             {
-                kodUczniaInput.text = reader["skrot"].ToString();                
-
+                debugInfo.text += "whileIN__"; 
+                kodUczniaInput.text = reader["skrot"].ToString();
+                debugInfo.text += kodUczniaInput.text + "KodU__"; 
+                //debugInfo.text += kodUczniaInput.text + "__"; 
             }
 
         }
         catch (Exception ex)
         {
             Debug.Log(ex.ToString());
+            debugInfo.text += ex.ToString() + "__"; 
         }
 
         conn.Close();
+        debugInfo.text += "closed__"; 
     }
 
     public void DodajSzkole()
@@ -719,6 +744,7 @@ public class Liga : MonoBehaviour
     public void WyswietlKodyKlasy()
     {
         int nrAktywejKlasy = 0;// listaKlas.value;
+        string doBufora = "";
         MySqlConnection conn = new MySqlConnection(connStr);
         //int ktoraKlasa = listaKlas.value;
         try
@@ -770,6 +796,11 @@ public class Liga : MonoBehaviour
 
                 //listaKlas.AddOptions(tmpNazwaKl);
                 //listaKlas.value = 0;
+                
+                    doBufora = kodyKlas1.text + "\n" + kodyKlas2.text + "\n" + kodyKlas3.text + "\n" + kodyKlas4.text + "\n";
+                    doBufora = doBufora.Replace("<color=red>", "");
+                    doBufora = doBufora.Replace("</color>", "");
+                    GUIUtility.systemCopyBuffer = doBufora.ToString();
             }
             catch (Exception ex)
             {
@@ -824,6 +855,7 @@ public class Liga : MonoBehaviour
         bool czyJest = false;
         int nrUczniaRejestracja = 0;
         int nrUczniaDlaTeam = 0;
+        int nrWTabeli = 0;
         string leagueParameter = "";
         string uczenZajety = "";
        // string leagueParameterBefore = "";
@@ -845,22 +877,27 @@ public class Liga : MonoBehaviour
                 //Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()
                 nrUczniaRejestracja = Convert.ToInt32(reader["id"]);
                 nrUczniaDlaTeam = Convert.ToInt32(reader["team_nr"]);
-                //uczenZajety = reader["identyfikator"].ToString();
+                uczenZajety = reader["identyfikator"].ToString();
                 czyJest = true;
             }
+            debugInfo.text += czyJest.ToString() + "__"; 
 
         }
         catch (Exception ex)
         {
             Debug.Log(ex.ToString());
+            debugInfo.text += ex.ToString() + "__"; 
         }
 
         conn.Close();
 
-       // if (!czyJest)
-        //    kodUczniaInput.text = "";
+        if (!czyJest)
+        {
+            kodUczniaInput.text = "";
+            return;
+        }
 
-        //if (uczenZajety.Length <= 1)
+        if (uczenZajety.Length <= 1)
         {
             conn = new MySqlConnection(connStr);
             try
@@ -884,6 +921,7 @@ public class Liga : MonoBehaviour
             catch (Exception ex)
             {
                 Debug.Log(ex.ToString());
+                debugInfo.text += ex.ToString() + "__"; 
             }
 
             conn.Close();
@@ -908,6 +946,7 @@ public class Liga : MonoBehaviour
             catch (Exception ex)
             {
                 Debug.Log(ex.ToString());
+                debugInfo.text += ex.ToString() + "__"; 
             }
 
             conn.Close();
@@ -933,14 +972,66 @@ public class Liga : MonoBehaviour
             catch (Exception ex)
             {
                 Debug.Log(ex.ToString());
+                debugInfo.text += ex.ToString() + "__"; 
             }
 
             conn.Close();
+
+            //teraz dodanie do tabeli wynikow
+            conn = new MySqlConnection(connStr);
+        try
+        {
+            conn.Open();
+
+            string sql = "SELECT COUNT(*) FROM `jos_djl_tables`";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            object result = cmd.ExecuteScalar();
+
+            if (result != null)
+            {
+                nrWTabeli = Convert.ToInt32(result);
+            }
+
         }
-        //else
-        //{
-        //    kodUczniaInput.text = "!!";
-        //}
+        catch (Exception ex)
+        {
+            Debug.Log(ex.ToString());
+            debugInfo.text += ex.ToString() + "__"; 
+        }
+
+        conn.Close();
+
+            conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();
+                //   string sql = "INSERT INTO `szkola` (`id`, `nazwa`, `kl1`, `kl2`, `kl3`, `kl4`, `kl5`, `kl6`, `kl7`, `kl8`, `kl9`, `kl10`, `kl11`, `kl12`, `kl13`, `kl14`, `kl15`, `kl16`, `kl17`, `kl18`, `kl19`, `kl20`, `skrot`) " +
+                //       "VALUES ('"+nrSzkoly.ToString()+"', '"+ nazwaSzkolyInput.text + "', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '"+ skrotSzkolyText.text + "');";
+
+                string sql = "INSERT INTO `jos_djl_tables` (`id`, `league_id`, `team_id`, `extra_points`, `ordering`) "+
+                    "VALUES ('"+nrWTabeli.ToString()+"', '2', '"+nrUczniaDlaTeam.ToString()+"', '0', '0');";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    // nrSzkoly = Convert.ToInt32(result);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString());
+                debugInfo.text += ex.ToString() + "__"; 
+            }
+
+            conn.Close();
+
+        }
+        else
+        {
+            kodUczniaInput.text = kodZajety;
+        }
     }
 
     public void Back()
