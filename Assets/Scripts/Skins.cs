@@ -350,24 +350,30 @@ Android uses files inside a compressed APK
 
     public void Buy20Coins()
     {
-        /*int newCash;
-        
-        newCash = SkinManager.instance.CurrentCash + 20;
-        SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            int newCash;
+
+            newCash = SkinManager.instance.CurrentCash + 20;
+            SkinManager.instance.SetCurrentCash(newCash);
+            PlayerPrefs.SetInt("CurrentCash", newCash);
+        }
         cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
         BackPurchase();
-      //  purchasePanel.gameObject.SetActive(false);//throw runtime error!
+        //  purchasePanel.gameObject.SetActive(false);//throw runtime error!
     }
 
     public void Buy100Coins()
     {
-       /* int newCash;
-        
-        newCash = SkinManager.instance.CurrentCash + 100;
-        SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            int newCash;
+
+            newCash = SkinManager.instance.CurrentCash + 100;
+            SkinManager.instance.SetCurrentCash(newCash);
+            PlayerPrefs.SetInt("CurrentCash", newCash);
+        }
         cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
         BackPurchase();
@@ -376,11 +382,14 @@ Android uses files inside a compressed APK
 
     public void Buy350Coins()
     {
-       /* int newCash;
-        
-        newCash = SkinManager.instance.CurrentCash + 350;
-        SkinManager.instance.SetCurrentCash(newCash);
-        PlayerPrefs.SetInt("CurrentCash", newCash);*/
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            int newCash;
+
+            newCash = SkinManager.instance.CurrentCash + 350;
+            SkinManager.instance.SetCurrentCash(newCash);
+            PlayerPrefs.SetInt("CurrentCash", newCash);
+        }
         cashBuyDone.Play();
         cash.text = SkinManager.instance.CurrentCash.ToString();
         BackPurchase();
