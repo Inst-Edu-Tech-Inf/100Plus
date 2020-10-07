@@ -8,6 +8,8 @@ using System;
 using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.IO;
+
 
 
 public class Liga : MonoBehaviour
@@ -72,6 +74,10 @@ public class Liga : MonoBehaviour
     public Text userIDText;
     public Text debugInfo;
 
+   // private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
+   // public string addScoreURL = "http://summon.ieti.pl/addscore.php";//"http://localhost/unity_test/addscore.php?"; //be sure to add a ? to your url
+   // public string highscoreURL = "http://summon.ieti.pl/display.php";//"http://localhost/unity_test/display.php";
+
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
@@ -88,6 +94,268 @@ public class Liga : MonoBehaviour
             Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
             backgroundImage.sprite = fromTex;
         }
+    }
+
+
+   /* IEnumerator connectSimple()
+    {
+
+        var form = new WWWForm();
+        form.AddField("action", "post_to_table");
+        form.AddField("tableId", "name_of_table_you want_to_access");
+        var w = new WWW("http://summon.ieti.pl/mysql_connect.php", form);
+        yield return w;
+        Debug.Log(w);
+    }*/
+
+    IEnumerator connectSimple()
+    {
+        //UnityWebRequest www = UnityWebRequest.Get("http://summon.ieti.pl/GetDate.php");
+        UnityWebRequest www = UnityWebRequest.Get("http://summon.ieti.pl/dbSummOn/GetUsers.php");
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Debug.Log(www.downloadHandler.text);
+            byte[] results = www.downloadHandler.data;
+        }
+    }
+
+    public void SendPHP()
+    {
+        
+        //StartCoroutine(connectSimple());
+        //StartCoroutine(NauczycielWebClick(SkinManager.instance.UserID));
+        //StartCoroutine(DodajSzkoleWebClick(nazwaSzkolyInput.text.ToString(), skrotSzkoly.text, SkinManager.instance.UserID));
+        List<string> tmpSkrot = new List<string>();
+        for (int i = 1; i <= 40; ++i)
+        {
+            tmpSkrot.Add(SkinManager.Hash(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
+        }
+        //skrotSzkolyText.text
+        StartCoroutine(DodajKlaseWebClick(skrotSzkoly, nazwaKlasyInput.text, wiekUczniowValue.text, ileUczniowSlider.value.ToString(), tmpSkrot[1], tmpSkrot[2], tmpSkrot[3], tmpSkrot[4], tmpSkrot[5], tmpSkrot[6], tmpSkrot[7], tmpSkrot[8], tmpSkrot[9], tmpSkrot[10], tmpSkrot[11], tmpSkrot[12], tmpSkrot[13], tmpSkrot[14], tmpSkrot[15], tmpSkrot[16], tmpSkrot[17], tmpSkrot[18], tmpSkrot[19], tmpSkrot[20], tmpSkrot[21], tmpSkrot[22], tmpSkrot[23], tmpSkrot[24], tmpSkrot[25], tmpSkrot[26], tmpSkrot[27], tmpSkrot[28], tmpSkrot[29], tmpSkrot[30], tmpSkrot[31], tmpSkrot[32], tmpSkrot[33], tmpSkrot[34], tmpSkrot[35], tmpSkrot[36], tmpSkrot[37], tmpSkrot[38], tmpSkrot[39], tmpSkrot[40]));
+        //StartCoroutine(DodajKlaseWebClick(nazwaSzkolyInput.text, skrotSzkoly, SkinManager.instance.UserID));
+       /*var form = new WWWForm();
+        form.AddField("action", "post_to_table");
+        form.AddField("tableId", "name_of_table_you want_to_access");
+        var w = new WWW("http://summon.ieti.pl/mysql_connect.php", form);
+        yield  return w;
+        connectSimple();*/
+        //workingPanel.SetActive(false);
+
+    }
+
+    IEnumerator NauczycielWebClick(string nauczycielPass)
+    {
+        workingPanel.SetActive(true);
+        WWWForm form = new WWWForm();
+        string[] strArr;
+        form.AddField("nauczycielPass", nauczycielPass);
+
+        //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/NauczycielClick.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                //Debug.Log(www.downloadHandler.text);
+                if (www.downloadHandler.text == "false")
+                    czyNauczycielIstnieje = false;
+                else
+                {
+                    
+                    czyNauczycielIstnieje = true;
+                    
+                    strArr = www.downloadHandler.text.ToString().Split(' ');
+                    
+                    nazwaSzkolyInput.text = strArr[0];
+                    skrotSzkolyText.text = strArr[1];
+
+                    Dropdown.OptionData tmpDropdown = new Dropdown.OptionData();
+                    List<string> tmpNazwaKl = new List<string>();
+                
+
+                    klasy.Clear();
+                    indeksyKlas.Clear();
+                    listaKlas.options.Clear();
+
+                    for (int i = 2; i < strArr.Length; i++ )
+                    {
+                        Debug.Log(strArr[i]);
+                        tmpNazwaKl.Add(strArr[i]);
+                    }
+                    listaKlas.AddOptions(tmpNazwaKl);
+                    listaKlas.value = 0;
+                    //WyswietlKodyKlasy();
+                    klasaPanel.SetActive(true);
+                    dodajSzkoleBtn.gameObject.SetActive(false);
+
+
+                }
+                //byte[] results = www.downloadHandler.data;
+            }
+            //Debug.Log("CzyNistnieje:" + czyNauczycielIstnieje);
+        }
+        workingPanel.SetActive(false);
+    }
+
+    IEnumerator UczenWebClick(string uczenPass)
+    {
+        workingPanel.SetActive(true);
+        WWWForm form = new WWWForm();
+        string[] strArr;
+        form.AddField("uczenPass", uczenPass);
+
+        //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/UczenClick.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                if (www.downloadHandler.text == "false")
+                {
+
+                }
+                else
+                {
+                    kodUczniaInput.text = www.downloadHandler.text;
+                }
+            }
+        }
+        workingPanel.SetActive(false);
+    }
+
+    IEnumerator DodajSzkoleWebClick(string nazwaSzkolyPass, string skrotSzkolyPass, string userID)
+    {
+        workingPanel.SetActive(true);
+        WWWForm form = new WWWForm();
+        string[] strArr;
+        if (nazwaSzkolyPass == "")
+            nazwaSzkolyPass = "?";
+        if (skrotSzkolyPass == "")
+            skrotSzkolyPass = "?";
+        form.AddField("nazwaSzkolyPass", nazwaSzkolyPass);
+        form.AddField("skrotSzkolyPass", skrotSzkolyPass);
+        form.AddField("userID", userID);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajSzkole.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                if (www.downloadHandler.text == "false")
+                {
+
+                }
+                else
+                {
+                    //kodUczniaInput.text = www.downloadHandler.text;
+                    klasaPanel.SetActive(true);
+                }
+            }
+        }
+        workingPanel.SetActive(false);
+    }
+
+    IEnumerator DodajKlaseWebClick(string skrotSzkoly, string skrotKlasyPass, string wiekUczniow, string iluUczniowDodac, string skrotU1, string skrotU2, string skrotU3, string skrotU4, string skrotU5, string skrotU6, string skrotU7, string skrotU8, string skrotU9, string skrotU10, string skrotU11, string skrotU12, string skrotU13, string skrotU14, string skrotU15, string skrotU16, string skrotU17, string skrotU18, string skrotU19, string skrotU20, string skrotU21, string skrotU22, string skrotU23, string skrotU24, string skrotU25, string skrotU26, string skrotU27, string skrotU28, string skrotU29, string skrotU30, string skrotU31, string skrotU32, string skrotU33, string skrotU34, string skrotU35, string skrotU36, string skrotU37, string skrotU38, string skrotU39, string skrotU40)
+    {
+        workingPanel.SetActive(true);
+        WWWForm form = new WWWForm();
+       /* string[] strArr;
+        if (nazwaSzkolyPass == "")
+            nazwaSzkolyPass = "?";
+        if (skrotSzkolyPass == "")
+            skrotSzkolyPass = "?";*/
+        form.AddField("skrotSzkoly", skrotSzkoly);
+        form.AddField("skrotKlasyPass", skrotKlasyPass);
+        form.AddField("wiekUczniow", wiekUczniow);
+        form.AddField("iluUczniowDodac", iluUczniowDodac);
+        form.AddField("skrotU1", skrotU1);
+        form.AddField("skrotU2", skrotU2);
+        form.AddField("skrotU3", skrotU3);
+        form.AddField("skrotU4", skrotU4);
+        form.AddField("skrotU5", skrotU5);
+        form.AddField("skrotU6", skrotU6);
+        form.AddField("skrotU7", skrotU7);
+        form.AddField("skrotU8", skrotU8);
+        form.AddField("skrotU9", skrotU9);
+        form.AddField("skrotU10", skrotU10);
+        form.AddField("skrotU11", skrotU11);
+        form.AddField("skrotU12", skrotU12);
+        form.AddField("skrotU13", skrotU13);
+        form.AddField("skrotU14", skrotU14);
+        form.AddField("skrotU15", skrotU15);
+        form.AddField("skrotU16", skrotU16);
+        form.AddField("skrotU17", skrotU17);
+        form.AddField("skrotU18", skrotU18);
+        form.AddField("skrotU19", skrotU19);
+        form.AddField("skrotU20", skrotU20);
+        form.AddField("skrotU21", skrotU21);
+        form.AddField("skrotU22", skrotU22);
+        form.AddField("skrotU23", skrotU23);
+        form.AddField("skrotU24", skrotU24);
+        form.AddField("skrotU25", skrotU25);
+        form.AddField("skrotU26", skrotU26);
+        form.AddField("skrotU27", skrotU27);
+        form.AddField("skrotU28", skrotU28);
+        form.AddField("skrotU29", skrotU29);
+        form.AddField("skrotU30", skrotU30);
+        form.AddField("skrotU31", skrotU31);
+        form.AddField("skrotU32", skrotU32);
+        form.AddField("skrotU33", skrotU33);
+        form.AddField("skrotU34", skrotU34);
+        form.AddField("skrotU35", skrotU35);
+        form.AddField("skrotU36", skrotU36);
+        form.AddField("skrotU37", skrotU37);
+        form.AddField("skrotU38", skrotU38);
+        form.AddField("skrotU39", skrotU39);
+        form.AddField("skrotU40", skrotU40);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajKlase.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                if (www.downloadHandler.text == "false")
+                {
+
+                }
+                else
+                {
+                    //kodUczniaInput.text = www.downloadHandler.text;
+                    klasaPanel.SetActive(true);
+                }
+            }
+        }
+        workingPanel.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -166,8 +434,8 @@ public class Liga : MonoBehaviour
         szkolaPanel.SetActive(true);
         iloscUczniowValue.text = ileUczniowSlider.value.ToString();
         wiekUczniowValue.text = wiekUczniowSlider.value.ToString();
-        MySqlConnection conn = new MySqlConnection(connStr);
-        try
+        //MySqlConnection conn = new MySqlConnection(connStr);
+        /*try
         {
             conn.Open();
             string sql = "SELECT * FROM `nauczyciel` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID + "';";
@@ -189,9 +457,10 @@ public class Liga : MonoBehaviour
             Debug.Log(ex.ToString());
         }
 
-        conn.Close();
+        conn.Close();*/
+        StartCoroutine(NauczycielWebClick(SkinManager.instance.UserID));
 
-        if (czyNauczycielIstnieje)//szko³a istnieje, nauczyciel dodany, dodawane klas aktywne
+        /*if (czyNauczycielIstnieje)//szko³a istnieje, nauczyciel dodany, dodawane klas aktywne
         {
             //czytaj nr szko³y
             try
@@ -274,25 +543,7 @@ public class Liga : MonoBehaviour
                     {
                         indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
                         klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
-                        //, reader["u"+i.ToString()+"kod"].ToString()
-                        /*if (i==1)
-                        {
-                            kodyKlas1.text = "";
-                            kodyKlas2.text = "";
-                            kodyKlas3.text = "";
-                            kodyKlas4.text = "";
-                            for (int j = 1; j <= 10; ++j)
-                            {
-                                if (Convert.ToInt32(reader["ucz" + j.ToString()]) != 0)
-                                    kodyKlas1.text += "<color=red>" + reader["u" + j.ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["ucz" + (j+10).ToString()]) != 0)
-                                    kodyKlas2.text += "<color=red>" + reader["u" + (j+10).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["ucz" + (j + 20).ToString()]) != 0)
-                                    kodyKlas3.text += "<color=red>" + reader["u" + (j + 20).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (Convert.ToInt32(reader["ucz" + (j + 30).ToString()]) != 0)
-                                    kodyKlas4.text += "<color=red>" + reader["u" + (j + 30).ToString() + "kod"].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                            }
-                        }*/
+                   
                     }
                     //nazwa bêdzie rekord
                 }
@@ -312,7 +563,7 @@ public class Liga : MonoBehaviour
         {
             dodajSzkoleBtn.gameObject.SetActive(true);
             klasaPanel.SetActive(false);
-        }
+        }*/
 
         nauczycielBtn.gameObject.SetActive(false);
         uczenBtn.gameObject.SetActive(false);
@@ -335,8 +586,9 @@ public class Liga : MonoBehaviour
         uczenBtn.gameObject.SetActive(false);
         szkolaPanel.SetActive(false);
         uczenPanel.SetActive(true);
-        debugInfo.text += connStr + "__";
-        Debug.Log("Przed");
+        StartCoroutine(UczenWebClick(SkinManager.instance.UserID));
+      /*  //debugInfo.text += connStr + "__";
+        //Debug.Log("Przed");
         try
         {
             MySqlConnection conn2 = new MySqlConnection(connStr);
@@ -378,42 +630,15 @@ public class Liga : MonoBehaviour
         }
 
         conn.Close();
-        debugInfo.text += "closed__"; 
+        debugInfo.text += "closed__"; */
     }
 
     public void DodajSzkole()
     {
         
 
-        MySqlConnection conn = new MySqlConnection(connStr);
-        /*try
-        {
-            conn.Open();
-            string sql = "SELECT * FROM `nauczyciel` WHERE `identyfikator` LIKE '"+ SkinManager.instance.UserID + "';";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            object result = cmd.ExecuteScalar();
-            
-            if (result != null)
-            {
-                //int r = Convert.ToInt32(result);
-                Debug.Log(cmd);
-                czyNauczycielIstnieje = true;
-            }
-            else
-            {
-                //Debug.Log("Nie znaleziony");
-                czyNauczycielIstnieje = false;
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex.ToString());
-        }
-
-        conn.Close();*/
-
-        //if (!czyNauczycielIstnieje)//dodaj nauczyciela
+       /* MySqlConnection conn = new MySqlConnection(connStr);
+        
         {
             conn = new MySqlConnection(connStr);
             try
@@ -510,43 +735,18 @@ public class Liga : MonoBehaviour
                 Debug.Log(ex.ToString());
             }
 
-            conn.Close();
+            conn.Close();*/
             //activeAddClass = true;
+            StartCoroutine(DodajSzkoleWebClick(nazwaSzkolyInput.text, skrotSzkoly, SkinManager.instance.UserID));
             klasaPanel.SetActive(true);
-        }
-        //else//wczytaj nauczyciela i uaktwynij dodawanie klas
-        {
-            /*
-            string _name = "";
-            string _description = "";
-            int _offense = 0;
-            int _defense = 0;
-            int id = 1;
-            string table = "map_block_type";
-            dbconn.command.CommandText = string.Format("SELECT * FROM `{0}` WHERE `id` = {1} LIMIT 1;", table, id.ToString());
-            System.Data.IDataReader reader = dbconn.command.ExecuteReader();
-            while (reader.Read())
-            {
-                _name = reader["name"].ToString();
-                _description = reader["description"].ToString();
-                _offense = Convert.ToInt32(reader["offense"]);
-                _defense = Convert.ToInt32(reader["defense"]);
-                string[] textures = reader["textures"].ToString().Split('|');
-                foreach (string t in textures)
-                {
-                    _textures.Add(t);
-                }
-                */
-        }
-        
-        
+ 
     }
 
     public void DodajKlase()
     {
-        List<int> nowiUczniowieID = new List<int>();
+        //List<int> nowiUczniowieID = new List<int>();
 
-        workingPanel.SetActive(true);
+       /* //workingPanel.SetActive(true);
         //nrKlasy
         MySqlConnection conn = new MySqlConnection(connStr);
         try
@@ -709,13 +909,20 @@ public class Liga : MonoBehaviour
             
         }//endfor ileUczniowSlider
 
-        workingPanel.SetActive(false);
+        //workingPanel.SetActive(false);*/
+        List<string> tmpSkrot = new List<string>();
+        for (int i = 1; i <= 40; ++i)
+        {
+            tmpSkrot.Add(SkinManager.Hash(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
+        }
+        //skrotSzkolyText.text
+        StartCoroutine(DodajKlaseWebClick(skrotSzkoly, nazwaKlasyInput.text, wiekUczniowValue.text, ileUczniowSlider.value.ToString(), tmpSkrot[0], tmpSkrot[1], tmpSkrot[2], tmpSkrot[3], tmpSkrot[4], tmpSkrot[5], tmpSkrot[6], tmpSkrot[7], tmpSkrot[8], tmpSkrot[9], tmpSkrot[10], tmpSkrot[11], tmpSkrot[12], tmpSkrot[13], tmpSkrot[14], tmpSkrot[15], tmpSkrot[16], tmpSkrot[17], tmpSkrot[18], tmpSkrot[19], tmpSkrot[20], tmpSkrot[21], tmpSkrot[22], tmpSkrot[23], tmpSkrot[24], tmpSkrot[25], tmpSkrot[26], tmpSkrot[27], tmpSkrot[28], tmpSkrot[29], tmpSkrot[30], tmpSkrot[31], tmpSkrot[32], tmpSkrot[33], tmpSkrot[34], tmpSkrot[35], tmpSkrot[36], tmpSkrot[37], tmpSkrot[38], tmpSkrot[39]));
 
         List<string> tmpNazwa = new List<string>();
         tmpNazwa.Add(nazwaKlasyInput.text);
         listaKlas.AddOptions(tmpNazwa);
         
-        kodyKlas1.text = "";
+        /*kodyKlas1.text = "";
         kodyKlas2.text = "";
         kodyKlas3.text = "";
         kodyKlas4.text = "";
@@ -732,10 +939,11 @@ public class Liga : MonoBehaviour
                 kodyKlas3.text += "<color=red>" + tmpSkrot[j + 20 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
             if (j + 30 <= ileUczniowSlider.value)
                 kodyKlas4.text += "<color=red>" + tmpSkrot[j + 30 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-        }
+        }*/
         listaKlas.value = listaKlas.options.FindIndex(option => option.text == nazwaKlasyInput.text);
         //listaKlas.value = listAvailableStrings.IndexOf(nazwaKlasyInput.text);
         nazwaKlasyInput.text = "";
+        WyswietlKodyKlasy();
 
         //kodyKlas1Input.text = kodyKlas1.text;
         //kodyKlas1Input.text += kodyKlas1.text.ToString();
