@@ -1299,7 +1299,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 815.36, y: -59}
+  m_AnchoredPosition: {x: 804.04, y: -72.99997}
   m_SizeDelta: {x: 267.5244, y: 561.1947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &341413615
@@ -1334,25 +1334,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '4a
-
-    4b
-
-    3
-
-    4
-
-    5
-
-    6
-
-    7
-
-    8
-
-    9
-
-    10'
+  m_Text: 
 --- !u!222 &341413616
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1544,7 +1526,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 24
 --- !u!222 &382604409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2609,7 +2591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 547.84, y: -59}
+  m_AnchoredPosition: {x: 536.52, y: -72.99997}
   m_SizeDelta: {x: 267.5244, y: 561.1947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &740895573
@@ -2644,25 +2626,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '4a
-
-    4b
-
-    3
-
-    4
-
-    5
-
-    6
-
-    7
-
-    8
-
-    9
-
-    10'
+  m_Text: 
 --- !u!222 &740895574
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3214,8 +3178,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -522.1, y: 0.000045776}
-  m_SizeDelta: {x: 767.14624, y: 71.617805}
+  m_AnchoredPosition: {x: -533.28, y: 0.000045776}
+  m_SizeDelta: {x: 744.7831, y: 71.617805}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &806594349
 MonoBehaviour:
@@ -3581,7 +3545,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4a
+  m_Text: 
 --- !u!222 &868272400
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4229,7 +4193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 7
+  m_Text: 10
 --- !u!1 &1050027105
 GameObject:
   m_ObjectHideFlags: 0
@@ -4606,7 +4570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12.8, y: -73.6}
+  m_AnchoredPosition: {x: 1.4755, y: -73.6}
   m_SizeDelta: {x: 267.5244, y: 561.1947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113320165
@@ -4641,25 +4605,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '4a
-
-    4b
-
-    3
-
-    4
-
-    5
-
-    6
-
-    7
-
-    8
-
-    9
-
-    10'
+  m_Text: 
 --- !u!222 &1113320166
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5473,7 +5419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280.32, y: -59}
+  m_AnchoredPosition: {x: 269, y: -73}
   m_SizeDelta: {x: 267.5244, y: 561.1947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1351903080
@@ -5508,25 +5454,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '4a
-
-    4b
-
-    3
-
-    4
-
-    5
-
-    6
-
-    7
-
-    8
-
-    9
-
-    10'
+  m_Text: 
 --- !u!222 &1351903081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6970,7 +6898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2053550963
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7278,7 +7206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -304.64, y: -89.289}
+  m_AnchoredPosition: {x: -327, y: -89.289}
   m_SizeDelta: {x: 332.21997, y: 99.377625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2091338380
@@ -7328,13 +7256,7 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: 4a
-      m_Image: {fileID: 0}
-    - m_Text: 4b
-      m_Image: {fileID: 0}
-    - m_Text: 4c
-      m_Image: {fileID: 0}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

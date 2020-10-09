@@ -5,6 +5,7 @@
 	$password = "SummOn2020.";
 	$dbname = "kolacz_jos1";
 	$socket = "3306";
+	$nauczycielPass = $_POST["nauczycielPass"];
 	$skrotSzkoly = $_POST["skrotSzkoly"];
 	$skrotKlasyPass = $_POST["skrotKlasyPass"];
 	$wiekUczniow = $_POST["wiekUczniow"];
@@ -55,6 +56,7 @@
 	$ileUczniow = "";
 	$nrUczniaTeams = "";
 	$i = 0;
+	$nrSzkoly = "";
 	$tab = array($skrotU1, $skrotU2, $skrotU3, $skrotU4, $skrotU5, $skrotU6,  $skrotU7, $skrotU8, $skrotU9, $skrotU10, $skrotU11, $skrotU12, $skrotU13, $skrotU14, $skrotU15, $skrotU16, $skrotU17, $skrotU18, $skrotU19, $skrotU20, $skrotU21, $skrotU22, $skrotU23, $skrotU24, $skrotU25, $skrotU26, $skrotU27, $skrotU28, $skrotU29, $skrotU30, $skrotU31, $skrotU32, $skrotU33, $skrotU34, $skrotU35, $skrotU36, $skrotU37, $skrotU38, $skrotU39, $skrotU40);
 	//
 	
@@ -66,79 +68,82 @@
 		die("Connection failed: " . $conn->connect_error);
 	}
 	//echo "Connected successfully";
-	
-	//sql2 = "SELECT COUNT(*) FROM `klasa`";
-	//sql3 = "INSERT INTO `klasa` (`id`, `szkola`, `ucz1`, `ucz2`, `ucz3`, `ucz4`, `ucz5`, `ucz6`, `ucz7`, `ucz8`, `ucz9`, `ucz10`, `ucz11`, `ucz12`, `ucz13`, `ucz14`, `ucz15`, `ucz16`, `ucz17`, `ucz18`, `ucz19`, `ucz20`, `ucz21`, `ucz22`, `ucz23`, `ucz24`, `ucz25`, `ucz26`, `ucz27`, `ucz28`, `ucz29`, `ucz30`, `ucz31`, `ucz32`, `ucz33`, `ucz34`, `ucz35`, `ucz36`, `ucz37`, `ucz38`, `ucz39`, `ucz40`, `nazwa`, `u1kod`, `u2kod`, `u3kod`, `u4kod`, `u5kod`, `u6kod`, `u7kod`, `u8kod`, `u9kod`, `u10kod`, `u11kod`, `u12kod`, `u13kod`, `u14kod`, `u15kod`, `u16kod`, `u17kod`, `u18kod`, `u19kod`, `u20kod`, `u21kod`, `u22kod`, `u23kod`, `u24kod`, `u25kod`, `u26kod`, `u27kod`, `u28kod`, `u29kod`, `u30kod`, `u31kod`, `u32kod`, `u33kod`, `u34kod`, `u35kod`, `u36kod`, `u37kod`, `u38kod`, `u39kod`, `u40kod`, `wiek`)"+
-    //            " VALUES ('" + nrKlasy.ToString() + "', '" + nrSzkoly.ToString() + "', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '" + nazwaKlasyInput.text + "', '" + tmpSkrot[0] + "', '" + tmpSkrot[1] + "', '" + tmpSkrot[2] + "', '" + tmpSkrot[3] + "', '" + tmpSkrot[4] + "', '" + tmpSkrot[5] + "', '" + tmpSkrot[6] + "', '" + tmpSkrot[7] + "', '" + tmpSkrot[8] + "', '" + tmpSkrot[9] + "', '" + tmpSkrot[10] + "', '" + tmpSkrot[11] + "', '" + tmpSkrot[12] + "', '" + tmpSkrot[13] + "', '" + tmpSkrot[14] + "', '" + tmpSkrot[15] + "', '" + tmpSkrot[16] + "', '" + tmpSkrot[17] + "', '" + tmpSkrot[18] + "', '" + tmpSkrot[19] + "', '" + tmpSkrot[20] + "', '" + tmpSkrot[21] + "', '" + tmpSkrot[22] + "', '" + tmpSkrot[23] + "', '" + tmpSkrot[24] + "', '" + tmpSkrot[25] + "', '" + tmpSkrot[26] + "', '" + tmpSkrot[27] + "', '" + tmpSkrot[28] + "', '" + tmpSkrot[29] + "', '" + tmpSkrot[30] + "', '" + tmpSkrot[31] + "', '" + tmpSkrot[32] + "', '" + tmpSkrot[33] + "', '" + tmpSkrot[34] + "', '" + tmpSkrot[35] + "', '" + tmpSkrot[36] + "', '" + tmpSkrot[37] + "', '" + tmpSkrot[38] + "', '" + tmpSkrot[39] + "', '" + wiekUczniowValue.text + "');";
-    // string sql4 = "SELECT COUNT(*) FROM `uczen`";       
-	//string sql4 = "SELECT COUNT(*) FROM `jos_djl_teams`";
-	//for (int i=1; i<=ileUczniowSlider.value; ++i)
-		//tmpNrUcznia++;
-        //tmpNrUczniaTeams++;
 
-	//string sql5 = "INSERT INTO `uczen` (`id`, `klasa`, `identyfikator`, `team_nr`, `parametry`, `skrot`) " +
-	//	"VALUES('" + tmpNrUcznia.ToString() + "', '"+nrKlasy.ToString()+ "', '', '"+tmpNrUczniaTeams.ToString()+"', '', '"+tmpSkrot[Licznik-1]+"');";
-    //  string sql5 = "UPDATE `klasa` SET `ucz" + Licznik.ToString() + "` = '" + tmpNrUcznia.ToString() + "' WHERE `klasa`.`id` = " + nrKlasy.ToString() + ";";
-    // string sql5 = "INSERT INTO `jos_djl_teams` (`id`, `name`, `alias`, `logo`, `city`, `venue`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) " +
-    //               "VALUES('" + nrUczniaTeams.ToString() + "', '" + nazwaUcznia + "', '', '', '', '', '0', '', '', '', '');";
-      //endfor slider                            
-//	$sql = "SELECT nazwa, skrot FROM `szkola`";// WHERE `nazwa' LIKE \"$nauczycielPass\" ";// WHERE `identyfikator` LIKE \"$nauczycielPass\" ";
-//	sql = "SELECT COUNT(*) as total FROM `szkola`";
-//	 sql = "INSERT INTO `szkola` (`id`, `nazwa`, `kl1`, `kl2`, `kl3`, `kl4`, `kl5`, `kl6`, `kl7`, `kl8`, `kl9`, `kl10`," +                    " `kl11`, `kl12`, `kl13`, `kl14`, `kl15`, `kl16`, `kl17`, `kl18`, `kl19`, `kl20`, `skrot`," +                    " `kl1nazwa`, `kl2nazwa`, `kl3nazwa`, `kl4nazwa`, `kl5nazwa`, `kl6nazwa`, `kl7nazwa`, `kl8nazwa`, `kl9nazwa`, `kl10nazwa`, " +                    "`kl11nazwa`, `kl12nazwa`, `kl13nazwa`, `kl14nazwa`, `kl15nazwa`, `kl16nazwa`, `kl17nazwa`, `kl18nazwa`, `kl19nazwa`, `kl20nazwa`) " +                    "VALUES('" + nrSzkoly.ToString() + "', '" + nazwaSzkolyInput.text + "', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', " +                    "'" + skrotSzkolyText.text + "', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');";
-                
-	
-	$sql = "SELECT COUNT(*) as total FROM `klasa`";
+    $sql = "SELECT szkola FROM `nauczyciel` WHERE `identyfikator` LIKE \"$nauczycielPass\" ";	
 	
 	$result = $conn->query($sql);
+	//echo $nauczycielPass;
+	if ($result->num_rows > 0){
+		while($row = $result->fetch_assoc()) {	
+			$nrSzkoly = $row["szkola"];
+			//echo "nrSzkoly:";
+			//echo $row["szkola"];
+			//echo "<br>";
+		}
+	
+		$sql = "SELECT COUNT(*) as total FROM `klasa`";
+		
+		$result = $conn->query($sql);
 
-	$row = $result->fetch_assoc();
-	$ileKlas = $row["total"];
-	
-	$sql = "INSERT INTO `klasa` (`id`, `szkola`, `ucz1`, `ucz2`, `ucz3`, `ucz4`, `ucz5`, `ucz6`, `ucz7`, `ucz8`, `ucz9`, `ucz10`, `ucz11`, `ucz12`, `ucz13`, `ucz14`, `ucz15`, `ucz16`, `ucz17`, `ucz18`, `ucz19`, `ucz20`, `ucz21`, `ucz22`, `ucz23`, `ucz24`, `ucz25`, `ucz26`, `ucz27`, `ucz28`, `ucz29`, `ucz30`, `ucz31`, `ucz32`, `ucz33`, `ucz34`, `ucz35`, `ucz36`, `ucz37`, `ucz38`, `ucz39`, `ucz40`, `nazwa`, `u1kod`, `u2kod`, `u3kod`, `u4kod`, `u5kod`, `u6kod`, `u7kod`, `u8kod`, `u9kod`, `u10kod`, `u11kod`, `u12kod`, `u13kod`, `u14kod`, `u15kod`, `u16kod`, `u17kod`, `u18kod`, `u19kod`, `u20kod`, `u21kod`, `u22kod`, `u23kod`, `u24kod`, `u25kod`, `u26kod`, `u27kod`, `u28kod`, `u29kod`, `u30kod`, `u31kod`, `u32kod`, `u33kod`, `u34kod`, `u35kod`, `u36kod`, `u37kod`, `u38kod`, `u39kod`, `u40kod`, `wiek`) VALUES (\"$ileKlas\", \"$ileSzkol\", '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', \"$skrotKlasyPass\", \"$skrotU1\", \"$skrotU2\", \"$skrotU3\", \"$skrotU4\", \"$skrotU5\", \"$skrotU6\", \"$skrotU7\", \"$skrotU8\", \"$skrotU9\", \"$skrotU10\", \"$skrotU11\", \"$skrotU12\", \"$skrotU13\", \"$skrotU14\", \"$skrotU15\", \"$skrotU16\", \"$skrotU17\", \"$skrotU18\", \"$skrotU19\", \"$skrotU20\", \"$skrotU21\", \"$skrotU22\", \"$skrotU23\", \"$skrotU24\", \"$skrotU25\", \"$skrotU26\", \"$skrotU27\", \"$skrotU28\", \"$skrotU29\", \"$skrotU30\", \"$skrotU31\", \"$skrotU32\", \"$skrotU33\", \"$skrotU34\", \"$skrotU35\", \"$skrotU36\", \"$skrotU37\", \"$skrotU38\", \"$skrotU39\", \"$skrotU40\", \"$wiekUczniow\");";
-   
-	//echo $sql;
-	//echo "<br>";
-    $result = $conn->query($sql);
-	
-	$sql = "SELECT COUNT(*) as totalU FROM `uczen`";
-	$result = $conn->query($sql);
-
-	$row = $result->fetch_assoc();
-	$ileUczniow = $row["totalU"];
-	
-	$sql = "SELECT COUNT(*) as totalTEAM FROM `jos_djl_teams`";
-	$result = $conn->query($sql);
-
-	$row = $result->fetch_assoc();
-	$nrUczniaTeams = $row["totalTEAM"];
-	
-	//teraz FOR
-	$tmpNrUcznia = $ileUczniow;
-    $tmpNrUczniaTeams = $nrUczniaTeams;
-	$pozycja = "";
-	$licznik = 0;
-	for($i=0; $i < $iluUczniowDodac; $i++)
-	{
-		$licznik = $licznik + 1;
-		$tmpNrUcznia = $tmpNrUcznia + 1;
-		$tmpNrUczniaTeams = $tmpNrUczniaTeams + 1;
-		$pozycja = $tab[$i];
-		//$sql = "INSERT INTO `nauczyciel` (`id`, `identyfikator`, `szkola`) VALUES(\"$ileNauczycieli\", \"$userID\", \"$ileSzkol\");";
-		$sql = "INSERT INTO `uczen` (`id`, `klasa`, `identyfikator`, `team_nr`, `parametry`, `skrot`) VALUES(\"$tmpNrUcznia\", \"$ileKlas\", '', \"$tmpNrUczniaTeams\", '', \"$pozycja\");";
+		$row = $result->fetch_assoc();
+		$ileKlas = $row["total"];
+		//echo "ileKlas:";
+		//echo $ileKlas;
+		//echo "<br>";
+		
+		$sql = "INSERT INTO `klasa` (`id`, `szkola`, `ucz1`, `ucz2`, `ucz3`, `ucz4`, `ucz5`, `ucz6`, `ucz7`, `ucz8`, `ucz9`, `ucz10`, `ucz11`, `ucz12`, `ucz13`, `ucz14`, `ucz15`, `ucz16`, `ucz17`, `ucz18`, `ucz19`, `ucz20`, `ucz21`, `ucz22`, `ucz23`, `ucz24`, `ucz25`, `ucz26`, `ucz27`, `ucz28`, `ucz29`, `ucz30`, `ucz31`, `ucz32`, `ucz33`, `ucz34`, `ucz35`, `ucz36`, `ucz37`, `ucz38`, `ucz39`, `ucz40`, `nazwa`, `u1kod`, `u2kod`, `u3kod`, `u4kod`, `u5kod`, `u6kod`, `u7kod`, `u8kod`, `u9kod`, `u10kod`, `u11kod`, `u12kod`, `u13kod`, `u14kod`, `u15kod`, `u16kod`, `u17kod`, `u18kod`, `u19kod`, `u20kod`, `u21kod`, `u22kod`, `u23kod`, `u24kod`, `u25kod`, `u26kod`, `u27kod`, `u28kod`, `u29kod`, `u30kod`, `u31kod`, `u32kod`, `u33kod`, `u34kod`, `u35kod`, `u36kod`, `u37kod`, `u38kod`, `u39kod`, `u40kod`, `wiek`) VALUES (\"$ileKlas\", \"$nrSzkoly\", '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', \"$skrotKlasyPass\", \"$skrotU1\", \"$skrotU2\", \"$skrotU3\", \"$skrotU4\", \"$skrotU5\", \"$skrotU6\", \"$skrotU7\", \"$skrotU8\", \"$skrotU9\", \"$skrotU10\", \"$skrotU11\", \"$skrotU12\", \"$skrotU13\", \"$skrotU14\", \"$skrotU15\", \"$skrotU16\", \"$skrotU17\", \"$skrotU18\", \"$skrotU19\", \"$skrotU20\", \"$skrotU21\", \"$skrotU22\", \"$skrotU23\", \"$skrotU24\", \"$skrotU25\", \"$skrotU26\", \"$skrotU27\", \"$skrotU28\", \"$skrotU29\", \"$skrotU30\", \"$skrotU31\", \"$skrotU32\", \"$skrotU33\", \"$skrotU34\", \"$skrotU35\", \"$skrotU36\", \"$skrotU37\", \"$skrotU38\", \"$skrotU39\", \"$skrotU40\", \"$wiekUczniow\");";
+	   
 		//echo $sql;
 		//echo "<br>";
 		$result = $conn->query($sql);
 		
-		$sql = "UPDATE `klasa` SET `ucz$licznik` = \"$tmpNrUcznia\" WHERE `klasa`.`id` = \"$ileKlas\";";
-		//echo $sql;
-		//echo "<br>";
+		$sql = "SELECT COUNT(*) as totalU FROM `uczen`";
 		$result = $conn->query($sql);
-		//nazwaUcznia = skrotSzkoly + "/" + nazwaKlasyInput.text + "/" + Licznik.ToString();
-		$nazwaUcznia = "$skrotSzkoly/$skrotKlasyPass/$licznik";
-		$sql = "INSERT INTO `jos_djl_teams` (`id`, `name`, `alias`, `logo`, `city`, `venue`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES(\"$tmpNrUczniaTeams\", $nazwaUcznia, '', '', '', '', '0', '', '', '', '');";
-		//echo $sql;
-		//echo "<br>";
+
+		$row = $result->fetch_assoc();
+		$ileUczniow = $row["totalU"];
+		
+		$sql = "SELECT COUNT(*) as totalTEAM FROM `jos_djl_teams`";
 		$result = $conn->query($sql);
+
+		$row = $result->fetch_assoc();
+		$nrUczniaTeams = $row["totalTEAM"];
+		
+		//teraz FOR
+		$tmpNrUcznia = $ileUczniow-1;
+		$tmpNrUczniaTeams = $nrUczniaTeams;
+		$pozycja = "";
+		$licznik = 0;
+		//echo "ileUczniowDodac:";
+		//echo $iluUczniowDodac;
+		for($i=0; $i < intval($iluUczniowDodac); $i++)
+		{
+			$licznik = $licznik + 1;
+			$tmpNrUcznia = $tmpNrUcznia + 1;
+			$tmpNrUczniaTeams = $tmpNrUczniaTeams + 1;
+			$pozycja = $tab[$i];
+			//$sql = "INSERT INTO `nauczyciel` (`id`, `identyfikator`, `szkola`) VALUES(\"$ileNauczycieli\", \"$userID\", \"$ileSzkol\");";
+			$sql = "INSERT INTO `uczen` (`id`, `klasa`, `identyfikator`, `team_nr`, `parametry`, `skrot`) VALUES(\"$tmpNrUcznia\", \"$ileKlas\", '', \"$tmpNrUczniaTeams\", '', \"$pozycja\");";
+			//echo $sql;
+			//echo "<br>";
+			$result = $conn->query($sql);
+			
+			$sql = "UPDATE `klasa` SET `ucz$licznik` = \"$tmpNrUcznia\" WHERE `klasa`.`id` = \"$ileKlas\";";
+			//echo $sql;
+			//echo "<br>";
+			$result = $conn->query($sql);
+			//nazwaUcznia = skrotSzkoly + "/" + nazwaKlasyInput.text + "/" + Licznik.ToString();
+			$nazwaUcznia = "\"$skrotSzkoly/$skrotKlasyPass/$licznik\"";
+			$sql = "INSERT INTO `jos_djl_teams` (`id`, `name`, `alias`, `logo`, `city`, `venue`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES(\"$tmpNrUczniaTeams\", $nazwaUcznia, '', '', '', '', '0', '', '', '', '');";
+			//echo $sql;
+			//echo "<br>";
+			$result = $conn->query($sql);
+		}
+
+
+	}
+	else{
+		echo "false";
 	}
 	
 	//echo $ileSzkol;

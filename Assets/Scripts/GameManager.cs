@@ -4577,9 +4577,46 @@ Android uses files inside a compressed APK
         }
     }
 
-    bool WyslijNaSerwer(int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+    void WyslijNaSerwer(int hostPoints, int clientPoints, bool hostWin, bool clientWin)
     {
         int ileGier = 0;
+        int hostTeamNr = 0;
+        int clientTeamNr = 4; //unknown
+        int zwyciezca = 0;//remis 1 host 2 client
+        int pktHost = 1;
+        int pktClient = 1;
+        DateTime kalendarze = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);//2008, 10, 1, 17, 4, 32);
+        string kalendarz;
+        string tmpClientID = clientID.ToString();
+        if (clientID.ToString() == "")
+            tmpClientID = "nieznany";
+        if ((hostWin) && (clientWin))//remis
+        {
+            zwyciezca = 0;
+            pktHost = 1;
+            pktClient = 1;
+        }
+        else
+        {
+            if (hostWin)
+            {
+                zwyciezca = 1;
+                pktHost = 3;
+                pktClient = -3;
+            }
+            else
+            {
+                zwyciezca = 2;
+                pktHost = -3;
+                pktClient = 3;
+            }
+        }
+
+        kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
+        kalendarz = kalendarz.TrimEnd('Z');
+
+        StartCoroutine(DodajGreWebClick(SkinManager.instance.UserID, tmpClientID, zwyciezca.ToString(), pktHost.ToString(), pktClient.ToString(), kalendarz, hostPoints.ToString(), clientPoints.ToString()));
+       /* int ileGier = 0;
         int hostTeamNr = 0;
         int clientTeamNr = 4; //unknown
         int zwyciezca = 0;//remis 1 host 2 client
@@ -4722,7 +4759,7 @@ Android uses files inside a compressed APK
             return true;
         }
         else
-            return false;
+            return false;*/
     }
 
     public void SendMatchTestClick()
@@ -5170,6 +5207,47 @@ Android uses files inside a compressed APK
                 }
             }
         }
+    }
+
+    IEnumerator DodajGreWebClick(string nauczycielPass, string clientID, string zwyciezca, string pktHost, string pktClient, string kalendarz, string hostPoints, string clientPoints)
+    {
+        //workingPanel.SetActive(true);
+        WWWForm form = new WWWForm();
+        string[] strArr;
+        form.AddField("nauczycielPass", nauczycielPass);
+		form.AddField("clientID", clientID);
+		form.AddField("zwyciezca", zwyciezca);
+		form.AddField("pktHost", pktHost);
+		form.AddField("pktClient", pktClient);
+		form.AddField("kalendarz", kalendarz);
+		form.AddField("hostPoints", hostPoints);
+		form.AddField("clientPoints", clientPoints);
+
+        //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajGre.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                //Debug.Log(www.downloadHandler.text);
+                if (www.downloadHandler.text == "false")
+                {
+                    
+                }
+                else
+                {
+
+                }
+                //byte[] results = www.downloadHandler.data;
+            }
+        }
+        //workingPanel.SetActive(false);
     }
 
 }

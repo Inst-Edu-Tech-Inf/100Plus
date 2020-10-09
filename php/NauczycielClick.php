@@ -35,6 +35,8 @@
 			//echo $row["szkola"];
 			//echo "<br>";
 			$nrSzkoly = $row["szkola"];
+			echo $row["nazwa"];
+			echo " ";//"<br>";
 		}
 		$sql = "SELECT nazwa, skrot FROM `szkola` WHERE `id` LIKE \"$nrSzkoly\" ";
 		$result = $conn->query($sql);
@@ -44,9 +46,9 @@
 				//echo $row["szkola"];
 				//
 				echo $row["nazwa"];
-				echo " ";//"<br>";
+				echo "*";//"<br>";
 				echo $row["skrot"];
-				echo " ";//"<br>";
+				echo "*";//"<br>";
 			}
 		}
 		$sql = "SELECT nazwa FROM `klasa` WHERE `szkola` LIKE \"$nrSzkoly\" ";
@@ -55,7 +57,7 @@
 		//output data of each row
 			while($row = $result->fetch_assoc()) {
 				echo $row["nazwa"];
-				echo " ";//"<br>";
+				echo "*";//"<br>";
 			}
 		}
 	}

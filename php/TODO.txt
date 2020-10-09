@@ -1,0 +1,3 @@
+usun % dostęp z zewnątrz do bazy danych
+utwórz katalog hash md5(SummOn2020) i wgraj tam pliki php
+dodaj tam .htaccess o treści: deny from all
