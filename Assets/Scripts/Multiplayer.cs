@@ -54,13 +54,22 @@ public class Multiplayer : MonoBehaviour
         }
         //readyButton.interactable = false;
         readyButton.gameObject.SetActive(false);
+
         if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SOLO)
         {
             pvpPanel.SetActive(false);
             aiDifficultyPanel.SetActive(false);
             soloButton.interactable = false;
-            aiButton.interactable = true;
-            pvpButton.interactable = true;
+            if (!SkinManager.instance.MiddlePass)
+            {
+                aiButton.interactable = false;
+                pvpButton.interactable = false;
+            }
+            else
+            {
+                aiButton.interactable = true;
+                pvpButton.interactable = true;
+            }
             startButton.gameObject.SetActive(true);
         }
         else
@@ -72,6 +81,7 @@ public class Multiplayer : MonoBehaviour
                 soloButton.interactable = true;
                 aiButton.interactable = false;
                 pvpButton.interactable = true;
+                
                 startButton.gameObject.SetActive(true);
             }
             else

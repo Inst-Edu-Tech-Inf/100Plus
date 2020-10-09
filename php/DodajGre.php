@@ -48,16 +48,31 @@
 		while($row = $result->fetch_assoc()) {
 			//echo $row["szkola"];
 			//echo "<br>";
-			$clientTeamNr = $row["team_nr"];
+			$clientTeamNr = $row["team_nr"];			
 		}
 	}
 	
 	if ($czyOK){
-		$sql = "SELECT COUNT(*) as total FROM `jos_djl_games`";
-		$row = $result->fetch_assoc();
-		$ileGier = $row["total"];
+		//$sql = "SELECT COUNT(*) as totalG FROM `jos_djl_games`;";
+		//$sql = "SELECT COUNT(*) FROM `jos_djl_games`;";
+		//echo $sql;
+		//$row = $result->fetch_assoc();
+		//$ileGier = $result->fetch_assoc();
+		//$ileGier = $row["totalG"];
+		//echo $row["totalG"];
+		//echo "ileGier";
+		//echo $ileGier;
+		//echo "<br>";
 		
-		$sql = "INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES (\"$ileGier\", '2', '1', \"$hostTeamNr\", \"$clientTeamNr\", \"$kalendarz\", '', '', \"$hostPoints\", \"$clientPoints\", '', \"$zwyciezca\", \"$pktHost\", \"$pktClient\", '1', '0', '', \"$kalendarz\", '272', '');";
+		$sql = "SELECT COUNT(*) as total FROM `jos_djl_games`";
+		$result = $conn->query($sql);
+
+		$row = $result->fetch_assoc();
+		$nrWTabeli = $row["total"] + 1;
+		//echo $nrWTabeli;
+		
+		$sql = "INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES (\"$nrWTabeli\", '2', '1', \"$hostTeamNr\", \"$clientTeamNr\", \"$kalendarz\", '', '', \"$hostPoints\", \"$clientPoints\", '', \"$zwyciezca\", \"$pktHost\", \"$pktClient\", '1', '0', '', \"$kalendarz\", '272', '');";
+		//echo $sql;
         $result = $conn->query($sql);        
 	}
 	else{

@@ -12,9 +12,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System;
-using System.Data;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+//using System.Data;
+//using MySql.Data;
+//using MySql.Data.MySqlClient;
 using System.Globalization;
 
 public class GameManager : NetworkBehaviour
@@ -2834,7 +2834,7 @@ Android uses files inside a compressed APK
                         }
                     }
                 }
-                if (!SkinManager.instance.WinPVP)
+                if ((!SkinManager.instance.WinPVP)&&(isVictoryResult))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                     {
