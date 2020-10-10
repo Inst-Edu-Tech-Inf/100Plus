@@ -24,26 +24,26 @@ namespace CompleteProject
         // when defining the Product Identifiers on the store. Except, for illustration purposes, the 
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
-       // public static string kProductIDConsumable = "consumable";
-            public static string kProductIDConsumableCoins20 = "coins_20";
-            public static string kProductIDConsumableCoins100 = "coins100";
-            //public static string kProductIDConsumableCoins20 = "1531775421";
-            //public static string kProductIDConsumableCoins100 = "com.ieti.summon.coins100";
-            public static string kProductIDConsumableCoins350 = "coins350";
-            public static string kProductIDNonConsumable = "nonconsumable";
-            public static string kProductIDSubscription = "subscription";
-      //      public static string ikProductIDConsumableCoins20 = "1531775421";
-       //     public static string ikProductIDConsumableCoins100 = "com.ieti.summon.coins100";
-      //      public static string ikProductIDConsumableCoins350 = "com.ieti.summon.coins350";
-      //      public static string ikProductIDNonConsumable = "nonconsumable";
-      //      public static string ikProductIDSubscription = "subscription";
+        // public static string kProductIDConsumable = "consumable";
+        public static string kProductIDConsumableCoins20 = "coins_20";
+        public static string kProductIDConsumableCoins100 = "coins100";
+        //public static string kProductIDConsumableCoins20 = "1531775421";
+        //public static string kProductIDConsumableCoins100 = "com.ieti.summon.coins100";
+        public static string kProductIDConsumableCoins350 = "coins350";
+        public static string kProductIDNonConsumable = "nonconsumable";
+        public static string kProductIDSubscription = "subscription";
+        public static string ikProductIDConsumableCoins20 = "SummOn20";
+        public static string ikProductIDConsumableCoins100 = "SummOn100";
+        public static string ikProductIDConsumableCoins350 = "SummOn350";
+        public static string ikProductIDNonConsumable = "nonconsumable";
+        public static string ikProductIDSubscription = "subscription";
 
 
         // Apple App Store-specific product identifier for the subscription product.
-//        private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
+        //        private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
 
         // Google Play Store-specific product identifier subscription product.
- //       private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
+        //       private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
         private Skins sk;
 
         void Start()
@@ -71,29 +71,29 @@ namespace CompleteProject
 
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
-            //if (Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
                 builder.AddProduct(kProductIDConsumableCoins20, ProductType.Consumable);
                 builder.AddProduct(kProductIDConsumableCoins100, ProductType.Consumable);
                 builder.AddProduct(kProductIDConsumableCoins350, ProductType.Consumable);
             }
             //else
-            //if (Application.platform == RuntimePlatform.IPhonePlayer)
-           // {
-            //    builder.AddProduct(ikProductIDConsumableCoins20, ProductType.Consumable);
-            //    builder.AddProduct(ikProductIDConsumableCoins100, ProductType.Consumable);
-            //    builder.AddProduct(ikProductIDConsumableCoins350, ProductType.Consumable);
-           // }
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                builder.AddProduct(ikProductIDConsumableCoins20, ProductType.Consumable);
+                builder.AddProduct(ikProductIDConsumableCoins100, ProductType.Consumable);
+                builder.AddProduct(ikProductIDConsumableCoins350, ProductType.Consumable);
+            }
             // Continue adding the non-consumable product.
-       //     builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
+            //     builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
             // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
             // if the Product ID was configured differently between Apple and Google stores. Also note that
             // one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
             // must only be referenced here. 
-     /*      builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
-                { kProductNameAppleSubscription, AppleAppStore.Name },
-                { kProductNameGooglePlaySubscription, GooglePlay.Name },
-            });*/
+            /*      builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
+                       { kProductNameAppleSubscription, AppleAppStore.Name },
+                       { kProductNameGooglePlaySubscription, GooglePlay.Name },
+                   });*/
 
             // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
             // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
@@ -108,56 +108,56 @@ namespace CompleteProject
         }
 
 
-       /* public void BuyConsumable()
-        {
-            // Buy the consumable product using its general identifier. Expect a response either 
-            // through ProcessPurchase or OnPurchaseFailed asynchronously.
-            BuyProductID(kProductIDConsumable);
-        }*/
+        /* public void BuyConsumable()
+         {
+             // Buy the consumable product using its general identifier. Expect a response either 
+             // through ProcessPurchase or OnPurchaseFailed asynchronously.
+             BuyProductID(kProductIDConsumable);
+         }*/
 
         public void BuyConsumableCoins20()
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-            //if (Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
                 BuyProductID(kProductIDConsumableCoins20);
             }
             //else
-            //if (Application.platform == RuntimePlatform.IPhonePlayer)
-           // {
-            //    BuyProductID(ikProductIDConsumableCoins20);
-            //}
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                BuyProductID(ikProductIDConsumableCoins20);
+            }
         }
-        
+
         public void BuyConsumableCoins100()
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-          //  if (Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
                 BuyProductID(kProductIDConsumableCoins100);
             }
-          //  else
-           // if (Application.platform == RuntimePlatform.IPhonePlayer)
-         //   {
-          //      BuyProductID(ikProductIDConsumableCoins100);
-          //  }
+            //  else
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                BuyProductID(ikProductIDConsumableCoins100);
+            }
         }
-        
+
         public void BuyConsumableCoins350()
         {
             // Buy the consumable product using its general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
-         //   if (Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
                 BuyProductID(kProductIDConsumableCoins350);
             }
-         //   else
-         //   if (Application.platform == RuntimePlatform.IPhonePlayer)
-          //  {
-          //      BuyProductID(ikProductIDConsumableCoins350);
-          //  }
+            //   else
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                BuyProductID(ikProductIDConsumableCoins350);
+            }
         }
 
 
@@ -287,7 +287,7 @@ namespace CompleteProject
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
             // A consumable product has been purchased by this user.
-            //if (Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
                 if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins20, StringComparison.Ordinal))
                 {
@@ -350,7 +350,7 @@ namespace CompleteProject
                     SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
                 }
             }
-           /* else
+            // else
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 if (String.Equals(args.purchasedProduct.definition.id, ikProductIDConsumableCoins20, StringComparison.Ordinal))
@@ -414,8 +414,8 @@ namespace CompleteProject
                     SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
                 }
             }
-            */
-            
+
+
 
             // Return a flag indicating whether this product has completely been received, or if the application needs 
             // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 

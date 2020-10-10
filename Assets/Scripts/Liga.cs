@@ -28,16 +28,16 @@ public class Liga : MonoBehaviour
     }
 
     //bool activeAddClass = false;
-    string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
-    bool czyNauczycielIstnieje = false;
-    int nrNauczyciela = 0;
-    int nrSzkoly = 0;
-    int nrKlasy = 0;
-    int nrUcznia = 0;
-    int nrUczniaTeams = 0;
+    //string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+    bool czyNauczycielIstnieje;// = false;
+    int nrNauczyciela;// = 0;
+    int nrSzkoly;// = 0;
+    int nrKlasy ;//= 0;
+    int nrUcznia;// = 0;
+    int nrUczniaTeams ;//= 0;
     public List<KlasaStruct> klasy = new List<KlasaStruct>();
     public List<int> indeksyKlas = new List<int>();
-    string nazwaSzkoly = "";
+    string nazwaSzkoly;// = "";
     string skrotSzkoly = "";
     string kodZajety = "";
 
@@ -216,7 +216,7 @@ public class Liga : MonoBehaviour
     {
         workingPanel.SetActive(true);
         WWWForm form = new WWWForm();
-        string[] strArr;
+       // string[] strArr;
         form.AddField("uczenPass", uczenPass);
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
@@ -247,7 +247,7 @@ public class Liga : MonoBehaviour
     {
         workingPanel.SetActive(true);
         WWWForm form = new WWWForm();
-        string[] strArr;
+        //string[] strArr;
         if (nazwaSzkolyPass == "")
             nazwaSzkolyPass = "?";
         if (skrotSzkolyPass == "")
@@ -449,7 +449,7 @@ public class Liga : MonoBehaviour
     {
         workingPanel.SetActive(true);
         WWWForm form = new WWWForm();
-        string[] strArr;
+        //string[] strArr;
         form.AddField("nauczycielPass", nauczycielPass);
         form.AddField("skrotUcznia", skrotUcznia);
 
@@ -1071,8 +1071,8 @@ public class Liga : MonoBehaviour
 
     public void WyswietlKodyKlasy()
     {
-        int nrAktywejKlasy = 0;// listaKlas.value;
-        string doBufora = "";
+        //int nrAktywejKlasy = 0;// listaKlas.value;
+        //string doBufora = "";
         StartCoroutine(KodyKlasWebClick(SkinManager.instance.UserID, listaKlas.value.ToString()));
         /*MySqlConnection conn = new MySqlConnection(connStr);
         //int ktoraKlasa = listaKlas.value;

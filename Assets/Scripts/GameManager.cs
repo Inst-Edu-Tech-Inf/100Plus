@@ -181,6 +181,7 @@ public class GameManager : NetworkBehaviour
     public GameObject transparentAllPanel;
     public Text infoText;
     public int activeTutorialStep = -1;
+    public bool czyWynikWyslany = false;
 
     List<GameObject> playerCards = new List<GameObject>();
     //List<GameObject> playerAICardsToRemove = new List<GameObject>();
@@ -271,7 +272,7 @@ public class GameManager : NetworkBehaviour
     Color greenColor = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
     Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
     //bool isPVPCommandChange = true;
-    bool isFirstTurn = false;
+    bool isFirstTurn;// = false;
     int previousPVPCommand = PVP_IDLE;
     float activeTutorialColor = 0.0f; //byte
 
@@ -562,15 +563,15 @@ public class GameManager : NetworkBehaviour
                         kolor = RED_TEXT;
                     }
                     else
-                    if (GetPVPValue1() == PVP_GREEN)
-                    {
-                        kolor = GREEN_TEXT;
-                    }
-                    else
-                    if (GetPVPValue1() == PVP_BLUE)
-                    {
-                        kolor = BLUE_TEXT;
-                    }
+                        if (GetPVPValue1() == PVP_GREEN)
+                        {
+                            kolor = GREEN_TEXT;
+                        }
+                        else
+                            if (GetPVPValue1() == PVP_BLUE)
+                            {
+                                kolor = BLUE_TEXT;
+                            }
                     //                  infoText.text = infoText.text + ";" + kolor;
                     //                  infoText.text = infoText.text + ";V" + GetPVPValue2();
                     // Debug.Log("DrawTaskCard RunCmd before");
@@ -600,8 +601,8 @@ public class GameManager : NetworkBehaviour
                 case PVP_COLLECT_POINTS:
 
                     break;
-                    // default:
-                    //    cout << "didn't get card \n";
+                // default:
+                //    cout << "didn't get card \n";
             }
             //        SetPVPCommand(PVP_IDLE);
             //          SetIsPVPCommandChange(false);
@@ -1219,10 +1220,10 @@ public class GameManager : NetworkBehaviour
                     return victoryPointsNumberP2;
                 }
             }
-        else
-        {
-            return victoryPointsNumberP1;
-        }
+            else
+            {
+                return victoryPointsNumberP1;
+            }
         else
             return victoryPointsNumberP2;
     }
@@ -1285,7 +1286,7 @@ public class GameManager : NetworkBehaviour
 
     public void Back()
     {
-        if (!tasks.gameObject.activeSelf)
+        if ((!tasks.gameObject.activeSelf) && (!trashArea.gameObject.activeSelf))
         {
             BackToTasks(activeCard);
         }
@@ -1326,7 +1327,7 @@ public class GameManager : NetworkBehaviour
 
     void changeSound()
     {
-        soundBackground.clip = (AudioClip) UnityEngine.Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name);
+        soundBackground.clip = (AudioClip)UnityEngine.Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name);
         soundBackground.Play();
     }
 
@@ -1371,7 +1372,7 @@ public class GameManager : NetworkBehaviour
             else
             {
                 //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                Texture2D texture2D = ((DownloadHandlerTexture) www.downloadHandler).texture as Texture2D;
+                Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
                 Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
                 backgroundImage.sprite = fromTex;
             }
@@ -1672,8 +1673,8 @@ public class GameManager : NetworkBehaviour
                 //cout << "got Spades \n";
                 break;
 
-                // default:
-                //    cout << "didn't get card \n";
+            // default:
+            //    cout << "didn't get card \n";
         }
     }
 
@@ -2099,7 +2100,7 @@ Android uses files inside a compressed APK
                 pom -= SkinManager.REROLL_COST_LATE;
             }
         }
-        SetVictoryPoints((float) pom);
+        SetVictoryPoints((float)pom);
         rerollPanel.SetActive(false);
         //CheckCardNumbers(false);
         //Debug.Log("actualTaskCardsCount END:" + actualTaskCardsCount);
@@ -2111,9 +2112,9 @@ Android uses files inside a compressed APK
     public void RerollTaskCardCheck()
     {
         TextMeshProUGUI valueText;
-        Color colorOne = new Color32(SkinManager.RED_COLOR, 0, 0, 255);;
-        Color colorTwo = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);;
-        Color colorThree = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);;
+        Color colorOne = new Color32(SkinManager.RED_COLOR, 0, 0, 255); ;
+        Color colorTwo = new Color32(0, SkinManager.GREEN_COLOR, 0, 255); ;
+        Color colorThree = new Color32(0, 0, SkinManager.BLUE_COLOR, 255); ;
         int oneCount = 0;
         int twoCount = 0;
         int threeCount = 0;
@@ -2158,9 +2159,9 @@ Android uses files inside a compressed APK
         //Debug.Log((float)twoCount / (float)maxTaskCards);
         //Debug.Log(percent);
         //percent = (float)oneCount / (float)maxTaskCards;
-        if (((float) oneCount / (float) maxTaskCards >= SkinManager.REROLL_COLOR_RULE) ||
-            ((float) twoCount / (float) maxTaskCards >= SkinManager.REROLL_COLOR_RULE) ||
-            ((float) threeCount / (float) maxTaskCards >= SkinManager.REROLL_COLOR_RULE))
+        if (((float)oneCount / (float)maxTaskCards >= SkinManager.REROLL_COLOR_RULE) ||
+            ((float)twoCount / (float)maxTaskCards >= SkinManager.REROLL_COLOR_RULE) ||
+            ((float)threeCount / (float)maxTaskCards >= SkinManager.REROLL_COLOR_RULE))
         {
             if (GetVictoryPoints() < earlyGamePoint)
             {
@@ -2245,6 +2246,7 @@ Android uses files inside a compressed APK
 
     private void Start()
     {
+        czyWynikWyslany = false;
         string SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
         SubStr = SubStr.Substring(0, SubStr.Length - 1);
 
@@ -2489,7 +2491,7 @@ Android uses files inside a compressed APK
         Debug.Log("AllPanelOff");
     }
 
-    
+
 
     public void AchievementPanelHide()
     {
@@ -2726,7 +2728,7 @@ Android uses files inside a compressed APK
                     {
                         isVictoryResult = true;
                         //victorySFX.Play();
-                        if ((isHost)&&(SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
+                        if ((isHost) && (SkinManager.instance.ActiveVictoryConditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN))
                             WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                     }
                     else
@@ -2749,7 +2751,7 @@ Android uses files inside a compressed APK
                                 WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), false, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
                         }
                     }
-                   
+
                 }
             }
 
@@ -2834,7 +2836,7 @@ Android uses files inside a compressed APK
                         }
                     }
                 }
-                if ((!SkinManager.instance.WinPVP)&&(isVictoryResult))
+                if ((!SkinManager.instance.WinPVP) && (isVictoryResult))
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
                     {
@@ -2896,17 +2898,17 @@ Android uses files inside a compressed APK
                                 }
                             }
                             else
-                            if (SkinManager.instance.ActiveVictoryConditions == 4)
-                            {
-                                if (isVictoryResult)
+                                if (SkinManager.instance.ActiveVictoryConditions == 4)
                                 {
-                                    victoryConditionsText.text = "100 points";
+                                    if (isVictoryResult)
+                                    {
+                                        victoryConditionsText.text = "100 points";
+                                    }
+                                    else
+                                    {
+                                        defeatVictoryConditionsText.text = "100 points";
+                                    }
                                 }
-                                else
-                                {
-                                    defeatVictoryConditionsText.text = "100 points";
-                                }
-                            }
                         }
                     }
                 }
@@ -3020,11 +3022,11 @@ Android uses files inside a compressed APK
         if (cardColor == redColor)
             playerAICardsRed.Add(card);
         else
-        if (cardColor == greenColor)
-            playerAICardsGreen.Add(card);
-        else
-        if (cardColor == blueColor)
-            playerAICardsBlue.Add(card);
+            if (cardColor == greenColor)
+                playerAICardsGreen.Add(card);
+            else
+                if (cardColor == blueColor)
+                    playerAICardsBlue.Add(card);
         //        RandomizePlayerCard2(card, RED_TEXT, 10);
         card.transform.SetParent(handsP2.transform, false);
     }
@@ -3113,7 +3115,7 @@ Android uses files inside a compressed APK
 
     void DrawTaskCard(string color, int colorValue, int position) //, GameObject whichTasks)
     {
-
+        //Debug.Log("drawTC(kolor,wart,pozycja):isHost:" + isHost  + ",isHTurn:"+isHostTurn);
         //if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
             if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
@@ -3134,6 +3136,7 @@ Android uses files inside a compressed APK
 
     void DrawTaskCard(string color, int colorValue) //, GameObject whichTasks)
     {
+        //Debug.Log("drawTC(kolor,wart):isHost:" + isHost  + ",isHTurn:"+isHostTurn);
         //       if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
             //actualTaskCardsCount
@@ -3198,7 +3201,7 @@ Android uses files inside a compressed APK
         //Debug.Log("maxTaskCards:" + maxTaskCards);
         //Debug.Log("taskCardsToDraw:" + taskCardsToDraw);
         //actualTaskCardsCount
-        //Debug.Log("actualTaskCardsCount:" + actualTaskCardsCount);
+        //Debug.Log("drawTC():isHost:" + isHost  + ",isHTurn:"+isHostTurn);
         if (actualTaskCardsCount >= maxTaskCards + taskCardsToDraw) return;
         // GameObject card = Instantiate(taskCardPrefab);
         // taskCards.Add(card);
@@ -3385,12 +3388,12 @@ Android uses files inside a compressed APK
                 localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic; // Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
             }
             else
-            if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-            {
-                SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic; // Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRedStatic; // Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
 
-            }
+                }
         }
         else
         {
@@ -3404,12 +3407,12 @@ Android uses files inside a compressed APK
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic; // Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
                 }
                 else
-                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-                {
-                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic; // Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
-                    //Debug.Log(SubStr);
-                }
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreenStatic; // Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        //Debug.Log(SubStr);
+                    }
             }
             else
             {
@@ -3422,12 +3425,12 @@ Android uses files inside a compressed APK
                     localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic; // Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
                 }
                 else
-                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-                {
-                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic; // Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
-                    // Debug.Log(SubStr);
-                }
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlueStatic; // Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                        // Debug.Log(SubStr);
+                    }
 
             }
 
@@ -3494,12 +3497,12 @@ Android uses files inside a compressed APK
                 //Debug.Log(SubStr);
             }
             else
-            if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-            {
-                SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                localCard.activeImage.GetComponent<Image>().sprite = wybranyRed; // Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
-                //Debug.Log(SubStr);
-            }
+                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                {
+                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                    localCard.activeImage.GetComponent<Image>().sprite = wybranyRed; // Resources.Load(SubStr + RED_TEXT, typeof(Sprite)) as Sprite;
+                    //Debug.Log(SubStr);
+                }
         }
         else
         {
@@ -3514,12 +3517,12 @@ Android uses files inside a compressed APK
                     //Debug.Log(SubStr);
                 }
                 else
-                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-                {
-                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    localCard.activeImage.GetComponent<Image>().sprite = wybranyGreen; // Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
-                    //Debug.Log(SubStr);
-                }
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyGreen; // Resources.Load(SubStr + GREEN_TEXT, typeof(Sprite)) as Sprite;
+                        //Debug.Log(SubStr);
+                    }
             }
             else
             {
@@ -3533,12 +3536,12 @@ Android uses files inside a compressed APK
                     //Debug.Log(SubStr);
                 }
                 else
-                if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
-                {
-                    SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
-                    localCard.activeImage.GetComponent<Image>().sprite = wybranyBlue; // Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
-                    //Debug.Log(SubStr);
-                }
+                    if (SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Type == KARTA_STATYCZNA)
+                    {
+                        SubStr = SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name;
+                        localCard.activeImage.GetComponent<Image>().sprite = wybranyBlue; // Resources.Load(SubStr + BLUE_TEXT, typeof(Sprite)) as Sprite;
+                        //Debug.Log(SubStr);
+                    }
             }
         }
         return localCard.additionText.color;
@@ -3570,14 +3573,14 @@ Android uses files inside a compressed APK
                 taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipRed;
             }
             else
-            if (Kolor == GREEN_TEXT)
-            {
-                taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipGreen;
-            }
-            else
-            {
-                taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipBlue;
-            }
+                if (Kolor == GREEN_TEXT)
+                {
+                    taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipGreen;
+                }
+                else
+                {
+                    taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().clip = wybranyClipBlue;
+                }
 
             pm = (int)Mathf.Round(UnityEngine.Random.Range(0.0f, (float)taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().length));
             taskCard.activeVideoPlayer.GetComponent<VideoPlayer>().frame = pm;
@@ -3597,18 +3600,18 @@ Android uses files inside a compressed APK
                 //Debug.Log("Red");
             }
             else
-            if (Kolor == GREEN_TEXT)
-            {
-                taskCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;
-                //spriteR.sprite = wybranyGreen;
-                //Debug.Log("Green");
-            }
-            else
-            {
-                taskCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;
-                //spriteR.sprite = wybranyBlue;
-                //Debug.Log("Blue");
-            }
+                if (Kolor == GREEN_TEXT)
+                {
+                    taskCard.activeImage.GetComponent<Image>().sprite = wybranyGreen;
+                    //spriteR.sprite = wybranyGreen;
+                    //Debug.Log("Green");
+                }
+                else
+                {
+                    taskCard.activeImage.GetComponent<Image>().sprite = wybranyBlue;
+                    //spriteR.sprite = wybranyBlue;
+                    //Debug.Log("Blue");
+                }
             //taskCard.activeImage.SetAllDirty();
             //Debug.Log(taskCard.activeImage.GetComponent<Image>().sprite);
             //gameObject.GetComponent<Image>()
@@ -3898,6 +3901,9 @@ Android uses files inside a compressed APK
 
     public void EndTurn()
     {
+        bool czyBrakZadan = true;
+        GameObject cardTask;
+
         if (!SkinManager.instance.MiddlePass) //zacznij tutorial
         {
             if ((activeTutorialStep != SkinManager.SAMOUCZEK_POCZATEK) &&
@@ -3909,7 +3915,6 @@ Android uses files inside a compressed APK
                 (activeTutorialStep != SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ) &&
                 (activeTutorialStep != SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
             )
-
             {
                 //Debug.Log("TUTORIAL Step:" + activeTutorialStep);
                 return;
@@ -3959,34 +3964,34 @@ Android uses files inside a compressed APK
                             DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
                         }
                         else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
-                        {
-                            DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
-                        {
-                            DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
-                        {
-                            DrawPlayerCard(RED_TEXT, 8);
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
-                        {
-                            DrawPlayerCard(RED_TEXT, 6);
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
-                        {
-                            if (playerCards.Count > 6)
-                                DiscardPlayerCard(playerCards[0]);
-                            DrawPlayerCard(RED_TEXT, 11);
-                        }
-                        else
-                            DrawPlayerCard();
+                            if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+                            {
+                                DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
+                            }
+                            else
+                                if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+                                {
+                                    DrawPlayerCard(GREEN_TEXT, UnityEngine.Random.Range(1, 9));
+                                }
+                                else
+                                    if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                                    {
+                                        DrawPlayerCard(RED_TEXT, 8);
+                                    }
+                                    else
+                                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
+                                        {
+                                            DrawPlayerCard(RED_TEXT, 6);
+                                        }
+                                        else
+                                            if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+                                            {
+                                                if (playerCards.Count > 6)
+                                                    DiscardPlayerCard(playerCards[0]);
+                                                DrawPlayerCard(RED_TEXT, 11);
+                                            }
+                                            else
+                                                DrawPlayerCard();
 
                     }
                     else
@@ -4005,37 +4010,37 @@ Android uses files inside a compressed APK
                             DrawTaskCard(RED_TEXT, UnityEngine.Random.Range(10, 19));
                         }
                         else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
-                        {
-                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
-                        {
-                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
-                        {
-                            DrawTaskCard(GREEN_TEXT, UnityEngine.Random.Range(10, 19));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
-                        {
-                            DrawTaskCard(RED_TEXT, 11);
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)
-                        {
-                            DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
-                        }
-                        else
-                        if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
-                        {
-                            DrawTaskCard(RED_TEXT, 33);
-                        }
-                        else
-                            DrawTaskCard();
+                            if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+                            {
+                                DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
+                            }
+                            else
+                                if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+                                {
+                                    DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
+                                }
+                                else
+                                    if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                                    {
+                                        DrawTaskCard(GREEN_TEXT, UnityEngine.Random.Range(10, 19));
+                                    }
+                                    else
+                                        if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
+                                        {
+                                            DrawTaskCard(RED_TEXT, 11);
+                                        }
+                                        else
+                                            if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT)
+                                            {
+                                                DrawTaskCard(BLUE_TEXT, UnityEngine.Random.Range(10, 19));
+                                            }
+                                            else
+                                                if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
+                                                {
+                                                    DrawTaskCard(RED_TEXT, 33);
+                                                }
+                                                else
+                                                    DrawTaskCard();
                     }
                     else
                         DrawTaskCard(); //player1
@@ -4157,7 +4162,17 @@ Android uses files inside a compressed APK
             }
             else //PVP modes
             {
-
+                for (int i = 0; i < taskCards.Count; ++i)
+                {
+                    cardTask = taskCards[i];
+                    if ((cardTask.gameObject.activeSelf)) //&&(!isSuccess))
+                    {
+                        czyBrakZadan = false;
+                        break;
+                    }
+                }
+                if (czyBrakZadan)
+                    DrawTaskCard();
             }
 
         }
@@ -4176,20 +4191,20 @@ Android uses files inside a compressed APK
                 activeTutorialStep = SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE;
             }
             else
-            if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
-            {
-                activeTutorialStep = SkinManager.SAMOUCZEK_BRAK_CZERWONYCH;
-            }
-            else
-            if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
-            {
-                activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_DWIE;
-            }
-            else
-            if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
-            {
-                activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE;
-            }
+                if (activeTutorialStep == SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE)
+                {
+                    activeTutorialStep = SkinManager.SAMOUCZEK_BRAK_CZERWONYCH;
+                }
+                else
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_BRAK_CZERWONYCH)
+                    {
+                        activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_DWIE;
+                    }
+                    else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_KONIEC_TURY)
+                        {
+                            activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE;
+                        }
             if (activeTutorialStep == SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT)
             {
                 activeTutorialStep = SkinManager.SAMOUCZEK_ODRZUC_ZIELONE;
@@ -4492,9 +4507,9 @@ Android uses files inside a compressed APK
         {
             aiResult = aiPointsGet;
             needed = aiTaskNeed;
-            Pom = (double) ((aiResult - needed) / (needed));
+            Pom = (double)((aiResult - needed) / (needed));
             //Debug.Log("Przekroczenie:aiPointsGet" + aiPointsGet + "," + aiTaskNeed + "=" + Pom);
-            Victory = Mathf.Pow(0.5f, ((float) Pom));
+            Victory = Mathf.Pow(0.5f, ((float)Pom));
 
             //Debug.Log("mnoznik:" + Victory);
             Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * RESULT_PENALTY;
@@ -4502,9 +4517,9 @@ Android uses files inside a compressed APK
 
             Pom += GetVictoryPoints();
             Pom *= 100;
-            Pom = Mathf.Round((float) Pom);
+            Pom = Mathf.Round((float)Pom);
             Pom /= 100;
-            SetVictoryPoints((float) Pom);
+            SetVictoryPoints((float)Pom);
         }
         else
         {
@@ -4512,7 +4527,7 @@ Android uses files inside a compressed APK
             {
                 Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
                 Victory = GetVictoryPoints() + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
-                SetVictoryPoints((float) Victory);
+                SetVictoryPoints((float)Victory);
             }
         }
         if (isVictoryPointFirst)
@@ -4579,9 +4594,9 @@ Android uses files inside a compressed APK
 
     void WyslijNaSerwer(int hostPoints, int clientPoints, bool hostWin, bool clientWin)
     {
-        int ileGier = 0;
-        int hostTeamNr = 0;
-        int clientTeamNr = 4; //unknown
+        //int ileGier;// = 0;
+        //int hostTeamNr;// = 0;
+        //int clientTeamNr;// = 4; //unknown
         int zwyciezca = 0;//remis 1 host 2 client
         int pktHost = 1;
         int pktClient = 1;
@@ -4615,158 +4630,161 @@ Android uses files inside a compressed APK
         kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
         kalendarz = kalendarz.TrimEnd('Z');
 
-        StartCoroutine(DodajGreWebClick(SkinManager.instance.UserID, tmpClientID, zwyciezca.ToString(), pktHost.ToString(), pktClient.ToString(), kalendarz, hostPoints.ToString(), clientPoints.ToString()));
-       /* int ileGier = 0;
-        int hostTeamNr = 0;
-        int clientTeamNr = 4; //unknown
-        int zwyciezca = 0;//remis 1 host 2 client
-        int pktHost = 1;
-        int pktClient = 1;
-        DateTime kalendarze = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);//2008, 10, 1, 17, 4, 32);
-        string kalendarz;
-        if ((hostWin) && (clientWin))//remis
+        if (!czyWynikWyslany)
         {
-            zwyciezca = 0;
-            pktHost = 1;
-            pktClient = 1;
+            StartCoroutine(DodajGreWebClick(SkinManager.instance.UserID, tmpClientID, zwyciezca.ToString(), pktHost.ToString(), pktClient.ToString(), kalendarz, hostPoints.ToString(), clientPoints.ToString()));
         }
-        else
-        {
-            if (hostWin)
-            {
-                zwyciezca = 1;
-                pktHost = 3;
-                pktClient = -3;
-            }
-            else
-            {
-                zwyciezca = 2;
-                pktHost = -3;
-                pktClient = 3;
-            }
-        }
+        /* int ileGier = 0;
+         int hostTeamNr = 0;
+         int clientTeamNr = 4; //unknown
+         int zwyciezca = 0;//remis 1 host 2 client
+         int pktHost = 1;
+         int pktClient = 1;
+         DateTime kalendarze = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);//2008, 10, 1, 17, 4, 32);
+         string kalendarz;
+         if ((hostWin) && (clientWin))//remis
+         {
+             zwyciezca = 0;
+             pktHost = 1;
+             pktClient = 1;
+         }
+         else
+         {
+             if (hostWin)
+             {
+                 zwyciezca = 1;
+                 pktHost = 3;
+                 pktClient = -3;
+             }
+             else
+             {
+                 zwyciezca = 2;
+                 pktHost = -3;
+                 pktClient = 3;
+             }
+         }
 
-        kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
-        kalendarz = kalendarz.TrimEnd('Z');
+         kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
+         kalendarz = kalendarz.TrimEnd('Z');
 
-        string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
-        MySqlConnection conn = new MySqlConnection(connStr);
-        bool czyOK = false;
-        //int ktoraKlasa = listaKlas.value;
-        try
-        {
-            conn.Open();
-            string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
+         string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+         MySqlConnection conn = new MySqlConnection(connStr);
+         bool czyOK = false;
+         //int ktoraKlasa = listaKlas.value;
+         try
+         {
+             conn.Open();
+             string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
 
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            System.Data.IDataReader reader = cmd.ExecuteReader();
+             MySqlCommand cmd = new MySqlCommand(sql, conn);
+             System.Data.IDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
-            {
-                //kodUczniaInput.text = reader["skrot"].ToString();
-                // jest uczen
-                hostTeamNr = Convert.ToInt32(reader["team_nr"]);
-                czyOK = true;
-            }
+             while (reader.Read())
+             {
+                 //kodUczniaInput.text = reader["skrot"].ToString();
+                 // jest uczen
+                 hostTeamNr = Convert.ToInt32(reader["team_nr"]);
+                 czyOK = true;
+             }
 
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex.ToString());
-            czyOK =  false;
-        }
+         }
+         catch (Exception ex)
+         {
+             Debug.Log(ex.ToString());
+             czyOK =  false;
+         }
 
-        conn.Close();
+         conn.Close();
 
-        conn = new MySqlConnection(connStr);
-        string tmpClientID = clientID.ToString();
-        if (clientID.ToString() == "")
-            tmpClientID = "nieznany";
-        try
-        {
-            conn.Open();
-            string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + tmpClientID.ToString() + "';";
+         conn = new MySqlConnection(connStr);
+         string tmpClientID = clientID.ToString();
+         if (clientID.ToString() == "")
+             tmpClientID = "nieznany";
+         try
+         {
+             conn.Open();
+             string sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + tmpClientID.ToString() + "';";
 
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            System.Data.IDataReader reader = cmd.ExecuteReader();
-            //Debug.Log("clientID:" + clientID.ToString());
-            while (reader.Read())
-            {
-                // jest uczen klient
-                //Debug.Log("clientTeamNr:" + clientTeamNr);
-                clientTeamNr = Convert.ToInt32(reader["team_nr"]);
-                //Debug.Log("clientTeamNr:" + clientTeamNr);
-            }
+             MySqlCommand cmd = new MySqlCommand(sql, conn);
+             System.Data.IDataReader reader = cmd.ExecuteReader();
+             //Debug.Log("clientID:" + clientID.ToString());
+             while (reader.Read())
+             {
+                 // jest uczen klient
+                 //Debug.Log("clientTeamNr:" + clientTeamNr);
+                 clientTeamNr = Convert.ToInt32(reader["team_nr"]);
+                 //Debug.Log("clientTeamNr:" + clientTeamNr);
+             }
 
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex.ToString());
-        }
+         }
+         catch (Exception ex)
+         {
+             Debug.Log(ex.ToString());
+         }
 
-        conn.Close();
+         conn.Close();
 
-        if (czyOK)
-        {
-            conn = new MySqlConnection(connStr);
+         if (czyOK)
+         {
+             conn = new MySqlConnection(connStr);
 
-            try
-            {
-                conn.Open();
-                string sql = "SELECT COUNT(*) FROM `jos_djl_games`";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                object result = cmd.ExecuteScalar();
+             try
+             {
+                 conn.Open();
+                 string sql = "SELECT COUNT(*) FROM `jos_djl_games`";
+                 MySqlCommand cmd = new MySqlCommand(sql, conn);
+                 object result = cmd.ExecuteScalar();
 
-                if (result != null)
-                {
-                    ileGier = Convert.ToInt32(result);
-                    ileGier++;
-                }
+                 if (result != null)
+                 {
+                     ileGier = Convert.ToInt32(result);
+                     ileGier++;
+                 }
 
                 
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.ToString());
-            }
+             }
+             catch (Exception ex)
+             {
+                 Debug.Log(ex.ToString());
+             }
 
-            conn.Close();
+             conn.Close();
 
-            conn = new MySqlConnection(connStr);
-            try
-            {
-                conn.Open();
+             conn = new MySqlConnection(connStr);
+             try
+             {
+                 conn.Open();
 
-                string sql = "INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`)"+
-                    "VALUES (" + ileGier.ToString() + ", '2', '1', '" + hostTeamNr.ToString() + "', '" + clientTeamNr.ToString() + "', '" + kalendarz.ToString() + "', '', '', '" + hostPoints.ToString() + "', '" + clientPoints.ToString() + "', '', '" + zwyciezca.ToString() + "', '" + pktHost.ToString() + "', '" + pktClient.ToString() + "', '1', '0', '', '" + kalendarz.ToString() + "', '272', '');";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                object result = cmd.ExecuteScalar();
+                 string sql = "INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`)"+
+                     "VALUES (" + ileGier.ToString() + ", '2', '1', '" + hostTeamNr.ToString() + "', '" + clientTeamNr.ToString() + "', '" + kalendarz.ToString() + "', '', '', '" + hostPoints.ToString() + "', '" + clientPoints.ToString() + "', '', '" + zwyciezca.ToString() + "', '" + pktHost.ToString() + "', '" + pktClient.ToString() + "', '1', '0', '', '" + kalendarz.ToString() + "', '272', '');";
+                 MySqlCommand cmd = new MySqlCommand(sql, conn);
+                 object result = cmd.ExecuteScalar();
 
-                if (result != null)
-                {
-                    // nrSzkoly = Convert.ToInt32(result);
-                }
+                 if (result != null)
+                 {
+                     // nrSzkoly = Convert.ToInt32(result);
+                 }
 
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.ToString());
-            }
+             }
+             catch (Exception ex)
+             {
+                 Debug.Log(ex.ToString());
+             }
 
-            conn.Close();
+             conn.Close();
 
-            //INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES (NULL, '2', '1', '1', '4', '2020-05-04 15:46:00', '', '', '15', '2', '', '1', '3', '-3', '1', '0', '0000-00-00 00:00:00', '2020-05-04 13:47:44', '', NULL);
-            return true;
-        }
-        else
-            return false;*/
+             //INSERT INTO `jos_djl_games` (`id`, `league_id`, `round`, `team_home`, `team_away`, `date`, `city`, `venue`, `score_home`, `score_away`, `score_desc`, `winner`, `points_home`, `points_away`, `status`, `checked_out`, `checked_out_time`, `created`, `created_by`, `params`) VALUES (NULL, '2', '1', '1', '4', '2020-05-04 15:46:00', '', '', '15', '2', '', '1', '3', '-3', '1', '0', '0000-00-00 00:00:00', '2020-05-04 13:47:44', '', NULL);
+             return true;
+         }
+         else
+             return false;*/
     }
 
     public void SendMatchTestClick()
     {
         if (float.Parse(victoryPoints.text) == float.Parse(victoryPointsP2.text))
         {
-                WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
+            WyslijNaSerwer(Mathf.RoundToInt(float.Parse(victoryPoints.text)), Mathf.RoundToInt(float.Parse(victoryPointsP2.text)), true, true);//int hostPoints, int clientPoints, bool hostWin, bool clientWin)
 
         }
         else
@@ -4824,19 +4842,19 @@ Android uses files inside a compressed APK
                                     break;
                                 }
                                 else
-                                if (valueText.color == cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>().color)
-                                {
-                                    kolorText = cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>();
-                                    Razy = int.Parse(kolorText.text);
-                                    break;
-                                }
-                                else
-                                if (valueText.color == cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>().color)
-                                {
-                                    kolorText = cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>();
-                                    Razy = int.Parse(kolorText.text);
-                                    break;
-                                }
+                                    if (valueText.color == cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>().color)
+                                    {
+                                        kolorText = cardPowerUp.transform.Find("Green Text").GetComponent<TextMeshProUGUI>();
+                                        Razy = int.Parse(kolorText.text);
+                                        break;
+                                    }
+                                    else
+                                        if (valueText.color == cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>().color)
+                                        {
+                                            kolorText = cardPowerUp.transform.Find("Blue Text").GetComponent<TextMeshProUGUI>();
+                                            Razy = int.Parse(kolorText.text);
+                                            break;
+                                        }
                             }
                     }
                     Suma += int.Parse(valueText.text) * Razy;
@@ -4885,32 +4903,32 @@ Android uses files inside a compressed APK
                     activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_PUNKT;
                 }
                 else
-                if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11) //
-                {
-                    activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT;
-                }
-                else
-                if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ) //
-                {
-                    //Debug.Log("STEPlast:" + activeTutorialStep);
-                    activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
-                    infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
-                    //Debug.Log("STEPAfter:" + activeTutorialStep);
-                    //achievement
-                    if (!SkinManager.instance.MiddlePass)
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11) //
                     {
-                        PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
-                        SkinManager.instance.SetMiddlePass(true);
-                        AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
-                        ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                        activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT;
                     }
-                }
+                    else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ) //
+                        {
+                            //Debug.Log("STEPlast:" + activeTutorialStep);
+                            activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
+                            infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
+                            //Debug.Log("STEPAfter:" + activeTutorialStep);
+                            //achievement
+                            if (!SkinManager.instance.MiddlePass)
+                            {
+                                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
+                                SkinManager.instance.SetMiddlePass(true);
+                                AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
+                                ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                            }
+                        }
             }
             isScored = true;
             Pom = double.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
-            AddAchievementPurePoint((float) Pom);
+            AddAchievementPurePoint((float)Pom);
             Victory = GetVictoryPoints() + float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text);
-            SetVictoryPoints((float) Victory);
+            SetVictoryPoints((float)Victory);
             DrawCoin();
             if (Pom <= 1.0)
             {
@@ -5003,27 +5021,27 @@ Android uses files inside a compressed APK
                         activeTutorialStep = SkinManager.SAMOUCZEK_OTRZYMALES_NIECALY_PUNKT;
                     }
                     else
-                    if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ) //
-                    {
-                        activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
-                        infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
-                        //achievement
-                        if (!SkinManager.instance.MiddlePass)
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_PRZEMNOZ) //
                         {
-                            PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
-                            SkinManager.instance.SetMiddlePass(true);
-                            AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
-                            ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                            activeTutorialStep = SkinManager.SAMOUCZEK_UKONCZ;
+                            infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
+                            //achievement
+                            if (!SkinManager.instance.MiddlePass)
+                            {
+                                PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].ID, true ? 1 : 0);
+                                SkinManager.instance.SetMiddlePass(true);
+                                AddCash(SkinManager.instance.osiagniecia[SkinManager.MIDDLEPASS].Reward);
+                                ShowAchievementPanel(SkinManager.MIDDLEPASS);
+                            }
                         }
-                    }
                 }
                 isPureGame = false;
                 isScored = true;
                 Pom = (Suma - Victory) / (Victory);
-                Victory = Mathf.Pow(0.5f, ((float) Pom));
+                Victory = Mathf.Pow(0.5f, ((float)Pom));
                 Pom = float.Parse(activeCard.transform.Find("Victory Points Text").GetComponent<TextMeshProUGUI>().text) * RESULT_PENALTY;
                 Pom = Pom * Victory;
-                AddAchievementNotPurePoint((float) Pom);
+                AddAchievementNotPurePoint((float)Pom);
                 DrawCoin();
                 if (Pom <= 1.0)
                 {
@@ -5055,9 +5073,9 @@ Android uses files inside a compressed APK
                 }
                 Pom += GetVictoryPoints();
                 Pom *= 100;
-                Pom = Mathf.Round((float) Pom);
+                Pom = Mathf.Round((float)Pom);
                 Pom /= 100;
-                SetVictoryPoints((float) Pom);
+                SetVictoryPoints((float)Pom);
                 // Discard cards -> do osobnej funkcji
 
                 for (int i = 0; i < playerCards.Count; ++i)
@@ -5212,16 +5230,17 @@ Android uses files inside a compressed APK
     IEnumerator DodajGreWebClick(string nauczycielPass, string clientID, string zwyciezca, string pktHost, string pktClient, string kalendarz, string hostPoints, string clientPoints)
     {
         //workingPanel.SetActive(true);
+        czyWynikWyslany = true;
         WWWForm form = new WWWForm();
-        string[] strArr;
+        //string[] strArr;
         form.AddField("nauczycielPass", nauczycielPass);
-		form.AddField("clientID", clientID);
-		form.AddField("zwyciezca", zwyciezca);
-		form.AddField("pktHost", pktHost);
-		form.AddField("pktClient", pktClient);
-		form.AddField("kalendarz", kalendarz);
-		form.AddField("hostPoints", hostPoints);
-		form.AddField("clientPoints", clientPoints);
+        form.AddField("clientID", clientID);
+        form.AddField("zwyciezca", zwyciezca);
+        form.AddField("pktHost", pktHost);
+        form.AddField("pktClient", pktClient);
+        form.AddField("kalendarz", kalendarz);
+        form.AddField("hostPoints", hostPoints);
+        form.AddField("clientPoints", clientPoints);
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
         using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajGre.php", form))
@@ -5238,7 +5257,7 @@ Android uses files inside a compressed APK
                 //Debug.Log(www.downloadHandler.text);
                 if (www.downloadHandler.text == "false")
                 {
-                    
+
                 }
                 else
                 {

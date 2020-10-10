@@ -242,7 +242,7 @@ public class TaskCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     //Debug.Log("KOLOR:" + colorText.text);
                     //Debug.Log("Wartosc:" + valueText.text);
                     //Debug.Log(int.Parse(valueText.text) != 16);
-                    int val = 16;
+                    //int val = 16;
                     if ((colorText.text != GameManager.RED_TEXT)||(int.Parse(valueText.text) != 16))
                         return;
                     else

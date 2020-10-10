@@ -97,11 +97,17 @@
 		//echo "<br>";
 		$result = $conn->query($sql);
 		
-		$sql = "SELECT COUNT(*) as totalU FROM `uczen`";
+		//$sql = "SELECT COUNT(*) as totalU FROM `uczen`";
+		//$result = $conn->query($sql);
+
+		//$row = $result->fetch_assoc();
+		//$ileUczniow = $row["totalU"];
+		$sql = "SELECT COUNT(*) as totalUCZEN FROM `uczen`";
 		$result = $conn->query($sql);
 
 		$row = $result->fetch_assoc();
-		$ileUczniow = $row["totalU"];
+		$nrWTabeli = $row["totalUCZEN"] + 1;
+		
 		
 		$sql = "SELECT COUNT(*) as totalTEAM FROM `jos_djl_teams`";
 		$result = $conn->query($sql);
@@ -110,7 +116,7 @@
 		$nrUczniaTeams = $row["totalTEAM"];
 		
 		//teraz FOR
-		$tmpNrUcznia = $ileUczniow-1;
+		$tmpNrUcznia = $nrWTabeli;
 		$tmpNrUczniaTeams = $nrUczniaTeams;
 		$pozycja = "";
 		$licznik = 0;
