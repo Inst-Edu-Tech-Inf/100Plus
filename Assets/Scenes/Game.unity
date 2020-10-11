@@ -5482,6 +5482,7 @@ MonoBehaviour:
   transparentAllPanel: {fileID: 1513288677}
   infoText: {fileID: 1481321748}
   activeTutorialStep: -1
+  czyWynikWyslany: 0
   powerUpCards: []
   powerUpAICards: []
   maxPlayerCards: 7
@@ -6241,8 +6242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1329, y: 83.5}
-  m_SizeDelta: {x: 879.95, y: 559}
+  m_AnchoredPosition: {x: 1300.5, y: 83.5}
+  m_SizeDelta: {x: 936.9179, y: 559}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1427990678
 MonoBehaviour:
@@ -6324,7 +6325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1451766692
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6471,8 +6472,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -616, y: 143}
-  m_SizeDelta: {x: 670, y: 600}
+  m_AnchoredPosition: {x: -658.6, y: 103.13}
+  m_SizeDelta: {x: 584.80225, y: 679.7383}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1481321748
 MonoBehaviour:

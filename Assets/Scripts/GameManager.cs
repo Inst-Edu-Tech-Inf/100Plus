@@ -2669,7 +2669,7 @@ Android uses files inside a compressed APK
                         }
                     }
 
-                    for (int i = 0; i < playerCardsToDraw; i++)
+                    for (int i = 0; i < playerCardsToDraw; i++)//todo
                     {
                         if (powerUpCards.Count > maxPowerUpCards)
                         {
@@ -3920,7 +3920,9 @@ Android uses files inside a compressed APK
                 return;
             }
         }
-        playerTurnTime = maxPlayerTurnInSeconds;
+       // playerTurnTime = maxPlayerTurnInSeconds;
+       // maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
+       // playerTurnTime = maxPlayerTurnInSeconds;
         // if (((isHost) && (isHostTurn)) || ((!isHost) && (!isHostTurn)))
         if (((isHost) && (GetIsHostTurn())) || ((!isHost) && (!GetIsHostTurn())))
         {
@@ -4111,6 +4113,19 @@ Android uses files inside a compressed APK
                 {
                     iaTurnImage.gameObject.SetActive(false);
                     p2TurnImage.gameObject.SetActive(true);
+                    maxPlayerTurnInSeconds = SkinManager.instance.ActivePlayerEndTime;
+                    playerTurnTime = maxPlayerTurnInSeconds;
+                    for (int i = 0; i < taskCards.Count; ++i)
+                    {
+                        cardTask = taskCards[i];
+                        if ((cardTask.gameObject.activeSelf)) //&&(!isSuccess))
+                        {
+                            czyBrakZadan = false;
+                            break;
+                        }
+                    }
+                    if (czyBrakZadan)
+                        DrawTaskCard();
                 }
             }
             //zmiana isHostTurn
