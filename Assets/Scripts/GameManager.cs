@@ -2524,6 +2524,18 @@ Android uses files inside a compressed APK
                  infoText.text = infoText.text + "isHostTurn: False;";
          }*/
 
+        if (trashArea.activeSelf)
+        {
+            if (p2TurnImage.gameObject.activeSelf)
+            {
+                trashArea.GetComponent<Image>().color = new Color32(255, 0, 0, 40);
+            }
+            else
+            {
+                trashArea.GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+            }            
+        }
+
         //infoText.text = GetPVPValue1().ToString() + ",Comm:" + GetPVPCommand().ToString();
         if (!SkinManager.instance.MiddlePass) //zacznij tutorial
         {
@@ -2610,7 +2622,7 @@ Android uses files inside a compressed APK
             if (trashArea.activeSelf)
             {
                 helpTrash.gameObject.SetActive(true);
-                helpTask.gameObject.SetActive(false);
+                helpTask.gameObject.SetActive(true);
                 helpTurn.gameObject.SetActive(false);
                 helpCard.gameObject.SetActive(false);
                 helpEndTask.gameObject.SetActive(false);
@@ -2619,8 +2631,8 @@ Android uses files inside a compressed APK
             {
                 if (tasks.activeSelf)
                 {
-                    if (actualTaskCardsCount > 0) //taskCards.Count
-                        helpTask.gameObject.SetActive(true);
+                    //if (actualTaskCardsCount > 0) //taskCards.Count
+                        //helpTask.gameObject.SetActive(true);
                     helpTurn.gameObject.SetActive(true);
                     helpCard.gameObject.SetActive(false);
                     helpEndTask.gameObject.SetActive(false);

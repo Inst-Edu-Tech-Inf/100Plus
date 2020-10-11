@@ -26,6 +26,8 @@ namespace CompleteProject
         public GameObject rawImageA;
         public Image helpNext;
         public Image helpPrev;
+        public Image helpRamka;
+        public Image helpCoin;
         public Text numberText;
 
         RenderTexture ActiveTexture;// = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
@@ -338,11 +340,29 @@ namespace CompleteProject
                 userActivityTime -= Time.deltaTime;
                 helpNext.gameObject.SetActive(false);
                 helpPrev.gameObject.SetActive(false);
+                helpCoin.gameObject.SetActive(false);
+                helpRamka.gameObject.SetActive(false);
             }
             else
             {
-                helpNext.gameObject.SetActive(true);
-                helpPrev.gameObject.SetActive(true);
+                if (!SkinManager.instance.isSkinTutorialPass)
+                {
+                    if (activeTutorialStep == SkinManager.SAMOUCZEK_SKLEP_WLACZ_RAMKI)
+                        helpRamka.gameObject.SetActive(true);
+                    else
+                        if (activeTutorialStep == SkinManager.SAMOUCZEK_SKLEP_WYBIERZ_RAMKE)
+                            helpCoin.gameObject.SetActive(true);
+                        else
+                        {
+                            helpNext.gameObject.SetActive(true);
+                            helpPrev.gameObject.SetActive(true);
+                        }
+                }
+                else
+                {
+                    helpNext.gameObject.SetActive(true);
+                    helpPrev.gameObject.SetActive(true);
+                }
             }
             /* string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//"/Background/"
              pom = System.IO.Path.Combine("jar:file://" + Application.dataPath + "!/assets", pom);

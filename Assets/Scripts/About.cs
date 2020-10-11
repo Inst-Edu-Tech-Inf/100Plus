@@ -13,6 +13,7 @@ public class About : MonoBehaviour
     public Text graficyText;
     public Text testerzyText;
     public Text koncepcjaText;
+    public Text versionText;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -36,6 +37,7 @@ public class About : MonoBehaviour
     void Start()
     {
         //changeBackground();
+        versionText.text = Application.version;
         SystemLanguage iLang = Application.systemLanguage;
         switch (iLang)
         {

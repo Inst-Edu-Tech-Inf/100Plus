@@ -414,6 +414,8 @@ public class SkinManager : MonoBehaviour
         osiagniecia.Clear();
         SetUserID();
 
+     
+
         switch (iLang)
         {
             case SystemLanguage.English:
@@ -927,6 +929,8 @@ public class SkinManager : MonoBehaviour
                 //ShowAchievementPanel(SkinManager.LONGWAY);
             }
         }
+
+        //SetMiddlePass(false);
 
 
     }

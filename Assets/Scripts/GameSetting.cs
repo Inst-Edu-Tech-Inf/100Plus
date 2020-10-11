@@ -39,7 +39,10 @@ public class GameSetting : MonoBehaviour
 
     void Start()
     {
-        
+        /*if (!SkinManager.instance.MiddlePass)
+        {
+            VictoryConditionsChange(SkinManager.VICTORY_CONDITIONS_MODE_20PKT);
+        }*/
         SystemLanguage iLang = Application.systemLanguage;
         try
         {
@@ -136,7 +139,7 @@ Android uses files inside a compressed APK
         SkinManager.instance.SetActiveVictoryConditions(conditions);
 
         PlayerPrefs.SetInt("ActiveVictoryConditions", conditions);  
-        if (conditions == 0)
+        if (conditions == SkinManager.VICTORY_CONDITIONS_MODE_5MIN)
         {
             SkinManager.instance.SetIsVictoryTimePass(true);
             SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -149,7 +152,7 @@ Android uses files inside a compressed APK
         }
         else
         {
-            if (conditions == 1)
+            if (conditions == SkinManager.VICTORY_CONDITIONS_MODE_15MIN)
             {
                 SkinManager.instance.SetIsVictoryTimePass(true);
                 SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -162,7 +165,7 @@ Android uses files inside a compressed APK
             }
             else
             {
-                if (conditions == 2)
+                if (conditions == SkinManager.VICTORY_CONDITIONS_MODE_30MIN)
                 {
                     SkinManager.instance.SetIsVictoryTimePass(true);
                     SkinManager.instance.SetIsVictoryPointFirst(false);
@@ -175,7 +178,7 @@ Android uses files inside a compressed APK
                 }
                 else
                 {
-                    if (conditions == 3)//points
+                    if (conditions == SkinManager.VICTORY_CONDITIONS_MODE_20PKT)//points
                     {
                         SkinManager.instance.SetIsVictoryTimePass(false);
                         SkinManager.instance.SetIsVictoryPointFirst(true);
