@@ -19,7 +19,7 @@
 	//echo "Connected successfully";
 	
 	//$sql = "SELECT name, score FROM scores";
-	$sql = "SELECT skrot FROM `uczen` WHERE `identyfikator` LIKE \"$uczenPass\" ";
+	$sql = "SELECT skrot, team_nr FROM `uczen` WHERE `identyfikator` LIKE \"$uczenPass\" ";
 	//$sql = "SELECT skrot FROM `uczen` WHERE `identyfikator` LIKE \"e97c074fafde2707859a79d32dd0708929554e4d\" ";
 	//$sql = "SELECT szkola FROM `nauczyciel` WHERE `identyfikator` LIKE \"e97c074fafde2707859a79d32dd0708929554e4d\" ";
 	//sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
@@ -32,8 +32,15 @@
 		while($row = $result->fetch_assoc()) {
 			//echo $row["szkola"];
 			//
-			echo $row["skrot"];
+			//echo $row["skrot"];
 			//echo "<br>";
+			$teamNr = $row["team_nr"];
+			$sql = "SELECT name FROM `jos_djl_teams` WHERE `id` LIKE \"$teamNr\" ";
+			//echo $sql;
+			$result = $conn->query($sql);
+			while($row = $result->fetch_assoc()) {
+				echo $row["name"];
+			}
 		}		
 	}
 	else

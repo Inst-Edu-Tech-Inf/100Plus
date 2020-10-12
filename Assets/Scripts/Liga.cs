@@ -230,6 +230,7 @@ public class Liga : MonoBehaviour
             }
             else
             {
+                //Debug.Log(www.downloadHandler.text);
                 if (www.downloadHandler.text == "false")
                 {
 
@@ -386,7 +387,7 @@ public class Liga : MonoBehaviour
         form.AddField("nauczycielPass", nauczycielPass);
         form.AddField("aktywnaKlasa", aktywnaKlasa);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/KodyKlasy.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/KodyKlasy2.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -403,42 +404,54 @@ public class Liga : MonoBehaviour
                 }
                 else
                 {
-					strArr = www.downloadHandler.text.ToString().Split(' ');
-					
+                    strArr = www.downloadHandler.text.ToString().Split(' ');
+
                     //nrSzkoly = strArr[0];
                     //nazwaSzkolyInput.text = strArr[1];
                     for (int i = 1; i <= 20; ++i)
                     {
                         //indeksyKlas.Add(Convert.ToInt32(reader["id"]));                        
-                       // klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
-        
-                       // if (nrAktywejKlasy - 1 == listaKlas.value)
-                        //{
-                            //Debug.Log("i:" + i);
-                            //Debug.Log(listaKlas.value);
+                        // klasy.Add(new KlasaStruct(Convert.ToInt32(reader["id"]), reader["nazwa"].ToString()));
 
-                            kodyKlas1.text = "";
-                            kodyKlas2.text = "";
-                            kodyKlas3.text = "";
-                            kodyKlas4.text = "";
-                            for (int j = 1; j <= 10; ++j)
-							{
-								if (strArr[j-1] != "0")
-                                    kodyKlas1.text += "<color=red>" + strArr[j-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-                                if (strArr[j+10-1] != "0")
-                                    kodyKlas2.text += "<color=red>" + strArr[j+10-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany
-                                if (strArr[j+20-1] != "0")
-                                    kodyKlas3.text += "<color=red>" + strArr[j+20-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany
-                                if (strArr[j+30-1] != "0")
-                                    kodyKlas4.text += "<color=red>" + strArr[j+30-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany
-                            }
+                        // if (nrAktywejKlasy - 1 == listaKlas.value)
+                        //{
+                        //Debug.Log("i:" + i);
+                        //Debug.Log(listaKlas.value);
+
+                        kodyKlas1.text = "";
+                        kodyKlas2.text = "";
+                        kodyKlas3.text = "";
+                        kodyKlas4.text = "";
+                        for (int j = 1; j <= 10; ++j)
+                        {
+                            //Debug.Log(strArr[j-1].ToString());
+                            /*if (strArr[j-1] != "0")
+                                kodyKlas1.text += "<color=red>" + strArr[j-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
+                            if (strArr[j+10-1] != "0")
+                                kodyKlas2.text += "<color=red>" + strArr[j+10-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany
+                            if (strArr[j+20-1] != "0")
+                                kodyKlas3.text += "<color=red>" + strArr[j+20-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany
+                            if (strArr[j+30-1] != "0")
+                                kodyKlas4.text += "<color=red>" + strArr[j+30-1].ToString()  + "</color> \n";//todo red/green if uczen zalogowany*/
+                            if (strArr[j - 1] != "0")
+                                kodyKlas1.text += strArr[j - 1].ToString();//todo red/green if uczen zalogowany
+
+                            if (strArr[j + 10 - 1] != "0")
+                                kodyKlas2.text += strArr[j + 10 - 1].ToString();//todo red/green if uczen zalogowany
+                            if (strArr[j + 20 - 1] != "0")
+                                kodyKlas3.text += strArr[j + 20 - 1].ToString();//todo red/green if uczen zalogowany
+                            if (strArr[j + 30 - 1] != "0")
+                                kodyKlas4.text += strArr[j + 30 - 1].ToString();//todo red/green if uczen zalogowany
+
+                        }
                         //}
                     }
                     //nazwa bêdzie rekord
-					doBufora = kodyKlas1.text + "\n" + kodyKlas2.text + "\n" + kodyKlas3.text + "\n" + kodyKlas4.text + "\n";
-					doBufora = doBufora.Replace("<color=red>", "");
-					doBufora = doBufora.Replace("</color>", "");
-					GUIUtility.systemCopyBuffer = doBufora.ToString();
+                    doBufora = kodyKlas1.text + "\n" + kodyKlas2.text + "\n" + kodyKlas3.text + "\n" + kodyKlas4.text + "\n";
+                    doBufora = doBufora.Replace("<color=red>", "");
+                    doBufora = doBufora.Replace("<color=green>", "");
+                    doBufora = doBufora.Replace("</color>", "");
+                    GUIUtility.systemCopyBuffer = doBufora.ToString();
                 }
             }
 		}
@@ -1147,7 +1160,7 @@ public class Liga : MonoBehaviour
     public void ConnectDatabase()
     {
         //string connStr = "server=localhost;user=root;database=world;port=3306;password=******";
-      /*  string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+      /*  string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=";
         
         MySqlConnection conn = new MySqlConnection(connStr);
         try

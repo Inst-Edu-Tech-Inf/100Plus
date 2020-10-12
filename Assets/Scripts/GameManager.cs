@@ -4694,7 +4694,7 @@ Android uses files inside a compressed APK
          kalendarz = kalendarze.ToString("u", CultureInfo.CreateSpecificCulture("en-US"));
          kalendarz = kalendarz.TrimEnd('Z');
 
-         string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+         string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=";
          MySqlConnection conn = new MySqlConnection(connStr);
          bool czyOK = false;
          //int ktoraKlasa = listaKlas.value;
