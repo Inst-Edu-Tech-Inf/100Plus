@@ -638,6 +638,7 @@ public class SkinManager : MonoBehaviour
             //Debug.Log("ID existed:"+pom);
             SkinManager.instance.UserID = pom;
         }
+        SkinManager.instance.UserID = "482e7ce34536663f4fdd8cea7717cd4a09d8981f";
 
         /*if ((pom.Contains("0")) || (pom.Contains("1")) || (pom.Contains("2")) || (pom.Contains("3")) || (pom.Contains("4")) || (pom.Contains("5"))
             || (pom.Contains("6")) || (pom.Contains("7")) || (pom.Contains("8")) || (pom.Contains("9")))

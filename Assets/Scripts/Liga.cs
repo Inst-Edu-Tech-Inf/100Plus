@@ -28,7 +28,7 @@ public class Liga : MonoBehaviour
     }
 
     //bool activeAddClass = false;
-    //string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=SummOn2020.";
+    //string connStr = "server=s69.cyber-folks.pl;user=kolacz_zdalny;database=kolacz_jos1;port=3306;password=";
     bool czyNauczycielIstnieje;// = false;
     int nrNauczyciela;// = 0;
     int nrSzkoly;// = 0;
@@ -156,6 +156,7 @@ public class Liga : MonoBehaviour
         WWWForm form = new WWWForm();
         string[] strArr;
         form.AddField("nauczycielPass", nauczycielPass);
+        //form.AddField("nauczycielPass", "");
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
         using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/NauczycielClick.php", form))
@@ -404,6 +405,7 @@ public class Liga : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("KodyKlasy:" + www.downloadHandler.text);
                     strArr = www.downloadHandler.text.ToString().Split(' ');
 
                     //nrSzkoly = strArr[0];
@@ -424,7 +426,11 @@ public class Liga : MonoBehaviour
                         kodyKlas4.text = "";
                         for (int j = 1; j <= 10; ++j)
                         {
+                            //Debug.Log("J:" + j);
                             //Debug.Log(strArr[j-1].ToString());
+                            //Debug.Log(strArr[j +10- 1].ToString());
+                            //Debug.Log(strArr[j +20- 1].ToString());
+                            //Debug.Log(strArr[j +30- 1].ToString());
                             /*if (strArr[j-1] != "0")
                                 kodyKlas1.text += "<color=red>" + strArr[j-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
                             if (strArr[j+10-1] != "0")
@@ -592,6 +598,8 @@ public class Liga : MonoBehaviour
 
         conn.Close();*/
         StartCoroutine(NauczycielWebClick(SkinManager.instance.UserID));
+        //StartCoroutine(NauczycielWebClick(""));
+        
 
         /*if (czyNauczycielIstnieje)//szko³a istnieje, nauczyciel dodany, dodawane klas aktywne
         {

@@ -59,10 +59,10 @@
 							else{
 								echo "<color=green>";
 							}							
-						echo "1.".$row["u1kod"];
-						echo "</color>\n ";
+						echo "1."  . $row["u1kod"];
+						echo "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz2"] == "0"){
 						echo "0";
 					}
@@ -79,9 +79,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "2.".$row["u2kod"]."</color>\n ";
+						echo "2."  . $row["u2kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz3"] == "0"){
 						echo "0";
 					}
@@ -98,9 +98,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "3.".$row["u3kod"]."</color>\n ";
+						echo "3."  . $row["u3kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz4"] == "0"){
 						echo "0";
 					}
@@ -117,9 +117,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "4.".$row["u4kod"]."</color>\n ";
+						echo "4."  . $row["u4kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz5"] == "0"){
 						echo "0";
 					}
@@ -136,9 +136,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "5.".$row["u5kod"]."</color>\n ";
+						echo "5."  . $row["u5kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz6"] == "0"){
 						echo "0";
 					}
@@ -155,9 +155,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "6.".$row["u6kod"]."</color>\n ";
+						echo "6."  . $row["u6kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz7"] == "0"){
 						echo "0";
 					}
@@ -174,9 +174,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "7.".$row["u7kod"]."</color>\n ";
+						echo "7."  . $row["u7kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz8"] == "0"){
 						echo "0";
 					}
@@ -193,9 +193,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "8.".$row["u8kod"]."</color>\n ";
+						echo "8."  . $row["u8kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz9"] == "0"){
 						echo "0";
 					}
@@ -212,9 +212,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "9.".$row["u9kod"]."</color>\n ";
+						echo "9."  . $row["u9kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz10"] == "0"){
 						echo "0";
 					}
@@ -231,9 +231,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "10.".$row["u10kod"]."</color>\n ";
+						echo "10."  . $row["u10kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz11"] == "0"){
 						echo "0";
 					}
@@ -250,9 +250,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "11.".$row["u11kod"]."</color>\n ";
+						echo "11."  . $row["u11kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz12"] == "0"){
 						echo "0";
 					}
@@ -269,9 +269,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "12.".$row["u12kod"]."</color>\n ";
+						echo "12."  . $row["u12kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz13"] == "0"){
 						echo "0";
 					}
@@ -288,9 +288,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "13.".$row["u13kod"]."</color>\n ";
+						echo "13."  . $row["u13kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz14"] == "0"){
 						echo "0";
 					}
@@ -307,9 +307,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "14.".$row["u14kod"]."</color>\n ";
+						echo "14."  . $row["u14kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz15"] == "0"){
 						echo "0";
 					}
@@ -326,9 +326,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "15.".$row["u15kod"]."</color>\n ";
+						echo "15."  . $row["u15kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz16"] == "0"){
 						echo "0";
 					}
@@ -345,9 +345,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "16.".$row["u16kod"]."</color>\n ";
+						echo "16."  . $row["u16kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz17"] == "0"){
 						echo "0";
 					}
@@ -364,9 +364,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "17.".$row["u17kod"]."</color>\n ";
+						echo "17."  . $row["u17kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz18"] == "0"){
 						echo "0";
 					}
@@ -383,9 +383,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "18.".$row["u18kod"]."</color>\n ";
+						echo "18."  . $row["u18kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz19"] == "0"){
 						echo "0";
 					}
@@ -402,9 +402,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "19.".$row["u19kod"]."</color>\n ";
+						echo "19."  . $row["u19kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz20"] == "0"){
 						echo "0";
 					}
@@ -421,9 +421,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "20.".$row["u20kod"]."</color>\n ";
+						echo "20."  . $row["u20kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz21"] == "0"){
 						echo "0";
 					}
@@ -440,9 +440,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "21.".$row["u21kod"]."</color>\n ";
+						echo "21."  . $row["u21kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz22"] == "0"){
 						echo "0";
 					}
@@ -459,9 +459,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "22.".$row["u22kod"]."</color>\n ";
+						echo "22."  . $row["u22kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz23"] == "0"){
 						echo "0";
 					}
@@ -478,9 +478,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "23.".$row["u23kod"]."</color>\n ";
+						echo "23."  . $row["u23kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz24"] == "0"){
 						echo "0";
 					}
@@ -497,9 +497,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "24.".$row["u24kod"]."</color>\n ";
+						echo "24."  . $row["u24kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz25"] == "0"){
 						echo "0";
 					}
@@ -516,9 +516,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "25.".$row["u25kod"]."</color>\n ";
+						echo "25."  . $row["u25kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz26"] == "0"){
 						echo "0";
 					}
@@ -535,9 +535,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "26.".$row["u26kod"]."</color>\n ";
+						echo "26."  . $row["u26kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz27"] == "0"){
 						echo "0";
 					}
@@ -554,9 +554,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "27.".$row["u27kod"]."</color>\n ";
+						echo "27."  . $row["u27kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz28"] == "0"){
 						echo "0";
 					}
@@ -573,9 +573,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "28.".$row["u28kod"]."</color>\n ";
+						echo "28."  . $row["u28kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz29"] == "0"){
 						echo "0";
 					}
@@ -592,9 +592,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "29.".$row["u29kod"]."</color>\n ";
+						echo "29."  . $row["u29kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz30"] == "0"){
 						echo "0";
 					}
@@ -611,9 +611,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "30.".$row["u30kod"]."</color>\n ";
+						echo "30."  . $row["u30kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz31"] == "0"){
 						echo "0";
 					}
@@ -630,9 +630,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "31.".$row["u31kod"]."</color>\n ";
+						echo "31."  . $row["u31kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz32"] == "0"){
 						echo "0";
 					}
@@ -649,9 +649,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "32.".$row["u32kod"]."</color>\n ";
+						echo "32."  . $row["u32kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz33"] == "0"){
 						echo "0";
 					}
@@ -668,9 +668,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "33.".$row["u33kod"]."</color>\n ";
+						echo "33."  . $row["u33kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz34"] == "0"){
 						echo "0";
 					}
@@ -687,9 +687,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "34.".$row["u34kod"]."</color>\n ";
+						echo "34."  . $row["u34kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz35"] == "0"){
 						echo "0";
 					}
@@ -706,9 +706,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "35.".$row["u35kod"]."</color>\n ";
+						echo "35."  . $row["u35kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz36"] == "0"){
 						echo "0";
 					}
@@ -725,9 +725,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "36.".$row["u36kod"]."</color>\n ";
+						echo "36."  . $row["u36kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz37"] == "0"){
 						echo "0";
 					}
@@ -744,9 +744,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "37.".$row["u37kod"]."</color>\n ";
+						echo "37."  . $row["u37kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz38"] == "0"){
 						echo "0";
 					}
@@ -763,9 +763,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "38.".$row["u38kod"]."</color>\n ";
+						echo "38."  . $row["u38kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz39"] == "0"){
 						echo "0";
 					}
@@ -782,9 +782,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "39.".$row["u39kod"]."</color>\n ";
+						echo "39."  . $row["u39kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 					if ($row["ucz40"] == "0"){
 						echo "0";
 					}
@@ -801,9 +801,9 @@
 							else{
 								echo "<color=green>";
 							}
-						echo "40.".$row["u40kod"]."</color>\n ";
+						echo "40."  . $row["u40kod"] . "</color> \n";
 					}
-					//echo " ";//"<br>";
+					echo " ";//"<br>";
 				}
 				$licznik = $licznik + 1;
 			}
