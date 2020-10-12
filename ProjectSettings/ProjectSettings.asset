@@ -175,7 +175,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: com.ieti.summon
   buildNumber:
-    iPhone: 1.1.4
+    iPhone: 1.1.9
   AndroidBundleVersionCode: 76
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 29
@@ -238,7 +238,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: S3HTMKL6TL
+  appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: bdcb24fb-dd21-47e4-9386-a8fdb39159a9
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 2
