@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using Unity.Notifications;
+using Unity.Notifications.Android;
+using Unity.Notifications.iOS;
 
 public class MenuButtons : MonoBehaviour
 {
@@ -41,11 +44,62 @@ public class MenuButtons : MonoBehaviour
 
 	}
 
+     
+        
+
 	void Start()
 	{
-		// StartCoroutine(Foo("Text", 10)); 
-		//changeBackground();
+        // StartCoroutine(Foo("Text", 10)); 
+        //changeBackground();
 
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            var c = new AndroidNotificationChannel()
+            {
+                Id = "channel_id",
+                Name = "Default Channel",
+                Importance = Importance.High,
+                Description = "Generic notifications",
+            };
+
+            AndroidNotificationCenter.RegisterNotificationChannel(c);
+
+            var notificationA = new AndroidNotification();
+            notificationA.Title = "Liga Matematyczna";
+            notificationA.Text = "Zagraj mecz";
+            notificationA.FireTime = System.DateTime.Now.AddMinutes(5);
+            notificationA.LargeIcon = "icon_0";
+            //repeat interval//if uczen registered// if liga startuje
+
+            AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+        }
+
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+            {
+                TimeInterval = new TimeSpan(1, 0, 0, 0),
+                Repeats = false
+            };
+
+            var notification = new iOSNotification()
+            {
+                // You can optionally specify a custom identifier which can later be 
+                // used to cancel the notification, if you don't set one, a unique 
+                // string will be generated automatically.
+                Identifier = "_notification_01",
+                Title = "Liga Matematyczna",
+                Body = "Zagraj mecz",//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                Subtitle = "codziennie",//"This is a subtitle, something, something important...",
+                ShowInForeground = true,
+                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                CategoryIdentifier = "category_a",
+                ThreadIdentifier = "thread1",
+                Trigger = timeTrigger,
+            };
+
+            iOSNotificationCenter.ScheduleNotification(notification);
+        }
 	}
 
 	void Awake()

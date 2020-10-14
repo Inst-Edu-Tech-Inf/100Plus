@@ -2377,11 +2377,22 @@ Android uses files inside a compressed APK
         if (SkinManager.instance.ActivePlayerMode != 0) //not single player mode
         {
             victoryPointsP2.gameObject.SetActive(true);
+            if (isHost)
+            {
+                victoryPointsP2.color = new Color32(255, 0, 0, 255);
+                victoryPoints.color = new Color32(0, 255, 0, 255);
+            }
+            else
+            {
+                victoryPointsP2.color = new Color32(0, 255, 0, 255);
+                victoryPoints.color = new Color32(255, 0, 0, 255);
+            }
         }
         else
         {
             victoryPointsP2.gameObject.SetActive(false); //nie pokazuje w multiplayer?
         }
+
         changeBackground();
         changeSound();
 

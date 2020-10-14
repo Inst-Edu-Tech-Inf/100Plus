@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -107981364, guid: 2c3078f85c1a94a82b179c36ee13484f, type: 3}
+  m_Name: UDP Settings
+  m_EditorClassIdentifier: 
+  UnityProjectID: 18d0dcda-59e0-4135-bd2e-4881e241106d
+  UnityClientID: -3_YyhpXgDHT3k1cXIVBgA
+  UnityClientKey: gHJP3rUlIu0TdY4lXr5BpXW6Xq0e4UL8ivjfzyJqVSk
+  UnityClientRSAPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuO3wNjEisdfq4FnQwXJHHaLQwnZFDqOxWoFYHTHrRxPSiI1Ok/qe8ThBLsJu83tlZ1hYJrAf/oDQEB8akHFSg35Pq3YOrbA2WnH3oMDGHUYbvvStu9OUTWpX68eZqJZvfUm3fN+D8/jeFGIAFmX1Qsyzd4VuvwiIjd8BvzZBdYzlKL7M2P7776qoWYlWt0HglBLWfPk56PgQUgUhIYHd1jjIenJY68heliJ9gfQ+g8eWQz5ZYM4pGcGxkQVkfZbuI+LmcAPcfjzxfUkwJsJhaEF9lAjaSJsGZmkSYnbb/yPwmF7EX0SEViNNki+qGOEAEjINcFIW0TC0zxjh286NgQIDAQAB
+  AppName: SummOn
+  AppSlug: 374059bd-1371-43aa-96fb-da45512bc997
+  AppItemId: 5f854040b1bd66001f52cf97
+  Permission: 

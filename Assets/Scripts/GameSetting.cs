@@ -55,6 +55,15 @@ public class GameSetting : MonoBehaviour
             victoryList.value = SkinManager.instance.ActiveVictoryConditions;
             playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
 
+        
+    
+        }
+            
+        catch (System.Exception exception)
+        {
+            Debug.LogWarning(exception);
+        }
+
         switch (iLang)
             {
                 case SystemLanguage.English:
@@ -74,13 +83,6 @@ public class GameSetting : MonoBehaviour
                     soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
                     break;
             }
-    
-        }
-            
-        catch (System.Exception exception)
-        {
-            Debug.LogWarning(exception);
-        }
     }
 
     // Update is called once per frame
