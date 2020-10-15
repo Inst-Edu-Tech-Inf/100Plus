@@ -44,7 +44,7 @@
 				//
 				if ($aktywnaKlasa == $licznik) {
 					if ($row["ucz1"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz1"];
@@ -64,7 +64,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz2"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz2"];
@@ -83,7 +83,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz3"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz3"];
@@ -102,7 +102,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz4"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz4"];
@@ -121,7 +121,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz5"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz5"];
@@ -140,7 +140,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz6"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz6"];
@@ -159,7 +159,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz7"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz7"];
@@ -178,7 +178,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz8"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz8"];
@@ -197,7 +197,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz9"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz9"];
@@ -216,7 +216,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz10"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz10"];
@@ -235,7 +235,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz11"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz11"];
@@ -254,7 +254,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz12"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz12"];
@@ -273,7 +273,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz13"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz13"];
@@ -292,7 +292,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz14"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz14"];
@@ -311,7 +311,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz15"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz15"];
@@ -330,7 +330,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz16"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz16"];
@@ -349,7 +349,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz17"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz17"];
@@ -368,7 +368,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz18"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz18"];
@@ -387,7 +387,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz19"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz19"];
@@ -406,7 +406,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz20"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz20"];
@@ -425,7 +425,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz21"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz21"];
@@ -444,7 +444,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz22"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz22"];
@@ -463,7 +463,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz23"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz23"];
@@ -482,7 +482,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz24"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz24"];
@@ -501,7 +501,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz25"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz25"];
@@ -520,7 +520,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz26"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz26"];
@@ -539,7 +539,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz27"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz27"];
@@ -558,7 +558,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz28"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz28"];
@@ -577,7 +577,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz29"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz29"];
@@ -596,7 +596,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz30"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz30"];
@@ -615,7 +615,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz31"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz31"];
@@ -634,7 +634,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz32"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz32"];
@@ -653,7 +653,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz33"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz33"];
@@ -672,7 +672,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz34"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz34"];
@@ -691,7 +691,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz35"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz35"];
@@ -710,7 +710,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz36"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz36"];
@@ -729,7 +729,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz37"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz37"];
@@ -748,7 +748,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz38"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz38"];
@@ -767,7 +767,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz39"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz39"];
@@ -786,7 +786,7 @@
 					}
 					//echo " ";//"<br>";
 					if ($row["ucz40"] == "0"){
-						echo "0";
+						echo "0 ";
 					}
 					else{
 						$nrUcznia = $row["ucz40"];

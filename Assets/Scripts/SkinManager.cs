@@ -142,6 +142,11 @@ public class SkinManager : MonoBehaviour
     public const int KOD_UCZNIA = 12;
     public const int WIEK_UCZNIA = 13;
     public const int KOD_ZAJETY = 14;
+    public const int BRAK_SKROCONA_NAZWA_SZKOLY = 15;
+    public const int BRAK_SKROCONA_NAZWA_KLASY = 16;
+    public const int KODY_DLA_UCZNIOW = 17;
+    public const int ZAGRAJ = 18;
+    public const int SUMMON_LEAGUE = 19;
     public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
@@ -175,7 +180,9 @@ public class SkinManager : MonoBehaviour
         "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem popłaca",
         "Użyj 5 kart na raz, żeby zebrać idealny wynik"};
     public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", 
-        "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek", "Kod zajęty" };
+        "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek", "Kod zajęty lub nieprawidłowy",
+        "Podaj skróconą nazwę szkoły, np. SP1", "Podaj skróconą nazwę klasy, np. 4a", 
+        "Udostępnij kody uczniom i sprawdź czy się zarejestrowali", "Zagraj mecz ligowy", "SummOn Liga"};
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -240,7 +247,9 @@ public class SkinManager : MonoBehaviour
         "Gain PVP games " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " score - only bigger than task value","I'm rich...","Just excelent game", "The risk is sometimes better",
         "Use 5 card at row to collect pure result"};
     public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode",
-        "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age", "Code already used" };
+        "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age", "Code already used or invalid",
+        "Short school name can't be empty (i.e.PS1)", "Short class name can't be empty (i.e.4a)", 
+        "Give students the codes and check they registry", "Play league match", "SummOn League"};
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",
@@ -399,13 +408,15 @@ public class SkinManager : MonoBehaviour
     public bool isSkinTutorialPass = false;
     public string[] TutorialLang;
     public string[] SkinTutorialLang;
+    public string[] MenuLang;
+    public SystemLanguage iLang;
 
 
     // Start is called before the first frame update
     void Start()
     {
         string[] skorkiLang, ramkiLang, tlaLang, muzykiLang, osiagnieciaLang, osiagnieciaOpisLang;
-        SystemLanguage iLang = Application.systemLanguage;
+        iLang = Application.systemLanguage;
         instance = this;
         skorki.Clear();
         ramki.Clear();
@@ -427,6 +438,7 @@ public class SkinManager : MonoBehaviour
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
                 TutorialLang = SAMOUCZEK_EN;
                 SkinTutorialLang = SAMOUCZEK_SKLEP_EN;
+                MenuLang = MENU_EN;
                 break;
             case SystemLanguage.Polish:
                 skorkiLang = SKORKI_PL;
@@ -437,6 +449,7 @@ public class SkinManager : MonoBehaviour
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_PL;
                 TutorialLang = SAMOUCZEK_PL;
                 SkinTutorialLang = SAMOUCZEK_SKLEP_PL;
+                MenuLang = MENU_PL;
                 break;
             default:
                 skorkiLang = SKORKI_EN;
@@ -447,6 +460,7 @@ public class SkinManager : MonoBehaviour
                 osiagnieciaOpisLang = OSIAGNIECIA_OPIS_EN;
                 TutorialLang = SAMOUCZEK_EN;
                 SkinTutorialLang = SAMOUCZEK_SKLEP_EN;
+                MenuLang = MENU_EN;
                 break;
         }
         //.Log(Application.systemLanguage);

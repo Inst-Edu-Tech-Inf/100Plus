@@ -73,6 +73,8 @@ public class Liga : MonoBehaviour
     public Text kodyKlas4;
     public Text userIDText;
     public Text debugInfo;
+    public GameObject panelBlad;
+    public Text bladText;
 
    // private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
    // public string addScoreURL = "http://summon.ieti.pl/addscore.php";//"http://localhost/unity_test/addscore.php?"; //be sure to add a ? to your url
@@ -405,7 +407,7 @@ public class Liga : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("KodyKlasy:" + www.downloadHandler.text);
+                    Debug.Log("KodyKlasy:" + www.downloadHandler.text);
                     strArr = www.downloadHandler.text.ToString().Split(' ');
 
                     //nrSzkoly = strArr[0];
@@ -774,9 +776,24 @@ public class Liga : MonoBehaviour
         debugInfo.text += "closed__"; */
     }
 
+    public void zgasBlad()
+    {
+        panelBlad.SetActive(false);
+    }
+
     public void DodajSzkole()
     {
-        
+        if ((skrotSzkolyText.text == "") || (nazwaSzkolyInput.text == ""))
+        {
+            panelBlad.SetActive(true);
+            bladText.text = SkinManager.instance.MenuLang[SkinManager.BRAK_SKROCONA_NAZWA_SZKOLY];
+        }
+        else
+        {
+            panelBlad.SetActive(false);
+            StartCoroutine(DodajSzkoleWebClick(nazwaSzkolyInput.text, skrotSzkolyText.text, SkinManager.instance.UserID));
+            klasaPanel.SetActive(true);
+        }
 
        /* MySqlConnection conn = new MySqlConnection(connStr);
         
@@ -878,13 +895,30 @@ public class Liga : MonoBehaviour
 
             conn.Close();*/
             //activeAddClass = true;
-            StartCoroutine(DodajSzkoleWebClick(nazwaSzkolyInput.text, skrotSzkolyText.text, SkinManager.instance.UserID));
-            klasaPanel.SetActive(true);
+            
  
     }
 
     public void DodajKlase()
     {
+        if (nazwaKlasyInput.text == "")
+        {
+            panelBlad.SetActive(true);
+            bladText.text = SkinManager.instance.MenuLang[SkinManager.BRAK_SKROCONA_NAZWA_KLASY];
+        }
+        else
+        {
+            panelBlad.SetActive(false);
+            List<string> tmpSkrot = new List<string>();
+            for (int i = 1; i <= 40; ++i)
+            {
+                tmpSkrot.Add(SkinManager.Hash(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
+            }
+            StartCoroutine(DodajKlaseWebClick(SkinManager.instance.UserID, skrotSzkolyText.text, nazwaKlasyInput.text, wiekUczniowValue.text, ileUczniowSlider.value.ToString(), tmpSkrot[0], tmpSkrot[1], tmpSkrot[2], tmpSkrot[3], tmpSkrot[4], tmpSkrot[5], tmpSkrot[6], tmpSkrot[7], tmpSkrot[8], tmpSkrot[9], tmpSkrot[10], tmpSkrot[11], tmpSkrot[12], tmpSkrot[13], tmpSkrot[14], tmpSkrot[15], tmpSkrot[16], tmpSkrot[17], tmpSkrot[18], tmpSkrot[19], tmpSkrot[20], tmpSkrot[21], tmpSkrot[22], tmpSkrot[23], tmpSkrot[24], tmpSkrot[25], tmpSkrot[26], tmpSkrot[27], tmpSkrot[28], tmpSkrot[29], tmpSkrot[30], tmpSkrot[31], tmpSkrot[32], tmpSkrot[33], tmpSkrot[34], tmpSkrot[35], tmpSkrot[36], tmpSkrot[37], tmpSkrot[38], tmpSkrot[39]));
+            listaKlas.value = listaKlas.options.FindIndex(option => option.text == nazwaKlasyInput.text);            
+            nazwaKlasyInput.text = "";
+            WyswietlKodyKlasy();
+        }
         //List<int> nowiUczniowieID = new List<int>();
 
        /* //workingPanel.SetActive(true);
@@ -1051,43 +1085,6 @@ public class Liga : MonoBehaviour
         }//endfor ileUczniowSlider
 
         //workingPanel.SetActive(false);*/
-        List<string> tmpSkrot = new List<string>();
-        for (int i = 1; i <= 40; ++i)
-        {
-            tmpSkrot.Add(SkinManager.Hash(System.DateTime.Now.ToString() + UnityEngine.Random.Range(0.0f, 1000.0f)));
-        }
-        //skrotSzkolyText.text
-        StartCoroutine(DodajKlaseWebClick(SkinManager.instance.UserID, skrotSzkolyText.text, nazwaKlasyInput.text, wiekUczniowValue.text, ileUczniowSlider.value.ToString(), tmpSkrot[0], tmpSkrot[1], tmpSkrot[2], tmpSkrot[3], tmpSkrot[4], tmpSkrot[5], tmpSkrot[6], tmpSkrot[7], tmpSkrot[8], tmpSkrot[9], tmpSkrot[10], tmpSkrot[11], tmpSkrot[12], tmpSkrot[13], tmpSkrot[14], tmpSkrot[15], tmpSkrot[16], tmpSkrot[17], tmpSkrot[18], tmpSkrot[19], tmpSkrot[20], tmpSkrot[21], tmpSkrot[22], tmpSkrot[23], tmpSkrot[24], tmpSkrot[25], tmpSkrot[26], tmpSkrot[27], tmpSkrot[28], tmpSkrot[29], tmpSkrot[30], tmpSkrot[31], tmpSkrot[32], tmpSkrot[33], tmpSkrot[34], tmpSkrot[35], tmpSkrot[36], tmpSkrot[37], tmpSkrot[38], tmpSkrot[39]));
-
-        /*List<string> tmpNazwa = new List<string>();
-        tmpNazwa.Add(nazwaKlasyInput.text);
-        listaKlas.AddOptions(tmpNazwa);
-        
-        kodyKlas1.text = "";
-        kodyKlas2.text = "";
-        kodyKlas3.text = "";
-        kodyKlas4.text = "";
-        //kodyKlas1Input.text = "";
-        for (int j = 1; j <= 10; ++j) 
-        {
-            if (j <= ileUczniowSlider.value)
-            {
-                kodyKlas1.text += "<color=red>" + tmpSkrot[j - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-            }
-            if (j + 10 <= ileUczniowSlider.value)
-                kodyKlas2.text += "<color=red>" + tmpSkrot[j+10-1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-            if (j + 20 <= ileUczniowSlider.value)
-                kodyKlas3.text += "<color=red>" + tmpSkrot[j + 20 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-            if (j + 30 <= ileUczniowSlider.value)
-                kodyKlas4.text += "<color=red>" + tmpSkrot[j + 30 - 1].ToString() + "</color> \n";//todo red/green if uczen zalogowany
-        }*/
-        listaKlas.value = listaKlas.options.FindIndex(option => option.text == nazwaKlasyInput.text);
-        //listaKlas.value = listAvailableStrings.IndexOf(nazwaKlasyInput.text);
-        nazwaKlasyInput.text = "";
-        WyswietlKodyKlasy();
-
-        //kodyKlas1Input.text = kodyKlas1.text;
-        //kodyKlas1Input.text += kodyKlas1.text.ToString();
     }
 
     public void WyswietlKodyKlasy()
