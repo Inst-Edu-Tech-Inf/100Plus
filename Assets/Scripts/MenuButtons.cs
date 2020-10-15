@@ -1,4 +1,6 @@
 ﻿//#define HTML5
+#define UNITY_ANDROID
+//#define UNITY_IOS
 
 using System.Collections;
 using System.Collections.Generic;
@@ -6,9 +8,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-using Unity.Notifications;
+//using Unity.Notifications; 
+#if UNITY_ANDROID
 using Unity.Notifications.Android;
+#endif
+#if UNITY_IOS
 using Unity.Notifications.iOS;
+#endif
 using UnityEngine.Networking;
 
 public class MenuButtons : MonoBehaviour
@@ -69,7 +75,9 @@ public class MenuButtons : MonoBehaviour
                 }
                 else
                 {
-
+#if UNITY_IOS
+if (Application.platform == RuntimePlatform.IPhonePlayer)
+{
                     //moj IPhone
                     if (SkinManager.instance.UserID == "3e5c6105dfe38c5c0c16ce622690b6bfa2f53998")
                     {
@@ -102,34 +110,40 @@ public class MenuButtons : MonoBehaviour
 
                         iOSNotificationCenter.ScheduleNotification(notification9);
                     }
-
-                    //moj Android
-                    DateTime dataPowiadomienia8 = new System.DateTime(2020, 12, 1);
-                    //add notifications Nauczyciel 19.26,2,9,16,23,30
-                    if (SkinManager.instance.UserID == "482e7ce34536663f4fdd8cea7717cd4a09d8981f")
+}
+#endif
+#if UNITY_ANDROID
+                    if (Application.platform == RuntimePlatform.Android)
                     {
-                        var c2 = new AndroidNotificationChannel()
+                        //moj Android
+                        DateTime dataPowiadomienia8 = new System.DateTime(2020, 12, 1);
+                        //add notifications Nauczyciel 19.26,2,9,16,23,30
+                        if (SkinManager.instance.UserID == "482e7ce34536663f4fdd8cea7717cd4a09d8981f")
                         {
-                            Id = "mk_channel_id",
-                            Name = "Uczen Channel",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
+                            var c2 = new AndroidNotificationChannel()
+                            {
+                                Id = "mk_channel_id",
+                                Name = "Uczen Channel",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c2);
+                            AndroidNotificationCenter.RegisterNotificationChannel(c2);
 
-                        var notificationA2 = new AndroidNotification();
-                        dataPowiadomienia8 = new System.DateTime(2020, 10, 17);
-                        notificationA2.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA2.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA2.FireTime = dataPowiadomienia8;
-                        notificationA2.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA2, "mk_channel_id");
+                            var notificationA2 = new AndroidNotification();
+                            dataPowiadomienia8 = new System.DateTime(2020, 10, 17);
+                            notificationA2.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA2.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA2.FireTime = dataPowiadomienia8;
+                            notificationA2.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA2, "mk_channel_id");
+                        }
                     }
-
+#endif
                     //add notifications Uczen
                     DateTime dataPowiadomienia = new System.DateTime(2020, 12, 1);
                     //add notifications Nauczyciel 19.26,2,9,16,23,30
+#if UNITY_ANDROID
                     if (Application.platform == RuntimePlatform.Android)
                     {
                         var c = new AndroidNotificationChannel()
@@ -184,7 +198,8 @@ public class MenuButtons : MonoBehaviour
 
 
                     }
-
+#endif
+#if UNITY_IOS
                     if (Application.platform == RuntimePlatform.IPhonePlayer)
                     {
                         DateTime dzisiaj = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day);
@@ -353,6 +368,7 @@ public class MenuButtons : MonoBehaviour
 
 
                     }//end iPhone
+#endif
                 }
             }
         }
@@ -383,6 +399,7 @@ public class MenuButtons : MonoBehaviour
                 {
                     DateTime dataPowiadomienia = new System.DateTime(2020, 10, 19);
                     //add notifications Nauczyciel 19.26,2,9,16,23,30
+#if UNITY_ANDROID
                     if (Application.platform == RuntimePlatform.Android)
                     {
                         var c = new AndroidNotificationChannel()
@@ -451,7 +468,8 @@ public class MenuButtons : MonoBehaviour
                         notificationA.LargeIcon = "icon_0";
                         AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
                     }
-
+#endif
+#if UNITY_IOS
                     if (Application.platform == RuntimePlatform.IPhonePlayer)
                     {
                         DateTime dzisiaj = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day);
@@ -645,6 +663,7 @@ public class MenuButtons : MonoBehaviour
 
                         iOSNotificationCenter.ScheduleNotification(notification7);
                     }//end iPhone
+#endif
                 }
             }
         }
