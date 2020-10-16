@@ -23,6 +23,7 @@ public class Multiplayer : MonoBehaviour
     public Button pvpButton;
     public Button startButton;
     public Text sciezka;
+    public Text adresIP;
     //public Text gameModeText;
     
     public NetworkRoomManager roomManagerShowGUI;
@@ -54,6 +55,7 @@ public class Multiplayer : MonoBehaviour
         }
         //readyButton.interactable = false;
         readyButton.gameObject.SetActive(false);
+        adresIP.gameObject.SetActive(false);
 
         if (SkinManager.instance.ActivePlayerMode == GameManager.GAME_CONDITION_SOLO)
         {
@@ -264,6 +266,54 @@ Android uses files inside a compressed APK
         //readyButton.gameObject.SetActive(true);
         //roomPlayerShowGUI = roomManagerShowGUI.roomSlots[0]; //
         //roomPlayerShowGUI.showRoomGUI = true; 
+        string IP = NetworkManager.singleton.networkAddress;
+        adresIP.text = IP;
+        string pom = IP;
+        byte rColor, gColor, bColor;
+        int ipValue;
+        if (pom == "localhost")
+            pom = "123";
+        if (pom[pom.Length - 3].ToString() != ".")
+        {
+            if (pom[pom.Length - 2].ToString() != ".")
+            {
+                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+            }
+            else//przedostatni kropka
+            {
+                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 1].ToString();
+            }
+        }
+        else//jest kropka pomijamy
+        {
+            pom = pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+
+        }
+        ipValue = int.Parse(pom);
+        if (ipValue % 3 == 0)
+            rColor = 0;
+        else
+            if (ipValue % 3 == 1)
+                rColor = 150;
+            else
+                rColor = 255;
+        if (ipValue % 4 == 0)
+            gColor = 0;
+        else
+            if (ipValue % 4 == 1)
+                gColor = 150;
+            else
+                gColor = 255;
+        if ((ipValue % 5 <= 1) && ((rColor == 0) || (gColor == 0)))
+            bColor = 255;
+        else
+            if ((ipValue % 5 <= 3) && ((rColor == 0) || (gColor == 0)))
+                bColor = 150;
+            else
+                bColor = 0;
+
+        adresIP.color = new Color32(rColor, gColor, bColor, 255);
+        adresIP.gameObject.SetActive(true);
     }
 
     public void StartNotPVPGame()
