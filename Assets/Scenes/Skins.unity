@@ -2456,6 +2456,7 @@ GameObject:
   - component: {fileID: 779318117}
   - component: {fileID: 779318116}
   - component: {fileID: 779318115}
+  - component: {fileID: 779318118}
   m_Layer: 5
   m_Name: PurchasePanel
   m_TagString: Untagged
@@ -2544,6 +2545,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779318113}
   m_CullTransparentMesh: 0
+--- !u!114 &779318118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779318113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b23c3957738894c85b5a2f52951d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &785433709
 GameObject:
   m_ObjectHideFlags: 0
@@ -3759,6 +3772,8 @@ MonoBehaviour:
   isSkinTutorialPass: 0
   TutorialLang: []
   SkinTutorialLang: []
+  MenuLang: []
+  iLang: 0
 --- !u!1 &1083370348
 GameObject:
   m_ObjectHideFlags: 0

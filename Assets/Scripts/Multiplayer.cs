@@ -281,6 +281,7 @@ Android uses files inside a compressed APK
         string IP = NetworkManager.singleton.networkAddress;
         //IP = GetLocalIPv4();
         string ipv4 = IPManager.GetIP(ADDRESSFAM.IPv4);
+        string ipv6 = IPManager.GetIP(ADDRESSFAM.IPv6);
         IP = ipv4;
  //       IP = Network.player.ipAddress;
         adresIP.text = IP;
