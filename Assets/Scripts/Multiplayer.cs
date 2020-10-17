@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Mirror;
+using System.Net;
+using System.Net.Sockets;
 
 //using Mirror.Discovery;
 
@@ -261,12 +263,26 @@ Android uses files inside a compressed APK
         Start();
     }
 
+    public string GetLocalIPv4()
+    {
+       // return Dns.GetHostEntry(Dns.GetHostName()).AddressList.First(f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).ToString();
+        return Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();//(f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).ToString();
+
+        //return Dns.GetHostEntry(Dns.GetHostName()).AddressList.First().ToString();
+    }  
+
     public void ReadyButtonAvailable()
     {
         //readyButton.gameObject.SetActive(true);
         //roomPlayerShowGUI = roomManagerShowGUI.roomSlots[0]; //
         //roomPlayerShowGUI.showRoomGUI = true; 
+        
+
         string IP = NetworkManager.singleton.networkAddress;
+        //IP = GetLocalIPv4();
+        string ipv4 = IPManager.GetIP(ADDRESSFAM.IPv4);
+        IP = ipv4;
+ //       IP = Network.player.ipAddress;
         adresIP.text = IP;
         string pom = IP;
         byte rColor, gColor, bColor;

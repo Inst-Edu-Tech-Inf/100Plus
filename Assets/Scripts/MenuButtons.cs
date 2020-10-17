@@ -20,7 +20,10 @@ using UnityEngine.Networking;
 public class MenuButtons : MonoBehaviour
 {
 	[Header("Background"), SerializeField]
+    public GameObject panelWorking;
 	public Image backgroundImage;
+    public GameObject panelConnect;
+    
 
 	void changeBackground()
 	{
@@ -54,6 +57,8 @@ public class MenuButtons : MonoBehaviour
 
     IEnumerator UczenSprawdzClick(string uczenPass)
     {
+        //panelWorking.SetActive(true);
+        panelConnect.SetActive(true);
         WWWForm form = new WWWForm();
         // string[] strArr;
         form.AddField("uczenPass", uczenPass);
@@ -123,7 +128,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             var c2 = new AndroidNotificationChannel()
                             {
                                 Id = "mk_channel_id",
-                                Name = "Uczen Channel",
+                                Name = "mk Channel ",
                                 Importance = Importance.High,
                                 Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
                             };
@@ -131,7 +136,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             AndroidNotificationCenter.RegisterNotificationChannel(c2);
 
                             var notificationA2 = new AndroidNotification();
-                            dataPowiadomienia8 = new System.DateTime(2020, 10, 17);
+                            dataPowiadomienia8 = new System.DateTime(2020, 10, 17, 15,0,0);
                             notificationA2.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
                             notificationA2.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
                             notificationA2.FireTime = dataPowiadomienia8;
@@ -164,37 +169,74 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.LargeIcon = "icon_0";
                         AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
 
+                        var c3 = new AndroidNotificationChannel()
+                        {
+                            Id = "uczen_channel_id3",
+                            Name = "Uczen Channel3",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+
+                        AndroidNotificationCenter.RegisterNotificationChannel(c3);
+
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2021, 2, 1);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id3");
 
+                        var c4 = new AndroidNotificationChannel()
+                        {
+                            Id = "uczen_channel_id4",
+                            Name = "Uczen Channel4",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+
+                        AndroidNotificationCenter.RegisterNotificationChannel(c4);
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2021, 3, 1);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id4");
 
+                        var c5 = new AndroidNotificationChannel()
+                        {
+                            Id = "uczen_channel_id5",
+                            Name = "Uczen Channel5",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+
+                        AndroidNotificationCenter.RegisterNotificationChannel(c5);
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2021, 4, 1);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id5");
 
+                        var c6 = new AndroidNotificationChannel()
+                        {
+                            Id = "uczen_channel_id6",
+                            Name = "Uczen Channel6",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+
+                        AndroidNotificationCenter.RegisterNotificationChannel(c6);
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2021, 5, 1);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id6");
 
 
                     }
@@ -372,10 +414,13 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                 }
             }
         }
+        //panelWorking.SetActive(false);
+        panelConnect.SetActive(false);
     }
 
     IEnumerator NauczycielSprawdzClick(string uczenPass)
     {
+        panelWorking.SetActive(true);
         WWWForm form = new WWWForm();
         // string[] strArr;
         form.AddField("uczenPass", uczenPass);
@@ -412,13 +457,33 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
 
                         AndroidNotificationCenter.RegisterNotificationChannel(c);
 
+                        var c3 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_c",
+                            Name = "Default Channel c",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c3);
+
                         var notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 10, 19);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_c");
+                      
+                        
+
+                        var c4 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_d",
+                            Name = "Default Channel d",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c4);
 
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 10, 26);
@@ -426,15 +491,32 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_d");
 
+                        var c5 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_e",
+                            Name = "Default Channel e",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c5);
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 2);
                         notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_e");
+
+                        var c6 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_f",
+                            Name = "Default Channel f",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c6);
 
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 9);
@@ -442,7 +524,16 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_f");
+
+                        var c7 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_g",
+                            Name = "Default Channel g",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c7);
 
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 16);
@@ -450,7 +541,16 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_g");
+
+                        var c8 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_h",
+                            Name = "Default Channel h",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c8);
 
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 23);
@@ -458,7 +558,16 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_h");
+
+                        var c9 = new AndroidNotificationChannel()
+                        {
+                            Id = "channel_id_d_i",
+                            Name = "Default Channel i",
+                            Importance = Importance.High,
+                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                        };
+                        AndroidNotificationCenter.RegisterNotificationChannel(c9);
 
                         notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 30);
@@ -466,7 +575,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
                         notificationA.FireTime = dataPowiadomienia;
                         notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id");
+                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_i");
                     }
 #endif
 #if UNITY_IOS
@@ -667,12 +776,20 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                 }
             }
         }
+        panelWorking.SetActive(false);
     } 
 
 	void Start()
 	{
         // StartCoroutine(Foo("Text", 10)); 
         //changeBackground();
+#if UNITY_ANDROID
+        AndroidNotificationCenter.CancelAllNotifications();
+#endif
+#if UNITY_IOS
+        iOSNotificationCenter.RemoveAllDeliveredNotifications();
+        iOSNotificationCenter.RemoveAllScheduledNotifications();
+#endif
         StartCoroutine(NauczycielSprawdzClick(SkinManager.instance.UserID));
         StartCoroutine(UczenSprawdzClick(SkinManager.instance.UserID));
 

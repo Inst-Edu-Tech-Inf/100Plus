@@ -127,7 +127,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.1.14
+  bundleVersion: 1.1.15
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -176,7 +176,7 @@ PlayerSettings:
     iPhone: com.ieti.summon
   buildNumber:
     iPhone: 1.1.9
-  AndroidBundleVersionCode: 80
+  AndroidBundleVersionCode: 81
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 29
   AndroidPreferredInstallLocation: 0
@@ -907,7 +907,7 @@ PlayerSettings:
   gcIncremental: 0
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform:
-    Android: 6
+    Android: 3
     iPhone: 6
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
