@@ -1597,7 +1597,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 858.94995, y: 278}
-  m_SizeDelta: {x: 120, y: 120}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &556711070
 MonoBehaviour:
@@ -3774,6 +3774,7 @@ MonoBehaviour:
   SkinTutorialLang: []
   MenuLang: []
   iLang: 0
+  isNotificationsAdded: 0
 --- !u!1 &1083370348
 GameObject:
   m_ObjectHideFlags: 0

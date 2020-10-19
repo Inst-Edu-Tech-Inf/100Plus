@@ -9,6 +9,10 @@ TagManager:
   - Game Manager
   - Single Net Manager
   - Ready Text
+  - AdresIP
+  - connectingText
+  - connectingImage
+  - notifyPass
   layers:
   - Default
   - TransparentFX

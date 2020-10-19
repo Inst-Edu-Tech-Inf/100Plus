@@ -3,17 +3,21 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NetRoom : NetworkRoomManager
 {
     TextMeshProUGUI readyText;
+    //Text adresIPText;
     int readyPlayers = 0;
 
     public override void Start()
     {
         readyText = GameObject.FindGameObjectWithTag("Ready Text").GetComponent<TextMeshProUGUI>();
+    //    adresIPText = GameObject.FindGameObjectWithTag("AdresIP").GetComponent<Text>();
         base.OnStartHost();
     }
+
 
     private void Update()
     {
@@ -32,6 +36,17 @@ public class NetRoom : NetworkRoomManager
         NetworkServer.Shutdown();
         SceneManager.LoadScene("Menu");
     }
+
+    /*public override void OnServerConnect(NetworkConnection conn)
+    {
+        //Debug.Log("NetRoom :"+Transport.activeTransport.ServerUri().Host);
+     //   adresIPText.text = Transport.activeTransport.ServerUri().Host;
+        //NetworkClient.Shutdown();
+        //NetworkServer.Shutdown();
+        //SceneManager.LoadScene("Menu");
+    }*/
+
+
 
     public void UpdateReadyText()
     {

@@ -23,11 +23,16 @@ public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
     private void Start()
     {
 		discovery = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkDiscovery>();
+        //Debug.Log("MultiUI :"+Transport.activeTransport.ServerUri().Host);
+        //print ("URI"+Transport.activeTransport.ServerUri().Host);
+
+
 	}
 
 	public void OnServerFound(ServerResponse info)
     {
         bool czyTakiSam = false;
+        
 		//print("server found " + info.uri.Host +":child:"+list.content.childCount);
 		if (list.content.childCount >= 1)
         {

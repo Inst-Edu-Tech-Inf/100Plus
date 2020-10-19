@@ -370,8 +370,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 858.94995, y: 457.60004}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchoredPosition: {x: 859.99994, y: 440}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &556711070
 MonoBehaviour:
@@ -1171,6 +1171,9 @@ MonoBehaviour:
   isSkinTutorialPass: 0
   TutorialLang: []
   SkinTutorialLang: []
+  MenuLang: []
+  iLang: 0
+  isNotificationsAdded: 0
 --- !u!114 &1050027110
 MonoBehaviour:
   m_ObjectHideFlags: 0

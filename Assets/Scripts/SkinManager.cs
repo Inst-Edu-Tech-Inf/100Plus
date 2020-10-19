@@ -182,7 +182,7 @@ public class SkinManager : MonoBehaviour
     public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", 
         "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek", "Kod zajęty lub nieprawidłowy",
         "Podaj skróconą nazwę szkoły, np. SP1", "Podaj skróconą nazwę klasy, np. 4a", 
-        "Udostępnij kody uczniom i sprawdź czy się zarejestrowali", "Zagraj mecz ligowy", "SummOn Liga"};
+        "Udostępnij kody uczniom", "Zagraj mecz ligowy", "SummOn Liga"};
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -249,7 +249,7 @@ public class SkinManager : MonoBehaviour
     public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode",
         "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age", "Code already used or invalid",
         "Short school name can't be empty (i.e.PS1)", "Short class name can't be empty (i.e.4a)", 
-        "Give students the codes and check they registry", "Play league match", "SummOn League"};
+        "Give students the codes", "Play league match", "SummOn League"};
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",
@@ -410,6 +410,7 @@ public class SkinManager : MonoBehaviour
     public string[] SkinTutorialLang;
     public string[] MenuLang;
     public SystemLanguage iLang;
+    public static bool isNotificationsAdded = false;
 
 
     // Start is called before the first frame update
@@ -706,7 +707,11 @@ public class SkinManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(SkinManager.instance.osiagniecia[0].ID, 0);
         PlayerPrefs.SetInt("isTutorialPass", false ? 1 : 0);
+        //PlayerPrefs.SetInt("MiddlePass", false ? 1 : 0);
         PlayerPrefs.SetInt("Lucky", false ? 1 : 0);
+        string pom = Hash(SkinManager.instance.UserID);
+        PlayerPrefs.SetString("UserID", pom);
+        SkinManager.instance.UserID = pom;
     }
 
     public void ResetSkinTutorial()
@@ -948,6 +953,16 @@ public class SkinManager : MonoBehaviour
         //SetMiddlePass(false);
 
 
+    }
+
+    public void SetIsNotificationsAdded(bool Value)
+    {
+        isNotificationsAdded = Value;
+    }
+
+    public bool  GetIsNotificationsAdded()
+    {
+        return isNotificationsAdded;
     }
 
     public void SetIsTutorialPass(bool Value)

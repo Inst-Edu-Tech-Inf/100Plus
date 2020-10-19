@@ -60,6 +60,7 @@ namespace Mirror
             server.NoDelay = NoDelay;
             server.MaxMessageSize = serverMaxMessageSize;
 
+            //SkinManager.VICTORY_CONDITIONS_MODE_5MIN;
             Debug.Log("TelepathyTransport initialized!");
         }
 

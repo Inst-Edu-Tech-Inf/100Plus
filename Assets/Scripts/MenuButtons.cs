@@ -22,7 +22,10 @@ public class MenuButtons : MonoBehaviour
 	[Header("Background"), SerializeField]
     public GameObject panelWorking;
 	public Image backgroundImage;
-    public GameObject panelConnect;
+    //public GameObject panelConnect;
+    public Text connectingText;
+    public Image connectingImage;
+    bool  isNotificationsAdded = false;
     
 
 	void changeBackground()
@@ -58,7 +61,8 @@ public class MenuButtons : MonoBehaviour
     IEnumerator UczenSprawdzClick(string uczenPass)
     {
         //panelWorking.SetActive(true);
-        panelConnect.SetActive(true);
+        connectingImage.gameObject.SetActive(true);
+        //panelConnect.SetActive(true);
         WWWForm form = new WWWForm();
         // string[] strArr;
         form.AddField("uczenPass", uczenPass);
@@ -84,7 +88,7 @@ public class MenuButtons : MonoBehaviour
 if (Application.platform == RuntimePlatform.IPhonePlayer)
 {
                     //moj IPhone
-                    if (SkinManager.instance.UserID == "3e5c6105dfe38c5c0c16ce622690b6bfa2f53998")
+                   /* if (SkinManager.instance.UserID == "3e5c6105dfe38c5c0c16ce622690b6bfa2f53998")
                     {
                         DateTime dzisiaj9 = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day);
 
@@ -103,7 +107,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             // used to cancel the notification, if you don't set one, a unique 
                             // string will be generated automatically.
                             Identifier = "_notification_01",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            Title = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
                             Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
                             Subtitle = "",//"This is a subtitle, something, something important...",
                             ShowInForeground = true,
@@ -114,7 +118,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         };
 
                         iOSNotificationCenter.ScheduleNotification(notification9);
-                    }
+                    }*/
 }
 #endif
 #if UNITY_ANDROID
@@ -123,14 +127,14 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         //moj Android
                         DateTime dataPowiadomienia8 = new System.DateTime(2020, 12, 1);
                         //add notifications Nauczyciel 19.26,2,9,16,23,30
-                        if (SkinManager.instance.UserID == "482e7ce34536663f4fdd8cea7717cd4a09d8981f")
+                        /*if (SkinManager.instance.UserID == "482e7ce34536663f4fdd8cea7717cd4a09d8981f")
                         {
                             var c2 = new AndroidNotificationChannel()
                             {
                                 Id = "mk_channel_id",
                                 Name = "mk Channel ",
                                 Importance = Importance.High,
-                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
                             };
 
                             AndroidNotificationCenter.RegisterNotificationChannel(c2);
@@ -142,7 +146,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             notificationA2.FireTime = dataPowiadomienia8;
                             notificationA2.LargeIcon = "icon_0";
                             AndroidNotificationCenter.SendNotification(notificationA2, "mk_channel_id");
-                        }
+                        }*/
                     }
 #endif
                     //add notifications Uczen
@@ -151,92 +155,137 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
 #if UNITY_ANDROID
                     if (Application.platform == RuntimePlatform.Android)
                     {
-                        var c = new AndroidNotificationChannel()
-                        {
-                            Id = "uczen_channel_id",
-                            Name = "Uczen Channel",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-
-                        AndroidNotificationCenter.RegisterNotificationChannel(c);
-
                         var notificationA = new AndroidNotification();
+
+                        
+                        dataPowiadomienia = new System.DateTime(2020, 12, 1);
+                        if (dataPowiadomienia > System.DateTime.Now)
+                        {
+                            var c2 = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id2",
+                                Name = "Uczen Channel2",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
+                            };
+
+                            AndroidNotificationCenter.RegisterNotificationChannel(c2);
+
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 1, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id2");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2021, 1, 1);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
-
-                        var c3 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "uczen_channel_id3",
-                            Name = "Uczen Channel3",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
+                            var c = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id",
+                                Name = "Uczen Channel",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
+                            };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c3);
+                            AndroidNotificationCenter.RegisterNotificationChannel(c);
 
-                        notificationA = new AndroidNotification();
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 1, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2021, 2, 1);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id3");
-
-                        var c4 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "uczen_channel_id4",
-                            Name = "Uczen Channel4",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
+                            var c3 = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id3",
+                                Name = "Uczen Channel3",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
+                            };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c4);
-                        notificationA = new AndroidNotification();
+                            AndroidNotificationCenter.RegisterNotificationChannel(c3);
+
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 2, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id3");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2021, 3, 1);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id4");
-
-                        var c5 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "uczen_channel_id5",
-                            Name = "Uczen Channel5",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
+                            var c4 = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id4",
+                                Name = "Uczen Channel4",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c5);
-                        notificationA = new AndroidNotification();
+                            AndroidNotificationCenter.RegisterNotificationChannel(c4);
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 3, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id4");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2021, 4, 1);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id5");
-
-                        var c6 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "uczen_channel_id6",
-                            Name = "Uczen Channel6",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
+                            var c5 = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id5",
+                                Name = "Uczen Channel5",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
+                            };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c6);
-                        notificationA = new AndroidNotification();
+                            AndroidNotificationCenter.RegisterNotificationChannel(c5);
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 4, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id5");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2021, 5, 1);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id6");
+                        if (dataPowiadomienia > System.DateTime.Now)
+                        {
+                            var c6 = new AndroidNotificationChannel()
+                            {
+                                Id = "uczen_channel_id6",
+                                Name = "Uczen Channel6",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],
+                            };
+
+                            AndroidNotificationCenter.RegisterNotificationChannel(c6);
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2021, 5, 1);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "uczen_channel_id6");
+                        }
 
 
                     }
@@ -249,164 +298,182 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         dataPowiadomienia = new System.DateTime(2020, 12, 1);
                         TimeSpan kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_01",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger,
-                        };
+                            var notification = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_01",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification);
+                            iOSNotificationCenter.ScheduleNotification(notification);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2021, 1, 1);
                         kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger1 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger1 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification2 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_02",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger1,
-                        };
+                            var notification2 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_02",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger1,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification2);
+                            iOSNotificationCenter.ScheduleNotification(notification2);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2021, 2, 1);
                         kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger2 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger2 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification3 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_03",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger2,
-                        };
+                            var notification3 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_03",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger2,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification3);
+                            iOSNotificationCenter.ScheduleNotification(notification3);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2021, 3, 1);
                         kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger4 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger4 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification4 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_04",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger4,
-                        };
+                            var notification4 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_04",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger4,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification4);
+                            iOSNotificationCenter.ScheduleNotification(notification4);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2021, 4, 1);
                         kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger5 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger5 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification5 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_05",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger5,
-                        };
+                            var notification5 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_05",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger5,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification5);
+                            iOSNotificationCenter.ScheduleNotification(notification5);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2021, 5, 1);
                         kiedy = dataPowiadomienia - dzisiaj;
 
-                        var timeTrigger6 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger6 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification6 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_06",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger6,
-                        };
+                            var notification6 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_06",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.ZAGRAJ],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger6,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification6);
+                            iOSNotificationCenter.ScheduleNotification(notification6);
+                        }
 
 
                     }//end iPhone
@@ -415,12 +482,14 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
             }
         }
         //panelWorking.SetActive(false);
-        panelConnect.SetActive(false);
+        connectingImage.gameObject.SetActive(false);
+        //panelConnect.SetActive(false);
     }
 
     IEnumerator NauczycielSprawdzClick(string uczenPass)
     {
-        panelWorking.SetActive(true);
+        //panelWorking.SetActive(true);
+        connectingImage.gameObject.SetActive(true);
         WWWForm form = new WWWForm();
         // string[] strArr;
         form.AddField("uczenPass", uczenPass);
@@ -447,7 +516,8 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
 #if UNITY_ANDROID
                     if (Application.platform == RuntimePlatform.Android)
                     {
-                        var c = new AndroidNotificationChannel()
+                        var notificationA = new AndroidNotification();
+                        /*var c = new AndroidNotificationChannel()
                         {
                             Id = "channel_id",
                             Name = "Default Channel",
@@ -455,127 +525,154 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
                         };
 
-                        AndroidNotificationCenter.RegisterNotificationChannel(c);
+                        AndroidNotificationCenter.RegisterNotificationChannel(c);*/
 
-                        var c3 = new AndroidNotificationChannel()
-                        {
-                            Id = "channel_id_c",
-                            Name = "Default Channel c",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c3);
-
-                        var notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 10, 19);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_c");
+                        if (dataPowiadomienia > System.DateTime.Now)
+                        {
+                            var c3 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_c",
+                                Name = "Default Channel c",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c3);
+
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 10, 19);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_c");
+                        }
                       
                         
-
-                        var c4 = new AndroidNotificationChannel()
-                        {
-                            Id = "channel_id_d",
-                            Name = "Default Channel d",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c4);
-
-                        notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 10, 26);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_d");
-
-                        var c5 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "channel_id_e",
-                            Name = "Default Channel e",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c5);
-                        notificationA = new AndroidNotification();
+                            var c4 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_d",
+                                Name = "Default Channel d",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c4);
+
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 10, 26);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_d");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2020, 11, 2);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_e");
-
-                        var c6 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "channel_id_f",
-                            Name = "Default Channel f",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c6);
+                            var c5 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_e",
+                                Name = "Default Channel e",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c5);
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 11, 2);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_e");
+                        }
 
-                        notificationA = new AndroidNotification();
                         dataPowiadomienia = new System.DateTime(2020, 11, 9);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_f");
-
-                        var c7 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "channel_id_g",
-                            Name = "Default Channel g",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c7);
+                            var c6 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_f",
+                                Name = "Default Channel f",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c6);
 
-                        notificationA = new AndroidNotification();
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 11, 9);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_f");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2020, 11, 16);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_g");
-
-                        var c8 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "channel_id_h",
-                            Name = "Default Channel h",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c8);
+                            var c7 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_g",
+                                Name = "Default Channel g",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c7);
 
-                        notificationA = new AndroidNotification();
+                            notificationA = new AndroidNotification();
+                           // dataPowiadomienia = new System.DateTime(2020, 11, 16);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_g");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2020, 11, 23);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; ;
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_h");
-
-                        var c9 = new AndroidNotificationChannel()
+                        if (dataPowiadomienia > System.DateTime.Now)
                         {
-                            Id = "channel_id_d_i",
-                            Name = "Default Channel i",
-                            Importance = Importance.High,
-                            Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                        };
-                        AndroidNotificationCenter.RegisterNotificationChannel(c9);
+                            var c8 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_h",
+                                Name = "Default Channel h",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c8);
 
-                        notificationA = new AndroidNotification();
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 11, 23);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; ;
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_h");
+                        }
+
                         dataPowiadomienia = new System.DateTime(2020, 11, 30);
-                        notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE]; 
-                        notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
-                        notificationA.FireTime = dataPowiadomienia;
-                        notificationA.LargeIcon = "icon_0";
-                        AndroidNotificationCenter.SendNotification(notificationA, "channel_id_i");
+                        if (dataPowiadomienia > System.DateTime.Now)
+                        {
+                            var c9 = new AndroidNotificationChannel()
+                            {
+                                Id = "channel_id_d_i",
+                                Name = "Default Channel i",
+                                Importance = Importance.High,
+                                Description = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                            };
+                            AndroidNotificationCenter.RegisterNotificationChannel(c9);
+
+                            notificationA = new AndroidNotification();
+                            //dataPowiadomienia = new System.DateTime(2020, 11, 30);
+                            notificationA.Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE];
+                            notificationA.Text = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW];
+                            notificationA.FireTime = dataPowiadomienia;
+                            notificationA.LargeIcon = "icon_0";
+                            AndroidNotificationCenter.SendNotification(notificationA, "channel_id_i");
+                        }
                     }
 #endif
 #if UNITY_IOS
@@ -585,204 +682,226 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                         
                         dataPowiadomienia = new System.DateTime(2020, 10, 19);
                         TimeSpan kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
-                        {                           
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
-
-                        var notification = new iOSNotification()
+                        if (kiedy.Days > 0)
                         {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_01",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger,
-                        };
+                            var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification);
+                            var notification = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_01",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger,
+                            };
+
+                            iOSNotificationCenter.ScheduleNotification(notification);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 10, 26);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger1 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger1 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification2 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_02",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger1,
-                        };
+                            var notification2 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_02",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger1,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification2);
+                            iOSNotificationCenter.ScheduleNotification(notification2);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 11, 2);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger2 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger2 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification3 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_03",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger2,
-                        };
+                            var notification3 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_03",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger2,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification3);
+                            iOSNotificationCenter.ScheduleNotification(notification3);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 11, 9);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger4 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger4 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification4 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_04",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger4,
-                        };
+                            var notification4 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_04",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger4,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification4);
+                            iOSNotificationCenter.ScheduleNotification(notification4);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 11, 16);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger5 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger5 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification5 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_05",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger5,
-                        };
+                            var notification5 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_05",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger5,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification5);
+                            iOSNotificationCenter.ScheduleNotification(notification5);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 11, 23);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger6 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger6 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification6 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_06",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger6,
-                        };
+                            var notification6 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_06",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger6,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification6);
+                            iOSNotificationCenter.ScheduleNotification(notification6);
+                        }
 
                         dataPowiadomienia = new System.DateTime(2020, 11, 30);
                         kiedy = dataPowiadomienia - dzisiaj;
-
-                        var timeTrigger7 = new iOSNotificationTimeIntervalTrigger()
+                        if (kiedy.Days > 0)
                         {
-                            TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
-                            Repeats = false
-                        };
+                            var timeTrigger7 = new iOSNotificationTimeIntervalTrigger()
+                            {
+                                TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0),
+                                Repeats = false
+                            };
 
-                        var notification7 = new iOSNotification()
-                        {
-                            // You can optionally specify a custom identifier which can later be 
-                            // used to cancel the notification, if you don't set one, a unique 
-                            // string will be generated automatically.
-                            Identifier = "_notification_07",
-                            Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
-                            Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
-                            Subtitle = "",//"This is a subtitle, something, something important...",
-                            ShowInForeground = true,
-                            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                            CategoryIdentifier = "category_a",
-                            ThreadIdentifier = "thread1",
-                            Trigger = timeTrigger7,
-                        };
+                            var notification7 = new iOSNotification()
+                            {
+                                // You can optionally specify a custom identifier which can later be 
+                                // used to cancel the notification, if you don't set one, a unique 
+                                // string will be generated automatically.
+                                Identifier = "_notification_07",
+                                Title = SkinManager.instance.MenuLang[SkinManager.SUMMON_LEAGUE],
+                                Body = SkinManager.instance.MenuLang[SkinManager.KODY_DLA_UCZNIOW],//"Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+                                Subtitle = "",//"This is a subtitle, something, something important...",
+                                ShowInForeground = true,
+                                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                                CategoryIdentifier = "category_a",
+                                ThreadIdentifier = "thread1",
+                                Trigger = timeTrigger7,
+                            };
 
-                        iOSNotificationCenter.ScheduleNotification(notification7);
+                            iOSNotificationCenter.ScheduleNotification(notification7);
+                        }
                     }//end iPhone
 #endif
                 }
             }
         }
-        panelWorking.SetActive(false);
+        //panelWorking.SetActive(false);
+        connectingImage.gameObject.SetActive(false);
+        connectingText.text = "";
     } 
 
 	void Start()
 	{
         // StartCoroutine(Foo("Text", 10)); 
         //changeBackground();
+        //Debug.Log("PanelWorking:"+GameObject.FindGameObjectWithTag("connectingText"));
+        //if (!SkinManager.instance.GetIsNotificationsAdded())
+            connectingImage = GameObject.FindGameObjectWithTag("connectingImage").GetComponent<Image>();
+        connectingText = GameObject.FindGameObjectWithTag("connectingText").GetComponent<Text>();
+        if (!SkinManager.instance.GetIsNotificationsAdded())
+        {
 #if UNITY_ANDROID
         AndroidNotificationCenter.CancelAllNotifications();
 #endif
@@ -790,15 +909,28 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         iOSNotificationCenter.RemoveAllDeliveredNotifications();
         iOSNotificationCenter.RemoveAllScheduledNotifications();
 #endif
-        StartCoroutine(NauczycielSprawdzClick(SkinManager.instance.UserID));
-        StartCoroutine(UczenSprawdzClick(SkinManager.instance.UserID));
-
+       // Debug.Log("notifBEFORE:" + SkinManager.instance.GetIsNotificationsAdded());
         
+            connectingImage.gameObject.SetActive(true);
+            StartCoroutine(NauczycielSprawdzClick(SkinManager.instance.UserID));
+            StartCoroutine(UczenSprawdzClick(SkinManager.instance.UserID));
+            //Debug.Log("Wczytuję notifications");
+        }
+        else
+        {
+            //if (connectingImage != null)
+                connectingImage.gameObject.SetActive(false);
+            connectingText.text = "";
+        }
+
+        SkinManager.instance.SetIsNotificationsAdded(true);
+        //isNotificationsAdded=true;        
+        //Debug.Log("notifAFTER:" + SkinManager.instance.GetIsNotificationsAdded());
 	}
 
 	void Awake()
 	{
-
+        //isNotificationsAdded = true;
 	}
 
 	public void exitButton()

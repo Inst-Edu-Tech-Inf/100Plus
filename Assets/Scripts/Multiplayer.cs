@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Mirror;
 using System.Net;
 using System.Net.Sockets;
+//using Mirror.Transport;
 
 //using Mirror.Discovery;
 
@@ -31,6 +32,8 @@ public class Multiplayer : MonoBehaviour
     public NetworkRoomManager roomManagerShowGUI;
     //public NetworkRoomPlayer roomManagerShowGUI;
     NetworkRoomPlayer roomPlayerShowGUI;
+    Transport servTransport;
+    //Uri actualServerUri;
 
 
     // Start is called before the first frame update
@@ -276,16 +279,50 @@ Android uses files inside a compressed APK
         //readyButton.gameObject.SetActive(true);
         //roomPlayerShowGUI = roomManagerShowGUI.roomSlots[0]; //
         //roomPlayerShowGUI.showRoomGUI = true; 
-        
+
+        string pom = "localhost";
+        string pom2 = "localhost";
+        string hostName = System.Net.Dns.GetHostName();
+        string localIP = System.Net.Dns.GetHostEntry(hostName).AddressList[0].ToString();
+        IPAddress tmpAdres = System.Net.Dns.GetHostEntry(hostName).AddressList[0];
+        //adresIP.text = localIP;
+        //IPAddress ipAddress = ipHostInfo.AddressList[0];
+        IPAddress ipAddress2 = System.Net.Dns.GetHostEntry(hostName).AddressList[0];
+        for (int i = 0; i < System.Net.Dns.GetHostEntry(hostName).AddressList.Length ; ++i)
+        {
+            ipAddress2 = System.Net.Dns.GetHostEntry(hostName).AddressList[i];
+            //Debug.Log(ipAddress2.MapToIPv4().ToString());
+            pom2 = ipAddress2.MapToIPv4().ToString();
+            if ((pom2[0] == '1') && (pom2[1] == '9') && (pom2[2] == '2'))
+            {
+                if (pom2[pom2.Length - 3].ToString() != ".")
+                {
+                    if (pom2[pom2.Length - 2].ToString() != ".")
+                    {
+                        pom = pom2[pom2.Length - 3].ToString() + pom2[pom2.Length - 2].ToString() + pom2[pom2.Length - 1].ToString();
+                    }
+                    else//przedostatni kropka
+                    {
+                        pom = pom2[pom2.Length - 3].ToString() + pom2[pom2.Length - 1].ToString();
+                    }
+                }
+                else//jest kropka pomijamy
+                {
+                    pom = pom2[pom2.Length - 2].ToString() + pom2[pom2.Length - 1].ToString();
+
+                }
+            }
+            adresIP.text += ipAddress2.MapToIPv4().ToString()+"\n";
+        }
+        //Debug.Log(ipAddress2.MapToIPv4().ToString());
+        //adresIP.text = tmpAdres.MapToIPv4().ToString();
 
         string IP = NetworkManager.singleton.networkAddress;
-        //IP = GetLocalIPv4();
         string ipv4 = IPManager.GetIP(ADDRESSFAM.IPv4);
-        string ipv6 = IPManager.GetIP(ADDRESSFAM.IPv6);
-        IP = ipv4;
- //       IP = Network.player.ipAddress;
-        adresIP.text = IP;
-        string pom = IP;
+        //string ipv6 = IPManager.GetIP(ADDRESSFAM.IPv6);
+        //IP = ipv4;
+
+        
         byte rColor, gColor, bColor;
         int ipValue;
         if (pom == "localhost")
