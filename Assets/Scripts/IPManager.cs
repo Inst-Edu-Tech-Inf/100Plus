@@ -2,6 +2,13 @@
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
+/*using UnityEngine;
+public interface ICanFireAtTarget
+{
+    void AddTarget(GameObject target);
+    void FireAtTarget();
+}*/
+
 public class IPManager
 {
     public static string GetIP(ADDRESSFAM Addfam)

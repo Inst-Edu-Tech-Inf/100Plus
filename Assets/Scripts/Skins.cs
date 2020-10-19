@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine.Networking;
 using CompleteProject;
 using UnityEngine.EventSystems;
+//using UnityEngine.Store;
 
 
 namespace CompleteProject
@@ -274,6 +275,15 @@ namespace CompleteProject
                      image = img;
                  }*/
             //CompleteProject.Purchaser.Start();
+            //UnityEngine.UDP.IInitListener listener = new UnityEngine.UDP.IInitListener();
+          //  UnityEngine.UDP.AppInfo appInfo;
+           // StoreService.Initialize( listener);
+           // UnityEngine.UDP.StoreService.Initialize(listener, appInfo);
+            //StoreService.Initialize( listener);
+            //var myLoginListener = new IInitListener();
+            //InitListener listener;
+            //StoreService.Initialize( listener);
+
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
             purchasePanel.gameObject.SetActive(false);
             cash.color = new Color32(255, 255, 0, 255);

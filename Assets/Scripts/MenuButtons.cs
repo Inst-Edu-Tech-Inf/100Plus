@@ -898,7 +898,15 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         //changeBackground();
         //Debug.Log("PanelWorking:"+GameObject.FindGameObjectWithTag("connectingText"));
         //if (!SkinManager.instance.GetIsNotificationsAdded())
+        try
+        {
             connectingImage = GameObject.FindGameObjectWithTag("connectingImage").GetComponent<Image>();
+        }
+        catch (Exception ex)
+        {
+
+        }
+            
         connectingText = GameObject.FindGameObjectWithTag("connectingText").GetComponent<Text>();
         if (!SkinManager.instance.GetIsNotificationsAdded())
         {
@@ -919,7 +927,15 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         else
         {
             //if (connectingImage != null)
+            try
+            {
                 connectingImage.gameObject.SetActive(false);
+            }
+            catch (Exception ex)
+            {
+
+            }
+                
             connectingText.text = "";
         }
 

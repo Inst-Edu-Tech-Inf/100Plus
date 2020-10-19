@@ -111,7 +111,7 @@ public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 
 		if (list.content.childCount >= 1)
         {
-			btnY = list.content.GetChild(list.content.childCount - 1).transform.position.y - 45f;
+			btnY = list.content.GetChild(list.content.childCount - 1).transform.position.y - 35f;
         }
         
 		GameObject btn = Instantiate(listButton.gameObject);
