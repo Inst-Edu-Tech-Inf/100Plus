@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Mirror;
 using Mirror.Discovery;
 using TMPro;
+using System;
 
 public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 {
@@ -66,52 +67,61 @@ public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 	void AppendListButton(ServerResponse info)
     {
         string pom = info.uri.Host;
-        byte rColor, gColor, bColor;
+        byte rColor = 0;
+        byte  gColor = 0;
+        byte bColor = 0;
         int ipValue;       
 		float btnY = list.content.transform.position.y-15f;
-
-        if (pom[pom.Length - 3].ToString() != ".")
+        try
         {
-            if (pom[pom.Length - 2].ToString() != ".")
+            if (pom[pom.Length - 3].ToString() != ".")
             {
-                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+                if (pom[pom.Length - 2].ToString() != ".")
+                {
+                    pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+                }
+                else//przedostatni kropka
+                {
+                    pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 1].ToString();
+                }
             }
-            else//przedostatni kropka
+            else//jest kropka pomijamy
             {
-                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 1].ToString();
-            }
-        }
-        else//jest kropka pomijamy
-        {
-            pom = pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+                pom = pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
 
+            }
+            ipValue = int.Parse(pom);
+            if (ipValue%3 == 0)
+                rColor = 0;
+            else
+                if (ipValue%3 == 1)
+                    rColor = 150;
+                else
+                    rColor = 255;
+            if (ipValue%4 == 0)
+                gColor = 0;
+            else
+                if (ipValue%4 == 1)
+                    gColor = 150;
+                else
+                    gColor = 255;
+            if ((ipValue%5 <= 1) && ((rColor == 0) || (gColor == 0)))
+                bColor = 255;
+            else
+                if ((ipValue%5 <=3) && ((rColor == 0) || (gColor == 0)))
+                    bColor = 150;
+                else
+                    bColor = 0;
         }
-        ipValue = int.Parse(pom);
-        if (ipValue%3 == 0)
-            rColor = 0;
-        else
-            if (ipValue%3 == 1)
-                rColor = 150;
-            else
-                rColor = 255;
-        if (ipValue%4 == 0)
-            gColor = 0;
-        else
-            if (ipValue%4 == 1)
-                gColor = 150;
-            else
-                gColor = 255;
-        if ((ipValue%5 <= 1) && ((rColor == 0) || (gColor == 0)))
-            bColor = 255;
-        else
-            if ((ipValue%5 <=3) && ((rColor == 0) || (gColor == 0)))
-                bColor = 150;
-            else
-                bColor = 0;
+        catch (Exception ex)
+        {
+            //blad kolorow
+        }
+
 
 		if (list.content.childCount >= 1)
         {
-			btnY = list.content.GetChild(list.content.childCount - 1).transform.position.y - 35f;
+			btnY = list.content.GetChild(list.content.childCount - 1).transform.position.y - 65f;
         }
         
 		GameObject btn = Instantiate(listButton.gameObject);

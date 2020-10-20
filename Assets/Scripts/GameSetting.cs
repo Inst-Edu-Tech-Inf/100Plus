@@ -63,26 +63,33 @@ public class GameSetting : MonoBehaviour
         {
             Debug.LogWarning(exception);
         }
-
-        switch (iLang)
-            {
-                case SystemLanguage.English:
-                    victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
-                    playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
-                    soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
-                    break;
-                case SystemLanguage.Polish:
-                    //menuLang = SkinManager.instance.MENU_PL;
-                    victorySettingsText.text = SkinManager.MENU_PL[SkinManager.WARUNKI_ZWYCIESTWA];
-                    playerTurnText.text = SkinManager.MENU_PL[SkinManager.KONIEC_TURY_GRACZA];
-                    soundSettingsText.text = SkinManager.MENU_PL[SkinManager.DZWIEK];
-                    break;
-                default:
-                    victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
-                    playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
-                    soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
-                    break;
+        try
+        {
+            switch (iLang)
+                {
+                    case SystemLanguage.English:
+                        victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
+                        playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
+                        soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
+                        break;
+                    case SystemLanguage.Polish:
+                        //menuLang = SkinManager.instance.MENU_PL;
+                        victorySettingsText.text = SkinManager.MENU_PL[SkinManager.WARUNKI_ZWYCIESTWA];
+                        playerTurnText.text = SkinManager.MENU_PL[SkinManager.KONIEC_TURY_GRACZA];
+                        soundSettingsText.text = SkinManager.MENU_PL[SkinManager.DZWIEK];
+                        break;
+                    default:
+                        victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
+                        playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
+                        soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
+                        break;
+                }
             }
+            
+        catch (System.Exception exception)
+        {
+            Debug.LogWarning(exception);
+        }
     }
 
     // Update is called once per frame

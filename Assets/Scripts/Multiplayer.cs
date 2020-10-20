@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Mirror;
 using System.Net;
 using System.Net.Sockets;
+using System;
 //using Mirror.Transport;
 
 //using Mirror.Discovery;
@@ -326,48 +327,56 @@ Android uses files inside a compressed APK
         byte rColor, gColor, bColor;
         int ipValue;
         if (pom == "localhost")
-            pom = "123";
-        if (pom[pom.Length - 3].ToString() != ".")
+            pom = "123456";
+        try
         {
-            if (pom[pom.Length - 2].ToString() != ".")
+            if (pom[pom.Length - 3].ToString() != ".")
             {
-                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+                if (pom[pom.Length - 2].ToString() != ".")
+                {
+                    pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+                }
+                else//przedostatni kropka
+                {
+                    pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 1].ToString();
+                }
             }
-            else//przedostatni kropka
+            else//jest kropka pomijamy
             {
-                pom = pom[pom.Length - 3].ToString() + pom[pom.Length - 1].ToString();
+                pom = pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
+
             }
+            ipValue = int.Parse(pom);
+            if (ipValue % 3 == 0)
+                rColor = 0;
+            else
+                if (ipValue % 3 == 1)
+                    rColor = 150;
+                else
+                    rColor = 255;
+            if (ipValue % 4 == 0)
+                gColor = 0;
+            else
+                if (ipValue % 4 == 1)
+                    gColor = 150;
+                else
+                    gColor = 255;
+            if ((ipValue % 5 <= 1) && ((rColor == 0) || (gColor == 0)))
+                bColor = 255;
+            else
+                if ((ipValue % 5 <= 3) && ((rColor == 0) || (gColor == 0)))
+                    bColor = 150;
+                else
+                    bColor = 0;
+
+            adresIP.color = new Color32(rColor, gColor, bColor, 255);
+            adresIP.gameObject.SetActive(true);
         }
-        else//jest kropka pomijamy
+
+        catch (Exception ex)
         {
-            pom = pom[pom.Length - 2].ToString() + pom[pom.Length - 1].ToString();
-
+            //blad kolorow
         }
-        ipValue = int.Parse(pom);
-        if (ipValue % 3 == 0)
-            rColor = 0;
-        else
-            if (ipValue % 3 == 1)
-                rColor = 150;
-            else
-                rColor = 255;
-        if (ipValue % 4 == 0)
-            gColor = 0;
-        else
-            if (ipValue % 4 == 1)
-                gColor = 150;
-            else
-                gColor = 255;
-        if ((ipValue % 5 <= 1) && ((rColor == 0) || (gColor == 0)))
-            bColor = 255;
-        else
-            if ((ipValue % 5 <= 3) && ((rColor == 0) || (gColor == 0)))
-                bColor = 150;
-            else
-                bColor = 0;
-
-        adresIP.color = new Color32(rColor, gColor, bColor, 255);
-        adresIP.gameObject.SetActive(true);
     }
 
     public void StartNotPVPGame()
