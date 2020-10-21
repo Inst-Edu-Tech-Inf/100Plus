@@ -284,6 +284,9 @@ namespace CompleteProject
             //InitListener listener;
             //StoreService.Initialize( listener);
 
+
+            //StoreService.Initialize(IInitListener, listener);
+
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
             purchasePanel.gameObject.SetActive(false);
             cash.color = new Color32(255, 255, 0, 255);
