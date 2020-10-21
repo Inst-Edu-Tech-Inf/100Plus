@@ -84,6 +84,13 @@ namespace CompleteProject
                 builder.AddProduct(ikProductIDConsumableCoins100, ProductType.Consumable);
                 builder.AddProduct(ikProductIDConsumableCoins350, ProductType.Consumable);
             }
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                builder.AddProduct(kProductIDConsumableCoins20, ProductType.Consumable);
+                builder.AddProduct(kProductIDConsumableCoins100, ProductType.Consumable);
+                builder.AddProduct(kProductIDConsumableCoins350, ProductType.Consumable);
+            }
             // Continue adding the non-consumable product.
             //     builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
             // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -127,6 +134,11 @@ namespace CompleteProject
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 BuyProductID(ikProductIDConsumableCoins20);
+            }
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                BuyProductID(kProductIDConsumableCoins20);
             }
         }
 
@@ -286,6 +298,24 @@ namespace CompleteProject
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumableCoins20, StringComparison.Ordinal))
+                {
+                    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                    //ScoreManager.score += 100;//SkinManager
+                    int newCash;
+                    //cashBuyDone.Play();
+                    newCash = SkinManager.instance.CurrentCash + 20;
+                    SkinManager.instance.SetCurrentCash(newCash);
+                    PlayerPrefs.SetInt("CurrentCash", newCash);
+                    SkinManager.instance.SetDebugToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    SkinManager.instance.SetAIPToShow(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                    //CompleteProject.Skins.BuySucced();
+                    sk.BackPurchase();
+                }
+            }
             // A consumable product has been purchased by this user.
             if (Application.platform == RuntimePlatform.Android)
             {

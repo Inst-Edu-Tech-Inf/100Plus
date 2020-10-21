@@ -304,12 +304,12 @@ Android uses files inside a compressed APK
                     }
                     else//przedostatni kropka
                     {
-                        pom = pom2[pom2.Length - 3].ToString() + pom2[pom2.Length - 1].ToString();
+                        pom = pom2[pom2.Length - 3].ToString() + pom2[pom2.Length - 1].ToString() +" ";
                     }
                 }
                 else//jest kropka pomijamy
                 {
-                    pom = pom2[pom2.Length - 2].ToString() + pom2[pom2.Length - 1].ToString();
+                    pom = pom2[pom2.Length - 2].ToString() + pom2[pom2.Length - 1].ToString() + " ";
 
                 }
             }
@@ -330,6 +330,7 @@ Android uses files inside a compressed APK
             pom = "123456";
         try
         {
+            Debug.Log("Pom:" + pom + " " + pom.Length);
             if (pom[pom.Length - 3].ToString() != ".")
             {
                 if (pom[pom.Length - 2].ToString() != ".")
@@ -376,6 +377,7 @@ Android uses files inside a compressed APK
         catch (Exception ex)
         {
             //blad kolorow
+            Debug.Log("Błąd kolorów IP:" + ex);
         }
     }
 
