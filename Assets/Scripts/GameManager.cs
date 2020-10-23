@@ -17,6 +17,13 @@ using System;
 //using MySql.Data.MySqlClient;
 using System.Globalization;
 
+/*public struct Item
+{
+    public string name;
+    public int amount;
+    public Color32 color;
+}*/
+
 public class GameManager : NetworkBehaviour
 {
     /*UNITY_IOS	
@@ -183,6 +190,9 @@ public class GameManager : NetworkBehaviour
     public Text infoText;
     public int activeTutorialStep = -1;
     public bool czyWynikWyslany = false;
+
+    //readonly 
+    //    SyncList<GameObject> inventory ;//= new SyncList<GameObject>();
 
     List<GameObject> playerCards = new List<GameObject>();
     //List<GameObject> playerAICardsToRemove = new List<GameObject>();
@@ -2331,6 +2341,7 @@ Android uses files inside a compressed APK
         endTurnBtn.SetActive(false);
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
+            //inventory.Callback += OnInventoryUpdated;
             //infoText.gameObject.SetActive(true);
             infoText.gameObject.SetActive(false);
             if (!isHost)
@@ -5356,5 +5367,32 @@ Android uses files inside a compressed APK
         }
         //workingPanel.SetActive(false);
     }
+    //https://mirror-networking.com/docs/Articles/Guides/Sync/SyncLists.html
+ /*   void OnInventoryUpdated(SyncList<GameObject>.Operation op, int index, GameObject oldItem, GameObject newItem)
+    {
+        switch (op)
+        {
+            case SyncList<GameObject>.Operation.OP_ADD:
+                // index is where it got added in the list 
+                // item is the new item
+                break;
+            case SyncList<GameObject>.Operation.OP_CLEAR:
+                // list got cleared
+                break;
+            case SyncList<GameObject>.Operation.OP_INSERT:
+                // index is where it got added in the list
+                // item is the new item
+                break;
+            case SyncList<GameObject>.Operation.OP_REMOVEAT:
+                // index is where it got removed in the list
+                // item is the item that was removed
+                break;
+            case SyncList<GameObject>.Operation.OP_SET:
+                // index is the index of the item that was updated
+                // item is the previous item
+                break;
+        }
+    }*/
 
 }
+

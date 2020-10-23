@@ -901,10 +901,17 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         //Debug.Log("PanelWorking:"+GameObject.FindGameObjectWithTag("connectingText"));
         //if (!SkinManager.instance.GetIsNotificationsAdded())
 #if UDP_RELEASE
+        try
+        {
         //# Instantiate the listener
         IInitListener listener = new InitListener();
         //# Use the listener to initialize the UDP stuff
         StoreService.Initialize(listener);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("UDP Store error:"+ex);
+        }
 #endif
 
         
@@ -912,13 +919,14 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         try
         {
             connectingImage = GameObject.FindGameObjectWithTag("connectingImage").GetComponent<Image>();
+            connectingText = GameObject.FindGameObjectWithTag("connectingText").GetComponent<Text>();
         }
         catch (Exception ex)
         {
 
         }
             
-        connectingText = GameObject.FindGameObjectWithTag("connectingText").GetComponent<Text>();
+        
         if (!SkinManager.instance.GetIsNotificationsAdded())
         {
 #if UNITY_ANDROID
