@@ -1,6 +1,7 @@
 ﻿//#define HTML5
 #define UNITY_ANDROID
 //#define UNITY_IOS
+//#define UDP_RELEASE
 
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using UnityEngine.UDP;
 //using Unity.Notifications; 
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
@@ -898,6 +900,15 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         //changeBackground();
         //Debug.Log("PanelWorking:"+GameObject.FindGameObjectWithTag("connectingText"));
         //if (!SkinManager.instance.GetIsNotificationsAdded())
+#if UDP_RELEASE
+        //# Instantiate the listener
+        IInitListener listener = new InitListener();
+        //# Use the listener to initialize the UDP stuff
+        StoreService.Initialize(listener);
+#endif
+
+        
+
         try
         {
             connectingImage = GameObject.FindGameObjectWithTag("connectingImage").GetComponent<Image>();

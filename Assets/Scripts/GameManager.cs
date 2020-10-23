@@ -82,6 +82,7 @@ public class GameManager : NetworkBehaviour
     public const int PVP_DISCARD_TASK = 4;
     public const int PVP_SHOW_POWERUP_CARD = 5;
     public const int PVP_COLLECT_POINTS = 6;
+    public const int PVP_STOP_CLIENT = 7;
     public const int PVP_RED = 1;
     public const int PVP_GREEN = 2;
     public const int PVP_BLUE = 3;
@@ -548,7 +549,7 @@ public class GameManager : NetworkBehaviour
     {
         string kolor = RED_TEXT;
         // infoText.text = infoText.text + ";C" + GetPVPCommand();
-        //Debug.Log("RunPVPCommand:IN");
+        //Debug.Log("RunPVPCommand:" + GetPVPCommand());
         // if (isPVPCommandChange)
         {
             previousPVPCommand = GetPVPCommand();
@@ -600,6 +601,21 @@ public class GameManager : NetworkBehaviour
                     break;
                 case PVP_COLLECT_POINTS:
 
+                    break;
+                case PVP_STOP_CLIENT:
+                    //Debug.Log("PVP_STOP_CLIENT:run command");
+
+                    /*NetworkRoomManager netRoomManager = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+                            netRoomManager.StopClient();
+                    NetworkClient.Shutdown();*/
+                    if (!isHost)
+                    {
+                        NetworkRoomManager netRoomManager = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+                        netRoomManager.StopClient();
+                        //NetworkServer.DisconnectAllConnections();
+                        //NetworkServer.Shutdown();
+                        SceneManager.LoadScene("Menu");
+                    }
                     break;
                 // default:
                 //    cout << "didn't get card \n";
@@ -1303,14 +1319,32 @@ public class GameManager : NetworkBehaviour
 
     public void BackYes()
     {
-        closeConfirmationPanel.gameObject.SetActive(false);
+        //NetworkIdentity networkIdentity = GetComponent<NetworkIdentity>();
+        //NetworkManager networkManager = NetworkManager.singleton;
+        /* if (networkIdentity.isServer && networkIdentity.isClient)
+                {
+                    netRoomManager.StopHost();
+                }
+                else if (networkIdentity.isServer)
+                {
+                    netRoomManager.StopServer();
+                }
+                else
+                {
+                    netRoomManager.StopClient();
+                }
+                Debug.Log("stopHostAfter");*/
+
         if (GameObject.FindGameObjectWithTag("Room Manager") != null)
         {
             NetworkRoomManager netRoomManager = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
 
             if (isHost)
-                netRoomManager.StopHost();
-            else
+            {
+                // netRoomManager.StopHost();//crash here
+                SetPVPCommand(PVP_STOP_CLIENT);                       
+            }
+            else 
                 netRoomManager.StopClient();
         }
         else
@@ -1318,10 +1352,26 @@ public class GameManager : NetworkBehaviour
             GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>().StopHost();
         }
 
-        NetworkClient.Shutdown();
-        NetworkServer.Shutdown();
+        if (!isHost)
+        {
+            NetworkClient.Shutdown();
+        }
+        
+        //NetworkServer.localConnection.Disconnect();
+        //NetworkServer.localConnection.Dispose();
+        //NetworkServer.localConnection;
+        //NetworkServer.RemoveConnection(0);
+        //NetworkServer.localClientActive;
+        //Debug.Log(NetworkServer.localConnection);//
+        //NetworkServer.ReplaceHandler(
+        //NetworkServer.Destroy(object);
+        //NetworkServer.DestroyPlayerForConnection(NetworkServer.localConnection);
 
-        SceneManager.LoadScene("Menu");
+        //NetworkServer.Shutdown();//crash here
+
+        closeConfirmationPanel.gameObject.SetActive(false);
+//        if (!isHost)
+            SceneManager.LoadScene("Menu");
         //Debug.Log("YES");
     }
 

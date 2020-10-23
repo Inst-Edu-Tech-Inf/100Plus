@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Install SummOn</h1>
+
+<p id="demo"></p>
+
+<script>
+var x = navigate();
+document.getElementById("demo").innerHTML = x;
+
+function navigate() {
+    if((/iPhone|iPad|iPod/i.test(navigator.platform))){
+        
+        window.location.href = 'https://apps.apple.com/pl/app/summon-ieti/id1531763908?l=pl';
+    }
+    if((/Android|Linux armv6l|Linux armv7l|Linux armv8l/i.test(navigator.platform))){
+        
+        
+		window.location.href = 'https://play.google.com/store/apps/details?id=com.ieti.SummOn';
+    }
+   
+      return navigator.platform;
+}
+</script>
+
+</body>
+</html> 
