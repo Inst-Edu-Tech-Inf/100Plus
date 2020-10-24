@@ -283,7 +283,8 @@ public class GameManager : NetworkBehaviour
     Color greenColor = new Color32(0, SkinManager.GREEN_COLOR, 0, 255);
     Color blueColor = new Color32(0, 0, SkinManager.BLUE_COLOR, 255);
     //bool isPVPCommandChange = true;
-    bool isFirstTurn;// = false;
+    bool isFirstTurn;
+    // = false;
     int previousPVPCommand = PVP_IDLE;
     float activeTutorialColor = 0.0f; //byte
 
@@ -2776,8 +2777,11 @@ Android uses files inside a compressed APK
         //koniec tury gracza
         if (remainingGameTime > 0)
         {
-            remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);
-            timerText.text = remainingGameTime.ToString();
+            if ((SkinManager.instance.MiddlePass)||(float.Parse(victoryPoints.text)>earlyGamePoint))
+            {
+                remainingGameTime = Mathf.FloorToInt((maxGameTimeInSeconds) -= Time.deltaTime);
+                timerText.text = remainingGameTime.ToString();
+            }
         }
         else
         {

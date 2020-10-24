@@ -110,7 +110,7 @@ public class Liga : MonoBehaviour
         Debug.Log(w);
     }*/
 
-    IEnumerator connectSimple()
+ /*   IEnumerator connectSimple()
     {
         //UnityWebRequest www = UnityWebRequest.Get("http://summon.ieti.pl/GetDate.php");
         UnityWebRequest www = UnityWebRequest.Get("http://summon.ieti.pl/dbSummOn/GetUsers.php");
@@ -126,7 +126,7 @@ public class Liga : MonoBehaviour
             Debug.Log(www.downloadHandler.text);
             byte[] results = www.downloadHandler.data;
         }
-    }
+    }*/
 
     public void SendPHP()
     {

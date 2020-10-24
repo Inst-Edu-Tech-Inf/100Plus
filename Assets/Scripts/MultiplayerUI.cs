@@ -116,6 +116,7 @@ public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
         catch (Exception ex)
         {
             //blad kolorow
+            Debug.Log(ex);
         }
 
 

@@ -27,7 +27,7 @@ public class MenuButtons : MonoBehaviour
     //public GameObject panelConnect;
     public Text connectingText;
     public Image connectingImage;
-    bool  isNotificationsAdded = false;
+    bool  isNotificationsAdded;// = false;
     
 
 	void changeBackground()
@@ -923,7 +923,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         }
         catch (Exception ex)
         {
-
+            Debug.Log(ex);
         }
             
         
@@ -952,7 +952,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
             }
             catch (Exception ex)
             {
-
+                Debug.Log(ex);
             }
                 
             connectingText.text = "";
