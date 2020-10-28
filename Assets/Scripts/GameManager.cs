@@ -639,6 +639,7 @@ public class GameManager : NetworkBehaviour
                         NetworkClient.Shutdown();
                         netRoomManager.StopHost();
                         NetworkServer.Shutdown();
+                        //Debug.Log("StopInSingle??");
                         SceneManager.LoadScene("Menu");
                     }
                     break;
@@ -1379,19 +1380,25 @@ public class GameManager : NetworkBehaviour
                     //blad kolorow
                     Debug.Log("roomHostStop:"+ex);
                 }
-                SetPVPCommand(PVP_STOP_CLIENT);                       
+                SetPVPCommand(PVP_STOP_CLIENT);      
+                //Debug.Log("ISHOST"); 
             }
             else 
+            {
                 netRoomManager.StopClient();
+               // Debug.Log("StopCLient");
+            }
         }
         else
         {
             GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>().StopHost();
+            //Debug.Log("SINGLEhostStop");
         }
 
-        if (!isHost)
+        if (!isHost) 
         {
             NetworkClient.Shutdown();
+            //Debug.Log("Shotdown");
         }
         
         //NetworkServer.localConnection.Disconnect();
@@ -1404,11 +1411,14 @@ public class GameManager : NetworkBehaviour
         //NetworkServer.Destroy(object);
         //NetworkServer.DestroyPlayerForConnection(NetworkServer.localConnection);
 
-        //NetworkServer.Shutdown();//crash here
+    
+           // NetworkServer.Shutdown();//crash here
 
         closeConfirmationPanel.gameObject.SetActive(false);
-        if (!isHost)
+        if ((!isHost)|| (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_PVP))
+        {
             SceneManager.LoadScene("Menu");
+        }
         //Debug.Log("YES");
     }
 
