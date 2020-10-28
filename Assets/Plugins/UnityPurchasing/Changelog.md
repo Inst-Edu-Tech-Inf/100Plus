@@ -1,3 +1,9 @@
+## [2.1.1] - 2020-10-23
+
+### Fixed
+- Amazon - Fix build failure caused by duplicate classes
+- Amazon - Fix ResponseReceiver flaw reported by Amazon APK audit caused by permission attribute location in AndroidManifest.xml 
+
 ## [2.1.0] - 2020-10-14
 ### Future
 - GooglePlay - Transaction IDs for all Google Play transactions will be switched to use Google's Purchase Token in a future version of Unity IAP. Google's Order ID previously was used when possible. This version introduces a feature to switch to Purchase Token now, and also to automatically use Purchase Token if `aggressivelyRecoverLostPurchases = true`.
