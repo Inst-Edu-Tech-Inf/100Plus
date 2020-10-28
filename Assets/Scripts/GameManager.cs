@@ -258,6 +258,15 @@ public class GameManager : NetworkBehaviour
     public bool isHost = true;
     //public bool isHostTurn = true;
 
+    public NetworkRoomManager roomManager
+	{
+		get => GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+		set
+		{
+			roomManager = value;
+		}
+	}
+
     //then (int)ptr displays the memory address and *ptr displays the value at that memory address
 
     bool isVictoryPointFirst = false;
@@ -625,6 +634,11 @@ public class GameManager : NetworkBehaviour
                         netRoomManager.StopClient();
                         //NetworkServer.DisconnectAllConnections();
                         //NetworkServer.Shutdown();
+                        
+                        
+                        NetworkClient.Shutdown();
+                        netRoomManager.StopHost();
+                        NetworkServer.Shutdown();
                         SceneManager.LoadScene("Menu");
                     }
                     break;
@@ -1345,6 +1359,7 @@ public class GameManager : NetworkBehaviour
                     netRoomManager.StopClient();
                 }
                 Debug.Log("stopHostAfter");*/
+        
 
         if (GameObject.FindGameObjectWithTag("Room Manager") != null)
         {
@@ -1353,6 +1368,17 @@ public class GameManager : NetworkBehaviour
             if (isHost)
             {
                 // netRoomManager.StopHost();//crash here
+                //NetworkClient.DisconnectLocalServer();
+                //NetworkClient.Disconnect();
+                try
+                {
+                    //roomManager.StopHost();
+                }
+                catch (Exception ex)
+                {
+                    //blad kolorow
+                    Debug.Log("roomHostStop:"+ex);
+                }
                 SetPVPCommand(PVP_STOP_CLIENT);                       
             }
             else 
@@ -1381,7 +1407,7 @@ public class GameManager : NetworkBehaviour
         //NetworkServer.Shutdown();//crash here
 
         closeConfirmationPanel.gameObject.SetActive(false);
-//        if (!isHost)
+        if (!isHost)
             SceneManager.LoadScene("Menu");
         //Debug.Log("YES");
     }

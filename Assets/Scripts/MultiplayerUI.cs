@@ -144,6 +144,7 @@ public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 
     public void CreateGame()
 	{
+        
 		roomManager.StartHost();
        // if ( )
 		discovery.AdvertiseServer();
