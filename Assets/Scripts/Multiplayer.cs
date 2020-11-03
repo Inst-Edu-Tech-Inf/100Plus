@@ -19,6 +19,7 @@ public class Multiplayer : MonoBehaviour
     public InputField input;
     public Dropdown gameConditionsList;
     public GameObject pvpPanel;
+    public GameObject restartPanel;
     public GameObject aiDifficultyPanel;
     public Button readyButton;
     public Text gameModeText;
@@ -28,6 +29,7 @@ public class Multiplayer : MonoBehaviour
     public Button startButton;
     public Text sciezka;
     public Text adresIP;
+    public NetworkRoomManager kopiaRoom;
     //public Text gameModeText;
     
     public NetworkRoomManager roomManagerShowGUI;
@@ -36,6 +38,20 @@ public class Multiplayer : MonoBehaviour
     Transport servTransport;
     //Uri actualServerUri;
 
+   /* private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        Debug.Log(string.Format("The level '{0}' was loaded.", scene.name));
+    }*/
 
     // Start is called before the first frame update
     void Start()
@@ -273,7 +289,66 @@ Android uses files inside a compressed APK
         return Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();//(f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).ToString();
 
         //return Dns.GetHostEntry(Dns.GetHostName()).AddressList.First().ToString();
-    }  
+    }
+
+    public void RestartBtn()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void CheckMultiplayerServer()
+    {
+        //after solo game
+        //Debug.Log("Sprawdzamy" + GameObject.FindGameObjectWithTag("Room Manager"));
+        //Debug.Log("RoomManager:" + roomManagerShowGUI);
+        //GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>().StopHost();
+       /* if (GameObject.FindGameObjectWithTag("Room Manager") == null)
+        {
+            if (singleNetManager == null)
+            {
+                singleNetManager = GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>();
+            }
+            singleNetManager.gameObject.SetActive(true);
+            singleNetManager.StartHost();
+        }*/
+      /*  if (GameObject.FindGameObjectWithTag("Single Net Manager") != null)
+        {
+            NetworkManager singleNetManager = GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>();
+            singleNetManager = kopiaRoom;
+            singleNetManager.gameObject.SetActive(true);
+            singleNetManager.StartHost();
+        }*/
+  /*      if (GameObject.FindGameObjectWithTag("Room Manager") == null)
+        {
+            GameObject roomManager = GameObject.FindGameObjectWithTag("Single Net Manager");
+
+            if (roomManager != null) 
+            {
+                Destroy(roomManager);
+            }
+            //NetworkRoomManager netRoomManager = GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+            roomManagerShowGUI = kopiaRoom;
+            roomManagerShowGUI.gameObject.SetActive(true);
+            roomManagerShowGUI.StartHost();//cant multiple network managers on scene
+            Debug.Log("netRoomManager exists" + roomManagerShowGUI);//+ netRoomManager);
+        }*/
+
+        //USUWA Single NEt Manager i tyle
+        /*if (GameObject.FindGameObjectWithTag("Single Net Manager") != null)
+        {
+            GameObject roomManager = GameObject.FindGameObjectWithTag("Single Net Manager");
+
+            if (roomManager != null)
+            {
+                Destroy(roomManager);
+            }
+    
+        }*/
+        if (GameObject.FindGameObjectWithTag("Single Net Manager") != null)
+        {
+            restartPanel.SetActive(true);
+        }
+    }
 
     public void ReadyButtonAvailable()
     {

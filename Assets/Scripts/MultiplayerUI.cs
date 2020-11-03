@@ -7,10 +7,15 @@ using System;
 
 public class MultiplayerUI : NetworkBehaviour//MonoBehaviour
 {
+    const string BASIC = "Room Manager";
+    const string COPY = "JustRoom";
 	public RoomPlayer roomPlayer;
 	public NetworkRoomManager roomManager
 	{
-		get => GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+        //if (GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>() != null)
+
+		//get => GameObject.FindGameObjectWithTag("Room Manager").GetComponent<NetworkRoomManager>();
+        get => GameObject.FindGameObjectWithTag(BASIC).GetComponent<NetworkRoomManager>();
 		set
 		{
 			roomManager = value;

@@ -1391,6 +1391,7 @@ public class GameManager : NetworkBehaviour
         }
         else
         {
+            //AI & SOLO
             GameObject.FindGameObjectWithTag("Single Net Manager").GetComponent<NetworkManager>().StopHost();
             //Debug.Log("SINGLEhostStop");
         }

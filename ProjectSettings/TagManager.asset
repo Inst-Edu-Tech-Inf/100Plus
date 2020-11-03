@@ -13,6 +13,8 @@ TagManager:
   - connectingText
   - connectingImage
   - notifyPass
+  - Room Manager Kopia
+  - JustRoom
   layers:
   - Default
   - TransparentFX
