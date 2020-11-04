@@ -907,6 +907,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         IInitListener listener = new InitListener();
         //# Use the listener to initialize the UDP stuff
         StoreService.Initialize(listener);
+        Debug.Log("UDP initialized:" + listener);
         }
         catch (Exception ex)
         {
