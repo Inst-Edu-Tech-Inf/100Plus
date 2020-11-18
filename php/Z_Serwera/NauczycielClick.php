@@ -26,7 +26,8 @@
                //return nazwaszkoly,skrotszkoly
 // string sql = "SELECT * FROM `klasa` WHERE `szkola` LIKE '" + nrSzkoly.ToString() + "';";
                //nazwy klas               
-	
+	//echo $sql;
+	//echo $nauczycielPass;
 	$result = $conn->query($sql);
 	
 	if ($result->num_rows > 0){

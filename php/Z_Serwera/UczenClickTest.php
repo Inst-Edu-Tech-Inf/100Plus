@@ -7,7 +7,6 @@
 	$socket = "3306";
 	$uczenPass = $_POST["uczenPass"];
 	$nrSzkoly = "";
-	//
 	
 	//create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
@@ -18,18 +17,13 @@
 	}
 	//echo "Connected successfully";
 	
-	//$sql = "SELECT name, score FROM scores";
+	//$sql = "SELECT klasa FROM `uczen` WHERE `identyfikator` LIKE \"$uczenPass\" ";	
+	
 	if ($uczenPass == ""){
 		$uczenPass = "_*." ;
 	}
 	$sql = "SELECT skrot, team_nr FROM `uczen` WHERE `identyfikator` LIKE \"$uczenPass\" ";
 	
-	//$sql = "SELECT skrot FROM `uczen` WHERE `identyfikator` LIKE \"e97c074fafde2707859a79d32dd0708929554e4d\" ";
-	//$sql = "SELECT szkola FROM `nauczyciel` WHERE `identyfikator` LIKE \"e97c074fafde2707859a79d32dd0708929554e4d\" ";
-	//sql = "SELECT * FROM `uczen` WHERE `identyfikator` LIKE '" + SkinManager.instance.UserID.ToString() + "';";
-    
-//$sql = "SELECT skrot, team_nr FROM `uczen` WHERE `identyfikator` LIKE \"$uczenPass\" ";	
-	//echo $sql;
 	$result = $conn->query($sql);
 	
 	if ($result->num_rows > 0){

@@ -18,6 +18,8 @@
 	$hostTeamNr = "";
 	$clientTeamNr = "";
 	$ileGier = "";
+	//$firstDate = $firstDateTimeObj->format('Y-m-d');
+	//$secondDate = $secondDateTimeObj->format('Y-m-d');
 	
 	
 
@@ -49,6 +51,21 @@
 			//echo $row["szkola"];
 			//echo "<br>";
 			$clientTeamNr = $row["team_nr"];			
+		}
+	}
+	
+	//sprawdza czy dzis juz grali
+	$sql = "SELECT date FROM `jos_djl_games` WHERE (`team_home` LIKE \"$hostTeamNr\" AND team_away` LIKE \"$clientTeamNr\") ";
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0){
+		while($row = $result->fetch_assoc()) {
+			$firstDateTimeObj = $row["date"];		
+			// IF CAST(DateField1 AS DATE) = CAST(DateField2 AS DATE)//sql
+			$firstDate = $firstDateTimeObj->format('Y-m-d');
+			$secondDate = $kalendarz->format('Y-m-d');
+			if (($firstDate == $secondDate)){
+				$czyOK = false;
+				}
 		}
 	}
 	

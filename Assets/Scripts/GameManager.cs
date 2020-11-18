@@ -5382,8 +5382,8 @@ Android uses files inside a compressed APK
         form.AddField("hostPoints", hostPoints);
         form.AddField("clientPoints", clientPoints);
 
-        //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajGre.php", form))
+        //UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/GetNauczycielCount.php");
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/DodajGre.php", form))
         {
             yield return www.SendWebRequest();
 

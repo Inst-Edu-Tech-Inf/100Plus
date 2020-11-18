@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+# @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -29,13 +29,6 @@ Header always set X-Content-Type-Options "nosniff"
 ## Can be commented out if causes errors, see notes above.
 #Options +FollowSymlinks
 #Options -Indexes
-
-## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
-<FilesMatch "\.svg$">
-  <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "script-src 'none'"
-  </IfModule>
-</FilesMatch>
 
 ## Mod_rewrite in use.
 
@@ -73,7 +66,7 @@ RewriteRule .* index.php [F]
 # Update Your Joomla! Directory (just / for root).
 ##
 
-RewriteBase /portal
+RewriteBase /
 
 ## Begin - Joomla! core SEF Section.
 #
@@ -91,8 +84,5 @@ RewriteRule .* index.php [L]
 #
 ## End - Joomla! core SEF Section.
 
-
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-

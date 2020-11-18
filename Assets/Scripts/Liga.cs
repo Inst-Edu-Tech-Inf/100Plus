@@ -161,7 +161,7 @@ public class Liga : MonoBehaviour
         //form.AddField("nauczycielPass", "");
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/NauczycielClick.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/NauczycielClick.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -172,7 +172,7 @@ public class Liga : MonoBehaviour
             else
             {
                 //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                //Debug.Log(www.downloadHandler.text);
+                Debug.Log("Jest Nauczyciel "+ www.downloadHandler.text);
                 if (www.downloadHandler.text == "false")
                     czyNauczycielIstnieje = false;
                 else
@@ -223,7 +223,8 @@ public class Liga : MonoBehaviour
         form.AddField("uczenPass", uczenPass);
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/UczenClick.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/UczenClick.php", form))
+        //using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/UczenClickTest.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -260,7 +261,7 @@ public class Liga : MonoBehaviour
         form.AddField("skrotSzkolyPass", skrotSzkolyPass);
         form.AddField("userID", userID);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajSzkole.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/DodajSzkole.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -341,7 +342,7 @@ public class Liga : MonoBehaviour
         form.AddField("skrotU39", skrotU39);
         form.AddField("skrotU40", skrotU40);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/DodajKlase.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/DodajKlase.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -390,7 +391,7 @@ public class Liga : MonoBehaviour
         form.AddField("nauczycielPass", nauczycielPass);
         form.AddField("aktywnaKlasa", aktywnaKlasa);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/KodyKlasy2.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/KodyKlasy2.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -407,7 +408,7 @@ public class Liga : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("KodyKlasy:" + www.downloadHandler.text);
+                    //Debug.Log("KodyKlasy:" + www.downloadHandler.text);
                     strArr = www.downloadHandler.text.ToString().Split(' ');
 
                     //nrSzkoly = strArr[0];
@@ -475,7 +476,7 @@ public class Liga : MonoBehaviour
         form.AddField("skrotUcznia", skrotUcznia);
 
         //UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/GetNauczycielCount.php");
-        using (UnityWebRequest www = UnityWebRequest.Post("http://summon.ieti.pl/dbSummOn/WyslijKodUcznia.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/WyslijKodUcznia.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -599,6 +600,7 @@ public class Liga : MonoBehaviour
         }
 
         conn.Close();*/
+        Debug.Log("KOD_N:" + SkinManager.instance.UserID);
         StartCoroutine(NauczycielWebClick(SkinManager.instance.UserID));
         //StartCoroutine(NauczycielWebClick(""));
         
@@ -729,6 +731,7 @@ public class Liga : MonoBehaviour
         uczenBtn.gameObject.SetActive(false);
         szkolaPanel.SetActive(false);
         uczenPanel.SetActive(true);
+        Debug.Log("KOD:" + SkinManager.instance.UserID);
         StartCoroutine(UczenWebClick(SkinManager.instance.UserID));
       /*  //debugInfo.text += connStr + "__";
         //Debug.Log("Przed");
