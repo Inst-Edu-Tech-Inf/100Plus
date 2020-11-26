@@ -3269,8 +3269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 72.27504, y: 75.99996}
-  m_SizeDelta: {x: 481.87, y: 94.56461}
+  m_AnchoredPosition: {x: 244, y: 75.99996}
+  m_SizeDelta: {x: 825.3993, y: 94.56461}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &641160437
 MonoBehaviour:
@@ -5635,6 +5635,7 @@ MonoBehaviour:
   infoText: {fileID: 1481321748}
   activeTutorialStep: -1
   czyWynikWyslany: 0
+  jestesPewny: {fileID: 641160438}
   powerUpCards: []
   powerUpAICards: []
   maxPlayerCards: 7

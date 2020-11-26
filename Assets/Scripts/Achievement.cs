@@ -397,7 +397,8 @@ public class Achievement : MonoBehaviour
         {
             notPure10KPVP.GetComponent<Image>().color = colorGray;
         }
-        
+
+        MiddlePassClick();
     }
 
     public void LongWayClick()

@@ -307,6 +307,7 @@ namespace CompleteProject
             changeBackground();
             LocalActiveSound = SkinManager.instance.ActiveSound;
             changeSound();
+            soundBackground.volume = SkinManager.instance.ActiveSoundValue / 100;
             //changeAsyncSound();
             skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
             cash.text = SkinManager.instance.CurrentCash.ToString();

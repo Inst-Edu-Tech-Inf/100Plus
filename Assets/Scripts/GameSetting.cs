@@ -17,6 +17,8 @@ public class GameSetting : MonoBehaviour
     public Text victorySettingsText;
     public Text playerTurnText;
     public Text soundSettingsText;
+    public AudioSource soundBackground;
+    public AudioSource soundSFX;
     // Start is called before the first frame update
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
@@ -43,7 +45,7 @@ public class GameSetting : MonoBehaviour
         {
             VictoryConditionsChange(SkinManager.VICTORY_CONDITIONS_MODE_20PKT);
         }*/
-        SystemLanguage iLang = Application.systemLanguage;
+        //SystemLanguage iLang = Application.systemLanguage;
         try
         {
             Color color = new Color(0f / 255f, 255f / 255f, 0f / 255f);
@@ -65,7 +67,7 @@ public class GameSetting : MonoBehaviour
         }
         try
         {
-            switch (iLang)
+            /*switch (iLang)
                 {
                     case SystemLanguage.English:
                         victorySettingsText.text = SkinManager.MENU_EN[SkinManager.WARUNKI_ZWYCIESTWA];
@@ -83,19 +85,29 @@ public class GameSetting : MonoBehaviour
                         playerTurnText.text = SkinManager.MENU_EN[SkinManager.KONIEC_TURY_GRACZA];
                         soundSettingsText.text = SkinManager.MENU_EN[SkinManager.DZWIEK];
                         break;
-                }
+                }*/
+                victorySettingsText.text = SkinManager.instance.MenuLang[SkinManager.WARUNKI_ZWYCIESTWA];
+                playerTurnText.text = SkinManager.instance.MenuLang[SkinManager.KONIEC_TURY_GRACZA];
+                soundSettingsText.text = SkinManager.instance.MenuLang[SkinManager.DZWIEK];
             }
             
         catch (System.Exception exception)
         {
             Debug.LogWarning(exception);
         }
+        changeSound();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void changeSound()
+    {
+        soundBackground.clip = (AudioClip)UnityEngine.Resources.Load("Audio/" + SkinManager.instance.muzyki[SkinManager.instance.ActiveSound].Name);
+        soundBackground.Play();
     }
 
     void changeBackground()
@@ -134,12 +146,15 @@ Android uses files inside a compressed APK
     {
         SkinManager.instance.SetActiveSoundValue(sliderSound.value);
         PlayerPrefs.SetFloat("ActiveSoundValue", sliderSound.value);
+        soundBackground.volume = SkinManager.instance.ActiveSoundValue / 100;
     }
 
     public void SFXVolume()
     {
         SkinManager.instance.SetActiveSFXValue(sliderSFX.value); 
         PlayerPrefs.SetFloat("ActiveSFXValue", sliderSFX.value);
+        soundSFX.volume = SkinManager.instance.ActiveSFXValue / 100;
+        soundSFX.Play();
     }
 
     public void VictoryConditionsChange(int conditions)

@@ -97,7 +97,9 @@ public class SkinManager : MonoBehaviour
     //public const int TUTORIALPASS = 32;
     //public const int SKIN_TUTORIALPASS = 33;
     public const int AI_EASY = 0;
-    public const int AI_IMPOSSIBLE = 1;
+    public const int AI_MEDIUM = 1;
+    public const int AI_HARD = 2;
+    public const int AI_IMPOSSIBLE = 3;
 
 
     public const int SAMOUCZEK_POCZATEK = 0;
@@ -147,6 +149,11 @@ public class SkinManager : MonoBehaviour
     public const int KODY_DLA_UCZNIOW = 17;
     public const int ZAGRAJ = 18;
     public const int SUMMON_LEAGUE = 19;
+    public const int TLUMACZE = 20;
+    public const int JESTES_PEWNY = 21;
+    public const int KOD_OD_NAUCZYCIELA = 22;
+    public const int RESTART_GRY = 23;
+    public const int REJESTRUJ_SIE = 24;
     public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
@@ -182,7 +189,9 @@ public class SkinManager : MonoBehaviour
     public static string[] MENU_PL = new string[] { "Programiści", "Graficy", "Testerzy", "Koncepcja gry", "Warunki zwycięstwa", "Koniec tury gracza", "Dźwięk", "Tryb gry", 
         "Gotowy", "Nazwa szkoły", "Symbol klasy (np.4a)", "Ilość uczniów w klasie", "Kod ucznia", "Wiek", "Kod zajęty lub nieprawidłowy",
         "Podaj skróconą nazwę szkoły, np. SP1", "Podaj skróconą nazwę klasy, np. 4a", 
-        "Udostępnij kody uczniom", "Zagraj mecz ligowy", "SummOn Liga"};
+        "Udostępnij kody uczniom", "Zagraj mecz ligowy", "SummOn Liga", "Tłumaczenie",
+        "Czy jesteś pewny?", "tu wpisz kod, który otrzymałeś od nauczyciela",
+        "Musisz zrestartować SummOn żeby zagrać w trybie dwóch graczy!", "Zarejestruj się"};
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -249,7 +258,9 @@ public class SkinManager : MonoBehaviour
     public static string[] MENU_EN = new string[] { "Programmers", "Graphics", "Testers", "Game concept", "Victory settings", "Player end turn", "Sound settings", "Game mode",
         "Ready", "School name", "Class symbol (i.e. 4a)", "Number of students in this class", "Student code", "Age", "Code already used or invalid",
         "Short school name can't be empty (i.e.PS1)", "Short class name can't be empty (i.e.4a)", 
-        "Give students the codes", "Play league match", "SummOn League"};
+        "Give students the codes", "Play league match", "SummOn League" , "Translators",
+        "Are you sure?", "the code received from your teacher write here",
+        "You need to restart SummOn to play multiplayer mode!", "Remember to registry"};
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",

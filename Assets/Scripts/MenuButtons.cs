@@ -676,6 +676,12 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
                             AndroidNotificationCenter.SendNotification(notificationA, "channel_id_i");
                         }
                     }
+                  /*  DateTime dzisiaj = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day);
+                     DateTime TmpdataPowiadomienia = new System.DateTime(2020, 11, 30);
+                     TimeSpan kiedy = TmpdataPowiadomienia - dzisiaj;
+                     TimeSpan TimeInterval = new TimeSpan(kiedy.Days, 0, 0, 0);
+                        Debug.Log("Data:" + kiedy + "," + kiedy.Days);
+                        Debug.Log("intereval:" + TimeInterval);*/
 #endif
 #if UNITY_IOS
                     if (Application.platform == RuntimePlatform.IPhonePlayer)

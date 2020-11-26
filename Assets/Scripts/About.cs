@@ -14,6 +14,7 @@ public class About : MonoBehaviour
     public Text testerzyText;
     public Text koncepcjaText;
     public Text versionText;
+    public Text tlumaczText;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -38,7 +39,7 @@ public class About : MonoBehaviour
     {
         //changeBackground();
         versionText.text = Application.version;
-        SystemLanguage iLang = Application.systemLanguage;
+       /* SystemLanguage iLang = Application.systemLanguage;
         switch (iLang)
         {
             case SystemLanguage.English:
@@ -46,21 +47,28 @@ public class About : MonoBehaviour
                 graficyText.text = SkinManager.MENU_EN[SkinManager.GRAFICY];
                 testerzyText.text = SkinManager.MENU_EN[SkinManager.TESTERZY];
                 koncepcjaText.text = SkinManager.MENU_EN[SkinManager.KONCEPCJA_GRY];
-
+                tlumaczText.text = SkinManager.MENU_EN[SkinManager.TLUMACZE];
                 break;
             case SystemLanguage.Polish:
                 programisciText.text = SkinManager.MENU_PL[SkinManager.PROGRAMISCI];
                 graficyText.text = SkinManager.MENU_PL[SkinManager.GRAFICY];
                 testerzyText.text = SkinManager.MENU_PL[SkinManager.TESTERZY];
                 koncepcjaText.text = SkinManager.MENU_PL[SkinManager.KONCEPCJA_GRY];
+                tlumaczText.text = SkinManager.MENU_PL[SkinManager.TLUMACZE];
                 break;
             default:
                 programisciText.text = SkinManager.MENU_EN[SkinManager.PROGRAMISCI];
                 graficyText.text = SkinManager.MENU_EN[SkinManager.GRAFICY];
                 testerzyText.text = SkinManager.MENU_EN[SkinManager.TESTERZY];
                 koncepcjaText.text = SkinManager.MENU_EN[SkinManager.KONCEPCJA_GRY];
+                tlumaczText.text = SkinManager.MENU_EN[SkinManager.TLUMACZE];
                 break;
-        }
+        }*/
+        programisciText.text = SkinManager.instance.MenuLang[SkinManager.PROGRAMISCI];
+        graficyText.text = SkinManager.instance.MenuLang[SkinManager.GRAFICY];
+        testerzyText.text = SkinManager.instance.MenuLang[SkinManager.TESTERZY];
+        koncepcjaText.text = SkinManager.instance.MenuLang[SkinManager.KONCEPCJA_GRY];
+        tlumaczText.text = SkinManager.instance.MenuLang[SkinManager.TLUMACZE];
     }
 
     // Update is called once per frame

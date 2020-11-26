@@ -75,6 +75,7 @@ public class Liga : MonoBehaviour
     public Text debugInfo;
     public GameObject panelBlad;
     public Text bladText;
+    public Text kodUczniaPlaceholderText;
 
    // private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
    // public string addScoreURL = "http://summon.ieti.pl/addscore.php";//"http://localhost/unity_test/addscore.php?"; //be sure to add a ? to your url
@@ -507,7 +508,7 @@ public class Liga : MonoBehaviour
         userIDText.text = SkinManager.instance.UserID;
         //nauczycielBtn.SetActive(true);
         //uczenBtn.SetActive(true);
-        SystemLanguage iLang = Application.systemLanguage;
+        /*SystemLanguage iLang = Application.systemLanguage;
         switch (iLang)
         {
             case SystemLanguage.English:
@@ -534,8 +535,14 @@ public class Liga : MonoBehaviour
                 wiekUczniowText.text = SkinManager.MENU_EN[SkinManager.WIEK_UCZNIA];
                 kodZajety = SkinManager.MENU_EN[SkinManager.KOD_ZAJETY];
                 break;
-        }
-
+        }*/
+        nazwaSzkolyText.text = SkinManager.instance.MenuLang[SkinManager.NAZWA_SZKOLY];
+        nazwaKlasyText.text = SkinManager.instance.MenuLang[SkinManager.NAZWA_KLASY];
+        iloscUczniowText.text = SkinManager.instance.MenuLang[SkinManager.ILOSC_UCZNIOW];
+        kodUczniaText.text = SkinManager.instance.MenuLang[SkinManager.KOD_UCZNIA];
+        wiekUczniowText.text = SkinManager.instance.MenuLang[SkinManager.WIEK_UCZNIA];
+        kodZajety = SkinManager.instance.MenuLang[SkinManager.KOD_ZAJETY];
+        kodUczniaPlaceholderText.text = SkinManager.instance.MenuLang[SkinManager.KOD_OD_NAUCZYCIELA];
         
      /*
          string connStr = "server=localhost;user=root;database=world;port=3306;password=******";

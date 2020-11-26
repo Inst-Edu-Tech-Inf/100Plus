@@ -256,6 +256,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301365308}
   m_CullTransparentMesh: 0
+--- !u!1 &354477847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354477848}
+  - component: {fileID: 354477850}
+  - component: {fileID: 354477849}
+  m_Layer: 5
+  m_Name: Translators
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &354477848
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354477847}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 943790564}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -628.15, y: -345.74}
+  m_SizeDelta: {x: 600, y: 60}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &354477849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354477847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.017181441, g: 0, b: 0.6320754, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 50
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "Marcin Ko\u0142acz"
+--- !u!222 &354477850
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354477847}
+  m_CullTransparentMesh: 0
 --- !u!1 &382604406
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,8 +368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -629, y: -237}
-  m_SizeDelta: {x: 600, y: 240}
+  m_AnchoredPosition: {x: -90.547, y: -30.972}
+  m_SizeDelta: {x: 1675.2058, y: 61.943817}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382604408
 MonoBehaviour:
@@ -325,7 +403,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Kinga Krause\nMarta Lange\nAmelia Tojza\nWeronika Ko\u0142acz"
+  m_Text: "Kinga Krause, Marta Lange, Amelia Tojza, Weronika Ko\u0142acz"
 --- !u!222 &382604409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -775,7 +853,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -79.602, y: -405.45}
+  m_AnchoredPosition: {x: -79.598, y: -110.39}
   m_SizeDelta: {x: 1697.095, y: 96.89734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804889920
@@ -995,6 +1073,8 @@ RectTransform:
   - {fileID: 1456584205}
   - {fileID: 804889919}
   - {fileID: 761007135}
+  - {fileID: 1791175461}
+  - {fileID: 354477848}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1173,7 +1253,6 @@ MonoBehaviour:
   SkinTutorialLang: []
   MenuLang: []
   iLang: 0
-  isNotificationsAdded: 0
 --- !u!114 &1050027110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1188,10 +1267,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 921333876}
   programisciText: {fileID: 1542960302}
+  cos: {fileID: 0}
   graficyText: {fileID: 1697900703}
   testerzyText: {fileID: 1456584206}
   koncepcjaText: {fileID: 804889920}
   versionText: {fileID: 761007136}
+  tlumaczText: {fileID: 1791175462}
 --- !u!1 &1113320163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,8 +1307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -629, y: 27}
-  m_SizeDelta: {x: 600, y: 120}
+  m_AnchoredPosition: {x: -90.972, y: 120.93}
+  m_SizeDelta: {x: 1674.3555, y: 60.647964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113320165
 MonoBehaviour:
@@ -1261,7 +1342,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz\nWeronika Ko\u0142acz"
+  m_Text: "Marcin Ko\u0142acz, Weronika Ko\u0142acz"
 --- !u!222 &1113320166
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1304,7 +1385,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -79.602, y: -68.551}
+  m_AnchoredPosition: {x: -79.602, y: 42.157}
   m_SizeDelta: {x: 1697.095, y: 96.89734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456584206
@@ -1460,7 +1541,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -79.602, y: 135.45}
+  m_AnchoredPosition: {x: -79.602, y: 199.7}
   m_SizeDelta: {x: 1697.095, y: 96.89734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1697900703
@@ -1504,6 +1585,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697900701}
   m_CullTransparentMesh: 0
+--- !u!1 &1791175460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1791175461}
+  - component: {fileID: 1791175463}
+  - component: {fileID: 1791175462}
+  m_Layer: 5
+  m_Name: TranslatorsText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1791175461
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791175460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 943790564}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -79.598, y: -267.29}
+  m_SizeDelta: {x: 1697.095, y: 96.89734}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1791175462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791175460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.001473067, b: 0.5283019, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 72
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 6
+    m_MaxSize: 72
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Translators
+--- !u!222 &1791175463
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791175460}
+  m_CullTransparentMesh: 0
 --- !u!1 &1850395694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1697,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -629, y: -465}
+  m_AnchoredPosition: {x: -628.15, y: -188.84}
   m_SizeDelta: {x: 600, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850395696
@@ -1616,8 +1775,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -629, y: 255}
-  m_SizeDelta: {x: 600, y: 120}
+  m_AnchoredPosition: {x: -91.8, y: 281.6}
+  m_SizeDelta: {x: 1674.3105, y: 66.89548}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2068298880
 MonoBehaviour:
@@ -1651,7 +1810,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz\nMaksymilian Sroka"
+  m_Text: "Marcin Ko\u0142acz, Maksymilian Sroka"
 --- !u!222 &2068298881
 CanvasRenderer:
   m_ObjectHideFlags: 0

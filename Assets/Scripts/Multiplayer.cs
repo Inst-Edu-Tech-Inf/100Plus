@@ -27,9 +27,14 @@ public class Multiplayer : MonoBehaviour
     public Button aiButton;
     public Button pvpButton;
     public Button startButton;
+    public Button easyButton;
+    public Button mediumButton;
+    public Button hardButton;
+    public Button impossibleButton;
     public Text sciezka;
     public Text adresIP;
     public NetworkRoomManager kopiaRoom;
+    public Text restartText;
     //public Text gameModeText;
     
     public NetworkRoomManager roomManagerShowGUI;
@@ -56,13 +61,13 @@ public class Multiplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SystemLanguage iLang = Application.systemLanguage;
+       // SystemLanguage iLang = Application.systemLanguage;
         //changeBackground();
         //string pom2 = Application.streamingAssetsPath + "/" + SkinManager.instance.tla[SkinManager.instance.ActiveBackground].Name + ".jpg";
         //backgroundImage.sprite = Resources.Load<Sprite>(pom2);
         //StartCoroutine(GetWWWTexture("http://ieti.pl/portal/images/Autumn.jpg"));
         gameConditionsList.value = SkinManager.instance.ActivePlayerMode;
-        switch (iLang)
+       /* switch (iLang)
         {
             case SystemLanguage.English:
                 gameModeText.text = SkinManager.MENU_EN[SkinManager.TRYB_GRY];
@@ -74,7 +79,10 @@ public class Multiplayer : MonoBehaviour
             default:
                 gameModeText.text = SkinManager.MENU_EN[SkinManager.TRYB_GRY];
                 break;
-        }
+        }*/
+        gameModeText.text = SkinManager.instance.MenuLang[SkinManager.TRYB_GRY];
+        restartText.text = SkinManager.instance.MenuLang[SkinManager.RESTART_GRY];
+
         //readyButton.interactable = false;
         readyButton.gameObject.SetActive(false);
         adresIP.gameObject.SetActive(false);
@@ -232,13 +240,43 @@ Android uses files inside a compressed APK
     {
         SkinManager.instance.SetAIDifficulty(SkinManager.AI_EASY);
         PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_EASY);
+        easyButton.interactable = false;
+        mediumButton.interactable = true;
+        hardButton.interactable = true;
+        impossibleButton.interactable = true;
+    }
+
+    public void AIDifficultyMedium()
+    {
+        SkinManager.instance.SetAIDifficulty(SkinManager.AI_MEDIUM);
+        PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_MEDIUM);
+        easyButton.interactable = true;
+        mediumButton.interactable = false;
+        hardButton.interactable = true;
+        impossibleButton.interactable = true;
     }
 
     public void AIDifficultyHard()
     {
+        SkinManager.instance.SetAIDifficulty(SkinManager.AI_HARD);
+        PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_HARD);
+        easyButton.interactable = true;
+        mediumButton.interactable = true;
+        hardButton.interactable = false;
+        impossibleButton.interactable = true;
+    }
+
+    public void AIDifficultyImpossible()
+    {
         SkinManager.instance.SetAIDifficulty(SkinManager.AI_IMPOSSIBLE);
         PlayerPrefs.SetInt("AIDifficulty", SkinManager.AI_IMPOSSIBLE);
+        easyButton.interactable = true;
+        mediumButton.interactable = true;
+        hardButton.interactable = true;
+        impossibleButton.interactable = false;
     }
+
+    
 
     public void PlayerModeChange()
     {

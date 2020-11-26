@@ -190,6 +190,7 @@ public class GameManager : NetworkBehaviour
     public Text infoText;
     public int activeTutorialStep = -1;
     public bool czyWynikWyslany = false;
+    public Text jestesPewny;
 
     //readonly 
     //    SyncList<GameObject> inventory ;//= new SyncList<GameObject>();
@@ -296,6 +297,8 @@ public class GameManager : NetworkBehaviour
     // = false;
     int previousPVPCommand = PVP_IDLE;
     float activeTutorialColor = 0.0f; //byte
+    GameObject lastAICard;
+    Transform activeDropPanel;
 
     [SyncVar(hook = nameof(_SetVictoryPointsP1))]
     float victoryPointsNumberP1 = 0;
@@ -1654,11 +1657,220 @@ public class GameManager : NetworkBehaviour
          */
     }
 
+    void AIMediumPlay()
+    {
+        GameObject cardTask;
+        GameObject cardPowerUp;
+        TextMeshProUGUI valueText;
+        int taskValue = 0;
+        int suma = 0;
+        bool isSuccess = false;
+        int successIndex = 0;
+        //collect first founded and nothing more, without multiply
+        powerUpAICardsToRemove.Clear();
+        playerAICardsRedToRemove.Clear();
+        playerAICardsGreenToRemove.Clear();
+        playerAICardsBlueToRemove.Clear();
+        taskCardAIToRemove = 0;
+        isSuccess = false;
+        bool isMultiply = false;
+        int multiplyIndex = 0;
+
+        CheckAICards();
+
+        for (int i = 0; i < taskCards.Count; ++i)
+        {
+            cardTask = taskCards[i];
+            if ((cardTask.gameObject.activeSelf)) //&&(!isSuccess))
+            {
+                suma = 0;
+                taskValue = int.Parse(cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().text);
+                //Debug.Log("taskValue:" + taskValue);
+                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == redColor)
+                {
+                    //Debug.Log("RED");
+                    for (int j = 0; j < playerAICardsRed.Count; ++j)
+                    {
+                        card = playerAICardsRed[j];
+                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                        //Debug.Log("Card:" + valueText.text);
+                        //Debug.Log("SumaBefore:" + suma);
+                        suma += int.Parse(valueText.text);
+                        //Debug.Log("SumaAfter:" + suma);
+                        if (suma >= taskValue)
+                        {
+                            isSuccess = true;
+                            //playerAICardsToRemove.Clear();
+                            aiCommands.Add(AI_SET_ACTIVE_CARD);
+                            aiCommands.Add(i);
+                            successIndex = j;
+
+                            break;
+                        }
+                        if (isSuccess)
+                            break;
+                        //multiply cards now
+                        isMultiply = false;
+                        for (int jj = 0; jj < powerUpAICards.Count; ++jj)
+                        {
+                            cardPowerUp = powerUpAICards[jj];
+                            for (int kk = 0; kk < int.Parse(cardPowerUp.transform.Find("Red Text").GetComponent<TextMeshProUGUI>().text)-1; ++kk){                                    
+                                suma += int.Parse(valueText.text);
+                            }
+                            if (suma >= taskValue)
+                            {
+                                isSuccess = true;
+                                //playerAICardsToRemove.Clear();
+                                aiCommands.Add(AI_SET_ACTIVE_CARD);
+                                aiCommands.Add(i);
+                                successIndex = j;
+                                isMultiply = true;
+                                multiplyIndex = jj;
+
+                                break;
+                            }
+                            if (isSuccess)
+                                break;
+                        }
+                    } //cards loop
+                    if (isSuccess)
+                    {
+                        //aiCommands.Add(AI_DISCARD_TASK);
+                        //aiCommands.Add(i);
+                        for (int ii = 0; ii <= successIndex; ++ii)
+                        {
+                            //Debug.Log("AddToRemove");
+                            aiCommands.Add(AI_SHOW_POINTS_RED);
+                            aiCommands.Add(ii); //add cards indexes
+                            playerAICardsRedToRemove.Add(ii);
+                        }
+                        if (isMultiply)
+                        {
+                            aiCommands.Add(AI_SHOW_POWERUP);
+                            aiCommands.Add(multiplyIndex);
+                            powerUpAICardsToRemove.Add(multiplyIndex);
+                        }
+                        aiCommands.Add(AI_COLLECT_POINTS);
+                        aiCommands.Add(suma);
+                        aiCommands.Add(taskValue);
+                        break;
+                    }
+                } //redColor
+                if (isSuccess)
+                    break;
+                //now green
+                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == greenColor)
+                {
+                    //Debug.Log("GREEN");
+                    for (int j = 0; j < playerAICardsGreen.Count; ++j)
+                    {
+                        card = playerAICardsGreen[j];
+                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                        //Debug.Log("Card:" + valueText.text);
+                        //Debug.Log("SumaBefore:" + suma);
+                        suma += int.Parse(valueText.text);
+                        //Debug.Log("SumaAfter:" + suma);
+                        if (suma >= taskValue)
+                        {
+                            isSuccess = true;
+                            //playerAICardsToRemove.Clear(); 
+                            aiCommands.Add(AI_SET_ACTIVE_CARD);
+                            aiCommands.Add(i);
+                            successIndex = j;
+
+                            break;
+                        }
+                        if (isSuccess)
+                            break;
+                    } //cards loop
+                    if (isSuccess)
+                    {
+                        //aiCommands.Add(AI_DISCARD_TASK);
+                        //aiCommands.Add(i);
+                        for (int ii = 0; ii <= successIndex; ++ii)
+                        {
+                            //Debug.Log("AddToRemove");
+                            aiCommands.Add(AI_SHOW_POINTS_GREEN);
+                            aiCommands.Add(ii); //add cards indexes
+                            playerAICardsGreenToRemove.Add(ii);
+                        }
+                        aiCommands.Add(AI_COLLECT_POINTS);
+                        aiCommands.Add(suma);
+                        aiCommands.Add(taskValue);
+                        break;
+                    }
+                } //greenColor
+                if (isSuccess)
+                    break;
+                //now blue
+                if (cardTask.transform.Find("Value Text").GetComponent<TextMeshProUGUI>().color == blueColor)
+                {
+                    //Debug.Log("BLUE");
+                    for (int j = 0; j < playerAICardsBlue.Count; ++j)
+                    {
+                        card = playerAICardsBlue[j];
+                        valueText = card.transform.Find("Addition Text").GetComponent<TextMeshProUGUI>();
+                        //Debug.Log("Card:" + valueText.text);
+                        //Debug.Log("SumaBefore:" + suma);
+                        suma += int.Parse(valueText.text);
+                        //Debug.Log("SumaAfter:" + suma);
+                        if (suma >= taskValue)
+                        {
+                            isSuccess = true;
+                            //playerAICardsToRemove.Clear(); 
+                            aiCommands.Add(AI_SET_ACTIVE_CARD);
+                            aiCommands.Add(i);
+                            successIndex = j;
+
+                            break;
+                        }
+                        if (isSuccess)
+                            break;
+                    } //cards loop
+                    if (isSuccess)
+                    {
+                        //aiCommands.Add(AI_DISCARD_TASK);
+                        //aiCommands.Add(i);
+                        for (int ii = 0; ii <= successIndex; ++ii)
+                        {
+                            //Debug.Log("AddToRemove");
+                            aiCommands.Add(AI_SHOW_POINTS_BLUE);
+                            aiCommands.Add(ii); //add cards indexes
+                            playerAICardsBlueToRemove.Add(ii);
+                        }
+                        aiCommands.Add(AI_COLLECT_POINTS);
+                        aiCommands.Add(suma);
+                        aiCommands.Add(taskValue);
+                        break;
+                    }
+                } //blueColor
+                if (isSuccess)
+                    break;
+            } //active Task
+            if (isSuccess)
+                break;
+        }
+
+        aiCommands.Add(AI_END_TURN);
+
+        /*
+        AI_IDLE = 0;
+        public const int AI_END_TURN = 1;
+        public const int AI_SET_ACTIVE_CARD = 2;
+        public const int AI_COLLECT_POINTS = 3;
+        public const int AI_DISCARD_TASK = 4;
+        public const int AI_DISCARD_AI_PLAYER_CARD = 5;
+        public const int AI_DISCARD_AI_POWERUP_CARD = 6;
+        public const int AI_PLAY_AI_PLAYER_CARD = 7;
+        public const int AI_PLAY_AI_POWERUP_CARD = 8;
+         */
+    }
+
     void RunAICommand(int number)
     {
         Transform dropPanel;
         GameObject card;
-
+        try{
         switch (number)
         {
             case AI_END_TURN:
@@ -1718,8 +1930,11 @@ public class GameManager : NetworkBehaviour
             case AI_SHOW_POINTS_RED:
                 aiCommands.RemoveAt(0);
                 dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
-                playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                Debug.Log("aiCommands nr:"+aiCommands[0]);
+                playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(dropPanel);//tu b³¹d dla taskCards drugiego etapu
+                //playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(activeDropPanel);
                 //playerAICardsRedToRemove.Add(aiCommands[0]);
+                lastAICard = playerAICardsRed[aiCommands[0]];
                 aiCommands.RemoveAt(0);
                 //cout << "got Hearts \n";
                 break;
@@ -1727,7 +1942,9 @@ public class GameManager : NetworkBehaviour
                 aiCommands.RemoveAt(0);
                 dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
                 playerAICardsGreen[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                //playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(activeDropPanel);
                 //playerAICardsGreenToRemove.Add(aiCommands[0]);
+                lastAICard = playerAICardsGreen[aiCommands[0]];
                 aiCommands.RemoveAt(0);
                 //cout << "got Clubs \n";
                 break;
@@ -1735,6 +1952,8 @@ public class GameManager : NetworkBehaviour
                 aiCommands.RemoveAt(0);
                 dropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
                 playerAICardsBlue[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
+                //playerAICardsRed[aiCommands[0]].gameObject.transform.SetParent(activeDropPanel);
+                lastAICard = playerAICardsBlue[aiCommands[0]];
                 //playerAICardsBlueToRemove.Add(aiCommands[0]);
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
@@ -1749,8 +1968,9 @@ public class GameManager : NetworkBehaviour
                 //cout << "got Spades \n";
                 break;
             case AI_SHOW_POWERUP:
-                aiCommands.RemoveAt(0);
                 //dodaj powerup do ostatnio dodanej playerAICard
+                dropPanel = lastAICard.gameObject.transform.Find("Player Drop Panel");
+                powerUpAICards[aiCommands[0]].gameObject.transform.SetParent(dropPanel);
 
                 aiCommands.RemoveAt(0);
                 //cout << "got Spades \n";
@@ -1773,6 +1993,12 @@ public class GameManager : NetworkBehaviour
 
             // default:
             //    cout << "didn't get card \n";
+        }
+        }
+         catch (Exception ex)
+        {
+            //blad kolorow
+            Debug.Log("B³¹d AI:" + ex);
         }
     }
 
@@ -2058,6 +2284,7 @@ Android uses files inside a compressed APK
             transparentButton.gameObject.SetActive(false);
             //Debug.Log("BEF"+transparentPlayerCardPanel.activeSelf);
             CheckCardNumbers(false);
+             activeDropPanel = activeCard.gameObject.transform.Find("RawImage").GetComponent<RawImage>().transform.parent.gameObject.transform.Find("Drop Panel");
             //Debug.Log("AFT"+transparentPlayerCardPanel.activeSelf);
         }
         else
@@ -2377,6 +2604,7 @@ Android uses files inside a compressed APK
         closeConfirmationPanel.gameObject.SetActive(false);
         transparentAllPanel.gameObject.SetActive(false);
         endTurnBtn.SetActive(false);
+        jestesPewny.text = SkinManager.instance.MenuLang[SkinManager.JESTES_PEWNY];
         if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_PVP)
         {
             //inventory.Callback += OnInventoryUpdated;
@@ -2949,7 +3177,7 @@ Android uses files inside a compressed APK
                 {
                     if (SkinManager.instance.ActivePlayerMode == GAME_CONDITION_AI)
                     {
-                        if (SkinManager.instance.AIDifficulty != SkinManager.AI_EASY)
+                        if (SkinManager.instance.AIDifficulty >= SkinManager.AI_HARD)
                         {
                             if (float.Parse(victoryPoints.text) > float.Parse(victoryPointsP2.text))
                             {
@@ -4206,15 +4434,26 @@ Android uses files inside a compressed APK
                 if (SkinManager.instance.AIDifficulty == SkinManager.AI_EASY)
                 {
                     AIEasyPlay();
-                    AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
+                    //AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
                 }
                 else
                 {
+                    if (SkinManager.instance.AIDifficulty == SkinManager.AI_MEDIUM)
+                    {
+                        AIMediumPlay();
+                    }
+                    else
+                    if (SkinManager.instance.AIDifficulty == SkinManager.AI_HARD)
+                    {
+                        //
+                    }
+                    else
                     if (SkinManager.instance.AIDifficulty == SkinManager.AI_IMPOSSIBLE)
                     {
                         //
                     }
                 }
+                 AIActivityTime = SkinManager.AI_ACTIVITY_TIME;
             }
 
             //zmiana isHostTurn
