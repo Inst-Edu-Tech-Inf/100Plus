@@ -290,8 +290,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -628.15, y: -345.74}
-  m_SizeDelta: {x: 600, y: 60}
+  m_AnchoredPosition: {x: -90.546936, y: -345.74}
+  m_SizeDelta: {x: 1675.206, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354477849
 MonoBehaviour:
@@ -325,7 +325,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz"
+  m_Text: "Marcin Ko\u0142acz, Anna Zhydyk"
 --- !u!222 &354477850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1267,7 +1267,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 921333876}
   programisciText: {fileID: 1542960302}
-  cos: {fileID: 0}
   graficyText: {fileID: 1697900703}
   testerzyText: {fileID: 1456584206}
   koncepcjaText: {fileID: 804889920}

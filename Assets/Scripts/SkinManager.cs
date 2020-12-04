@@ -174,14 +174,14 @@ public class SkinManager : MonoBehaviour
         "Niechlujny Artysta","Idealny Czarodziej",
         "Niechlujny Czarodziej","Bogactwo","Doskonale","Szczęściarz", 
         "Daleka droga"};
-    public static string[] OSIAGNIECIA_OPIS_PL = new string[] { "Ukończony samouczek", "Odblokowane zaawansowane karty mnożników", "Szybszy niż błyskawica","Szybszy niż œwiatło","Pomnóż dwukrotnie",
+    public static string[] OSIAGNIECIA_OPIS_PL = new string[] { "Ukończony samouczek", "Odblokowane zaawansowane karty mnożników", "Szybszy niż błyskawica","Szybszy niż światło","Pomnóż dwukrotnie",
         "Pomnóż trzykrotnie","Pomnóż czterokrotnie","Wygraj grę solo","Wygraj grę z komputerem (poziom hard)", "Wygraj grę z innym graczem","Uzbieraj sam " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_1ST.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " punktów - tylko za duże wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_2ND.ToString() + " punktów - tylko idealne wyniki",
-        "Uzbieraj przeciw innyms " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
+        "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " punktów - tylko za duże wyniki","Uzbieraj sam " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj sam " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw SI " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw SI " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Uzbieraj przeciw innym " + ACHIEVEMENT_PURE_3RD.ToString() + " punktów - tylko idealne wyniki",
         "Uzbieraj przeciw innym " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " punktów - tylko za duże wyniki","Jestem bogaty...","Po prostu perfekcyjna gra", "Ryzyko czasem popłaca",
@@ -290,7 +290,83 @@ public class SkinManager : MonoBehaviour
         "The price($) changed colour to green. Choose any frame and buy it by tapping coins icon near choosen frame",
         "The bought frame is now active. You set active skins by tapping on the mark √"
         };
-
+    //Russian
+    //Скины
+    public static string[] SKORKI_RU = new string[] { "Вижу огонь", "Властелин Колец", "Зиуууу...", "Я видел огонь", "Властелин колец", "зиуууу...", "Кольцо",
+        "Aaaaaaa! Тролль!","Единорог","сыграем","все вместе", "Зимородок"};
+    //Рамки
+    public static string[] RAMKI_RU = new string[] { "Золотой прямоугольник", "белый котенок", "Hello kitty","как в альбоме","как на старой фотографии", "шаг за шагом",
+        "Вместе","Вместе","Пианино","Волны","Золотые волны","Небесные волны","Травянистые волны","Розовые волны","Огненные волны"};
+    //Фон
+    public static string[] TLA_RU = new string[] { "Итого...", "Итого...", "глубокое пространство", "ярче Summ On",  "Бууум","спиральная галактика","Радуга","Мороз",
+        "Готов, хватай, рисуй","Пальма","Орхидея","на Луну!","Земля","озеро в лесу","так розово...","Цветок","Осень","Каштаны","Роза", "Черепаха",
+        "Сатурн","Солнечная система","дикий и грозный","фейерверк","где сокровище?"};
+    //Музика
+    public static string[] MUZYKI_RU = new string[] { "Как  сладко", "сумасшедшая", "как мило" };
+    //Достижения
+    public static string[] OSIAGNIECIA_RU = new string[] { "Трудное начало", "смена карт", "быстрый","более быстрый","двойной",
+        "Тройной","Четверной","Победитель","Быстрый","Более быстрый","Идеальный Ученик",
+        "Неаккуратный Студент","Идеальный Работник",
+        "Неаккуратный Работник", "Идеальный Помощник",
+        "Неаккуратный Помощник","Идеальный Подмастерье",
+        "Неряшливый Подмастерье","Идеальный Ремесленник",
+        "Неряшливый Мастер","Идеальный Маг",
+        "Неаккуратный Маг","Идеальный Мастер",
+        "Грязный Мастер", "Идеальный Художник",
+        "Неряшливый Художник","Идеальный Волшебник",
+        "Неаккуратный Волшебник","Богатство","Отлично","Счастливчик",
+        "Далекий путь"};
+    //Описание достижений
+    public static string[] OSIAGNIECIA_OPIS_RU = new string[] { "Завершенный учебный уровень", "разблокированные расширенные карты множителей", "быстрее молнии","быстрее света","умножь дважды",
+        "Умножь в три раза","умножь в четыре раза","выиграй сольную игру","выиграй игру с компьютером (сложный уровень)", "выиграй игру с другим игроком","получи  " + ACHIEVEMENT_PURE_1ST.ToString() + " очков в одиночку - только идеальные результаты",
+        "получи  " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " очков в одиночку - только за превышены результаты","Набери " + ACHIEVEMENT_PURE_1ST.ToString() + " очков против Си - только идеальные результаты",
+        "Набери " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " очков против Си - только превышены результаты","Набери против других " + ACHIEVEMENT_PURE_1ST.ToString() + " очков - только идеальные результаты",
+        "Набери против других " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " очков, только превышены результаты","получи  " + ACHIEVEMENT_PURE_2ND.ToString() + " очков в одиночку - только идеальные результаты",
+        "получи  " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " очков в одиночку - только за превышены результаты","Набери " + ACHIEVEMENT_PURE_2ND.ToString() + " очков против Си - только идеальные результаты",
+        "Набери " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " очков против Си - только превышены результаты","Набери против других " + ACHIEVEMENT_PURE_2ND.ToString() + " очков - только идеальные результаты",
+        "Набери против других " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " очков, только превышены результаты","получи  " + ACHIEVEMENT_PURE_3RD.ToString() + " очков в одиночку - только идеальные результаты",
+        "получи  " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " очков в одиночку - только за превышены результаты","Набери " + ACHIEVEMENT_PURE_3RD.ToString() + " очков против Си - только идеальные результаты",
+        "Набери " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " очков против Си - только превышены результаты","Набери против других " + ACHIEVEMENT_PURE_3RD.ToString() + " очков - только идеальные результаты",
+        "Набери против других " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " очков, только превышены результаты","я богат...","Просто идеальная игра", "риск иногда окупается",
+        "Используй 5 карт за раз, чтобы собрать идеальный результат"};
+    //Меню
+    public static string[] MENU_RU = new string[] { "Программисты", "Графические дизайнеры", "Тестеры сайтов", "Концепция игры", "Условия победы", "Конец тура игрока", "Звук", "Режим игры",
+        "Готовый", "Название школы", "Символ класса (например 4a) ", "Количество учеников в классе", "Код ученика", "Возраст", "занятий  или неправильный код",
+        "Подай сокращенное название школы, напр. SP1", "Подай сокращенное название класса, напр. 4a",
+        "Отправь код ученикам", "Сыграй лиговый матч ", "SummOn Liga", "Перевод",
+        "Или ты определен?", "введите сюда код, который вы получили от учителя",
+        "Ты должен зарегистрировать игру, чтобы сыграть в порядке для многих игроков!", "Зарегистрируйся"};
+    //Самоучка
+    public static string[] SAMOUCZEK_RU = new string[] {
+        "Твоим заданием является собрать соответствующее количество очков в соответствующем цвете, пока что у тебя нет красных карт, поэтому закончи тур кнопкой с правой стороны",
+        "Появилось следующее задание также две новых карты, опять закончи тур",
+        "’По-прежнему тебе недостаточно  красных карт, опять закончи тур",
+        "Поскольку в нижнем поясе ты имеешь слишком много карт, ты должен отбросить две в корзину",
+        "Закончи тур",
+        "Отбрось две карты  другого цвета  чем красный",
+        "Поскольку собралось слишком много заданий, устрани зеленое задание, щелкни по ней ",
+        "Чтобы получить пункты за красную карту (16) заданий, щелкни по ней",
+        "Щелкни по порядку обе карты из нижней готовальни и одобри щелчком по зеленому знаку √",
+        "Ты  получил точно одно очко. Закончи тур",
+        "Отбрось две карты другого цвета чем красный",
+        "Нажми красное задание под номером 11",
+        "Нажми по очереди две карты (6) из нижней панели инструментов и примите, нажав на зеленый знак √",
+        "Поскольку 6+6=12 больше 11, ты получил только 0,48 очка. Завершить ход",
+        "\n \n \n \n \n \nИз-за того что многие задачи одного цвета, ты можешь изменить их, потратив 1 балл. Нажми изображение с подковами и кубиками",
+        "Ты заработал достижение '"+OSIAGNIECIA_PL[LUCKY]+"' и 5 монет, чтобы купить скины. Продолжай играть, чтобы набрать 6 очков",
+        "Ты заработал достижение '"+OSIAGNIECIA_PL[LATEPASS]+"' и 5 монет, чтобы купить скины. Завершить ход",
+        "Нажми красное задание под номером  33",
+        "Нажми на красную карту номер 11 из нижней панели инструментов, перетащи на нее карту' 3x ' из правого угла и прими знак √",
+        "Ты набрал 3 очка и завершил учебный уровень. Ты можете закончить игру и потратить монеты в магазине скинов"
+        };
+    //Магазин
+    public static string[] SAMOUCZEK_SKLEP_RU = new string[] {
+        "Измени внешний вид карты. Нажми изображение → или ←",
+        "Поскольку он еще не разблокирован, ты видишь значок монет. Стоимость ( $ ) стала красной. Нажми изображение рамки рядом с бабочкой",
+        "Теперь измени  внешний вид рамки. Нажми на изображение → или ←",
+        "Стоимость стала зеленой. Выбери любую рамку и купи ее, нажав на значок монеты рядом с выбранной рамкой",
+        "Купленная рамка активна. Активные скины устанавливаются нажатием на символ √"
+        };
 
 
 
@@ -462,6 +538,17 @@ public class SkinManager : MonoBehaviour
                 TutorialLang = SAMOUCZEK_PL;
                 SkinTutorialLang = SAMOUCZEK_SKLEP_PL;
                 MenuLang = MENU_PL;
+                break;
+            case SystemLanguage.Russian:
+                skorkiLang = SKORKI_RU;
+                ramkiLang = RAMKI_RU;
+                tlaLang = TLA_RU;
+                muzykiLang = MUZYKI_RU;
+                osiagnieciaLang = OSIAGNIECIA_RU;
+                osiagnieciaOpisLang = OSIAGNIECIA_OPIS_RU;
+                TutorialLang = SAMOUCZEK_RU;
+                SkinTutorialLang = SAMOUCZEK_SKLEP_RU;
+                MenuLang = MENU_RU;
                 break;
             default:
                 skorkiLang = SKORKI_EN;
