@@ -191,7 +191,7 @@ public class GameManager : NetworkBehaviour
     public int activeTutorialStep = -1;
     public bool czyWynikWyslany = false;
     public Text jestesPewny;
-
+    
     //readonly 
     //    SyncList<GameObject> inventory ;//= new SyncList<GameObject>();
 
@@ -2375,7 +2375,7 @@ Android uses files inside a compressed APK
         int howManyCards = actualTaskCardsCount;
         //if (actualTaskCardsCount <= maxTaskCards)
         //    howManyCards--;
-        if (!SkinManager.instance.MiddlePass)
+        if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))
         {
             if (activeTutorialStep == SkinManager.SAMOUCZEK_ZMIEN_KOLORY)
             {
@@ -2545,7 +2545,7 @@ Android uses files inside a compressed APK
             }
             else
             {
-                if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial)) //zacznij tutorial
                 {
                     if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
                     {
@@ -2618,7 +2618,7 @@ Android uses files inside a compressed APK
         else
         {
             //infoText.gameObject.SetActive(false);
-            if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+            if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial)) //zacznij tutorial
             {
                 infoText.gameObject.SetActive(true);
                 //infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep]; //"Zaczynamy tutorial";
@@ -2748,7 +2748,7 @@ Android uses files inside a compressed APK
 
         for (int i = 0; i < playerCardsOnStart; i++)
         {
-            if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+            if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
             {
                 if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
                 {
@@ -2875,7 +2875,7 @@ Android uses files inside a compressed APK
         }
 
         //infoText.text = GetPVPValue1().ToString() + ",Comm:" + GetPVPCommand().ToString();
-        if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+        if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
         {
             infoText.text = SkinManager.instance.TutorialLang[activeTutorialStep];
             if (activeTutorialColor >= 1.0f)
@@ -4148,7 +4148,7 @@ Android uses files inside a compressed APK
         {
             if (playerCards.Count > maxPlayerCards)
             {
-                if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial)) //zacznij tutorial
                 {
                     if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_ZIELONE) //
                     {
@@ -4180,7 +4180,7 @@ Android uses files inside a compressed APK
                 else //trash tasks
                 {
                     //Debug.Log("Step:" + activeTutorialStep);
-                    if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                    if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial)) //zacznij tutorial
                     {
                         //Debug.Log("StepTrash:" + activeTutorialStep);
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_INNE_CZERWONE) //
@@ -4209,7 +4209,7 @@ Android uses files inside a compressed APK
         else
         {
             //Debug.Log("Step:" + activeTutorialStep);
-            if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+            if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
             {
                 if (activeTutorialStep == SkinManager.SAMOUCZEK_ODRZUC_DWIE) //
                 {
@@ -4257,7 +4257,7 @@ Android uses files inside a compressed APK
         bool czyBrakZadan = true;
         GameObject cardTask;
 
-        if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+        if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
         {
             if ((activeTutorialStep != SkinManager.SAMOUCZEK_POCZATEK) &&
                 (activeTutorialStep != SkinManager.SAMOUCZEK_KOLEJNE_ZADANIE) &&
@@ -4312,7 +4312,7 @@ Android uses files inside a compressed APK
                 }
                 else
                 {
-                    if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                    if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
                     {
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
                         {
@@ -4358,7 +4358,7 @@ Android uses files inside a compressed APK
             {
                 //if (SkinManager.instance.ActivePlayerMode != GAME_CONDITION_AI)
                 {
-                    if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                    if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
                     {
                         if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK) //SAMOUCZEK_BRAK_CZERWONYCH
                         {
@@ -4413,7 +4413,7 @@ Android uses files inside a compressed APK
                     }
                     else
                     {
-                        if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                        if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
                         {
                             if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_TRUDNY)
                             {
@@ -4563,7 +4563,7 @@ Android uses files inside a compressed APK
         }
 
         isFirstTurn = false;
-        if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+        if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))//zacznij tutorial
         {
             if (activeTutorialStep == SkinManager.SAMOUCZEK_POCZATEK)
             {
@@ -5275,7 +5275,7 @@ Android uses files inside a compressed APK
         }
         if (Victory == Suma)
         {
-            if (!SkinManager.instance.MiddlePass)
+            if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))
             {
                 if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE) //
                 {
@@ -5393,7 +5393,7 @@ Android uses files inside a compressed APK
         {
             if (Suma > Victory)
             {
-                if (!SkinManager.instance.MiddlePass)
+                if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial))
                 {
                     if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBADZ_CZERWONE11) //
                     {
@@ -5511,7 +5511,7 @@ Android uses files inside a compressed APK
         {
             if (GetVictoryPoints() < middleGamePoint)
             {
-                if (!SkinManager.instance.MiddlePass) //zacznij tutorial
+                if ((!SkinManager.instance.MiddlePass) && (!SkinManager.instance.SkipTutorial)) //zacznij tutorial
                 {
                     if (activeTutorialStep == SkinManager.SAMOUCZEK_ZDOBYLES_SZCZESCIARZ) //
                     {

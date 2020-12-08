@@ -5656,7 +5656,7 @@ MonoBehaviour:
   maxPlayerTurnInSeconds: 0
   earlyGamePoint: 6
   middleGamePoint: 48
-  lateGamePoint: 150
+  lateGamePoint: 120
   earlyGamePlayerCardMax: 10
   middleGamePlayerCardMax: 15
   lateGamePlayerCardMax: 30

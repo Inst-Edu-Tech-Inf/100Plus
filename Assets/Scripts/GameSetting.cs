@@ -19,6 +19,8 @@ public class GameSetting : MonoBehaviour
     public Text soundSettingsText;
     public AudioSource soundBackground;
     public AudioSource soundSFX;
+    public Toggle skipTutorial;
+    public Text skipTutorialText;
     // Start is called before the first frame update
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
@@ -56,9 +58,11 @@ public class GameSetting : MonoBehaviour
             sliderSound.value = SkinManager.instance.ActiveSoundValue;
             victoryList.value = SkinManager.instance.ActiveVictoryConditions;
             playerTurnList.value = SkinManager.instance.ActivePlayerTurnConditions;
+            skipTutorial.isOn = SkinManager.instance.SkipTutorial;
+            
 
-        
-    
+
+
         }
             
         catch (System.Exception exception)
@@ -89,7 +93,8 @@ public class GameSetting : MonoBehaviour
                 victorySettingsText.text = SkinManager.instance.MenuLang[SkinManager.WARUNKI_ZWYCIESTWA];
                 playerTurnText.text = SkinManager.instance.MenuLang[SkinManager.KONIEC_TURY_GRACZA];
                 soundSettingsText.text = SkinManager.instance.MenuLang[SkinManager.DZWIEK];
-            }
+                skipTutorialText.text = SkinManager.instance.MenuLang[SkinManager.SKIP_TUTORIAL];
+        }
             
         catch (System.Exception exception)
         {
@@ -140,6 +145,12 @@ Android uses files inside a compressed APK
     public void Back()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void SkipTutorial()
+    {
+        SkinManager.instance.SetSkipTutorial(skipTutorial.isOn);
+        PlayerPrefs.SetInt("SkipTutorial", skipTutorial.isOn ? 1 : 0);
     }
 
     public void SoundVolume()

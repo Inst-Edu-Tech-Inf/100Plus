@@ -154,6 +154,8 @@ public class SkinManager : MonoBehaviour
     public const int KOD_OD_NAUCZYCIELA = 22;
     public const int RESTART_GRY = 23;
     public const int REJESTRUJ_SIE = 24;
+    public const int SKIP_TUTORIAL = 25;
+
     public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
     public static string[] RAMKI_PL = new string[] { "Złoty prostokąt", "Biały kociak", "Hello kitty","Jak w albumie","Jak na dawnej fotografii", "Krok po kroku",
@@ -191,7 +193,7 @@ public class SkinManager : MonoBehaviour
         "Podaj skróconą nazwę szkoły, np. SP1", "Podaj skróconą nazwę klasy, np. 4a", 
         "Udostępnij kody uczniom", "Zagraj mecz ligowy", "SummOn Liga", "Tłumaczenie",
         "Czy jesteś pewny?", "tu wpisz kod, który otrzymałeś od nauczyciela",
-        "Musisz zrestartować SummOn żeby zagrać w trybie dwóch graczy!", "Zarejestruj się"};
+        "Musisz zrestartować SummOn żeby zagrać w trybie dwóch graczy!", "Zarejestruj się", "Pomiń samouczek"};
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -260,7 +262,7 @@ public class SkinManager : MonoBehaviour
         "Short school name can't be empty (i.e.PS1)", "Short class name can't be empty (i.e.4a)", 
         "Give students the codes", "Play league match", "SummOn League" , "Translators",
         "Are you sure?", "the code received from your teacher write here",
-        "You need to restart SummOn to play multiplayer mode!", "Remember to registry"};
+        "You need to restart SummOn to play multiplayer mode!", "Remember to registry", "Skip Tutorial"};
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",
@@ -335,7 +337,7 @@ public class SkinManager : MonoBehaviour
         "Подай сокращенное название школы, напр. SP1", "Подай сокращенное название класса, напр. 4a",
         "Отправь код ученикам", "Сыграй лиговый матч ", "SummOn Liga", "Перевод",
         "Или ты определен?", "введите сюда код, который вы получили от учителя",
-        "Ты должен зарегистрировать игру, чтобы сыграть в порядке для многих игроков!", "Зарегистрируйся"};
+        "Ты должен зарегистрировать игру, чтобы сыграть в порядке для многих игроков!", "Зарегистрируйся", "пропустить руководство"};
     //Самоучка
     public static string[] SAMOUCZEK_RU = new string[] {
         "Твоим заданием является собрать соответствующее количество очков в соответствующем цвете, пока что у тебя нет красных карт, поэтому закончи тур кнопкой с правой стороны",
@@ -484,6 +486,7 @@ public class SkinManager : MonoBehaviour
     public bool PureGame = false;
     public bool Lucky = false;
     public bool LongWay = false;
+    public bool SkipTutorial = false;
 
     public static SkinManager instance;
     public int CurrentScore;
@@ -912,6 +915,7 @@ public class SkinManager : MonoBehaviour
         WinPVP = (PlayerPrefs.GetInt("WinPVP") != 0);
         Lucky = (PlayerPrefs.GetInt("Lucky") != 0);
         LongWay = (PlayerPrefs.GetInt("LongWay") != 0);
+        SkipTutorial = (PlayerPrefs.GetInt("SkipTutorial") != 0);
         AIDifficulty = PlayerPrefs.GetInt("AIDifficulty");
         //TODO progres
         // Debug.Log(osiagniecia.Count);
@@ -1081,6 +1085,11 @@ public class SkinManager : MonoBehaviour
     public void SetLucky(bool Value)
     {
         Lucky = Value;
+    }
+
+    public void SetSkipTutorial(bool Value)
+    {
+        SkipTutorial = Value;
     }
 
     public void SetUnlockAllSkins(bool Value)
