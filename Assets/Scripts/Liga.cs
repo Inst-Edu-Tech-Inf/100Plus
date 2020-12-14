@@ -76,10 +76,13 @@ public class Liga : MonoBehaviour
     public GameObject panelBlad;
     public Text bladText;
     public Text kodUczniaPlaceholderText;
+    public Text idText;
+    public Text graczText;
+    public Text szkolaText;
 
-   // private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
-   // public string addScoreURL = "http://summon.ieti.pl/addscore.php";//"http://localhost/unity_test/addscore.php?"; //be sure to add a ? to your url
-   // public string highscoreURL = "http://summon.ieti.pl/display.php";//"http://localhost/unity_test/display.php";
+    // private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
+    // public string addScoreURL = "http://summon.ieti.pl/addscore.php";//"http://localhost/unity_test/addscore.php?"; //be sure to add a ? to your url
+    // public string highscoreURL = "http://summon.ieti.pl/display.php";//"http://localhost/unity_test/display.php";
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -543,39 +546,46 @@ public class Liga : MonoBehaviour
         wiekUczniowText.text = SkinManager.instance.MenuLang[SkinManager.WIEK_UCZNIA];
         kodZajety = SkinManager.instance.MenuLang[SkinManager.KOD_ZAJETY];
         kodUczniaPlaceholderText.text = SkinManager.instance.MenuLang[SkinManager.KOD_OD_NAUCZYCIELA];
-        
-     /*
-         string connStr = "server=localhost;user=root;database=world;port=3306;password=******";
-         MySqlConnection conn = new MySqlConnection(connStr);
-         try
-         {
-             Console.WriteLine("Connecting to MySQL...");
-             conn.Open();
+        graczText.text = SkinManager.instance.MenuLang[SkinManager.GRACZ];
+        szkolaText.text = SkinManager.instance.MenuLang[SkinManager.SZKOLA];
 
-             string sql = "SELECT COUNT(*) FROM Country";
-             MySqlCommand cmd = new MySqlCommand(sql, conn);
-             object result = cmd.ExecuteScalar();
-             if (result != null)
-             {
-                 int r = Convert.ToInt32(result);
-                 Console.WriteLine("Number of countries in the world database is: " + r);
-             }
 
-         }
-         catch (Exception ex)
-         {
-             Console.WriteLine(ex.ToString());
-         }
+        /*
+            string connStr = "server=localhost;user=root;database=world;port=3306;password=******";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
 
-         conn.Close();
-         Console.WriteLine("Done.");*/
-     
+                string sql = "SELECT COUNT(*) FROM Country";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    int r = Convert.ToInt32(result);
+                    Console.WriteLine("Number of countries in the world database is: " + r);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            conn.Close();
+            Console.WriteLine("Done.");*/
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void ShowID()
+    {
+        idText.gameObject.SetActive(!idText.gameObject.activeSelf);
     }
 
     public void NauczycielClick()

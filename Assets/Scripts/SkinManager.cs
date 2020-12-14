@@ -155,6 +155,8 @@ public class SkinManager : MonoBehaviour
     public const int RESTART_GRY = 23;
     public const int REJESTRUJ_SIE = 24;
     public const int SKIP_TUTORIAL = 25;
+    public const int GRACZ = 26;
+    public const int SZKOLA = 27;
 
     public static string[] SKORKI_PL = new string[] { "Widzę ogień", "Władca Pierścieni", "Ziuuuu...", "Widziałem ogień", "Władca pierścieni", "ziuuuu...", "Pierścionek",
         "Aaaaaaa! Troll!","Jednorożec","Zagrajmy","Wszyscy razem", "Zimorodek"};
@@ -169,7 +171,7 @@ public class SkinManager : MonoBehaviour
         "Niechlujny Uczeń","Idealny Pracownik",
         "Niechlujny Pracownik", "Idealny Akolita",
         "Niechlujny Akolita","Idealny Czeladnik",
-        "Niechlujny Czeladnk","Idealny Rzemieślnik",
+        "Niechlujny Czeladnik","Idealny Rzemieślnik",
         "Niechlujny Rzemieślnik","Idealny Magik",
         "Niechlujny Magik","Idealny Master",
         "Niechlujny Master", "Idealny Artysta",
@@ -193,7 +195,8 @@ public class SkinManager : MonoBehaviour
         "Podaj skróconą nazwę szkoły, np. SP1", "Podaj skróconą nazwę klasy, np. 4a", 
         "Udostępnij kody uczniom", "Zagraj mecz ligowy", "SummOn Liga", "Tłumaczenie",
         "Czy jesteś pewny?", "tu wpisz kod, który otrzymałeś od nauczyciela",
-        "Musisz zrestartować SummOn żeby zagrać w trybie dwóch graczy!", "Zarejestruj się", "Pomiń samouczek"};
+        "Musisz zrestartować SummOn żeby zagrać w trybie dwóch graczy!", "Zarejestruj się", "Pomiń samouczek",
+        "Gracz", "Szkoła"};
     // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
     public static string[] SAMOUCZEK_PL = new string[] { 
         "Twoim zadaniem jest zebrać odpowiednią ilość punktów w odpowiednim kolorze, Na razie nie masz czerwonych kart, dlatego zakończ turę przyciskiem z prawej strony",
@@ -262,7 +265,8 @@ public class SkinManager : MonoBehaviour
         "Short school name can't be empty (i.e.PS1)", "Short class name can't be empty (i.e.4a)", 
         "Give students the codes", "Play league match", "SummOn League" , "Translators",
         "Are you sure?", "the code received from your teacher write here",
-        "You need to restart SummOn to play multiplayer mode!", "Remember to registry", "Skip Tutorial"};
+        "You need to restart SummOn to play multiplayer mode!", "Remember to registry", "Skip Tutorial",
+        "Player", "School"};
     public static string[] SAMOUCZEK_EN = new string[] { 
         "Your task is collect enough points at correct colour. You don't have red cards yet. End turn now by tapping button on right edge of screen",
         "You see next task and two new cards. Again end turn",
@@ -337,7 +341,8 @@ public class SkinManager : MonoBehaviour
         "Подай сокращенное название школы, напр. SP1", "Подай сокращенное название класса, напр. 4a",
         "Отправь код ученикам", "Сыграй лиговый матч ", "SummOn Liga", "Перевод",
         "Или ты определен?", "введите сюда код, который вы получили от учителя",
-        "Ты должен зарегистрировать игру, чтобы сыграть в порядке для многих игроков!", "Зарегистрируйся", "пропустить руководство"};
+        "Ты должен зарегистрировать игру, чтобы сыграть в порядке для многих игроков!", "Зарегистрируйся", "пропустить руководство",
+        "Игрок", "Школа"};
     //Самоучка
     public static string[] SAMOUCZEK_RU = new string[] {
         "Твоим заданием является собрать соответствующее количество очков в соответствующем цвете, пока что у тебя нет красных карт, поэтому закончи тур кнопкой с правой стороны",
@@ -370,7 +375,85 @@ public class SkinManager : MonoBehaviour
         "Купленная рамка активна. Активные скины устанавливаются нажатием на символ √"
         };
 
-
+    //France
+    //Skins
+    public static string[] SKORKI_FR = new string[] { "Je vois le feu", "Le Seigneur des anneaux", "Ziuuuu...", "J'ai vu le feu", "Le Seigneur des anneaux", "ziuuuu...", "Anneau",
+        "Aaaaaaa! Troll!","Licorne","Jouons","Tous ensemble", "Martin-pêcheur"};
+    //Cadres
+    public static string[] RAMKI_FR = new string[] { "Rectangle d'or", "chaton blanc", "Hello kitty","Comme dans un album","Comme sur une vieille photo", "Pas à pas",
+        "Ensemble","Paix","Piano","Vagues","Vagues dorées","Vagues célestes","Vagues d'herbe","Vagues roses","Vagues de feu"};
+    //Fonds
+    public static string[] TLA_FR = new string[] { "Dans l'ensemble ... ", "Nuit étoilée", "Espace", "Summ On plus clair ",  "Buuum","Galaxie en spirale","Arc-en-ciel","Glacial",
+        "Prêt, attrape, dessine","Palmier","Orchidée","Vers la lune !","Terre","Lac dans la forêt","Si rose ...","Fleur","Automne","Châtaignes","Rose", "Tortue",
+        "Saturne","Système solaire","Sauvage et dangereux","Feu d'artifice","Où est le trésor ?"};
+    //Musique
+    public static string[] MUZYKI_FR = new string[] { "Comme c'est doux", "Folle", "Comme c'est gentil" };
+    //Résultats
+    public static string[] OSIAGNIECIA_FR = new string[] { "Débuts difficiles", "Changer de carte", "Rapide","Plus rapide","Double",
+        "Triple","Quadruple","Gagnant","intelligent","Plus intelligent","Étudiant idéal",
+        "Élève Bâclé","Travailleur parfait",
+        "Travailleur Bâclé", "Acolyte parfait",
+        "Acolyte Bâclé","Ouvrier parfait",
+        "Ouvrier bâclé","Artisan parfait",
+        "Artisan Bâclé","Magicien Parfait",
+        "Magicien Bâclé","Master Parfait",
+        "Master Bâclé", "Artiste Parfait",
+        "Artiste Bâclé","Mage Parfait",
+        "Mage Bâclé","Fortune","Parfait","Chanceux",
+        "Très loin"};
+    //Description des réalisations
+    public static string[] OSIAGNIECIA_OPIS_FR = new string[] { "Tutoriel terminé", "Cartes multiplicateurs avancées déverrouillées", "Plus rapide que l'éclair","Plus rapide que la lumière","Multipliez deux fois",
+        "Multipliez trois fois","Multipliez quatre fois","Gagnez une partie en solo","Gagnez une partie contre l'ordinateur (niveau difficile)", "Gagnez une partie avec un autre joueur","Collectez seulement " + ACHIEVEMENT_PURE_1ST.ToString() + " points - résultats parfaits uniquement",
+        "Collectez seulement " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " points - seulement des résultats élevés","Collectez " + ACHIEVEMENT_PURE_1ST.ToString() + " points contre l'IA - seulement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " points contre l'IA - uniquement des scores élevés","Collectez " + ACHIEVEMENT_PURE_1ST.ToString() + " points contre d'autres IA - uniquement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_1ST.ToString() + " points contre les autres - seulement des scores élevés","Collectez seulement " + ACHIEVEMENT_PURE_2ND.ToString() + " points - résultats parfaits uniquement",
+        "Collectez seulement " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " points - seulement des résultats élevés ","Collectez  " + ACHIEVEMENT_PURE_2ND.ToString() + " points contre l'IA - seulement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " points contre l'IA - uniquement des scores élevés","Collectez " + ACHIEVEMENT_PURE_2ND.ToString() + " points contre d'autres IA - uniquement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_2ND.ToString() + " points contre les autres - seulement des scores élevés","Collectez seulement " + ACHIEVEMENT_PURE_3RD.ToString() + " points - résultats parfaits uniquement",
+        "Collectez seulement " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " points - seulement des résultats élevés ","Collectez " + ACHIEVEMENT_PURE_3RD.ToString() + " points contre l'IA - seulement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " points contre l'IA - uniquement des scores élevés","Collectez " + ACHIEVEMENT_PURE_3RD.ToString() + " points contre d'autres IA - uniquement des résultats parfaits ",
+        "Collectez " + ACHIEVEMENT_NOT_PURE_3RD.ToString() + " points contre les autres - seulement des scores élevés","Je suis riche ...","C'est juste un jeu parfait", "Le risque est parfois payant",
+        "Utilisez 5 cartes à la fois pour obtenir un score parfait"};
+    //Menu
+    public static string[] MENU_FR = new string[] { "Programmeurs", "Artistes", "Testeurs", "Concept de jeu", "Conditions de victoire", "Fin du tour du joueur", "Son", "Mode de jeu",
+        "Prêt", "Nom de l'école", "Symbole de la classe (par exemple 4a)", "Nombre d'élèves dans la classe", "Code étudiant", "Âge", "Code occupé ou invalide",
+        "Entrez le nom abrégé de l'école, par exemple SP1", "Entrez le nom abrégé de la classe, par exemple 4a",
+        "Partager des codes avec les élèves", "Jouer un match de championnat", "SummOn League", "Traduction",
+        "Êtes-vous sûr?", "entrez ici le code que vous avez reçu de l'enseignant",
+        "Vous devez redémarrer le jeu pour jouer en multijoueur!", "S'inscrire", "Passer le tutoriel",
+        "Joueur", "École"};
+    // public sstring[] MENU_PL = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
+    //Didacticiel
+    public static string[] SAMOUCZEK_FR = new string[] {
+        "Votre tâche est de collecter le bon nombre de points dans la bonne couleur. Vous n'avez pas encore de cartons rouges, alors terminez le tour avec le bouton à droite",
+        "Une autre tâche et deux nouvelles cartes sont apparues, terminez à nouveau le tour",
+        "Vous n'avez toujours pas de cartes rouges, terminez encore une fois votre tour",
+        "Comme vous avez trop de cartes dans la barre du bas, vous devez en jeter deux dans la corbeille",
+        "Finis ton tour",
+        "Rejetez deux cartes d'une couleur autre que le rouge",
+        "Étant donné que trop de tâches se sont accumulées, supprimez la tâche verte, appuyez dessus",
+        "Pour marquer des points pour une carte de quête rouge (16), appuyez dessus",
+        "Appuyez successivement sur les deux cartes dans la boîte à outils inférieure et acceptez en appuyant sur le signe √ vert",
+        "Vous avez exactement un point. Terminez votre tour",
+        "Rejetez deux cartes d'une couleur autre que le rouge",
+        "Appuyez sur la tâche rouge avec une valeur de 11",
+        "Cliquer sur deux cartes (6) de la boîte à outils du bas et acceptez en appuyant sur le signe √ vert",
+        "Puisque 6 + 6 = 12 est supérieur à 11, vous n'avez obtenu que 0,48 point. Terminez votre tour",
+        "\n \n \n \n \n \n Si vous avez trop de taches de la même couleur, vous pouvez les modifier en dépensant 1 point. Appuyez sur l'image avec un fer à cheval et des dés",
+        "Vous marquez  '"+OSIAGNIECIA_PL[LUCKY]+"' des points et 5 pièces pour acheter des skins. Continuez à jouer pour obtenir 6 points",
+        "Vous avez le succès  '"+OSIAGNIECIA_PL[LATEPASS]+"' et 5 pièces pour acheter des skins. Terminez votre tour",
+        "Appuyez sur la tâche rouge 33",
+        "Appuyez sur la carte rouge 11 de la boîte à outils inférieure, faites glisser la carte '3x' du coin droit dessus et acceptez avec le signe √",
+        "Vous avez marqué 3 points et terminé le didacticiel. Vous pouvez terminer le jeu et dépenser des pièces dans la boutique de skins"
+        };
+    //Boutique
+    public static string[] SAMOUCZEK_SKLEP_FR = new string[] {
+        "Changer l'apparence de la carte. Appuyez sur l'image → ou ←",
+        "Comme il n'a pas encore été déverrouillé, vous pouvez voir l'icône de la pièce. Le coût ($) est devenu rouge. Appuyez sur l'image de la bordure à côté du papillon",
+        "Modifiez maintenant l'apparence du cadre. Appuyez sur l'image → ou ←",
+        "Le coût est devenu vert. Choisissez n'importe quel cadre et achetez-le en appuyant sur l'icône de pièce à côté du cadre sélectionné",
+        "Le cadre acheté est actif. Les skins actifs peuvent être définis en appuyant sur la marque √"
+        };
 
     public struct SkinsInfo
     {
@@ -552,6 +635,17 @@ public class SkinManager : MonoBehaviour
                 TutorialLang = SAMOUCZEK_RU;
                 SkinTutorialLang = SAMOUCZEK_SKLEP_RU;
                 MenuLang = MENU_RU;
+                break;
+            case SystemLanguage.French:
+                skorkiLang = SKORKI_FR;
+                ramkiLang = RAMKI_FR;
+                tlaLang = TLA_FR;
+                muzykiLang = MUZYKI_FR;
+                osiagnieciaLang = OSIAGNIECIA_FR;
+                osiagnieciaOpisLang = OSIAGNIECIA_OPIS_FR;
+                TutorialLang = SAMOUCZEK_FR;
+                SkinTutorialLang = SAMOUCZEK_SKLEP_FR;
+                MenuLang = MENU_FR;
                 break;
             default:
                 skorkiLang = SKORKI_EN;

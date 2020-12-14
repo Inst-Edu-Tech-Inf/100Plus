@@ -254,7 +254,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 2800000, guid: 924740ea33c106f4aa54e5da23d420bf, type: 3}
-  AndroidKeystoreName: C:/DyskFStary/SummOn/ieti-release-key.keystore
+  AndroidKeystoreName: C:/SummOn/ieti-release-key.keystore
   AndroidKeyaliasName: summonkey
   AndroidBuildApkPerCpuArchitecture: 1
   AndroidTVCompatibility: 0
