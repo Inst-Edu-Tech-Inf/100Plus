@@ -504,6 +504,8 @@ public class SkinManager : MonoBehaviour
     }
     public SkinsInfo skorka = new SkinsInfo("Rings", GameManager.KARTA_DYNAMICZNA, "Lord of the Rings");
     public List<SkinsInfo> skorki = new List<SkinsInfo>();
+    public List<SkinsInfo> skorkiAnim = new List<SkinsInfo>();
+    public List<SkinsInfo> skorkiStat = new List<SkinsInfo>();
     public string ramka = "RamkaGold";
     public string tlo = "NGC_5477_Hubble";
     public string muzyka = "Island Puzzle Acoustic";
@@ -675,6 +677,20 @@ public class SkinManager : MonoBehaviour
         skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[11]));
         //skorki.Add(new SkinsInfo("gifDoGry", GameManager.KARTA_DYNAMICZNA, "Zuza"));
         //skorki.Add(new SkinsInfo("summOnDots", GameManager.KARTA_DYNAMICZNA, "Wiktor"));
+        //
+        skorkiAnim.Add(new SkinsInfo("Explodes", GameManager.KARTA_DYNAMICZNA, skorkiLang[0]));
+        skorkiAnim.Add(new SkinsInfo("Rings", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, skorkiLang[1]));
+        skorkiAnim.Add(new SkinsInfo("Fireworks", GameManager.KARTA_DYNAMICZNA, ANIMATED_CARD_PRICE, skorkiLang[2]));
+        //
+        skorkiStat.Add(new SkinsInfo("Explode", GameManager.KARTA_STATYCZNA, skorkiLang[3]));
+        skorkiStat.Add(new SkinsInfo("Ring", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[4]));
+        skorkiStat.Add(new SkinsInfo("Firework", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[5]));
+        skorkiStat.Add(new SkinsInfo("DiamondRing", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[6]));
+        skorkiStat.Add(new SkinsInfo("Troll", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[7]));
+        skorkiStat.Add(new SkinsInfo("Unicorn", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[8]));
+        skorkiStat.Add(new SkinsInfo("Ball", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[9]));
+        skorkiStat.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[10]));
+        skorkiStat.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[11]));
         //
         ramki.Add(new SkinsInfo("RamkaGold", GameManager.KARTA_RAMKA, ramkiLang[0]));
         ramki.Add(new SkinsInfo("CatFrame", GameManager.KARTA_RAMKA, FRAME_PRICE, ramkiLang[1]));

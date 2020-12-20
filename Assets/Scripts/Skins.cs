@@ -11,7 +11,6 @@ using CompleteProject;
 using UnityEngine.EventSystems;
 //using UnityEngine.Store;
 
-
 namespace CompleteProject
 {
     public class Skins : MonoBehaviour, IPointerEnterHandler
@@ -52,17 +51,18 @@ namespace CompleteProject
         bool isFrames = false;
         bool isBackgrounds = false;
         bool isSounds = false;
+
+        bool isSkinsAnim = false;
+        bool isSkinsStat = false;
+
         Vector2 normalSize;
         Vector2 biggerSize;
         float userActivityTime = 0.0f;
         //    public Image[] images;
 
-
         IEnumerator GetWWWTexture(string pathWithPrefix)
         {
-            //
             byte[] imgData;
-
 
             //if ((pathWithPrefix.Contains("://")||pathWithPrefix.Contains(":///")))
             if ((Application.platform == RuntimePlatform.IPhonePlayer) ||
@@ -94,7 +94,64 @@ namespace CompleteProject
             }
         }
 
+        public void ShowAnimSkins()
+        {
+            isSkinsStat = false;
+            isSkinsAnim = true;
+            LocalActiveSkin = 0;
+            chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+            if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
+            {
+                chooseButton.interactable = true;
+            }
+            else
+            {
+                chooseButton.interactable = false;
+            }
+            CheckSkinsPossible(SkinManager.instance.skorkiAnim[LocalActiveSkin]);
+            skinName.text = SkinManager.instance.skorkiAnim[LocalActiveSkin].Title;
+            changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+            numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiAnim.Count.ToString();
+        }
+        public void ShowStaticSkins()
+        {
+            isSkinsStat = true;
+            isSkinsAnim = false;
+            LocalActiveSkin = 0;
+            chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+            if (SkinManager.instance.ActiveSkin != LocalActiveSkin+3)
+            {
+                chooseButton.interactable = true;
+            }
+            else
+            {
+                chooseButton.interactable = false;
+            }
+            CheckSkinsPossible(SkinManager.instance.skorkiStat[LocalActiveSkin]);
+            skinName.text = SkinManager.instance.skorkiStat[LocalActiveSkin].Title;
+            changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+            numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiStat.Count.ToString();
 
+        }
+        public void ShowAllSkins()
+        {
+            isSkinsStat = false;
+            isSkinsAnim = false;
+            LocalActiveSkin = 0;
+            chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+            if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
+            {
+                chooseButton.interactable = true;
+            }
+            else
+            {
+                chooseButton.interactable = false;
+            }
+            CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
+            skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
+            changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+            numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
+        }
 
         void changeSkin(string Kolor)
         {
@@ -126,7 +183,62 @@ namespace CompleteProject
 
             // if (isSkins)
             {
-                if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+                if (!isSkinsAnim && !isSkinsStat)
+                {
+                    if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_DYNAMICZNA)
+                    {
+                        ActiveTexture = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
+                        rawImageA.GetComponent<RawImage>().texture = ActiveTexture;
+#if HTML5
+                //#if UNITY_WEBGL
+                // rawImageA.GetComponent<VideoPlayer>().url = "http://100plus.ieti.pl/" + SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4"; 
+                rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine (Application.streamingAssetsPath,SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4");
+
+                //#endif
+#endif
+                        rawImageA.GetComponent<VideoPlayer>().targetTexture = ActiveTexture;
+                        //rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[SkinManager.instance.ActiveSkin].Name + Kolor + ".mp4");
+                        //              rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".mp4");
+
+                        //rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor)) as VideoClip;
+                        rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor) as VideoClip;
+
+                        pm = (int)Mathf.Round(Random.Range(0.0f, (float)rawImageA.GetComponent<VideoPlayer>().length));
+                        rawImageA.GetComponent<VideoPlayer>().frame = pm;
+                        rawImageA.GetComponent<VideoPlayer>().Play();
+                    }
+                    else
+                        if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_STATYCZNA)
+                        {
+                            rawImageA.GetComponent<VideoPlayer>().targetTexture = null;
+                            //rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor));
+                            rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor);
+                            /* string pom = SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".png";
+                            pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
+                            //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
+
+                            byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
+
+                            //Creates texture and loads byte array data to create image
+                            Texture2D tex = new Texture2D(2, 2);
+                            tex.LoadImage(pngBytes);
+
+                            //Creates a new Sprite based on the Texture2D
+                            //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+                            //Assigns the UI sprite
+
+                            rawImageA.GetComponent<RawImage>().texture = tex;*/
+                        }
+                        //else
+                        {
+                            if (isFrames)
+                            {
+
+                            }
+                        }
+                }
+                else if (isSkinsAnim)
                 {
                     ActiveTexture = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
                     rawImageA.GetComponent<RawImage>().texture = ActiveTexture;
@@ -142,49 +254,42 @@ namespace CompleteProject
                     //              rawImageA.GetComponent<VideoPlayer>().url = System.IO.Path.Combine(Application.streamingAssetsPath, SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".mp4");
 
                     //rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor)) as VideoClip;
-                    rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor) as VideoClip;
+                    rawImageA.GetComponent<VideoPlayer>().clip = Resources.Load(SkinManager.instance.skorkiAnim[LocalActiveSkin].Name + Kolor) as VideoClip;
 
                     pm = (int)Mathf.Round(Random.Range(0.0f, (float)rawImageA.GetComponent<VideoPlayer>().length));
                     rawImageA.GetComponent<VideoPlayer>().frame = pm;
                     rawImageA.GetComponent<VideoPlayer>().Play();
+
                 }
-                else
-                    if (SkinManager.instance.skorki[LocalActiveSkin].Type == GameManager.KARTA_STATYCZNA)
-                    {
-                        rawImageA.GetComponent<VideoPlayer>().targetTexture = null;
-                        //rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor));
-                        rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor);
-                        /* string pom = SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".png";
-                         pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
-                         //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
-
-                         byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
-
-                         //Creates texture and loads byte array data to create image
-                         Texture2D tex = new Texture2D(2, 2);
-                         tex.LoadImage(pngBytes);
-
-                         //Creates a new Sprite based on the Texture2D
-                         //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                         //Assigns the UI sprite
-
-                         rawImageA.GetComponent<RawImage>().texture = tex;*/
-                    }
-            }
-            //else
-            {
-                if (isFrames)
+                else if (isSkinsStat)
                 {
+                    rawImageA.GetComponent<VideoPlayer>().targetTexture = null;
+                    //rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor));
+                    rawImageA.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(SkinManager.instance.skorkiStat[LocalActiveSkin].Name + Kolor);
+                    /* string pom = SkinManager.instance.skorki[LocalActiveSkin].Name + Kolor + ".png";
+                     pom = System.IO.Path.Combine(Application.streamingAssetsPath, pom);
+                     //backgroundImage.sprite = Resources.Load<Sprite>(System.IO.Path.Combine(Application.streamingAssetsPath,"Background/" + SkinManager.instance.tla[LocalActiveBackground].Name) + ".jpg");//.Name
+
+                     byte[] pngBytes = System.IO.File.ReadAllBytes(pom);
+
+                     //Creates texture and loads byte array data to create image
+                     Texture2D tex = new Texture2D(2, 2);
+                     tex.LoadImage(pngBytes);
+
+                     //Creates a new Sprite based on the Texture2D
+                     //Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+                     //Assigns the UI sprite
+
+                     rawImageA.GetComponent<RawImage>().texture = tex;*/
 
                 }
+
             }
         }
 
         void changeBackground()
         {
-
-
             /*iOS uses Application.dataPath + "/Raw",
     Android uses files inside a compressed APK
     /JAR file, "jar:file://" + Application.dataPath + "!/assets".*/
@@ -567,16 +672,16 @@ namespace CompleteProject
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
             if (isSkins)
             {
-
-                if (LocalActiveSkin < SkinManager.instance.skorki.Count - 1)
+                if(!isSkinsAnim && !isSkinsStat)
                 {
-                    LocalActiveSkin++;
-                }
-                else
-                {
-                    LocalActiveSkin = 0;
-                }
-                {
+                    if (LocalActiveSkin < SkinManager.instance.skorki.Count - 1)
+                    {
+                        LocalActiveSkin++;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = 0;
+                    }
                     chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                     if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
                     {
@@ -586,13 +691,59 @@ namespace CompleteProject
                     {
                         chooseButton.interactable = false;
                     }
-                    //
                     CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
-                    //
                     skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
                 }
-                numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
+                else if (isSkinsAnim)
+                {
+                    if (LocalActiveSkin < SkinManager.instance.skorkiAnim.Count - 1)
+                    {
+                        LocalActiveSkin++;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = 0;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
+                    {
+                        chooseButton.interactable = true;
+                    }
+                    else
+                    {
+                        chooseButton.interactable = false;
+                    }
+                    CheckSkinsPossible(SkinManager.instance.skorkiAnim[LocalActiveSkin]);
+                    skinName.text = SkinManager.instance.skorkiAnim[LocalActiveSkin].Title;
+                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiAnim.Count.ToString();
+                }
+                else if (isSkinsStat)
+                {
+                    if (LocalActiveSkin < SkinManager.instance.skorkiStat.Count - 1)
+                    {
+                        LocalActiveSkin++;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = 0;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin+3)
+                    {
+                        chooseButton.interactable = true;
+                    }
+                    else
+                    {
+                        chooseButton.interactable = false;
+                    }
+                    CheckSkinsPossible(SkinManager.instance.skorkiStat[LocalActiveSkin]);
+                    skinName.text = SkinManager.instance.skorkiStat[LocalActiveSkin].Title;
+                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiStat.Count.ToString();
+                }
             }
             else
             {
@@ -721,17 +872,17 @@ namespace CompleteProject
             userActivityTime = SkinManager.MAX_USER_DISACTIVITY;
             if (isSkins)
             {
-
-                if (LocalActiveSkin > 0)
+                if (!isSkinsAnim && !isSkinsStat)
                 {
-                    LocalActiveSkin--;
-                }
-                else
-                {
-                    LocalActiveSkin = SkinManager.instance.skorki.Count - 1;
-                }
-
-                {
+                    if (LocalActiveSkin > 0)
+                    {
+                        LocalActiveSkin--;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = SkinManager.instance.skorki.Count-1;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                     if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
                     {
                         chooseButton.interactable = true;
@@ -740,12 +891,59 @@ namespace CompleteProject
                     {
                         chooseButton.interactable = false;
                     }
-                    //
                     CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
                     skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
                 }
-                numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorki.Count.ToString();
+                else if (isSkinsAnim)
+                {
+                    if (LocalActiveSkin > 0)
+                    {
+                        LocalActiveSkin--;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = SkinManager.instance.skorki.Count-1;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
+                    {
+                        chooseButton.interactable = true;
+                    }
+                    else
+                    {
+                        chooseButton.interactable = false;
+                    }
+                    CheckSkinsPossible(SkinManager.instance.skorkiAnim[LocalActiveSkin]);
+                    skinName.text = SkinManager.instance.skorkiAnim[LocalActiveSkin].Title;
+                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiAnim.Count.ToString();
+                }
+                else if (isSkinsStat)
+                {
+                    if (LocalActiveSkin > 0)
+                    {
+                        LocalActiveSkin--;
+                    }
+                    else
+                    {
+                        LocalActiveSkin = SkinManager.instance.skorki.Count-1;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin+3)
+                    {
+                        chooseButton.interactable = true;
+                    }
+                    else
+                    {
+                        chooseButton.interactable = false;
+                    }
+                    CheckSkinsPossible(SkinManager.instance.skorkiStat[LocalActiveSkin]);
+                    skinName.text = SkinManager.instance.skorkiStat[LocalActiveSkin].Title;
+                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiStat.Count.ToString();
+                }
             }
             else
             {
