@@ -15,6 +15,8 @@ public class About : MonoBehaviour
     public Text koncepcjaText;
     public Text versionText;
     public Text tlumaczText;
+    public Button upArrow;
+    public Button downArrow;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {

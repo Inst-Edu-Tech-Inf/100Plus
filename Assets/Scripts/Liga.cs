@@ -168,6 +168,7 @@ public class Liga : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Post("https://summon.ieti.pl/dbSummOn/NauczycielClick.php", form))
         {
             yield return www.SendWebRequest();
+            Debug.Log(nauczycielPass);
 
             if (www.isNetworkError || www.isHttpError)
             {
@@ -496,7 +497,7 @@ public class Liga : MonoBehaviour
                     kodUczniaInput.text = kodZajety;
                 else
                 {
-
+                    StartCoroutine(UczenWebClick(SkinManager.instance.UserID));
                 }
                 //byte[] results = www.downloadHandler.data;
             }

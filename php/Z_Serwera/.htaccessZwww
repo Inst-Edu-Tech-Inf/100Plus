@@ -84,4 +84,18 @@ RewriteRule .* index.php [L]
 #
 ## End - Joomla! core SEF Section.
 
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+RewriteEngine On
+#
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.html?\ HTTP/
+RewriteRule ^(([^/]+/)*)index\.html?$ https://www.summon.ieti.pl/$1 [R=301,L]
+#
+RewriteCond %{THE_REQUEST} !^POST
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
+RewriteCond %{SERVER_PORT}>s ^(443>(s)|[0-9]+>s)$
+RewriteRule ^(([^/]+/)*)index\.php$ https%2://www.summon.ieti.pl/$1 [R=301,L]
+#
+RewriteCond %{HTTP_HOST} !^(www\.summon\.ieti\.pl)?$
+RewriteRule (.*) https://www.summon.ieti.pl/$1 [R=301,L]
