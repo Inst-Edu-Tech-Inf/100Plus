@@ -2584,6 +2584,8 @@ MonoBehaviour:
   helpRamka: {fileID: 1083370351}
   helpCoin: {fileID: 155571300}
   numberText: {fileID: 887344775}
+  staticButton: {fileID: 1241055711}
+  animButton: {fileID: 1851732857}
   backgroundImage: {fileID: 921333876}
   chooseButton: {fileID: 999026808}
   soundBackground: {fileID: 393913889}

@@ -30,6 +30,8 @@ namespace CompleteProject
         public Image helpRamka;
         public Image helpCoin;
         public Text numberText;
+        public Button staticButton;
+        public Button animButton;
 
         RenderTexture ActiveTexture;// = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
         RawImage tex;
