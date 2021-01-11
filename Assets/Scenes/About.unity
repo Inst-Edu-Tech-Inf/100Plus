@@ -191,8 +191,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80.429, y: 491.55}
-  m_SizeDelta: {x: 1697.1, y: 96.9}
+  m_AnchoredPosition: {x: -108.91, y: 491.55}
+  m_SizeDelta: {x: 1638.6583, y: 96.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &301365310
 MonoBehaviour:
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 14.863312, w: 0}
+  m_margin: {x: 0.47551858, y: 0, z: 0.3468774, w: 0.0001236747}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -326,8 +326,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -826}
-  m_SizeDelta: {x: 1575.0989, y: 81.12796}
+  m_AnchoredPosition: {x: 787.55, y: -1188.2}
+  m_SizeDelta: {x: 1575.0989, y: 174.72389}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354477849
 MonoBehaviour:
@@ -361,7 +361,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz, Anna Zhydyk, Sylwia Mo\u0142o\u0144"
+  m_Text: "Marcin Ko\u0142acz\nAnna Zhydyk\nSylwia Mo\u0142o\u0144"
 --- !u!222 &354477850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -404,8 +404,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -500.33978}
-  m_SizeDelta: {x: 1575.0986, y: 61.943848}
+  m_AnchoredPosition: {x: 786.48, y: -729.7}
+  m_SizeDelta: {x: 1575.0986, y: 225.96475}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382604408
 MonoBehaviour:
@@ -439,7 +439,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Kinga Krause, Marta Lange, Amelia Tojza, Weronika Ko\u0142acz"
+  m_Text: "Kinga Krause\nMarta Lange\nAmelia Tojza\nWeronika Ko\u0142acz"
 --- !u!222 &382604409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -781,7 +781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 689, y: -440}
+  m_AnchoredPosition: {x: 692.7, y: -434.5}
   m_SizeDelta: {x: 100, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &624051274
@@ -1175,7 +1175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -578.1185}
+  m_AnchoredPosition: {x: 787.55, y: -887.68}
   m_SizeDelta: {x: 1575.0989, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804889920
@@ -1263,8 +1263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32.465027, y: -0.000091552734}
-  m_SizeDelta: {x: -64.92969, y: -0.00024414062}
+  m_AnchoredPosition: {x: -32.465027, y: -185.26714}
+  m_SizeDelta: {x: -64.92969, y: 370.53418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &812466582
 MonoBehaviour:
@@ -1672,8 +1672,10 @@ MonoBehaviour:
   koncepcjaText: {fileID: 804889920}
   versionText: {fileID: 761007136}
   tlumaczText: {fileID: 1791175462}
+  scrollBar: {fileID: 1928492638}
   upArrow: {fileID: 1643063363}
   downArrow: {fileID: 624051274}
+  Content: {fileID: 812466581}
 --- !u!1 &1113320163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,8 +1710,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -345.4303}
-  m_SizeDelta: {x: 1575.0989, y: 60.64795}
+  m_AnchoredPosition: {x: 786.48, y: -468.3}
+  m_SizeDelta: {x: 1575.0989, y: 116.8194}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113320165
 MonoBehaviour:
@@ -1743,7 +1745,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz, Weronika Ko\u0142acz"
+  m_Text: "Marcin Ko\u0142acz\nWeronika Ko\u0142acz"
 --- !u!222 &1113320166
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1938,7 +1940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -422.56107}
+  m_AnchoredPosition: {x: 786.47943, y: -571.7097}
   m_SizeDelta: {x: 1575.0986, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456584206
@@ -2164,7 +2166,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 692, y: 326}
+  m_AnchoredPosition: {x: 688.5, y: 322.9}
   m_SizeDelta: {x: 100, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1643063363
@@ -2281,7 +2283,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -267.85086}
+  m_AnchoredPosition: {x: 787.55, y: -364.44}
   m_SizeDelta: {x: 1575.0986, y: 90.89734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1697900703
@@ -2359,7 +2361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -735.1808}
+  m_AnchoredPosition: {x: 787.55, y: -1052.4}
   m_SizeDelta: {x: 1575.0989, y: 96.89734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791175462
@@ -2437,8 +2439,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -654.9253}
-  m_SizeDelta: {x: 1575.0984, y: 60}
+  m_AnchoredPosition: {x: 787.5502, y: -968.3}
+  m_SizeDelta: {x: 1575.0984, y: 71.234406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850395696
 MonoBehaviour:
@@ -2540,11 +2542,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0.05927492, b: 0.9339623, a: 1}
-    m_HighlightedColor: {r: 0.38039216, g: 0.7764706, b: 1, a: 1}
-    m_PressedColor: {r: 0.41331434, g: 0.61982805, b: 0.6792453, a: 1}
-    m_SelectedColor: {r: 0.38039216, g: 0.7764706, b: 1, a: 1}
-    m_DisabledColor: {r: 0.4117647, g: 0.61960787, b: 0.6784314, a: 0.5019608}
+    m_NormalColor: {r: 0.15686275, g: 0.28627452, b: 0.94509804, a: 1}
+    m_HighlightedColor: {r: 0.5019608, g: 0.58431375, b: 1, a: 1}
+    m_PressedColor: {r: 0.6039216, g: 0.6666667, b: 0.9764706, a: 1}
+    m_SelectedColor: {r: 0.15686275, g: 0.28627452, b: 0.94509804, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2562,8 +2564,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1195466050}
   m_HandleRect: {fileID: 1195466049}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 1.0000001
+  m_Size: 0.7095094
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2581,7 +2583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.15667725, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.14509805, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2639,8 +2641,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 787.5493, y: -153.5}
-  m_SizeDelta: {x: 1575.0986, y: 123.41254}
+  m_AnchoredPosition: {x: 787.5493, y: -205.4}
+  m_SizeDelta: {x: 1575.0986, y: 227.1872}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2068298880
 MonoBehaviour:
@@ -2674,8 +2676,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Marcin Ko\u0142acz, Maksymilian Sroka, Kamil Wieczorek, \n\u0141ukasz
-    Cysewski"
+  m_Text: "Marcin Ko\u0142acz\nMaksymilian Sroka\nKamil Wieczorek\n\u0141ukasz Cysewski"
 --- !u!222 &2068298881
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -15,8 +15,10 @@ public class About : MonoBehaviour
     public Text koncepcjaText;
     public Text versionText;
     public Text tlumaczText;
+    public Scrollbar scrollBar;
     public Button upArrow;
     public Button downArrow;
+    public RectTransform Content;
 
     IEnumerator GetWWWTexture(string pathWithPrefix)
     {
@@ -76,7 +78,21 @@ public class About : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(scrollBar.value * Content.sizeDelta.y <= 40)
+        {
+            downArrow.gameObject.SetActive(false);
+            upArrow.gameObject.SetActive(true);
+        }
+        else if(scrollBar.value * Content.sizeDelta.y >= Content.sizeDelta.y - 40)
+        {
+            downArrow.gameObject.SetActive(true);
+            upArrow.gameObject.SetActive(false);
+        }
+        else
+        {
+            downArrow.gameObject.SetActive(true);
+            upArrow.gameObject.SetActive(true);
+        }
     }
 
     public void Back()
