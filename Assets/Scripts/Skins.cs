@@ -32,6 +32,7 @@ namespace CompleteProject
         public Text numberText;
         public Button staticButton;
         public Button animButton;
+        public GameObject sortPanel;
 
         RenderTexture ActiveTexture;// = new RenderTexture(SkinManager.CARD_IMAGE_WIDTH, SkinManager.CARD_IMAGE_HEIGHT, 16);
         RawImage tex;
@@ -1064,6 +1065,7 @@ namespace CompleteProject
             isFrames = false;
             isBackgrounds = false;
             isSounds = false;
+            sortPanel.SetActive(true);
             skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
             chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
 
@@ -1109,6 +1111,7 @@ namespace CompleteProject
             isFrames = true;
             isBackgrounds = false;
             isSounds = false;
+            sortPanel.SetActive(false);
             skinName.text = SkinManager.instance.ramki[LocalActiveFrame].Title;
             chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
 
@@ -1154,6 +1157,7 @@ namespace CompleteProject
             isFrames = false;
             isBackgrounds = true;
             isSounds = false;
+            sortPanel.SetActive(false);
             skinName.text = SkinManager.instance.tla[LocalActiveBackground].Title;
             chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
             GameObject.Find("SkinsButton").GetComponent<Button>().image.rectTransform.sizeDelta = normalSize;
@@ -1196,6 +1200,7 @@ namespace CompleteProject
             isFrames = false;
             isBackgrounds = false;
             isSounds = true;
+            sortPanel.SetActive(false);
             skinName.text = SkinManager.instance.muzyki[LocalActiveSound].Title;
             chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
             GameObject.Find("SkinsButton").GetComponent<Button>().image.rectTransform.sizeDelta = normalSize;
