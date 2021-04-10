@@ -73,26 +73,36 @@ public class About : MonoBehaviour
         testerzyText.text = SkinManager.instance.MenuLang[SkinManager.TESTERZY];
         koncepcjaText.text = SkinManager.instance.MenuLang[SkinManager.KONCEPCJA_GRY];
         tlumaczText.text = SkinManager.instance.MenuLang[SkinManager.TLUMACZE];
+
+        string[] objectsTable = {"Programmers", "GraphicsText", "Graphics", "TestersText", "Testers", "GameConceptText", "Concept", "TranslatorsText", "Translators"};
+
+        RectTransform tempRT = (RectTransform)programisciText.transform;
+
+        float tempX = programisciText.transform.localPosition.x;
+        float tempY = programisciText.transform.localPosition.y;
+
+        float contentHeight = tempRT.rect.height;
+        
+        foreach(string Tekst in objectsTable)
+        {
+            tempY -= 1/2f*tempRT.rect.height;
+            Text Obj = GameObject.Find(Tekst).GetComponent<Text>();
+            
+            tempRT = (RectTransform)Obj.transform;
+            tempY -= 1/2f*tempRT.rect.height;
+
+            Obj.transform.localPosition = new Vector2(tempX, tempY);  
+
+            contentHeight += tempRT.rect.height;
+        }
+
+        GameObject.Find("Content").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentHeight);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(scrollBar.value * Content.sizeDelta.y <= 40)
-        {
-            downArrow.gameObject.SetActive(false);
-            upArrow.gameObject.SetActive(true);
-        }
-        else if(scrollBar.value * Content.sizeDelta.y >= Content.sizeDelta.y - 40)
-        {
-            downArrow.gameObject.SetActive(true);
-            upArrow.gameObject.SetActive(false);
-        }
-        else
-        {
-            downArrow.gameObject.SetActive(true);
-            upArrow.gameObject.SetActive(true);
-        }
+        scrollbarArrowChange();
     }
 
     public void Back()
@@ -123,6 +133,25 @@ Android uses files inside a compressed APK
             //string pom = SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//
             pom3 = System.IO.Path.Combine(Application.dataPath + "/Raw", pom3);
             StartCoroutine(GetWWWTexture(pom3));
+        }
+    }
+
+    void scrollbarArrowChange()
+    {
+        if(scrollBar.value * Content.sizeDelta.y <= 40)
+        {
+            downArrow.gameObject.SetActive(false);
+            upArrow.gameObject.SetActive(true);
+        }
+        else if(scrollBar.value * Content.sizeDelta.y >= Content.sizeDelta.y - 40)
+        {
+            downArrow.gameObject.SetActive(true);
+            upArrow.gameObject.SetActive(false);
+        }
+        else
+        {
+            downArrow.gameObject.SetActive(true);
+            upArrow.gameObject.SetActive(true);
         }
     }
 }
