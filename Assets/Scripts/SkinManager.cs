@@ -681,10 +681,9 @@ public class SkinManager : MonoBehaviour
         skorki.Add(new SkinsInfo("Peace", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[10]));
         skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, skorkiLang[11]));
         //skorki.Add(new SkinsInfo("Zimorodek", GameManager.KARTA_STATYCZNA, STATIC_CARD_PRICE, "test"));
-        //skorki.Add(new SkinsInfo("gifDoGry", GameManager.KARTA_DYNAMICZNA, "Zuza"));
         //skorki.Add(new SkinsInfo("summOnDots", GameManager.KARTA_DYNAMICZNA, "Wiktor"));
         //
-        
+
         foreach (SkinsInfo skorka in skorki){
             if (skorka.Type == GameManager.KARTA_DYNAMICZNA) skorkiAnim.Add(skorka);
         }

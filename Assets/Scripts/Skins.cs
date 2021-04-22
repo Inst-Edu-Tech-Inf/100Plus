@@ -55,8 +55,8 @@ namespace CompleteProject
         bool isBackgrounds = false;
         bool isSounds = false;
 
-        bool isSkinsAnim = false;
-        bool isSkinsStat = false;
+        bool isSkinsAnim = true;
+        bool isSkinsStat = true;
 
         Vector2 normalSize;
         Vector2 biggerSize;
@@ -102,7 +102,11 @@ namespace CompleteProject
             isSkinsAnim = !isSkinsAnim;
             if (isSkinsAnim)
             {
-                animButton.GetComponent<Image>().color = Color.green;
+                if (!isSkinsStat)
+                {
+                    animButton.GetComponent<Image>().color = Color.green;
+                    staticButton.GetComponent<Image>().color = Color.red;
+                }
             }
             else
             {
@@ -135,14 +139,17 @@ namespace CompleteProject
                 changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
                 numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.animSize.ToString();
             }
-            
         }
         public void ShowStaticSkins()
         {
             isSkinsStat = !isSkinsStat;
             if (isSkinsStat)
             {
-                staticButton.GetComponent<Image>().color = Color.green;
+                if (!isSkinsAnim)
+                {
+                    animButton.GetComponent<Image>().color = Color.red;
+                    staticButton.GetComponent<Image>().color = Color.green;
+                }
             }
             else
             {
@@ -178,6 +185,8 @@ namespace CompleteProject
 
         public void ShowAllSkins()
         {
+            staticButton.GetComponent<Image>().color = Color.green;
+            animButton.GetComponent<Image>().color = Color.green;
             LocalActiveSkin = 0;
             chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
             if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
@@ -192,6 +201,9 @@ namespace CompleteProject
             skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
             changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
             numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.skorkiSize.ToString();
+
+            isSkinsAnim = true;
+            isSkinsStat = true;
         }
 
         void changeSkin(string Kolor)
@@ -204,8 +216,6 @@ namespace CompleteProject
                 rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(SkinManager.instance.ramki[LocalActiveFrame].Name));//
                                                                                                                                                                       //  rawImageA.GetComponent<RawImage>().material.SetTexture("_SecondaryTex", Resources.Load<Texture2D>(System.IO.Path.Combine(Application.streamingAssetsPath,
                                                                                                                                                                       //      "Ramki/" + SkinManager.instance.ramki[LocalActiveFrame].Name)));//
-
-
                 /*   string pom2 = SkinManager.instance.ramki[LocalActiveFrame].Name + ".png";
                    pom2 = System.IO.Path.Combine(Application.streamingAssetsPath, pom2);// SkinManager.instance.tla[LocalActiveBackground].Name + ".jpg";//"/Background/"
 
@@ -638,7 +648,8 @@ namespace CompleteProject
                 price.color = new Color32(0, 255, 0, 255);
             }
         }
-
+        int LocalActiveSkinAnim=0;
+        int LocalActiveSkinStat=1;
         public void Next()
         {
             if (!SkinManager.instance.isSkinTutorialPass)
@@ -694,37 +705,18 @@ namespace CompleteProject
                 }
                 else if (isSkinsAnim)
                 {
-                    if (LocalActiveSkin < SkinManager.instance.animSize - 1)
+                    if (LocalActiveSkinAnim < SkinManager.instance.animSize - 1)
                     {
                         LocalActiveSkin++;
+                        LocalActiveSkinAnim += 1;
+                        while(SkinManager.instance.skorki[LocalActiveSkin].Type != 2){
+                            LocalActiveSkin += 1;
+                        }
                     }
                     else
                     {
                         LocalActiveSkin = 0;
-                    }
-                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
-                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
-                    {
-                        chooseButton.interactable = true;
-                    }
-                    else
-                    {
-                        chooseButton.interactable = false;
-                    }
-                    CheckSkinsPossible(SkinManager.instance.skorkiAnim[LocalActiveSkin]);
-                    skinName.text = SkinManager.instance.skorkiAnim[LocalActiveSkin].Title;
-                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
-                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.animSize.ToString();
-                }
-                else if (isSkinsStat)
-                {
-                    if (LocalActiveSkin < SkinManager.instance.statSize + 2)
-                    {
-                        LocalActiveSkin++;
-                    }
-                    else
-                    {
-                        LocalActiveSkin = 3;
+                        LocalActiveSkinAnim = LocalActiveSkin;
                     }
                     chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                     if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
@@ -738,7 +730,37 @@ namespace CompleteProject
                     CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
                     skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
-                    numberText.text = (LocalActiveSkin - 2).ToString() + " / " + SkinManager.instance.statSize.ToString();
+                    numberText.text = (LocalActiveSkinAnim+1).ToString() + " / " + SkinManager.instance.animSize.ToString();
+                }
+                else if (isSkinsStat)
+                {
+                    if (LocalActiveSkinStat < SkinManager.instance.statSize) 
+                    {
+                        LocalActiveSkin += 1;
+                        LocalActiveSkinStat += 1;
+                        while (SkinManager.instance.skorki[LocalActiveSkin].Type != 1)
+                        {
+                            LocalActiveSkin += 1;
+                        }
+                    }
+                    else
+                    {
+                        LocalActiveSkin = 3;
+                        LocalActiveSkinStat = LocalActiveSkin-2;
+                    }
+                    chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
+                    if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
+                    {
+                        chooseButton.interactable = true;
+                    }
+                    else
+                    {
+                        chooseButton.interactable = false;
+                    }
+                    CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
+                    skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
+                    changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
+                    numberText.text = (LocalActiveSkinStat).ToString() + " / " + SkinManager.instance.statSize.ToString();
                 }
             }
             else
@@ -839,7 +861,10 @@ namespace CompleteProject
                  price.color = new Color32(0, 255, 0, 255);
              }*/
             checkPriceColor();
-            //Debug.Log(LocalActiveSkin);
+            Debug.Log("------------------------------");
+            Debug.Log("localActiveSkin: " + LocalActiveSkin);
+            Debug.Log("localActiveSkinAnim: " + LocalActiveSkinAnim);
+            Debug.Log("localActiveSkinStat: " + LocalActiveSkinStat);
         }
 
         public void Prev()
@@ -898,10 +923,20 @@ namespace CompleteProject
                     if (LocalActiveSkin > 0)
                     {
                         LocalActiveSkin--;
+                        LocalActiveSkinAnim -= 1;
+                        while (SkinManager.instance.skorki[LocalActiveSkin].Type != 2)
+                        {
+                            LocalActiveSkin -= 1;
+                        }
                     }
                     else
                     {
-                        LocalActiveSkin = SkinManager.instance.animSize-1;
+                        LocalActiveSkin = SkinManager.instance.skorkiSize-1;
+                        LocalActiveSkinAnim = SkinManager.instance.animSize-1;
+                        while (SkinManager.instance.skorki[LocalActiveSkin].Type != 2)
+                        {
+                            LocalActiveSkin -= 1;
+                        }
                     }
                     chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                     if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
@@ -915,17 +950,27 @@ namespace CompleteProject
                     CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
                     skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
-                    numberText.text = (LocalActiveSkin + 1).ToString() + " / " + SkinManager.instance.animSize;
+                    numberText.text = (LocalActiveSkinAnim + 1).ToString() + " / " + SkinManager.instance.animSize;
                 }
                 else if (isSkinsStat)
                 {
                     if (LocalActiveSkin > 3)
                     {
-                        LocalActiveSkin--;
+                        LocalActiveSkin -= 1;
+                        LocalActiveSkinStat -= 1;
+                        while (SkinManager.instance.skorki[LocalActiveSkin].Type != 1)
+                        {
+                            LocalActiveSkin -= 1;
+                        }
                     }
                     else
                     {
-                        LocalActiveSkin = SkinManager.instance.statSize + 2;
+                        LocalActiveSkin = SkinManager.instance.skorkiSize - 1;
+                        LocalActiveSkinStat = SkinManager.instance.statSize;
+                        while (SkinManager.instance.skorki[LocalActiveSkin].Type != 1)
+                        {
+                            LocalActiveSkin -= 1;
+                        }
                     }
                     chooseButtonImage.sprite = Resources.Load<Sprite>("ChoiceOK");
                     if (SkinManager.instance.ActiveSkin != LocalActiveSkin)
@@ -939,7 +984,7 @@ namespace CompleteProject
                     CheckSkinsPossible(SkinManager.instance.skorki[LocalActiveSkin]);
                     skinName.text = SkinManager.instance.skorki[LocalActiveSkin].Title;
                     changeSkin(SkinManager.instance.COLORS_ARRAY[ActiveColor]);
-                    numberText.text = (LocalActiveSkin - 2).ToString() + " / " + SkinManager.instance.statSize;
+                    numberText.text = (LocalActiveSkinStat).ToString() + " / " + SkinManager.instance.statSize;
                 }
             }
             else
@@ -1043,7 +1088,10 @@ namespace CompleteProject
                  price.color = new Color32(0, 255, 0, 255);
              }*/
             checkPriceColor();
-            //Debug.Log(LocalActiveSkin);
+            Debug.Log("------------------------------");
+            Debug.Log("localActiveSkin: " + LocalActiveSkin);
+            Debug.Log("localActiveSkinAnim: " + LocalActiveSkinAnim);
+            Debug.Log("localActiveSkinStat: " + LocalActiveSkinStat);
         }
 
         public void SwitchSkin()
