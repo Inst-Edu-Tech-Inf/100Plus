@@ -2102,6 +2102,9 @@ MonoBehaviour:
   - Red
   - Green
   - Blue
+  skorkiSize: 0
+  statSize: 0
+  animSize: 0
   ramka: RamkaGold
   tlo: NGC_5477_Hubble
   muzyka: Island Puzzle Acoustic

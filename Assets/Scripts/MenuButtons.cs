@@ -973,9 +973,17 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
 	void Awake()
 	{
         //isNotificationsAdded = true;
-	}
+        connectingImage.gameObject.SetActive(false);
+        connectingText.text = "";
+    }
 
-	public void exitButton()
+    private void Update()
+    {
+        connectingImage.gameObject.SetActive(false);
+        connectingText.text = "";
+    }
+
+        public void exitButton()
 	{
 		Application.Quit();
 	}
