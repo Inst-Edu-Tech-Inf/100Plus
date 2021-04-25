@@ -1,6 +1,6 @@
 <?php 
     
-	$servername = "s69.cyber-folks.pl";
+	$servername = "s140.cyber-folks.pl";
 	$username = "kolacz_zdalny";
 	$password = "SummOn2020.";
 	$dbname = "kolacz_jos1";
