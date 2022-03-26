@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #if UNITY_2018_3_OR_NEWER
-
+using UnityEditor.Experimental.SceneManagement;
 #endif
 #endif
 
@@ -494,7 +494,7 @@ namespace Mirror
             //    assign a sceneId and clear the assetId would still be
             //    triggered for prefabs. in other words: if we are in prefab
             //    stage, do not bother with anything else ever!
-            else if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+            else if (PrefabStageUtility.GetCurrentPrefabStage() != null)
             {
                 // when modifying a prefab in prefab stage, Unity calls
                 // OnValidate for that prefab and for all scene objects based on
@@ -504,14 +504,14 @@ namespace Mirror
                 // scene object based on the prefab?
                 //   * GetCurrentPrefabStage = 'are we editing ANY prefab?'
                 //   * GetPrefabStage(go) = 'are we editing THIS prefab?'
-                if (UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
+                if (PrefabStageUtility.GetPrefabStage(gameObject) != null)
                 {
                     // force 0 for prefabs
                     sceneId = 0;
                     //logger.Log(name + " @ scene: " + gameObject.scene.name + " sceneid reset to 0 because CurrentPrefabStage=" + PrefabStageUtility.GetCurrentPrefabStage() + " PrefabStage=" + PrefabStageUtility.GetPrefabStage(gameObject));
                     // NOTE: might make sense to use GetPrefabStage for asset
                     //       path, but let's not touch it while it works.
-                    string path = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage().prefabAssetPath;
+                    string path = PrefabStageUtility.GetCurrentPrefabStage().prefabAssetPath;
                     AssignAssetID(path);
                 }
             }
