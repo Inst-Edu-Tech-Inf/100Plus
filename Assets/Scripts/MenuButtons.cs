@@ -1,6 +1,6 @@
 ﻿//#define HTML5
-#define UNITY_ANDROID
-//#define UNITY_IOS
+//#define UNITY_ANDROID
+#define UNITY_IOS
 //#define UDP_RELEASE
 
 using System.Collections;
