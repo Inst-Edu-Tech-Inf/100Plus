@@ -138,6 +138,7 @@ namespace DigitsNFCToolkit.Samples
 			switch(type)
 			{
 				case NDEFRecordType.TEXT:
+					view.TextInput.text = view.TextInput.text + "A";
 					string text = view.TextInput.text;
 					string languageCode = view.LanguageCodeInput.text;
 					if(languageCode.Length != 2) { languageCode = "en"; }

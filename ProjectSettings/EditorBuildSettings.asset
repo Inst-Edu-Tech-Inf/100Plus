@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Liga.unity
     guid: 72df6f4d866a9de4cb7f13691eb5ab33
+  - enabled: 1
+    path: Assets/Scenes/NFCTools.unity
+    guid: befa626c478f23b4cb9ead522d1c55fb
   m_configObjects: {}

@@ -1569,8 +1569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -573, y: -5.5000305}
-  m_SizeDelta: {x: 350, y: 350}
+  m_AnchoredPosition: {x: -830.5, y: -396.75003}
+  m_SizeDelta: {x: 85, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319930092
 MonoBehaviour:
@@ -2851,8 +2851,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -793, y: 427}
-  m_SizeDelta: {x: 160, y: 160.9999}
+  m_AnchoredPosition: {x: -773, y: 427}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067472097
 MonoBehaviour:
@@ -2897,8 +2897,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1435692962}
-        m_MethodName: 
+      - m_Target: {fileID: 1435692961}
+        m_MethodName: NFCButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

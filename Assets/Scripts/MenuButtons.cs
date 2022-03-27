@@ -988,7 +988,12 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
 		Application.Quit();
 	}
 
-	public void aboutButton()
+    public void NFCButton()
+    {
+        SceneManager.LoadScene("NFCTools");
+    }
+
+    public void aboutButton()
 	{
 		SceneManager.LoadScene("About");
 	}
