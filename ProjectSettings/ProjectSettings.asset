@@ -181,7 +181,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: com.ieti.summon
   buildNumber:
-    iPhone: 1.1.30
+    iPhone: 1.1.29
   AndroidBundleVersionCode: 98
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 30
