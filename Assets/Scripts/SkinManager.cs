@@ -164,7 +164,7 @@ public class SkinManager : MonoBehaviour
         "Razem","Pokój","Pianino","Fale","Złote fale","Podniebne fale","Trawiaste fale","Różowe fale","Ogniste fale"};
     public static string[] TLA_PL = new string[] { "W sumie...", "Gwieździsta noc", "Głęboka przestrzeń", "Jaśniejszy Summ On",  "Buuum","Galaktyka spiralna","Tęcza","Mroźnie",
         "Gotów, chwyć, rysuj","Palma","Storczyk","Na Księżyc!","Ziemia","Jezioro w lesie","Tak różowo...","Kwiat","Jesień","Kasztany","Róża", "Żółw",
-        "Saturn","System słoneczny","Dziki i groźny","Fajerwerki","Gdzie jest skarb?"};
+        "Saturn","System słoneczny","Dziki i groźny","Fajerwerki","Gdzie jest skarb?","Po prostu kosmos...","Napisz do mnie","Siądź pod mym liściem"};
     public static string[] MUZYKI_PL = new string[] { "Jak słodko", "Szalona", "Jak miło" };
     public static string[] OSIAGNIECIA_PL = new string[] { "Trudne początki", "Zmiana kart", "Szybki","Szybszy","Podwójnie",
         "Potrójnie","Poczwórnie","Zwycięzca","Bystry","Bystrzejszy","Idealny Uczeń",
@@ -234,7 +234,7 @@ public class SkinManager : MonoBehaviour
         "Together","Peace","The piano","The waves","The gold waves","The sky waves","The grass waves","The pink waves","The fire waves"};
     public static string[] TLA_EN = new string[] { "Lets Summ On", "Starry night", "Deep space", "Summ On Lighter",  "Baaam","Spiral galaxy","Rainbow","Cold look",
         "Ready, set, colour","The palm","The orchidea","Go to the Moon","Earth","Lake in the forest","So pinky...","The flower","Autumn","Chestnuts","Rose", "The turtle",
-        "Saturn","Solar system","The wild and dangerous","Fireworks","Where is the treasure?"};
+        "Saturn","Solar system","The wild and dangerous","Fireworks","Where is the treasure?","Just space","Write to me", "Sit under my leaf"};
     public static string[] MUZYKI_EN = new string[] { "So sweet", "I'm crazy", "How nice" };
     public static string[] OSIAGNIECIA_EN = new string[] { "Hard begining", "Cards changed", "Fast","Faster","Twice",
         "Triple","Quadruple","Winner","Smart","Smarter","Pure Pupil",
@@ -306,7 +306,7 @@ public class SkinManager : MonoBehaviour
     //Фон
     public static string[] TLA_RU = new string[] { "Итого...", "Итого...", "глубокое пространство", "ярче Summ On",  "Бууум","спиральная галактика","Радуга","Мороз",
         "Готов, хватай, рисуй","Пальма","Орхидея","на Луну!","Земля","озеро в лесу","так розово...","Цветок","Осень","Каштаны","Роза", "Черепаха",
-        "Сатурн","Солнечная система","дикий и грозный","фейерверк","где сокровище?"};
+        "Сатурн","Солнечная система","дикий и грозный","фейерверк","где сокровище?","Просто космос","Напиши мне","Сядьте под мой лист"};
     //Музика
     public static string[] MUZYKI_RU = new string[] { "Как  сладко", "сумасшедшая", "как мило" };
     //Достижения
@@ -385,7 +385,7 @@ public class SkinManager : MonoBehaviour
     //Fonds
     public static string[] TLA_FR = new string[] { "Dans l'ensemble ... ", "Nuit étoilée", "Espace", "Summ On plus clair ",  "Buuum","Galaxie en spirale","Arc-en-ciel","Glacial",
         "Prêt, attrape, dessine","Palmier","Orchidée","Vers la lune !","Terre","Lac dans la forêt","Si rose ...","Fleur","Automne","Châtaignes","Rose", "Tortue",
-        "Saturne","Système solaire","Sauvage et dangereux","Feu d'artifice","Où est le trésor ?"};
+        "Saturne","Système solaire","Sauvage et dangereux","Feu d'artifice","Où est le trésor ?","Juste de l'espace","Écris moi","Asseyez-vous sous ma feuille"};
     //Musique
     public static string[] MUZYKI_FR = new string[] { "Comme c'est doux", "Folle", "Comme c'est gentil" };
     //Résultats
@@ -738,6 +738,9 @@ public class SkinManager : MonoBehaviour
         tla.Add(new SkinsInfo("Lions", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[22]));
         tla.Add(new SkinsInfo("Fireworks", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[23]));
         tla.Add(new SkinsInfo("OldMap", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[24]));
+        tla.Add(new SkinsInfo("SpaceEx", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[25]));
+        tla.Add(new SkinsInfo("StationeryEx", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[26]));
+        tla.Add(new SkinsInfo("TreeEx", GameManager.BACKGROUND_STATIC, BACKGROUND_PRICE, tlaLang[27]));
 
 
 
