@@ -165,7 +165,7 @@ public class SkinManager : MonoBehaviour
     public static string[] TLA_PL = new string[] { "W sumie...", "Gwieździsta noc", "Głęboka przestrzeń", "Jaśniejszy Summ On",  "Buuum","Galaktyka spiralna","Tęcza","Mroźnie",
         "Gotów, chwyć, rysuj","Palma","Storczyk","Na Księżyc!","Ziemia","Jezioro w lesie","Tak różowo...","Kwiat","Jesień","Kasztany","Róża", "Żółw",
         "Saturn","System słoneczny","Dziki i groźny","Fajerwerki","Gdzie jest skarb?","Po prostu kosmos...","Napisz do mnie","Siądź pod mym liściem"};
-    public static string[] MUZYKI_PL = new string[] { "Jak słodko", "Szalona", "Jak miło" };
+    public static string[] MUZYKI_PL = new string[] { "Jak słodko", "Szalona", "Jak miło", "Taniec" };
     public static string[] OSIAGNIECIA_PL = new string[] { "Trudne początki", "Zmiana kart", "Szybki","Szybszy","Podwójnie",
         "Potrójnie","Poczwórnie","Zwycięzca","Bystry","Bystrzejszy","Idealny Uczeń",
         "Niechlujny Uczeń","Idealny Pracownik",
@@ -235,7 +235,7 @@ public class SkinManager : MonoBehaviour
     public static string[] TLA_EN = new string[] { "Lets Summ On", "Starry night", "Deep space", "Summ On Lighter",  "Baaam","Spiral galaxy","Rainbow","Cold look",
         "Ready, set, colour","The palm","The orchidea","Go to the Moon","Earth","Lake in the forest","So pinky...","The flower","Autumn","Chestnuts","Rose", "The turtle",
         "Saturn","Solar system","The wild and dangerous","Fireworks","Where is the treasure?","Just space","Write to me", "Sit under my leaf"};
-    public static string[] MUZYKI_EN = new string[] { "So sweet", "I'm crazy", "How nice" };
+    public static string[] MUZYKI_EN = new string[] { "So sweet", "I'm crazy", "How nice", "Dance" };
     public static string[] OSIAGNIECIA_EN = new string[] { "Hard begining", "Cards changed", "Fast","Faster","Twice",
         "Triple","Quadruple","Winner","Smart","Smarter","Pure Pupil",
         "Messy Pupil","Pure Worker",
@@ -304,11 +304,11 @@ public class SkinManager : MonoBehaviour
     public static string[] RAMKI_RU = new string[] { "Золотой прямоугольник", "белый котенок", "Hello kitty","как в альбоме","как на старой фотографии", "шаг за шагом",
         "Вместе","Вместе","Пианино","Волны","Золотые волны","Небесные волны","Травянистые волны","Розовые волны","Огненные волны"};
     //Фон
-    public static string[] TLA_RU = new string[] { "Итого...", "Итого...", "глубокое пространство", "ярче Summ On",  "Бууум","спиральная галактика","Радуга","Мороз",
-        "Готов, хватай, рисуй","Пальма","Орхидея","на Луну!","Земля","озеро в лесу","так розово...","Цветок","Осень","Каштаны","Роза", "Черепаха",
+    public static string[] TLA_RU = new string[] { "Итого...", "Итого...", "глубокое пространство", "ярче Summ On",  "Бууум","Cпиральная галактика","Радуга","Мороз",
+        "Готов, хватай, рисуй","Пальма","Орхидея","на Луну!","Земля","Oзеро в лесу","Tак розово...","Цветок","Осень","Каштаны","Роза", "Черепаха",
         "Сатурн","Солнечная система","дикий и грозный","фейерверк","где сокровище?","Просто космос","Напиши мне","Сядьте под мой лист"};
     //Музика
-    public static string[] MUZYKI_RU = new string[] { "Как  сладко", "сумасшедшая", "как мило" };
+    public static string[] MUZYKI_RU = new string[] { "Как  сладко", "Cумасшедшая", "Kак мило", "Tанец" };
     //Достижения
     public static string[] OSIAGNIECIA_RU = new string[] { "Трудное начало", "смена карт", "быстрый","более быстрый","двойной",
         "Тройной","Четверной","Победитель","Быстрый","Более быстрый","Идеальный Ученик",
@@ -387,7 +387,7 @@ public class SkinManager : MonoBehaviour
         "Prêt, attrape, dessine","Palmier","Orchidée","Vers la lune !","Terre","Lac dans la forêt","Si rose ...","Fleur","Automne","Châtaignes","Rose", "Tortue",
         "Saturne","Système solaire","Sauvage et dangereux","Feu d'artifice","Où est le trésor ?","Juste de l'espace","Écris moi","Asseyez-vous sous ma feuille"};
     //Musique
-    public static string[] MUZYKI_FR = new string[] { "Comme c'est doux", "Folle", "Comme c'est gentil" };
+    public static string[] MUZYKI_FR = new string[] { "Comme c'est doux", "Folle", "Comme c'est gentil", "Danse" };
     //Résultats
     public static string[] OSIAGNIECIA_FR = new string[] { "Débuts difficiles", "Changer de carte", "Rapide","Plus rapide","Double",
         "Triple","Quadruple","Gagnant","intelligent","Plus intelligent","Étudiant idéal",
@@ -748,6 +748,7 @@ public class SkinManager : MonoBehaviour
         muzyki.Add(new SkinsInfo("Island Puzzle Acoustic", GameManager.SOUND_BACKGROUND, muzykiLang[0]));
         muzyki.Add(new SkinsInfo("Crazy Puzzle Electronic", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[1]));
         muzyki.Add(new SkinsInfo("Epic Puzzle Orchestral", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[2]));
+        muzyki.Add(new SkinsInfo("Dance", GameManager.SOUND_BACKGROUND, SOUND_PRICE, muzykiLang[3]));
         // ResetAllSkins();
 
 
