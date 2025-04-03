@@ -217,3 +217,15 @@ The following packages were updated:
   com.unity.purchasing from version 4.1.5 to 4.4.1
   com.unity.textmeshpro from version 2.1.5 to 3.0.6
   com.unity.timeline from version 1.2.18 to 1.4.8
+
+=== Thu Apr  3 09:03:12 2025
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.17.6 to 2.0.4
+  com.unity.ide.rider from version 3.0.16 to 3.0.21
+  com.unity.ide.visualstudio from version 2.0.16 to 2.0.18
+  com.unity.mobile.notifications from version 2.0.2 to 2.1.1
+  com.unity.purchasing from version 4.4.1 to 4.8.0

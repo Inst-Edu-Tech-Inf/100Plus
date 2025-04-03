@@ -295,6 +295,13 @@ namespace CompleteProject
             SkinManager.instance.SetDebugToShow("OnInitializeFailed InitializationFailureReason:" + error);
         }
 
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+            // Purchasing set-up has not succeeded. Check error and message for reason. Consider sharing this reason with the user.
+            Debug.Log($"OnInitializeFailed InitializationFailureReason: {error}, Message: {message}");
+            SkinManager.instance.SetDebugToShow($"OnInitializeFailed InitializationFailureReason: {error}, Message: {message}");
+        }
+
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
@@ -462,5 +469,7 @@ namespace CompleteProject
             SkinManager.instance.SetDebugToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
             SkinManager.instance.SetAIPToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
         }
+
+
     }
 }
