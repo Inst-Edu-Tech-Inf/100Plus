@@ -28,13 +28,12 @@ public class GameSetting : MonoBehaviour
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
         yield return www.SendWebRequest();
 
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
         }
         else
         {
-            //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
             Sprite fromTex = Sprite.Create(texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100.0f);
             backgroundImage.sprite = fromTex;

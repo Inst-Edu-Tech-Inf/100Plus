@@ -83,7 +83,7 @@ namespace CompleteProject
                 UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
                 yield return www.SendWebRequest();
                 //imgData = www.downloadHandler.data;
-                if (www.isNetworkError || www.isHttpError)
+                if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
                 {
                     Debug.Log(www.error);
                 }

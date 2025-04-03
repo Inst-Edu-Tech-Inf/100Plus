@@ -216,7 +216,7 @@ Android uses files inside a compressed APK
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(pathWithPrefix);
         yield return www.SendWebRequest();
 
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
         }

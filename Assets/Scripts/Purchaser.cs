@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using CompleteProject;
+using UnityEngine.Purchasing.Extension;
 
 // Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager, 
 // one of the existing Survival Shooter scripts.
 namespace CompleteProject
 {
     // Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
-    public class Purchaser : MonoBehaviour, IStoreListener
+    public class Purchaser : MonoBehaviour, IDetailedStoreListener
     {
         private static IStoreController m_StoreController;          // The Unity Purchasing system.
         private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
@@ -253,7 +254,7 @@ namespace CompleteProject
                 var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
                 // Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
                 // the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
-                apple.RestoreTransactions((result) =>
+                apple.RestoreTransactions((result, message) =>
                 {
                     // The first phase of restoration. If no more responses are received on ProcessPurchase then 
                     // no purchases are available to be restored.
@@ -272,7 +273,7 @@ namespace CompleteProject
 
 
         //  
-        // --- IStoreListener
+        // --- IStoreListener zmienione na IDetailedStoreListener ---
         //
 
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
@@ -287,6 +288,7 @@ namespace CompleteProject
             m_StoreExtensionProvider = extensions;
         }
 
+        
 
         public void OnInitializeFailed(InitializationFailureReason error)
         {
@@ -470,6 +472,11 @@ namespace CompleteProject
             SkinManager.instance.SetAIPToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
         }
 
-
+        public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
+        {
+            Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}, Message: {2}", product.definition.storeSpecificId, failureDescription.reason, failureDescription.message));
+            SkinManager.instance.SetDebugToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}, Message: {2}", product.definition.storeSpecificId, failureDescription.reason, failureDescription.message));
+            SkinManager.instance.SetAIPToShow(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}, Message: {2}", product.definition.storeSpecificId, failureDescription.reason, failureDescription.message));
+        }
     }
 }

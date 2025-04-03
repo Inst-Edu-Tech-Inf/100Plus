@@ -73,7 +73,7 @@ public class MenuButtons : MonoBehaviour
         {
             yield return www.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(www.error);
             }
@@ -500,7 +500,7 @@ if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             yield return www.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(www.error);
             }
