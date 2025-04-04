@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-using UnityEngine.UDP;
+//using UnityEngine.UDP;
 //using Unity.Notifications; 
 #if UNITY_ANDROID
 using Unity.Notifications.Android;

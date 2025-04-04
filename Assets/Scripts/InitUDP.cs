@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UDP;
+//using UnityEngine.UDP;
 
-public class InitListener : IInitListener
+public class InitListener //: IInitListener
 {
-    public void OnInitialized(UserInfo userInfo)
+    public void OnInitialized()//UserInfo userInfo)
     {
         Debug.Log("Initialization succeeded");
         // You can call the QueryInventory method here

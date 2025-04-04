@@ -35,4 +35,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NFCTools.unity
     guid: befa626c478f23b4cb9ead522d1c55fb
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
+      guid: f7cb3aed53ea60c438c95a3b3f8fa5b2, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b51a18ce8233c024ea3c7e3700e32aeb,
+      type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
+      guid: 9e5128d20a25aed429e19c051cafaef8, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: 8aa3a23bec010f74ba460ee9da19fac4, type: 2}
+  m_UseUCBPForAssetBundles: 0

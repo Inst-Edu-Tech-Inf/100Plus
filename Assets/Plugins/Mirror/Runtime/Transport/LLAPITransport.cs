@@ -11,8 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Networking.Types;
+using Mirror;
 
 namespace Mirror
 {
@@ -25,47 +24,6 @@ namespace Mirror
 
         [Tooltip("Enable for WebGL games. Can only do either WebSockets or regular Sockets, not both (yet).")]
         public bool useWebsockets;
-
-        // settings copied from uMMORPG configuration for best results
-        public ConnectionConfig connectionConfig = new ConnectionConfig
-        {
-            PacketSize = 1500,
-            FragmentSize = 500,
-            ResendTimeout = 1200,
-            DisconnectTimeout = 6000,
-            ConnectTimeout = 6000,
-            MinUpdateTimeout = 1,
-            PingTimeout = 2000,
-            ReducedPingTimeout = 100,
-            AllCostTimeout = 20,
-            NetworkDropThreshold = 80,
-            OverflowDropThreshold = 80,
-            MaxConnectionAttempt = 10,
-            AckDelay = 33,
-            SendDelay = 10,
-            MaxCombinedReliableMessageSize = 100,
-            MaxCombinedReliableMessageCount = 10,
-            MaxSentMessageQueueSize = 512,
-            AcksType = ConnectionAcksType.Acks128,
-            InitialBandwidth = 0,
-            BandwidthPeakFactor = 2,
-            WebSocketReceiveBufferMaxSize = 0,
-            UdpSocketReceiveBufferMaxSize = 0
-        };
-
-        // settings copied from uMMORPG configuration for best results
-        public GlobalConfig globalConfig = new GlobalConfig
-        {
-            ReactorModel = ReactorModel.SelectReactor,
-            ThreadAwakeTimeout = 1,
-            ReactorMaximumSentMessages = 4096,
-            ReactorMaximumReceivedMessages = 4096,
-            MaxPacketSize = 2000,
-            MaxHosts = 16,
-            ThreadPoolSize = 3,
-            MinTimerTimeout = 1,
-            MaxTimerTimeout = 12000
-        };
 
         // always use first channel
         readonly int channelId;
@@ -80,26 +38,13 @@ namespace Mirror
         readonly byte[] serverReceiveBuffer = new byte[4096];
         byte[] serverSendBuffer;
 
-        void OnValidate()
-        {
-            // add connectionconfig channels if none
-            if (connectionConfig.Channels.Count == 0)
-            {
-                // channel 0 is reliable fragmented sequenced
-                connectionConfig.AddChannel(QosType.ReliableFragmentedSequenced);
-                // channel 1 is unreliable
-                connectionConfig.AddChannel(QosType.Unreliable);
-            }
-        }
-
         void Awake()
         {
-            NetworkTransport.Init(globalConfig);
             Debug.Log("LLAPITransport initialized!");
 
             // initialize send buffers
-            clientSendBuffer = new byte[globalConfig.MaxPacketSize];
-            serverSendBuffer = new byte[globalConfig.MaxPacketSize];
+            clientSendBuffer = new byte[4096];
+            serverSendBuffer = new byte[4096];
         }
 
         public override bool Available()
@@ -114,32 +59,22 @@ namespace Mirror
             return clientConnectionId != -1;
         }
 
-
-
         void ClientConnect(string address, int port)
         {
             // LLAPI can't handle 'localhost'
             if (address.ToLower() == "localhost") address = "127.0.0.1";
 
-            HostTopology hostTopology = new HostTopology(connectionConfig, 1);
+            // Replace with Mirror's transport connection logic
+            Transport.activeTransport.ClientConnect(address);
 
-            // important:
-            //   AddHost(topology) doesn't work in WebGL.
-            //   AddHost(topology, port) works in standalone and webgl if port=0
-            clientId = NetworkTransport.AddHost(hostTopology, 0);
-
-            clientConnectionId = NetworkTransport.Connect(clientId, address, port, 0, out error);
-            NetworkError networkError = (NetworkError)error;
-            if (networkError != NetworkError.Ok)
-            {
-                Debug.LogWarning("NetworkTransport.Connect failed: clientId=" + clientId + " address= " + address + " port=" + port + " error=" + error);
-                clientConnectionId = -1;
-            }
+            // Handle connection result
+            clientConnectionId = 1; // Mirror does not provide a direct way to get connection ID
         }
 
         public override void ClientConnect(string address)
         {
             ClientConnect(address, port);
+            //Transport.activeTransport.OnClientDataReceived = OnClientDataReceivedHandler();
         }
 
         public override void ClientConnect(Uri uri)
@@ -161,7 +96,8 @@ namespace Mirror
             if (segment.Count <= clientSendBuffer.Length)
             {
                 Array.Copy(segment.Array, segment.Offset, clientSendBuffer, 0, segment.Count);
-                return NetworkTransport.Send(clientId, clientConnectionId, channelId, clientSendBuffer, segment.Count, out error);
+                Transport.activeTransport.ClientSend(channelId, new ArraySegment<byte>(clientSendBuffer, 0, segment.Count));
+                return true;
             }
             Debug.LogError("LLAPI.ClientSend: buffer( " + clientSendBuffer.Length + ") too small for: " + segment.Count);
             return false;
@@ -169,61 +105,60 @@ namespace Mirror
 
         public bool ProcessClientMessage()
         {
-            if (clientId == -1)
+            if (clientConnectionId == -1)
                 return false;
 
-            NetworkEventType networkEvent = NetworkTransport.ReceiveFromHost(clientId, out int connectionId, out int channel, clientReceiveBuffer, clientReceiveBuffer.Length, out int receivedSize, out error);
-
-            // note: 'error' is used for extra information, e.g. the reason for
-            // a disconnect. we don't necessarily have to throw an error if
-            // error != 0. but let's log it for easier debugging.
-            //
-            // DO NOT return after error != 0. otherwise Disconnect won't be
-            // registered.
-            NetworkError networkError = (NetworkError)error;
-            if (networkError != NetworkError.Ok)
-            {
-                string message = "NetworkTransport.Receive failed: hostid=" + clientId + " connId=" + connectionId + " channelId=" + channel + " error=" + networkError;
-                OnClientError.Invoke(new Exception(message));
-            }
-
-            // raise events
-            switch (networkEvent)
-            {
-                case NetworkEventType.ConnectEvent:
-                    OnClientConnected.Invoke();
-                    break;
-                case NetworkEventType.DataEvent:
-                    ArraySegment<byte> data = new ArraySegment<byte>(clientReceiveBuffer, 0, receivedSize);
-                    OnClientDataReceived.Invoke(data, channel);
-                    break;
-                case NetworkEventType.DisconnectEvent:
-                    OnClientDisconnected.Invoke();
-                    break;
-                default:
-                    return false;
-            }
+            // Replace with Mirror's transport receive logic
+            Transport.activeTransport.OnClientDataReceived = new ClientDataReceivedEvent();
 
             return true;
         }
 
-        public string ClientGetAddress()
+        private void OnClientDataReceivedHandler(ArraySegment<byte> data, int channel)
         {
-            NetworkTransport.GetConnectionInfo(serverHostId, clientId, out string address, out int port, out NetworkID networkId, out NodeID node, out error);
-            return address;
+            OnClientDataReceived.Invoke(data, channel);
         }
+
 
         public override void ClientDisconnect()
         {
-            if (clientId != -1)
+            if (clientConnectionId != -1)
             {
-                NetworkTransport.RemoveHost(clientId);
-                clientId = -1;
+                Transport.activeTransport.ClientDisconnect();
+                clientConnectionId = -1;
             }
         }
         #endregion
 
         #region server
+
+        public override bool ServerSend(List<int> connectionIds, int channelId, ArraySegment<byte> segment)
+        {
+            // Send buffer is copied internally, so we can get rid of segment
+            // immediately after returning and it still works.
+            // -> BUT segment has an offset, Send doesn't. we need to manually
+            //    copy it into a 0-offset array
+            if (segment.Count <= serverSendBuffer.Length)
+            {
+                // copy to 0-offset
+                Array.Copy(segment.Array, segment.Offset, serverSendBuffer, 0, segment.Count);
+
+                // send to all
+                bool result = true;
+                List<int> mojePolaczenia = new List<int>(connectionIds);
+                int pozycja = 0;
+                foreach (int connectionId in connectionIds)
+                {
+                    mojePolaczenia[pozycja] = connectionId;
+                    pozycja++;
+                    result &= Transport.activeTransport.ServerSend(mojePolaczenia, channelId, new ArraySegment<byte>(serverSendBuffer, 0, segment.Count));
+                }
+                return result;
+            }
+            Debug.LogError("LLAPI.ServerSend: buffer( " + serverSendBuffer.Length + ") too small for: " + segment.Count);
+            return false;
+        }
+
 
         // right now this just returns the first available uri,
         // should we return the list of all available uri?
@@ -243,106 +178,53 @@ namespace Mirror
 
         public override void ServerStart()
         {
-            if (useWebsockets)
-            {
-                HostTopology topology = new HostTopology(connectionConfig, ushort.MaxValue - 1);
-                serverHostId = NetworkTransport.AddWebsocketHost(topology, port);
-                //Debug.Log("LLAPITransport.ServerStartWebsockets port=" + port + " max=" + maxConnections + " hostid=" + serverHostId);
-            }
-            else
-            {
-                HostTopology topology = new HostTopology(connectionConfig, ushort.MaxValue - 1);
-                serverHostId = NetworkTransport.AddHost(topology, port);
-                //Debug.Log("LLAPITransport.ServerStart port=" + port + " max=" + maxConnections + " hostid=" + serverHostId);
-            }
-        }
+            // Replace with Mirror's transport server start logic
+            Transport.activeTransport.ServerStart();
 
-        public override bool ServerSend(List<int> connectionIds, int channelId, ArraySegment<byte> segment)
-        {
-            // Send buffer is copied internally, so we can get rid of segment
-            // immediately after returning and it still works.
-            // -> BUT segment has an offset, Send doesn't. we need to manually
-            //    copy it into a 0-offset array
-            if (segment.Count <= serverSendBuffer.Length)
-            {
-                // copy to 0-offset
-                Array.Copy(segment.Array, segment.Offset, serverSendBuffer, 0, segment.Count);
-
-                // send to all
-                bool result = true;
-                foreach (int connectionId in connectionIds)
-                {
-                    result &= NetworkTransport.Send(serverHostId, connectionId, channelId, serverSendBuffer, segment.Count, out error);
-                }
-                return result;
-            }
-            Debug.LogError("LLAPI.ServerSend: buffer( " + serverSendBuffer.Length + ") too small for: " + segment.Count);
-            return false;
+            serverHostId = 1; // Mirror does not provide a direct way to get server host ID
         }
 
         public bool ProcessServerMessage()
         {
-            if (serverHostId == -1)
+            if (clientConnectionId == -1)
                 return false;
 
-            NetworkEventType networkEvent = NetworkTransport.ReceiveFromHost(serverHostId, out int connectionId, out int channel, serverReceiveBuffer, serverReceiveBuffer.Length, out int receivedSize, out error);
-
-            // note: 'error' is used for extra information, e.g. the reason for
-            // a disconnect. we don't necessarily have to throw an error if
-            // error != 0. but let's log it for easier debugging.
-            //
-            // DO NOT return after error != 0. otherwise Disconnect won't be
-            // registered.
-            NetworkError networkError = (NetworkError)error;
-            if (networkError != NetworkError.Ok)
-            {
-                string message = "NetworkTransport.Receive failed: hostid=" + serverHostId + " connId=" + connectionId + " channelId=" + channel + " error=" + networkError;
-
-                // TODO write a TransportException or better
-                OnServerError.Invoke(connectionId, new Exception(message));
-            }
-
-            // LLAPI client sends keep alive messages (75-6C-6C) on channel=110.
-            // ignore all messages that aren't for our selected channel.
-            /*if (channel != channelId)
-            {
-                return false;
-            }*/
-
-            switch (networkEvent)
-            {
-                case NetworkEventType.ConnectEvent:
-                    OnServerConnected.Invoke(connectionId);
-                    break;
-                case NetworkEventType.DataEvent:
-                    ArraySegment<byte> data = new ArraySegment<byte>(serverReceiveBuffer, 0, receivedSize);
-                    OnServerDataReceived.Invoke(connectionId, data, channel);
-                    break;
-                case NetworkEventType.DisconnectEvent:
-                    OnServerDisconnected.Invoke(connectionId);
-                    break;
-                default:
-                    // nothing or a message we don't recognize
-                    return false;
-            }
+            // Replace with Mirror's transport receive logic
+            Transport.activeTransport.OnServerDataReceived = new ServerDataReceivedEvent();
 
             return true;
         }
 
+      
+
+      /*  public bool ProcessServerMessage()
+        {
+            if (serverHostId == -1)
+                return false;
+
+            // Replace with Mirror's transport receive logic
+            Transport.activeTransport.OnServerDataReceived += (int connectionId, ArraySegment<byte> data, int channel) =>
+            {
+                OnServerDataReceived.Invoke(connectionId, data, channel);
+            };
+
+            return true;
+        }*/
+
         public override bool ServerDisconnect(int connectionId)
         {
-            return NetworkTransport.Disconnect(serverHostId, connectionId, out error);
+            return Transport.activeTransport.ServerDisconnect(connectionId);
         }
 
         public override string ServerGetClientAddress(int connectionId)
         {
-            NetworkTransport.GetConnectionInfo(serverHostId, connectionId, out string address, out int port, out NetworkID networkId, out NodeID node, out error);
-            return address;
+            // Replace with Mirror's transport get address logic
+            return Transport.activeTransport.ServerGetClientAddress(connectionId);
         }
 
         public override void ServerStop()
         {
-            NetworkTransport.RemoveHost(serverHostId);
+            Transport.activeTransport.ServerStop();
             serverHostId = -1;
             Debug.Log("LLAPITransport.ServerStop");
         }
@@ -363,7 +245,7 @@ namespace Mirror
 
         public override void Shutdown()
         {
-            NetworkTransport.Shutdown();
+            Transport.activeTransport.Shutdown();
             serverHostId = -1;
             clientConnectionId = -1;
             Debug.Log("LLAPITransport.Shutdown");
@@ -371,7 +253,7 @@ namespace Mirror
 
         public override int GetMaxPacketSize(int channelId)
         {
-            return globalConfig.MaxPacketSize;
+            return 4096;
         }
 
         public override string ToString()
@@ -382,8 +264,7 @@ namespace Mirror
             }
             else if (ClientConnected())
             {
-                string ip = ClientGetAddress();
-                return "LLAPI Client ip: " + ip + " port: " + port;
+                return "LLAPI Client connected";
             }
             return "LLAPI (inactive/disconnected)";
         }
@@ -391,3 +272,4 @@ namespace Mirror
     }
 }
 #endif
+
