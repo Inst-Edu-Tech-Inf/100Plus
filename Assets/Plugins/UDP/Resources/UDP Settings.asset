@@ -9,14 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -107981364, guid: 741884b37a0234d86bb740e55081cd5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6892226aedeb63f439a9de92c489e8fd, type: 3}
   m_Name: UDP Settings
   m_EditorClassIdentifier: 
-  UnityProjectID: 18d0dcda-59e0-4135-bd2e-4881e241106d
-  UnityClientID: -3_YyhpXgDHT3k1cXIVBgA
-  UnityClientKey: gHJP3rUlIu0TdY4lXr5BpXW6Xq0e4UL8ivjfzyJqVSk
-  UnityClientRSAPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuO3wNjEisdfq4FnQwXJHHaLQwnZFDqOxWoFYHTHrRxPSiI1Ok/qe8ThBLsJu83tlZ1hYJrAf/oDQEB8akHFSg35Pq3YOrbA2WnH3oMDGHUYbvvStu9OUTWpX68eZqJZvfUm3fN+D8/jeFGIAFmX1Qsyzd4VuvwiIjd8BvzZBdYzlKL7M2P7776qoWYlWt0HglBLWfPk56PgQUgUhIYHd1jjIenJY68heliJ9gfQ+g8eWQz5ZYM4pGcGxkQVkfZbuI+LmcAPcfjzxfUkwJsJhaEF9lAjaSJsGZmkSYnbb/yPwmF7EX0SEViNNki+qGOEAEjINcFIW0TC0zxjh286NgQIDAQAB
-  AppName: SummOn
-  AppSlug: 374059bd-1371-43aa-96fb-da45512bc997
-  AppItemId: 5f854040b1bd66001f52cf97
-  Permission: 
+  backgroundImage: {fileID: 0}
+  programisciText: {fileID: 0}
+  graficyText: {fileID: 0}
+  testerzyText: {fileID: 0}
+  koncepcjaText: {fileID: 0}
+  versionText: {fileID: 0}
+  tlumaczText: {fileID: 0}
+  scrollBar: {fileID: 0}
+  upArrow: {fileID: 0}
+  downArrow: {fileID: 0}
+  Content: {fileID: 0}

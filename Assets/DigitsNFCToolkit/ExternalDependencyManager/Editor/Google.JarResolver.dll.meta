@@ -1,10 +1,5 @@
 fileFormatVersion: 2
-guid: f1db1aef009d4a9caa83662205fffebe
-labels:
-- gvh
-- gvh_version-1.2.166
-- gvhp_exportpath-ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.166.dll
-- gvhp_targets-editor
+guid: 8c983233826b0cc4da3ccfca02a45ba4
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
